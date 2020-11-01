@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="aqmaps" />
+        <module name="ILPCW2" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="heatmap" target="11" />
+      <module name="ILPCW2" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ILPCW2" options="−Xlint:all,−classfile" />
+      <module name="aqmaps" options="-Xlint:all,-classfile" />
+      <module name="heatmap" options="-Xlint:all,-classfile" />
+    </option>
+  </component>
+</project>
