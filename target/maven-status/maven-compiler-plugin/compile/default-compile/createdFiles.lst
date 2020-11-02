@@ -1,5 +1,8 @@
 uk\ac\ed\inf\aqmaps\Remote.class
+uk\ac\ed\inf\aqmaps\WebServer.class
 uk\ac\ed\inf\aqmaps\Coords.class
+uk\ac\ed\inf\aqmaps\SensorDeserializer.class
 uk\ac\ed\inf\aqmaps\W3W.class
+uk\ac\ed\inf\aqmaps\WebServer$1.class
 uk\ac\ed\inf\aqmaps\Sensor.class
 uk\ac\ed\inf\aqmaps\AQMaps.class

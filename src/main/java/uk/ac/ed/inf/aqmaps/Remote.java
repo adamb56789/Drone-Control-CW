@@ -2,46 +2,34 @@ package uk.ac.ed.inf.aqmaps;
 
 import com.mapbox.geojson.FeatureCollection;
 
-import java.io.IOException;
-import java.net.ConnectException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Handles interaction with all remote information sources and devices. This includes the web
- * server, containing the sensor locations, no-fly zones, and W3W locations. It also includes the
- * drones reading information from nearby sensors. In this implementation, the sensor readings are
- * also from the web server, however a separation is being deliberately maintained in the getters so
- * that this class could be replaced with one which reads data from real sensors.
+ * Handles interaction with all remote information sources and devices. Gets information on sensor
+ * locations, no-fly zones, W3W locations, and sensor readings. Implementations of the interface can
+ * gather the information from any source, such as a simple web server for testing purposes, or from
+ * a full system where data is also read from real sensors.
  */
-public class Remote {
-  private static final String SERVER = "http://localhost";
+public interface Remote {
+  /**
+   * Reads information from the sensor at the provided W3W location
+   *
+   * @param location the location of the sensor as a W3W class
+   * @return a Sensor object representing the current status of the sensor
+   */
+  Sensor readSensor(W3W location);
 
   /**
-   * @param day the day to get sensor information for
-   * @param month the month
-   * @param year the year
-   * @param port the port of the web server to connect to on localhost
+   * Gets the list of sensors that need to be visited from a remote source
+   *
+   * @return a list of W3W locations of the sensors
    */
-  public Remote(int day, int month, int year, int port) {
-    final String serverUrl = "http://localhost:" + port;
-    var client = HttpClient.newHttpClient();
+  List<W3W> getSensorLocations();
 
-    // Load no-fly zones
-    try {
-      String url = serverUrl + "/buildings/no-fly-zones.geojson";
-      var request = HttpRequest.newBuilder().uri(URI.create(url)).build();
-      var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-      System.out.println(response.body());
-    } catch (IOException | InterruptedException e) {
-      System.out.println("Fatal error: Unable to connect to " + SERVER + " at port " + port + ".");
-      System.exit(1);
-    }
-  }
+  /**
+   * Gets information about no-fly zones from a remote source
+   *
+   * @return a FeatureCollection containing the locations of the no-fly zones
+   */
+  FeatureCollection getNoFlyZones();
 }

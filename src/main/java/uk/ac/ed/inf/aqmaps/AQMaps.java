@@ -26,6 +26,6 @@ public class AQMaps {
    * @param args an array of arguments.
    */
   public static void main(String[] args) {
-    Remote remote = new Remote(0, 0, 0, 80);
+    Remote remote = new WebServer(15, 6, 2021, 80);
   }
 }
