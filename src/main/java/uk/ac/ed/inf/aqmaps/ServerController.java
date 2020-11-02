@@ -4,24 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mapbox.geojson.FeatureCollection;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /** Implements the Remote interface using a connection to a simple web server. */
-public class WebServer implements Remote {
-  private final HttpClient client;
-  private String serverUrl = "http://localhost";
-  private FeatureCollection noFlyZones;
-  private HashMap<W3W, Sensor> sensorMap = new HashMap<>();
+public class ServerController implements Remote {
+  private final FeatureCollection noFlyZones;
+  private final HashMap<W3W, Sensor> sensorMap = new HashMap<>();
+  private final Server server = new Server();
+  private final String serverUrl;
 
   /**
    * Create a new WebServer instance for a given day and port.
@@ -31,14 +25,12 @@ public class WebServer implements Remote {
    * @param year the year
    * @param port the port of the web server to connect to on localhost
    */
-  public WebServer(int day, int month, int year, int port) {
-    serverUrl = serverUrl + ":" + port;
-    client = HttpClient.newHttpClient();
+  public ServerController(int day, int month, int year, int port) {
+    serverUrl = "http://localhost:" + port;
 
     // Load no-fly zones
-
     String url = serverUrl + "/buildings/no-fly-zones.geojson";
-    String nfzJson = requestFromServer(url);
+    String nfzJson = server.requestData(url);
     noFlyZones = FeatureCollection.fromJson(nfzJson);
 
     // Load today's sensors
@@ -51,7 +43,7 @@ public class WebServer implements Remote {
             + '/'
             + String.format("%02d", day)
             + "/air-quality-data.json";
-    String sensorJson = requestFromServer(url);
+    String sensorJson = server.requestData(url);
 
     Type listType = new TypeToken<ArrayList<SensorDeserializer>>() {}.getType();
     ArrayList<SensorDeserializer> sensorDeserializers = new Gson().fromJson(sensorJson, listType);
@@ -68,34 +60,15 @@ public class WebServer implements Remote {
     }
   }
 
-  private String requestFromServer(String url) {
-    String returnValue = "";
-    try {
-      var request = HttpRequest.newBuilder().uri(URI.create(url)).build();
-      var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-      if (response.statusCode() == 200) {
-        // 200 means OK
-        returnValue = response.body();
-      } else {
-        // any other status code means the data has not been acquired successfully
-        System.out.println("Fatal error: " + url + " returned status " + response.statusCode());
-        System.exit(1);
-      }
-
-    } catch (IOException | InterruptedException e) {
-      // This is normally a java.net.ConnectException if there is no server running on the port
-      System.out.println("Fatal error: Unable to connect to " + url);
-      System.exit(1);
-    }
-    return returnValue; // This should never be reached, but the compiler isn't figuring that out.
-  }
-
   /** Converts a SensorDeserializer to a Sensor by getting the coordinates of its W3W location. */
   private Sensor convertToSensor(SensorDeserializer sensorDeserializer) {
     // Get the appropriate W3W object from the server
-    String url = serverUrl + "/words/" + sensorDeserializer.getLocation().replace('.', '/') + "/details.json";
-    String w3wJson = requestFromServer(url);
+    String url =
+        serverUrl
+            + "/words/"
+            + sensorDeserializer.getLocation().replace('.', '/')
+            + "/details.json";
+    String w3wJson = server.requestData(url);
     var w3w = new Gson().fromJson(w3wJson, W3W.class);
 
     // Convert SensorDeserializer to Sensor
