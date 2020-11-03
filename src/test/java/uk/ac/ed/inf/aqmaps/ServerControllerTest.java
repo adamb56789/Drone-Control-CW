@@ -86,7 +86,6 @@ public class ServerControllerTest {
 
       @Override
       public String requestData(String url) {
-        System.out.println(url);
         switch (url) {
           case "http://localhost:80/buildings/no-fly-zones.geojson":
             return getTestBuilding();
@@ -129,7 +128,7 @@ public class ServerControllerTest {
     var remote = new ServerController(getServer(), 1, 1, 2000, 80);
     var sensor = remote.readSensor(remote.getSensorLocations().get(0));
 
-    assertEquals(40.831715, sensor.getBattery(), 0.0000000001);
+    assertEquals(40.831715, sensor.getBattery(), 0.0001);
     assertEquals("null", sensor.getReading());
   }
 }

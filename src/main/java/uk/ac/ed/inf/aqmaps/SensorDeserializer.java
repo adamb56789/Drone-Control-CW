@@ -6,14 +6,14 @@ package uk.ac.ed.inf.aqmaps;
  */
 public class SensorDeserializer {
   private String location;
-  private Double battery;
+  private float battery;
   private String reading;
 
   public String getLocation() {
     return location;
   }
 
-  public Double getBattery() {
+  public float getBattery() {
     return battery;
   }
 

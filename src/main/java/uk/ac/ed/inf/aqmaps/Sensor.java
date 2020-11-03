@@ -3,10 +3,10 @@ package uk.ac.ed.inf.aqmaps;
 /** Contains information about a sensor. */
 public class Sensor {
   private final W3W location;
-  private final Double battery;
+  private final float battery;
   private final String reading;
 
-  public Sensor(W3W location, Double battery, String reading) {
+  public Sensor(W3W location, float battery, String reading) {
     this.location = location;
     this.battery = battery;
     this.reading = reading;
@@ -16,7 +16,7 @@ public class Sensor {
     return location;
   }
 
-  public Double getBattery() {
+  public float getBattery() {
     return battery;
   }
 
