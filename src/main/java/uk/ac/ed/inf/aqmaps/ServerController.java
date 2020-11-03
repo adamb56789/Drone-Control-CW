@@ -47,7 +47,7 @@ public class ServerController implements Remote {
     url =
         serverUrl
             + "/maps/"
-            + year
+            + String.format("%04d", year)
             + '/'
             + String.format("%02d", month)
             + '/'
@@ -55,16 +55,19 @@ public class ServerController implements Remote {
             + "/air-quality-data.json";
     String sensorJson = server.requestData(url);
 
+    // Deserialize the air quality data into SensorDeserializer objects. A separate class is used
+    // for deserialization since the JSON contains the location as a word string only, but we want
+    // to internally represent the sensor with a W3W object which also contains the coordinates.
     Type listType = new TypeToken<ArrayList<SensorDeserializer>>() {}.getType();
     ArrayList<SensorDeserializer> sensorDeserializers = new Gson().fromJson(sensorJson, listType);
 
-    // Get coordinates of the sensors and convert to list of Sensors including W3W objects
+    // Convert the list of SensorDeserializers to a list of Sensors
     var sensors =
         sensorDeserializers.stream()
             .map(this::convertToSensor)
             .collect(Collectors.toCollection(ArrayList::new));
 
-    // Insert sensors and their W3W into a HashMap for later access by readSensor()
+    // Put locations and their corresponding sensor into a Map for later access by readSensor()
     for (var sensor : sensors) {
       sensorMap.put(sensor.getLocation(), sensor);
     }
@@ -73,6 +76,7 @@ public class ServerController implements Remote {
   /** Converts a SensorDeserializer to a Sensor by getting the coordinates of its W3W location. */
   private Sensor convertToSensor(SensorDeserializer sensorDeserializer) {
     // Get the appropriate W3W object from the server
+    // Example url: http://localhost:80/words/dent/shins/cycle/details.json
     String url =
         serverUrl
             + "/words/"
@@ -81,7 +85,6 @@ public class ServerController implements Remote {
     String w3wJson = server.requestData(url);
     var w3w = new Gson().fromJson(w3wJson, W3W.class);
 
-    // Convert SensorDeserializer to Sensor
     return new Sensor(w3w, sensorDeserializer.getBattery(), sensorDeserializer.getReading());
   }
 
