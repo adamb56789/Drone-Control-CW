@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /** Implements the Remote interface using a connection to a simple web server. */
-public class ServerController implements Remote {
+public class ServerController implements InputController {
   private final HashMap<W3W, Sensor> sensorMap = new HashMap<>();
   private final Server server;
   private FeatureCollection noFlyZones;

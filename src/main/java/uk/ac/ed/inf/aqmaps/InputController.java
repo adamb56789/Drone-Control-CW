@@ -10,7 +10,7 @@ import java.util.List;
  * gather the information from any source, such as a simple web server for testing purposes, or from
  * a full system where data is also read from real sensors.
  */
-public interface Remote {
+public interface InputController {
   /**
    * Reads information from the sensor at the provided W3W location
    *
