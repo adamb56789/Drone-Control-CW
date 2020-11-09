@@ -19,13 +19,16 @@ public class AQMaps {
    */
   static final double AREA_HEIGHT = SOUTHEAST.latitude() - NORTHWEST.latitude();
 
+  static final String[] TEST_ARGS = {"15", "6", "2021", "55.9444", "-3.1878", "80"};
+
   /**
    * Does stuff
    *
    * @param args an array of arguments.
    */
   public static void main(String[] args) {
-    InputController inputController =
-        new ServerController(new Settings(15, 6, 2021, new Coords(-3.1878, 55.9444), 0, 80));
+    var settings = new Settings(TEST_ARGS);
+    var drone = new Drone(settings, new ServerController(settings), new OutputToFile());
+    drone.start();
   }
 }

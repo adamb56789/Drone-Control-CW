@@ -5,10 +5,10 @@ import com.mapbox.geojson.FeatureCollection;
 import java.util.List;
 
 /**
- * Handles interaction with all remote information sources and devices. Gets information on sensor
- * locations, no-fly zones, W3W locations, and sensor readings. Implementations of the interface can
- * gather the information from any source, such as a simple web server for testing purposes, or from
- * a full system where data is also read from real sensors.
+ * Handles interaction with input from all remote information sources and devices. Gets information
+ * on sensor locations, no-fly zones, W3W locations, and sensor readings. Implementations of the
+ * interface can gather the information from any source, such as a simple web server for testing
+ * purposes, or from a full system where data is also read from real sensors.
  */
 public interface InputController {
   /**
