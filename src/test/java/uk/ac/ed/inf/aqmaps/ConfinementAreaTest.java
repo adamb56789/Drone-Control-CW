@@ -21,6 +21,6 @@ public class ConfinementAreaTest {
   @Test
   public void pointOnBoundaryIsNotInside() {
     var point = new Coords(-3.192473, 55.946233);
-    assertTrue(ConfinementArea.isInConfinement(point));
+    assertFalse(ConfinementArea.isInConfinement(point));
   }
 }
