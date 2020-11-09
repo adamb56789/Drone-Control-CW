@@ -1,5 +1,6 @@
 package uk.ac.ed.inf.aqmaps;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -9,7 +10,9 @@ import java.nio.file.Path;
 import static org.junit.Assert.*;
 
 public class ServerControllerTest {
-  private Server getServer() {
+  private InputController input;
+
+  public Server getServer() {
     class TestServer implements Server {
 
       @Override
@@ -22,7 +25,7 @@ public class ServerControllerTest {
         // Get the data from the local filesystem.
         String path = "WebServer" + url.substring(19);
         try {
-          data =  Files.readString(Path.of(path));
+          data = Files.readString(Path.of(path));
         } catch (IOException e) {
           e.printStackTrace();
         }
@@ -35,10 +38,14 @@ public class ServerControllerTest {
     return new TestServer();
   }
 
+  @Before
+  public void setup() {
+    input = new ServerController(getServer(), 1, 1, 2020, 80);
+  }
+
   @Test
   public void noFlyZoneLoadedCorrectly() {
-    var remote = new ServerController(getServer(), 1, 1, 2020, 80);
-    var noFlyZones = remote.getNoFlyZones();
+    var noFlyZones = input.getNoFlyZones();
 
     assert noFlyZones.features() != null;
     assertEquals("There are 4 buildings", 4, noFlyZones.features().size());
@@ -46,8 +53,7 @@ public class ServerControllerTest {
 
   @Test
   public void sensorLocationsCorrect() {
-    var remote = new ServerController(getServer(), 1, 1, 2020, 80);
-    var sensorLocations = remote.getSensorLocations();
+    var sensorLocations = input.getSensorLocations();
 
     assertEquals("There are 33 sensors", 33, sensorLocations.size());
     assertTrue("The words exist", sensorLocations.get(0).getWords().length() > 0);
@@ -60,10 +66,11 @@ public class ServerControllerTest {
 
   @Test
   public void sensorReadingCorrect() {
-    var remote = new ServerController(getServer(), 1, 1, 2020, 80);
-    var sensor = remote.readSensor(remote.getSensorLocations().get(0));
+    var sensor = input.readSensor(input.getSensorLocations().get(0));
 
-    assertTrue("The battery is displaying a sensible number", 0 <= sensor.getBattery() && sensor.getBattery() <= 100);
+    assertTrue(
+        "The battery is displaying a sensible number",
+        0 <= sensor.getBattery() && sensor.getBattery() <= 100);
     assertTrue("The sensor reading exists", sensor.getReading().length() > 0);
   }
 }
