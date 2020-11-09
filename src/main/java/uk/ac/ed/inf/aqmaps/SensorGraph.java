@@ -21,7 +21,7 @@ public class SensorGraph {
    *
    * @param sensorLocations a list of W3W with the locations of the sensors
    */
-  public void addSensors(List<W3W> sensorLocations) {}
+  public void addSensors(List<W3W> sensorLocations) {}//TODO
 
   /**
    * Computes an approximate solution to the travelling salesman problem, which is a tour visiting
@@ -32,6 +32,6 @@ public class SensorGraph {
    * @return a list of points specifying the tour
    */
   public List<Point2D> getTour(Point2D start) {
-    return null;
+    return null;//TODO
   }
 }

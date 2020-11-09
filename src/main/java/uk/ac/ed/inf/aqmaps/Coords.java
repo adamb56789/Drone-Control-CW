@@ -7,17 +7,12 @@ import java.awt.geom.Point2D;
  * this is a deliberate choice for ease of use.
  */
 public class Coords {
-  public double lng;
-  public double lat;
+  public final double lng;
+  public final double lat;
 
   public Coords(double lng, double lat) {
     this.lng = lng;
     this.lat = lat;
-  }
-
-  /** @return this coordinate point as a Point2D.Double object */
-  public Point2D toPoint() {
-    return new Point2D.Double(lng, lat);
   }
 
   @Override

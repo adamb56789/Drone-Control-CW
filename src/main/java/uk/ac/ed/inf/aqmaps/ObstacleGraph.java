@@ -3,7 +3,6 @@ package uk.ac.ed.inf.aqmaps;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
-import java.awt.geom.Point2D;
 import java.util.List;
 
 /**
@@ -12,9 +11,9 @@ import java.util.List;
  * of sight.
  */
 public class ObstacleGraph {
-  private SimpleWeightedGraph<Point2D, DefaultWeightedEdge> graph;
+  private SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
 
-  public ObstacleGraph(Obstacles obstacles) {}
+  public ObstacleGraph(Obstacles obstacles) {} // TODO
 
   /**
    * Find the shortest path between the start and end points, navigating around obstacles if
@@ -24,8 +23,8 @@ public class ObstacleGraph {
    * @param end the ending point
    * @return a list of points specifying the route
    */
-  public List<Point2D> getShortestPath(Point2D start, Point2D end) {
-    return null;
+  public List<Coords> getShortestPath(Coords start, Coords end) {
+    return null; // TODO
   }
 
   /**
@@ -36,7 +35,7 @@ public class ObstacleGraph {
    * @param end the ending point
    * @return a list of points specifying the route
    */
-  public double getShortestPathLength(Point2D start, Point2D end) {
-    return 0;
+  public double getShortestPathLength(Coords start, Coords end) {
+    return 0; // TODO
   }
 }
