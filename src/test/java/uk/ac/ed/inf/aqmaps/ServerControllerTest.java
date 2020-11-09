@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class ServerControllerTest {
   private InputController input;
 
-  public Server getServer() {
+  public static Server getServer() {
     class TestServer implements Server {
 
       @Override
@@ -48,20 +48,20 @@ public class ServerControllerTest {
     var noFlyZones = input.getNoFlyZones();
 
     assert noFlyZones.features() != null;
-    assertEquals("There are 4 buildings", 4, noFlyZones.features().size());
+    assertEquals("There should be 4 buildings", 4, noFlyZones.features().size());
   }
 
   @Test
   public void sensorLocationsCorrect() {
     var sensorLocations = input.getSensorLocations();
 
-    assertEquals("There are 33 sensors", 33, sensorLocations.size());
-    assertTrue("The words exist", sensorLocations.get(0).getWords().length() > 0);
+    assertEquals("There should be 33 sensors to visit in one day", 33, sensorLocations.size());
+    assertTrue("The words should exist", sensorLocations.get(0).getWords().length() > 0);
 
     double lng = sensorLocations.get(0).getCoordinates().lng;
     double lat = sensorLocations.get(0).getCoordinates().lat;
-    assertTrue("The longitude is sensible", -4 <= lng && lng <= -3);
-    assertTrue("The latitude is sensible", 55 <= lat && lat <= 56);
+    assertTrue("The longitude should be sensible", -4 <= lng && lng <= -3);
+    assertTrue("The latitude should be sensible", 55 <= lat && lat <= 56);
   }
 
   @Test
@@ -69,8 +69,8 @@ public class ServerControllerTest {
     var sensor = input.readSensor(input.getSensorLocations().get(0));
 
     assertTrue(
-        "The battery is displaying a sensible number",
+        "The battery should be displaying a sensible number",
         0 <= sensor.getBattery() && sensor.getBattery() <= 100);
-    assertTrue("The sensor reading exists", sensor.getReading().length() > 0);
+    assertTrue("The sensor reading should exist", sensor.getReading().length() > 0);
   }
 }
