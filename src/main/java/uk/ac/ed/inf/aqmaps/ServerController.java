@@ -20,13 +20,15 @@ public class ServerController implements InputController {
   /**
    * Create a new WebServer instance for a given day and port.
    *
-   * @param day the day to get sensor information for
-   * @param month the month
-   * @param year the year
-   * @param port the port of the web server to connect to on localhost
+   * @param settings the Settings object containing the current settings
    */
-  public ServerController(int day, int month, int year, int port) {
-    this(new WebServer(), day, month, year, port);
+  public ServerController(Settings settings) {
+    this(
+        new WebServer(),
+        settings.getDay(),
+        settings.getMonth(),
+        settings.getYear(),
+        settings.getPort());
   }
 
   /** This exists for passing in mock server objects for testing. */

@@ -2,7 +2,6 @@ package uk.ac.ed.inf.aqmaps;
 
 import com.mapbox.geojson.Point;
 
-
 /**
  * A program which does stuff This code follows the Google Java Style Guide at
  * https://google.github.io/styleguide/javaguide.html
@@ -26,6 +25,7 @@ public class AQMaps {
    * @param args an array of arguments.
    */
   public static void main(String[] args) {
-    InputController inputController = new ServerController(15, 6, 2021, 80);
+    InputController inputController =
+        new ServerController(new Settings(15, 6, 2021, new Coords(-3.1878, 55.9444), 0, 80));
   }
 }
