@@ -10,6 +10,6 @@ public class ConfinementArea {
     private static final Coords BOTTOM_RIGHT = new Coords(-3.184319, 55.942617);
 
     public static boolean isInConfinement(Coords point) {
-        return false; //TODO
+        return true; //TODO
     }
 }
