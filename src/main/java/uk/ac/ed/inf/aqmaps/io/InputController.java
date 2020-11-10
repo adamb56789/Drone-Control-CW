@@ -1,6 +1,8 @@
-package uk.ac.ed.inf.aqmaps;
+package uk.ac.ed.inf.aqmaps.io;
 
 import com.mapbox.geojson.FeatureCollection;
+import uk.ac.ed.inf.aqmaps.Sensor;
+import uk.ac.ed.inf.aqmaps.W3W;
 
 import java.util.List;
 

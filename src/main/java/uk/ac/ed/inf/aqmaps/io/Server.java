@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.aqmaps;
+package uk.ac.ed.inf.aqmaps.io;
 
 /**
  * Handles requesting data from a server.

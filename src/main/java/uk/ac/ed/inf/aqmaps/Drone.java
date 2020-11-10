@@ -1,5 +1,8 @@
 package uk.ac.ed.inf.aqmaps;
 
+import uk.ac.ed.inf.aqmaps.io.InputController;
+import uk.ac.ed.inf.aqmaps.io.OutputController;
+
 /** Represents the drone. Performs route planning, than follows that plan to collect sensor data. */
 public class Drone {
   private final Settings settings;

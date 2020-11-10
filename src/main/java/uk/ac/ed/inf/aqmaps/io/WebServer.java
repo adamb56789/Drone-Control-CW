@@ -1,4 +1,6 @@
-package uk.ac.ed.inf.aqmaps;
+package uk.ac.ed.inf.aqmaps.io;
+
+import uk.ac.ed.inf.aqmaps.io.Server;
 
 import java.io.IOException;
 import java.net.URI;

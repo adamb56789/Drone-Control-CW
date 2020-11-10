@@ -1,8 +1,11 @@
-package uk.ac.ed.inf.aqmaps;
+package uk.ac.ed.inf.aqmaps.io;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mapbox.geojson.FeatureCollection;
+import uk.ac.ed.inf.aqmaps.Sensor;
+import uk.ac.ed.inf.aqmaps.Settings;
+import uk.ac.ed.inf.aqmaps.W3W;
 import uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer;
 import uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer;
 
