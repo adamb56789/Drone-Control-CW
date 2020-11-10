@@ -2,19 +2,16 @@ package uk.ac.ed.inf.aqmaps;
 
 import com.mapbox.geojson.*;
 
-import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /** Holds information about the obstacles or no-fly zones that the drone must avoid. */
 public class Obstacles {
   private final FeatureCollection mapbox;
-  private final List<Coords> points;
+  private final List<List<Coords>> points;
   private final List<Segment> lineSegments;
   private final List<Rectangle2D> boundingBoxes;
 
@@ -24,11 +21,7 @@ public class Obstacles {
     //noinspection ConstantConditions - Ignore warning about Mapbox things being null, they won't be
 
     points =
-        mapbox.features().stream()
-            .map(this::getPointsFromFeature) // this is a Stream of Lists of Points
-            .flatMap(List::stream) // merge together the lists of Points from each Polygon
-            .map(Coords::fromMapboxPoint) // convert Point to Coords
-            .collect(Collectors.toList());
+        mapbox.features().stream().map(this::getCoordsFromFeature).collect(Collectors.toList());
 
     lineSegments =
         mapbox.features().stream()
@@ -42,7 +35,7 @@ public class Obstacles {
             .collect(Collectors.toList());
   }
 
-  private List<Point> getPointsFromFeature(Feature feature) {
+  private List<Coords> getCoordsFromFeature(Feature feature) {
     // The Geometry interface does not have coordinates(), so we must cast to Polygon first. This is
     // potentially dangerous, but if they are not Polygons then something must have gone very wrong
     // somewhere else already.
@@ -55,16 +48,15 @@ public class Obstacles {
 
     // In Mapbox Polygons the first and last points are identical, so we remove the duplicate
     coordinates.remove(0);
-    return coordinates;
+
+    // Convert the Mapbox points to Coords
+    return coordinates.stream().map(Coords::fromMapboxPoint).collect(Collectors.toList());
   }
 
   private List<Segment> getSegmentsFromFeature(Feature feature) {
     var segments = new ArrayList<Segment>();
 
-    List<Coords> points =
-        getPointsFromFeature(feature).stream()
-            .map(Coords::fromMapboxPoint)
-            .collect(Collectors.toList()); // Convert Mapbox Points from the Feature to Coords
+    List<Coords> points = getCoordsFromFeature(feature);
 
     // Create a segment between each adjacent point.
     for (int i = 0; i < points.size(); i++) {
@@ -77,7 +69,7 @@ public class Obstacles {
   }
 
   private Rectangle2D getBoundingBoxFromFeature(Feature feature) {
-    var points = getPointsFromFeature(feature);
+    var points = getCoordsFromFeature(feature);
 
     // Create a path out of all of the points to have access to its getBounds2D() method
     var path = new Path2D.Double();
@@ -85,10 +77,10 @@ public class Obstacles {
 
     for (var point : points) {
       if (isFirst) {
-        path.moveTo(point.longitude(), point.latitude());
+        path.moveTo(point.x, point.y);
         isFirst = false;
       } else {
-        path.lineTo(point.longitude(), point.latitude());
+        path.lineTo(point.x, point.y);
       }
     }
 
@@ -125,10 +117,14 @@ public class Obstacles {
     return mapbox;
   }
 
-  public List<Coords> getPoints() {
+  /**
+   * @return a list of lists of Coords, each containing the Coords for one of the obstacle polygons
+   */
+  public List<List<Coords>> getPoints() {
     return points;
   }
 
+  /** @return a list of all the line segments that make up the obstacle polygons */
   public List<Segment> getLineSegments() {
     return lineSegments;
   }

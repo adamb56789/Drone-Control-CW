@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ed.inf.aqmaps.io.ServerController;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
@@ -21,7 +22,7 @@ public class ObstaclesTest {
 
   @Test
   public void numberOfPointsCorrect() {
-    var points = obstacles.getPoints();
+    var points = obstacles.getPoints().stream().flatMap(List::stream).collect(Collectors.toList());
     assertEquals("The obstacle polygons should have a total of 36 vertices", 32, points.size());
   }
 
