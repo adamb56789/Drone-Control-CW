@@ -66,57 +66,43 @@ public class ObstaclesTest {
 
   @Test
   public void middleOfNowhereLineNoCollision() {
-    var start = new Coords(-3.190433, 55.945481);
-    var end = new Coords(-3.189062, 55.94351);
-
-    assertFalse(obstacles.collidesWith(start, end));
+    var line = TestPaths.MIDDLE_OF_NOWHERE;
+    assertFalse(obstacles.collidesWith(line.start, line.end));
   }
 
   @Test
   public void nearBuildingsLineNoCollision() {
-    var start = new Coords(-3.186153, 55.944796);
-    var end = new Coords(-3.187708, 55.944453);
-
-    assertFalse(obstacles.collidesWith(start, end));
+    var line = TestPaths.NEAR_BUILDINGS;
+    assertFalse(obstacles.collidesWith(line.start, line.end));
   }
 
   @Test
   public void leavesConfinementLineCollides() {
-    var start = new Coords(-3.187011, 55.942771);
-    var end = new Coords(-3.187011, 55.942446);
-
-    assertTrue(obstacles.collidesWith(start, end));
+    var line = TestPaths.LEAVES_CONFINEMENT;
+    assertTrue(obstacles.collidesWith(line.start, line.end));
   }
 
   @Test
   public void collidesWith1BuildingLineCollides() {
-    var start = new Coords(-3.186126, 55.943297);
-    var end = new Coords(-3.186925, 55.943152);
-
-    assertTrue(obstacles.collidesWith(start, end));
+    var line = TestPaths.COLLIDES_BUILDING;
+    assertTrue(obstacles.collidesWith(line.start, line.end));
   }
 
   @Test
   public void trickyPathThroughBuildingLineCollides() {
-    var start = new Coords(-3.186391, 55.944383);
-    var end = new Coords(-3.18692, 55.944946);
-
-    assertTrue(obstacles.collidesWith(start, end));
+    var line = TestPaths.TRICKY_PATH_THROUGH_BUILDINGS;
+    assertTrue(obstacles.collidesWith(line.start, line.end));
   }
 
   @Test
   public void collidesWith3BuildingsLineCollides() {
-    var start = new Coords(-3.186324, 55.942891);
-    var end = new Coords(-3.187494, 55.945703);
-
-    assertTrue(obstacles.collidesWith(start, end));
+    var line = TestPaths.COLLIDES_3_BUILDINGS;
+    assertTrue(obstacles.collidesWith(line.start, line.end));
   }
 
   @Test
-  public void shortestRouteAroundBuildingLeavesConfinementLineCollides() {
-    var start = new Coords(-3.189626, 55.942625);
-    var end = new Coords(-3.188306, 55.942624);
-
-    assertTrue(obstacles.collidesWith(start, end));
+  public void shortestRouteLeavesConfinementLineCollides() {
+    var line = TestPaths.SHORTEST_ROUTE_LEAVES_CONFINEMENT;
+    assertTrue(obstacles.collidesWith(line.start, line.end));
   }
 }
