@@ -1,5 +1,8 @@
 package uk.ac.ed.inf.aqmaps;
 
+/**
+ * Holds the settings derived from the command line arguments.
+ */
 public class Settings {
   private final int day;
   private final int month;
