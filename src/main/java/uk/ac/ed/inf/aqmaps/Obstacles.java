@@ -103,7 +103,22 @@ public class Obstacles {
    * @return true if the segment collides with an obstacle, false otherwise
    */
   public boolean collidesWith(Coords start, Coords end) {
-    return false; // TODO
+    // If the line segment leaves the confinement area then that is a collision
+    if (!ConfinementArea.isInConfinement(start) || !ConfinementArea.isInConfinement(end)) {
+      return true;
+    }
+
+    // If the line segment does not enter the bounding boxes of any of the obstacles, we know
+    // immediately that there are no collisions
+    boolean insideNoBoxes =
+        boundingBoxes.stream().noneMatch(box -> box.intersectsLine(start.x, start.y, end.x, end.y));
+    if (insideNoBoxes) {
+      return false;
+    }
+
+    // Now check for collisions with any of the line segments
+    return lineSegments.stream()
+        .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y));
   }
 
   public FeatureCollection getMapbox() {
