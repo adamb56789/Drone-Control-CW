@@ -4,14 +4,10 @@ import com.mapbox.geojson.Point;
 
 import java.awt.geom.Point2D;
 
-/**
- * Holds a longitude and latitude pair, using a Point2D.
- */
+/** Holds a longitude and latitude pair, using a Point2D. */
 public class Coords extends Point2D.Double {
 
   /**
-   * Initialise a Coords with a longitude and latitude
-   *
    * @param lng longitude
    * @param lat latitude
    */
