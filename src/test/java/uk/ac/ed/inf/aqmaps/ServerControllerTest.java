@@ -47,7 +47,7 @@ public class ServerControllerTest {
   public void noFlyZoneLoadedCorrectly() {
     var noFlyZones = input.getNoFlyZones();
 
-    assert noFlyZones.features() != null;
+    //noinspection ConstantConditions
     assertEquals("There should be 4 buildings", 4, noFlyZones.features().size());
   }
 
@@ -58,8 +58,8 @@ public class ServerControllerTest {
     assertEquals("There should be 33 sensors to visit in one day", 33, sensorLocations.size());
     assertTrue("The words should exist", sensorLocations.get(0).getWords().length() > 0);
 
-    double lng = sensorLocations.get(0).getCoordinates().lng;
-    double lat = sensorLocations.get(0).getCoordinates().lat;
+    double lng = sensorLocations.get(0).getCoordinates().x;
+    double lat = sensorLocations.get(0).getCoordinates().y;
     assertTrue("The longitude should be sensible", -4 <= lng && lng <= -3);
     assertTrue("The latitude should be sensible", 55 <= lat && lat <= 56);
   }

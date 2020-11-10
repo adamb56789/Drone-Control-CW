@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.aqmaps;
+package uk.ac.ed.inf.aqmaps.deserializers;
 
 /**
  * Used only for deserializing the sensor information from JSON. The real Sensor class stores the

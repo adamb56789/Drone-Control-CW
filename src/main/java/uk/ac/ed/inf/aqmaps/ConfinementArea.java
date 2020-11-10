@@ -14,9 +14,9 @@ public class ConfinementArea {
    * @return true if the point is inside the confinement area, false otherwise
    */
   public static boolean isInConfinement(Coords point) {
-    return TOP_LEFT.lng < point.lng
-        && point.lng < BOTTOM_RIGHT.lng
-        && BOTTOM_RIGHT.lat < point.lat
-        && point.lat < TOP_LEFT.lat;
+    return TOP_LEFT.x < point.x
+        && point.x < BOTTOM_RIGHT.x
+        && BOTTOM_RIGHT.y < point.y
+        && point.y < TOP_LEFT.y;
   }
 }

@@ -3,6 +3,8 @@ package uk.ac.ed.inf.aqmaps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mapbox.geojson.FeatureCollection;
+import uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer;
+import uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -85,7 +87,7 @@ public class ServerController implements InputController {
             + sensorDeserializer.getLocation().replace('.', '/')
             + "/details.json";
     String w3wJson = server.requestData(url);
-    var w3w = new Gson().fromJson(w3wJson, W3W.class);
+    var w3w = (new Gson().fromJson(w3wJson, W3WDeserializer.class)).getW3W();
 
     return new Sensor(w3w, sensorDeserializer.getBattery(), sensorDeserializer.getReading());
   }

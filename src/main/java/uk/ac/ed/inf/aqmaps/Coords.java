@@ -1,22 +1,35 @@
 package uk.ac.ed.inf.aqmaps;
 
+import com.mapbox.geojson.Point;
+
 import java.awt.geom.Point2D;
 
 /**
- * Holds a longitude and latitude pair. Values are accessed directly instead of through a getter,
- * this is a deliberate choice for ease of use.
+ * Holds a longitude and latitude pair, using a Point2D.
  */
-public class Coords {
-  public final double lng;
-  public final double lat;
+public class Coords extends Point2D.Double {
 
+  /**
+   * Initialise a Coords with a longitude and latitude
+   *
+   * @param lng longitude
+   * @param lat latitude
+   */
   public Coords(double lng, double lat) {
-    this.lng = lng;
-    this.lat = lat;
+    super(lng, lat);
+  }
+
+  /**
+   * Initialise a Coords with a Mapbox Point
+   *
+   * @param p the point
+   */
+  public static Coords fromMapboxPoint(Point p) {
+    return new Coords(p.longitude(), p.latitude());
   }
 
   @Override
   public String toString() {
-    return "(" + lng + ", " + lat + ")";
+    return "(" + x + ", " + y + ")";
   }
 }
