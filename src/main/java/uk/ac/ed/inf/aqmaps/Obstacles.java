@@ -56,7 +56,7 @@ public class Obstacles {
   private List<Segment> getSegmentsFromFeature(Feature feature) {
     var segments = new ArrayList<Segment>();
 
-    List<Coords> points = getCoordsFromFeature(feature);
+    var points = getCoordsFromFeature(feature);
 
     // Create a segment between each adjacent point.
     for (int i = 0; i < points.size(); i++) {
@@ -127,7 +127,7 @@ public class Obstacles {
   /**
    * @return a list of lists of Coords, each containing the Coords for one of the obstacle polygons
    */
-  public List<List<Coords>> getPointsSeparated() {
+  public List<List<Coords>> getPolygonPoints() {
     return points;
   }
 
