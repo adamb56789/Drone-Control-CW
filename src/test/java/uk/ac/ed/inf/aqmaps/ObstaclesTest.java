@@ -22,7 +22,7 @@ public class ObstaclesTest {
 
   @Test
   public void numberOfPointsCorrect() {
-    var points = obstacles.getPoints().stream().flatMap(List::stream).collect(Collectors.toList());
+    var points = obstacles.getAllPoints();
     assertEquals("The obstacle polygons should have a total of 36 vertices", 32, points.size());
   }
 

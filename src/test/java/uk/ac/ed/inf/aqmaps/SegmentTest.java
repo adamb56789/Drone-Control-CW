@@ -10,6 +10,6 @@ public class SegmentTest {
         var line = TestPaths.MIDDLE_OF_NOWHERE;
         var segment = new Segment(line.start, line.end);
 
-        assertEquals(line.shortestPathLength, segment.length(), 0.0000000001);
+        assertEquals(line.shortestPathLength, segment.length(), 0.000000001);
     }
 }

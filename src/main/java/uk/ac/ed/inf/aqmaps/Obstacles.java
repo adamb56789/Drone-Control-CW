@@ -117,10 +117,17 @@ public class Obstacles {
     return mapbox;
   }
 
+  /** @return a list of Coords containing all of the points that make up the obstale polygons */
+  public List<Coords> getAllPoints() {
+    return points.stream()
+        .flatMap(List::stream)
+        .collect(Collectors.toList()); // Merge together the point lists into one list
+  }
+
   /**
    * @return a list of lists of Coords, each containing the Coords for one of the obstacle polygons
    */
-  public List<List<Coords>> getPoints() {
+  public List<List<Coords>> getPointsSeparated() {
     return points;
   }
 
