@@ -1,0 +1,369 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -3.192473,
+            55.946233
+          ],
+          [
+            -3.184319,
+            55.946233
+          ],
+          [
+            -3.184319,
+            55.942617
+          ],
+          [
+            -3.192473,
+            55.942617
+          ],
+          [
+            -3.192473,
+            55.946233
+          ]
+        ]
+      },
+      "properties": {
+        "name": "Confinement area"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -3.1871805,
+              55.9444875
+            ],
+            [
+              -3.1870423,
+              55.9441939
+            ],
+            [
+              -3.1869766,
+              55.9442036
+            ],
+            [
+              -3.1868975,
+              55.9440482
+            ],
+            [
+              -3.1863302,
+              55.9441323
+            ],
+            [
+              -3.1864053,
+              55.9442967
+            ],
+            [
+              -3.1863034,
+              55.944311
+            ],
+            [
+              -3.1863396,
+              55.9443711
+            ],
+            [
+              -3.1864093,
+              55.9443621
+            ],
+            [
+              -3.1864254,
+              55.9443974
+            ],
+            [
+              -3.1862269,
+              55.9444237
+            ],
+            [
+              -3.1863946,
+              55.9445701
+            ],
+            [
+              -3.1864308,
+              55.9445859
+            ],
+            [
+              -3.1864884,
+              55.9445919
+            ],
+            [
+              -3.1871805,
+              55.9444875
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "name": "Appleton Tower",
+        "fill": "#ff0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -3.1866977,
+              55.9433602
+            ],
+            [
+              -3.1865562,
+              55.9430666
+            ],
+            [
+              -3.1863456,
+              55.9430985
+            ],
+            [
+              -3.1864864,
+              55.9433925
+            ],
+            [
+              -3.1866977,
+              55.9433602
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "name": "David Hume Tower",
+        "fill": "#ff0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -3.1897084,
+              55.9428082
+            ],
+            [
+              -3.1894751,
+              55.9423313
+            ],
+            [
+              -3.1882721,
+              55.9425145
+            ],
+            [
+              -3.1885055,
+              55.942993
+            ],
+            [
+              -3.1897084,
+              55.9428082
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "name": "Main Library",
+        "fill": "#ff0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -3.188079,
+              55.945418
+            ],
+            [
+              -3.1876338,
+              55.9445829
+            ],
+            [
+              -3.1869176,
+              55.9447015
+            ],
+            [
+              -3.1870463,
+              55.9449419
+            ],
+            [
+              -3.1869096,
+              55.9449644
+            ],
+            [
+              -3.1867808,
+              55.9448157
+            ],
+            [
+              -3.1865662,
+              55.9448773
+            ],
+            [
+              -3.1871134,
+              55.9455532
+            ],
+            [
+              -3.1872958,
+              55.9455051
+            ],
+            [
+              -3.1878322,
+              55.9454601
+            ],
+            [
+              -3.188079,
+              55.945418
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "name": "Informatics Forum",
+        "fill": "#ff0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "shortest route leaves confinement"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -3.189626,
+            55.942625
+          ],
+          [
+            -3.188306,
+            55.942624
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "middle of nowhere"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -3.190433,
+            55.945481
+          ],
+          [
+            -3.189062,
+            55.94351
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "collides with 3 buildings"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -3.186324,
+            55.942891
+          ],
+          [
+            -3.187494,
+            55.945703
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "tricky path round buildings"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -3.186391,
+            55.944383
+          ],
+          [
+            -3.18692,
+            55.944946
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "collides with 1 building"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -3.186126,
+            55.943297
+          ],
+          [
+            -3.186925,
+            55.943152
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "leaves confinement"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -3.187011,
+            55.942771
+          ],
+          [
+            -3.187011,
+            55.942446
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "near buildings"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -3.186153,
+            55.944796
+          ],
+          [
+            -3.187708,
+            55.944453
+          ]
+        ]
+      }
+    }
+  ]
+}
