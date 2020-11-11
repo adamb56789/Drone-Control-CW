@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 /** Holds a polygon as a list of Coords */
 public class Polygon {
-  public static final double OUTLINE_MARGIN = 0.00001;
+  public static final double OUTLINE_MARGIN = 1e-14;
   private final List<Coords> points;
   /**
    * Holds a path around the polygon and is used for checking inside-ness and generating bounding
@@ -39,7 +39,7 @@ public class Polygon {
 
     // Convert the Mapbox points to Coords
     this.points = coordinates.stream().map(Coords::fromMapboxPoint).collect(Collectors.toList());
-    this.path = generatePath();
+    this.path = generatePath(); // Prepare the path for later use
   }
 
   /**
@@ -47,7 +47,7 @@ public class Polygon {
    *
    * @param points a list of Coords
    */
-  public Polygon(List<Coords> points) {
+  private Polygon(List<Coords> points) {
     this.points = points;
     this.path = generatePath();
   }
@@ -83,12 +83,12 @@ public class Polygon {
       double angle2 = currentPoint.angleTo(nextPoint);
       double bisectAngle = (angle1 + angle2) / 2;
 
-      // Create a new point a small distance away in the direction of the bisecting line
-      var newPoint = currentPoint.moveInDirection(bisectAngle, OUTLINE_MARGIN);
+      // Create a new point a small distance away in the direction of the bisector
+      var newPoint = currentPoint.getPositionAfterMove(bisectAngle, OUTLINE_MARGIN);
 
       // If the new point is inside the polygon then put it in the opposite direction
       if (contains(newPoint)) {
-        newPoint = currentPoint.moveInDirection(bisectAngle + Math.PI, OUTLINE_MARGIN);
+        newPoint = currentPoint.getPositionAfterMove(bisectAngle + Math.PI, OUTLINE_MARGIN);
       }
 
       newPoints.add(newPoint);

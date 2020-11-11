@@ -18,20 +18,12 @@ public class Segment extends Line2D.Double {
     this.end = end;
   }
 
+  //TODO get rid of these
   public Coords getStart() {
     return start;
   }
 
   public Coords getEnd() {
     return end;
-  }
-
-  /**
-   * Calculates the length of this line segment using Euclidean distance
-   *
-   * @return the length of the segment
-   */
-  public double length() {
-    return Point2D.distance(x1, y1, x2, y2);
   }
 }
