@@ -18,18 +18,6 @@ public class Segment extends Line2D.Double {
     this.end = end;
   }
 
-  /**
-   * Calculates the angle of the line between these points with respect to the horizontal, where
-   * east is 0, north is pi/2, south is -pi/2, west is pi
-   *
-   * @param p1 the start point of the line
-   * @param p2 the end point of the line
-   * @return the angle in radians
-   */
-  public static double angle(Coords p1, Coords p2) {
-    return Math.atan2(p2.y - p1.y, p2.x - p1.x);
-  }
-
   public Coords getStart() {
     return start;
   }
