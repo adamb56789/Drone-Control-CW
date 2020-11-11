@@ -2,14 +2,11 @@ package uk.ac.ed.inf.aqmaps;
 
 import org.junit.Before;
 import org.junit.Test;
-import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.geometry.Polygon;
-import uk.ac.ed.inf.aqmaps.geometry.Segment;
 import uk.ac.ed.inf.aqmaps.io.ServerController;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 @SuppressWarnings("ConstantConditions")
 public class PolygonTest {

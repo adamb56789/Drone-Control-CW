@@ -51,9 +51,4 @@ public class Coords extends Point2D.Double {
   public String toString() {
     return "[" + x + ", " + y + "]";
   }
-
-  //TODO get rid of this
-  public boolean differentTo(Coords coords) {
-    return (coords.x - x) != 0.0 || (coords.y - y) != 0.0;
-  }
 }

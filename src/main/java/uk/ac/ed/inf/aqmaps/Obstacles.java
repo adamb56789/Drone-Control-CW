@@ -19,6 +19,7 @@ public class Obstacles {
    * Holds data about the Polygons that outline the obstacles, see {@link Polygon#generateOutline()}
    */
   private final List<Polygon> outlinePolygons;
+
   private final List<Coords> outlinePoints;
 
   public Obstacles(FeatureCollection mapbox) {
@@ -60,26 +61,14 @@ public class Obstacles {
     // immediately that there are no collisions
     boolean insideNoBoxes =
         boundingBoxes.stream().noneMatch(box -> box.intersectsLine(start.x, start.y, end.x, end.y));
+
     if (insideNoBoxes) {
       return false;
     }
 
     // Now check for collisions with any of the line segments
-    for (var segment : segments) {
-      // If one of the points is also a point on one of the polygons, do not check collision. This
-      // is to deliberately class points on corners as not colliding. Removing these segments form
-      // the check will not miss any other intersections, because it will still collide again when
-      // it hits the other side.
-      if (segment.getStart().differentTo(start)
-          && segment.getStart().differentTo(end)
-          && segment.getEnd().differentTo(start)
-          && segment.getEnd().differentTo(end)) {
-        if (segment.intersectsLine(start.x, start.y, end.x, end.y)) {
-          return true;
-        }
-      }
-    }
-    return false;
+    return segments.stream()
+        .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y));
   }
 
   public FeatureCollection getMapbox() {
