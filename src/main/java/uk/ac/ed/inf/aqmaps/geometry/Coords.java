@@ -24,9 +24,19 @@ public class Coords extends Point2D.Double {
     return new Coords(p.longitude(), p.latitude());
   }
 
+  /**
+   * Creates a new Coords which is the result of moving from the current location at the specified angle for the specified length.
+   * @param angle the direction of the move as an angle in degrees
+   * @param length the length of the move
+   * @return a Coords containing the calculated point
+   */
+  public Coords moveInDirection(double angle, double length) {
+    return new Coords(x + length * Math.cos(angle), y + length * Math.sin(angle));
+  }
+
   @Override
   public String toString() {
-    return "[" + x + ", " + y + "[";
+    return "[" + x + ", " + y + "]";
   }
 
   public boolean differentTo(Coords coords) {

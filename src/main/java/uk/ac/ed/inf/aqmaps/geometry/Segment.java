@@ -1,7 +1,5 @@
 package uk.ac.ed.inf.aqmaps.geometry;
 
-import uk.ac.ed.inf.aqmaps.geometry.Coords;
-
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
@@ -20,6 +18,18 @@ public class Segment extends Line2D.Double {
     this.end = end;
   }
 
+  /**
+   * Calculates the angle of the line between these points with respect to the horizontal, where
+   * east is 0, north is pi/2, south is -pi/2, west is pi
+   *
+   * @param p1 the start point of the line
+   * @param p2 the end point of the line
+   * @return the angle in radians
+   */
+  public static double angle(Coords p1, Coords p2) {
+    return Math.atan2(p2.y - p1.y, p2.x - p1.x);
+  }
+
   public Coords getStart() {
     return start;
   }
@@ -34,8 +44,6 @@ public class Segment extends Line2D.Double {
    * @return the length of the segment
    */
   public double length() {
-    // This could also be done with the following, but it would be slower since it creates new
-    // Point2D objects: this.getP1().distance(this.getP1())
     return Point2D.distance(x1, y1, x2, y2);
   }
 }
