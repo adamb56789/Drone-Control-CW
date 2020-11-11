@@ -1,11 +1,13 @@
 package uk.ac.ed.inf.aqmaps;
 
+import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Holds a weighted graph used for evading obstacles, and computes shortest paths. The graph has
@@ -13,11 +15,13 @@ import java.util.List;
  * of sight.
  */
 public class ObstacleGraph {
-  private SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
-  private Obstacles obstacles;
+  private final SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
+  private final Obstacles obstacles;
 
   /** We keep a separate list of vertices to make scanning through all vertices faster */
-  private List<Coords> vertices;
+  private final List<Coords> vertices;
+
+  private int polygonSegmentsAdded = 0;
 
   public ObstacleGraph(Obstacles obstacles) {
     this.obstacles = obstacles;
@@ -43,10 +47,8 @@ public class ObstacleGraph {
    * @param end the ending point
    * @return a list of points specifying the route
    */
-  public List<Coords> getShortestPath(Coords start, Coords end) {
-//    var shortestPath = new DijkstraShortestPath<>(graph);
-//    shortestPath.getPath(start, end);
-    return null;
+  public List<Coords> getShortestPathPoints(Coords start, Coords end) {
+    return getShortestPath(start, end).getVertexList();
   }
 
   /**
@@ -58,7 +60,31 @@ public class ObstacleGraph {
    * @return a list of points specifying the route
    */
   public double getShortestPathLength(Coords start, Coords end) {
-    return 0; // TODO
+    System.out.println(getShortestPath(start, end).getVertexList());
+    return getShortestPath(start, end).getWeight();
+  }
+
+  // TODO make this private?
+  public GraphPath<Coords, DefaultWeightedEdge> getShortestPath(Coords start, Coords end) {
+    // Add the start and end points and all possible edges to and from them
+    addVertex(start);
+    addVertex(end);
+    addEdgeIfHasLineOfSight(start, end);
+    for (var vertex : vertices) {
+      if (vertex != start && vertex != end) { // Avoid self loops and duplication
+        addEdgeIfHasLineOfSight(start, vertex);
+        addEdgeIfHasLineOfSight(end, vertex);
+      }
+    }
+
+    // Run Dijkstra's Algorithm from JGraphT
+    var shortestPathAlgorithm = new DijkstraShortestPath<>(graph);
+    var path = shortestPathAlgorithm.getPath(start, end);
+
+    // Remove the start and end points from the graph for later reuse
+    removeVertex(start);
+    removeVertex(end);
+    return path;
   }
 
   private void addPolygonEdges(List<Coords> polygonPoints) {
@@ -72,6 +98,7 @@ public class ObstacleGraph {
       }
       Coords nextPoint = polygonPoints.get(nextIndex);
       addEdge(currentPoint, nextPoint);
+      polygonSegmentsAdded++;
 
       int prevIndex = i - 1; // Get the previous point in the polygon
       if (prevIndex == -1) {
@@ -79,24 +106,34 @@ public class ObstacleGraph {
       }
       Coords prevPoint = polygonPoints.get(prevIndex);
 
-      // Try to create an edge between the current point and every point in the graph
-      for (var vertex : vertices) {
-
+      // Try to create an edge between the current point and every point that we have created a
+      // segment from before. It is not strictly necessary to only look at the ones we have done
+      // before since duplicate edges will be rejected, but it saves time.
+      for (int j = 0; j < polygonSegmentsAdded; j++) {
+        var vertex = vertices.get(j);
         // Do not make edge from point to itself, or to adjacent points in the polygon since we
         // have already done so.
         if (vertex != currentPoint && vertex != prevPoint && vertex != nextPoint) {
-          // Check for line of sight
-          if (!obstacles.collidesWith(vertex, currentPoint)) {
-            addEdge(vertex, currentPoint);
-          }
+          addEdgeIfHasLineOfSight(currentPoint, vertex);
         }
       }
     }
   }
 
-  private void addVertex(Coords coords) {
-    graph.addVertex(coords);
-    vertices.add(coords);
+  private void addEdgeIfHasLineOfSight(Coords start, Coords end) {
+    if (!obstacles.collidesWith(start, end)) {
+      addEdge(start, end);
+    }
+  }
+
+  private void addVertex(Coords vertex) {
+    graph.addVertex(vertex);
+    vertices.add(vertex);
+  }
+
+  private void removeVertex(Coords vertex) {
+    graph.removeVertex(vertex);
+    vertices.remove(vertex);
   }
 
   private void addEdge(Coords start, Coords end) {

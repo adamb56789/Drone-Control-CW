@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class Obstacles {
   private final FeatureCollection mapbox;
   private final List<List<Coords>> points;
+  private final List<List<Segment>> polygons;
   private final List<Segment> lineSegments;
   private final List<Rectangle2D> boundingBoxes;
 
@@ -19,20 +20,88 @@ public class Obstacles {
     this.mapbox = mapbox;
 
     //noinspection ConstantConditions - Ignore warning about Mapbox things being null, they won't be
-
     points =
         mapbox.features().stream().map(this::getCoordsFromFeature).collect(Collectors.toList());
 
+    polygons =
+        mapbox.features().stream().map(this::getSegmentsFromFeature).collect(Collectors.toList());
+
     lineSegments =
-        mapbox.features().stream()
-            .map(this::getSegmentsFromFeature) // this is a Stream of Lists of Segments
-            .flatMap(List::stream) // <Segment> merge together the Segments from each Polygon
+        polygons.stream()
+            .flatMap(List::stream) // merge together the Segments from each Polygon
             .collect(Collectors.toList());
 
     boundingBoxes =
         mapbox.features().stream()
             .map(this::getBoundingBoxFromFeature)
             .collect(Collectors.toList());
+  }
+
+  /**
+   * Determines whether the line segment between the start and end points collides with a obstacle.
+   *
+   * @param start the coordinates of the start point
+   * @param end the coordinates of the end point
+   * @return true if the segment collides with an obstacle, false otherwise
+   */
+  public boolean collidesWith(Coords start, Coords end) {
+    // If the line segment leaves the confinement area then that is a collision
+    if (!ConfinementArea.isInConfinement(start) || !ConfinementArea.isInConfinement(end)) {
+      return true;
+    }
+
+    // If the line segment does not enter the bounding boxes of any of the obstacles, we know
+    // immediately that there are no collisions
+    boolean insideNoBoxes =
+        boundingBoxes.stream().noneMatch(box -> box.intersectsLine(start.x, start.y, end.x, end.y));
+    if (insideNoBoxes) {
+      return false;
+    }
+
+    // Now check for collisions with any of the line segments
+    for (var segment : lineSegments) {
+      // If one of the points is also a point on one of the polygons, do not check collision. This
+      // is to deliberately class points on corners as not colliding. Removing these segments form
+      // the check will not miss any other intersections, because it will still collide again when
+      // it hits the other side.
+      if (segment.getStart().differentTo(start)
+          && segment.getStart().differentTo(end)
+          && segment.getEnd().differentTo(start)
+          && segment.getEnd().differentTo(end)) {
+        if(segment.intersectsLine(start.x, start.y, end.x, end.y)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  public FeatureCollection getMapbox() {
+    return mapbox;
+  }
+
+  /** @return a list of Coords containing all of the points that make up the obstale polygons */
+  public List<Coords> getAllPoints() {
+    return points.stream()
+        .flatMap(List::stream)
+        .collect(Collectors.toList()); // Merge together the point lists into one list
+  }
+
+  /**
+   * @return a list of lists of Coords, each containing the Coords for one of the obstacle polygons
+   */
+  public List<List<Coords>> getPolygonPoints() {
+    return points;
+  }
+
+  /** @return a list of all the line segments that make up the obstacle polygons */
+  public List<Segment> getLineSegments() {
+    return lineSegments;
+  }
+
+  /** @return a list of Rectangles which form bounding boxes around each of the obstacles */
+  public List<Rectangle2D> getBoundingBoxes() {
+    return boundingBoxes;
   }
 
   private List<Coords> getCoordsFromFeature(Feature feature) {
@@ -85,59 +154,5 @@ public class Obstacles {
     }
 
     return path.getBounds2D();
-  }
-
-  /**
-   * Determines whether the line segment between the start and end points collides with a obstacle.
-   *
-   * @param start the coordinates of the start point
-   * @param end the coordinates of the end point
-   * @return true if the segment collides with an obstacle, false otherwise
-   */
-  public boolean collidesWith(Coords start, Coords end) {
-    // If the line segment leaves the confinement area then that is a collision
-    if (!ConfinementArea.isInConfinement(start) || !ConfinementArea.isInConfinement(end)) {
-      return true;
-    }
-
-    // If the line segment does not enter the bounding boxes of any of the obstacles, we know
-    // immediately that there are no collisions
-    boolean insideNoBoxes =
-        boundingBoxes.stream().noneMatch(box -> box.intersectsLine(start.x, start.y, end.x, end.y));
-    if (insideNoBoxes) {
-      return false;
-    }
-
-    // Now check for collisions with any of the line segments
-    return lineSegments.stream()
-        .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y));
-  }
-
-  public FeatureCollection getMapbox() {
-    return mapbox;
-  }
-
-  /** @return a list of Coords containing all of the points that make up the obstale polygons */
-  public List<Coords> getAllPoints() {
-    return points.stream()
-        .flatMap(List::stream)
-        .collect(Collectors.toList()); // Merge together the point lists into one list
-  }
-
-  /**
-   * @return a list of lists of Coords, each containing the Coords for one of the obstacle polygons
-   */
-  public List<List<Coords>> getPolygonPoints() {
-    return points;
-  }
-
-  /** @return a list of all the line segments that make up the obstacle polygons */
-  public List<Segment> getLineSegments() {
-    return lineSegments;
-  }
-
-  /** @return a list of Rectangles which form bounding boxes around each of the obstacles */
-  public List<Rectangle2D> getBoundingBoxes() {
-    return boundingBoxes;
   }
 }

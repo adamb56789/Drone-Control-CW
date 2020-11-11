@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ed.inf.aqmaps.io.ServerController;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
@@ -63,6 +62,13 @@ public class ObstaclesTest {
           "At least all but the 2 most outer corners of an obstacle's points should be inside its bounding box",
           count >= coordsList.size() - 2);
     }
+  }
+
+  @Test
+  public void meetsCornersLineNoCollision() {
+    var start = obstacles.getAllPoints().get(0);
+    var end = obstacles.getAllPoints().get(1);
+    assertFalse(obstacles.collidesWith(start, end));
   }
 
   @Test
