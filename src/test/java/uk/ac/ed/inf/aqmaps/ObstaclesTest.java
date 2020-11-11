@@ -1,12 +1,8 @@
 package uk.ac.ed.inf.aqmaps;
 
-import com.mapbox.geojson.Polygon;
 import org.junit.Before;
 import org.junit.Test;
-import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.io.ServerController;
-
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -22,21 +18,21 @@ public class ObstaclesTest {
 
   @Test
   public void numberOfPointsCorrect() {
-    var points = obstacles.getAllPoints();
+    var points = obstacles.getOutlinePoints();
     assertEquals("The obstacle polygons should have a total of 36 vertices", 32, points.size());
   }
 
   @Test
   public void numberOfSegmentsCorrect() {
-    var segments = obstacles.getLineSegments();
+    var segments = obstacles.getSegments();
     assertEquals(
         "The obstacle polygons should have a total of 32 line segments", 32, segments.size());
   }
 
   @Test
   public void meetsCornersLineNoCollision() {
-    var start = obstacles.getAllPoints().get(0);
-    var end = obstacles.getAllPoints().get(1);
+    var start = obstacles.getOutlinePoints().get(0);
+    var end = obstacles.getOutlinePoints().get(1);
     assertFalse(obstacles.collidesWith(start, end));
   }
 

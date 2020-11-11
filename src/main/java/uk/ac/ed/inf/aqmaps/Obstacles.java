@@ -1,42 +1,46 @@
 package uk.ac.ed.inf.aqmaps;
 
-import com.mapbox.geojson.*;
+import com.mapbox.geojson.FeatureCollection;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
+import uk.ac.ed.inf.aqmaps.geometry.Polygon;
 import uk.ac.ed.inf.aqmaps.geometry.Segment;
 
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /** Holds information about the obstacles or no-fly zones that the drone must avoid. */
 public class Obstacles {
   private final FeatureCollection mapbox;
-  private final List<List<Coords>> points;
-  private final List<List<Segment>> polygons;
-  private final List<Segment> lineSegments;
+  private final List<Segment> segments;
   private final List<Rectangle2D> boundingBoxes;
+
+  /**
+   * Holds data about the Polygons that outline the obstacles, see {@link Polygon#generateOutline()}
+   */
+  private final List<Polygon> outlinePolygons;
+  private final List<Coords> outlinePoints;
 
   public Obstacles(FeatureCollection mapbox) {
     this.mapbox = mapbox;
+    segments = new ArrayList<>();
+    boundingBoxes = new ArrayList<>();
 
+    outlinePolygons = new ArrayList<>();
+    outlinePoints = new ArrayList<>();
+
+    // Derive a Polygon from each of the polygons in the mapbox, and get the points, segments and
+    // bounding box from each polygon
     //noinspection ConstantConditions - Ignore warning about Mapbox things being null, they won't be
-    points =
-        mapbox.features().stream().map(this::getCoordsFromFeature).collect(Collectors.toList());
+    for (var feature : mapbox.features()) {
+      var polygon = new Polygon(feature);
+      segments.addAll(polygon.getSegments());
+      boundingBoxes.add(polygon.getBoundingBox());
 
-    polygons =
-        mapbox.features().stream().map(this::getSegmentsFromFeature).collect(Collectors.toList());
-
-    lineSegments =
-        polygons.stream()
-            .flatMap(List::stream) // merge together the Segments from each Polygon
-            .collect(Collectors.toList());
-
-    boundingBoxes =
-        mapbox.features().stream()
-            .map(this::getBoundingBoxFromFeature)
-            .collect(Collectors.toList());
+      var outline = polygon.generateOutline();
+      outlinePolygons.add(outline);
+      outlinePoints.addAll(outline.getPoints());
+    }
   }
 
   /**
@@ -61,7 +65,7 @@ public class Obstacles {
     }
 
     // Now check for collisions with any of the line segments
-    for (var segment : lineSegments) {
+    for (var segment : segments) {
       // If one of the points is also a point on one of the polygons, do not check collision. This
       // is to deliberately class points on corners as not colliding. Removing these segments form
       // the check will not miss any other intersections, because it will still collide again when
@@ -70,7 +74,7 @@ public class Obstacles {
           && segment.getStart().differentTo(end)
           && segment.getEnd().differentTo(start)
           && segment.getEnd().differentTo(end)) {
-        if(segment.intersectsLine(start.x, start.y, end.x, end.y)) {
+        if (segment.intersectsLine(start.x, start.y, end.x, end.y)) {
           return true;
         }
       }
@@ -82,79 +86,22 @@ public class Obstacles {
     return mapbox;
   }
 
-  /** @return a list of Coords containing all of the points that make up the obstale polygons */
-  public List<Coords> getAllPoints() {
-    return points.stream()
-        .flatMap(List::stream)
-        .collect(Collectors.toList()); // Merge together the point lists into one list
+  public List<Polygon> getOutlinePolygons() {
+    return outlinePolygons;
   }
 
-  /**
-   * @return a list of lists of Coords, each containing the Coords for one of the obstacle polygons
-   */
-  public List<List<Coords>> getPolygonPoints() {
-    return points;
+  /** @return a list of all of the points that make up the obstacle polygons */
+  public List<Coords> getOutlinePoints() {
+    return outlinePoints;
   }
 
   /** @return a list of all the line segments that make up the obstacle polygons */
-  public List<Segment> getLineSegments() {
-    return lineSegments;
+  public List<Segment> getSegments() {
+    return segments;
   }
 
   /** @return a list of Rectangles which form bounding boxes around each of the obstacles */
   public List<Rectangle2D> getBoundingBoxes() {
     return boundingBoxes;
-  }
-
-  private List<Coords> getCoordsFromFeature(Feature feature) {
-    // The Geometry interface does not have coordinates(), so we must cast to Polygon first. This is
-    // potentially dangerous, but if they are not Polygons then something must have gone very wrong
-    // somewhere else already.
-    Polygon p = (Polygon) feature.geometry();
-
-    // We need to clone the list here to avoid modifying the original mapbox FeatureCollection.
-    // coordinates() has @NonNull, but ignore this for same reason as above
-    //noinspection ConstantConditions
-    var coordinates = new ArrayList<>(p.coordinates().get(0));
-
-    // In Mapbox Polygons the first and last points are identical, so we remove the duplicate
-    coordinates.remove(0);
-
-    // Convert the Mapbox points to Coords
-    return coordinates.stream().map(Coords::fromMapboxPoint).collect(Collectors.toList());
-  }
-
-  private List<Segment> getSegmentsFromFeature(Feature feature) {
-    var segments = new ArrayList<Segment>();
-
-    var points = getCoordsFromFeature(feature);
-
-    // Create a segment between each adjacent point.
-    for (int i = 0; i < points.size(); i++) {
-      Coords start = points.get(i);
-      Coords end = points.get((i + 1) % points.size());
-      segments.add(new Segment(start, end));
-    }
-
-    return segments;
-  }
-
-  private Rectangle2D getBoundingBoxFromFeature(Feature feature) {
-    var points = getCoordsFromFeature(feature);
-
-    // Create a path out of all of the points to have access to its getBounds2D() method
-    var path = new Path2D.Double();
-    boolean isFirst = true;
-
-    for (var point : points) {
-      if (isFirst) {
-        path.moveTo(point.x, point.y);
-        isFirst = false;
-      } else {
-        path.lineTo(point.x, point.y);
-      }
-    }
-
-    return path.getBounds2D();
   }
 }

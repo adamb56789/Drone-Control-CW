@@ -29,13 +29,13 @@ public class ObstacleGraph {
     vertices = new ArrayList<>();
 
     // Add all of the vertices
-    for (var point : obstacles.getAllPoints()) {
+    for (var point : obstacles.getOutlinePoints()) {
       addVertex(point);
     }
 
     // Create edges around all of the polygons and between any points where there is line of sight
-    for (List<Coords> polygonPoints : obstacles.getPolygonPoints()) {
-      addPolygonEdges(polygonPoints);
+    for (var polygon : obstacles.getOutlinePolygons()) {
+      addPolygonEdges(polygon.getPoints());
     }
   }
 

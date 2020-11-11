@@ -24,6 +24,7 @@ public class PolygonTest {
 
   @Test
   public void segmentListCorrect() {
+    // Run the test for each of the polygons we have in the test mapbox
     var features = obstacles.getMapbox().features();
     for (int i = 0; i < features.size(); i++) {
       var polygon = new Polygon(obstacles.getMapbox().features().get(i));
