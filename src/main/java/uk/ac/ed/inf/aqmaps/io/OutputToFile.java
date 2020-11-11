@@ -2,7 +2,6 @@ package uk.ac.ed.inf.aqmaps.io;
 
 import uk.ac.ed.inf.aqmaps.Move;
 import uk.ac.ed.inf.aqmaps.Sensor;
-import uk.ac.ed.inf.aqmaps.io.OutputController;
 
 import java.util.List;
 

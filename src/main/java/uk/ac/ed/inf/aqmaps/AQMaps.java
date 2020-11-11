@@ -21,7 +21,7 @@ public class AQMaps {
    */
   static final double AREA_HEIGHT = SOUTHEAST.latitude() - NORTHWEST.latitude();
 
-  static final String[] TEST_ARGS = {"15", "6", "2021", "55.9444", "-3.1878", "80"};
+  static final String[] TEST_ARGS = {"1", "1", "2020", "55.9444", "-3.1878", "0", "80"};
 
   /**
    * Does stuff
@@ -31,6 +31,9 @@ public class AQMaps {
   public static void main(String[] args) {
     var settings = new Settings(TEST_ARGS);
     var drone = new Drone(settings, new ServerController(settings), new OutputToFile());
+    long startTime = System.currentTimeMillis();
     drone.start();
+    long endTime = System.currentTimeMillis();
+    System.out.printf("Took %d ms", endTime - startTime);
   }
 }
