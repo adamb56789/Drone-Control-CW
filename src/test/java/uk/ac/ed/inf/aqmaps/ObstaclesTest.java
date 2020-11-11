@@ -34,38 +34,6 @@ public class ObstaclesTest {
   }
 
   @Test
-  public void boundingBoxesCorrect() {
-    var mapbox = obstacles.getMapbox();
-    var boundingBoxes = obstacles.getBoundingBoxes();
-
-    // Get a list of Points for each obstacle
-    //noinspection ConstantConditions
-    var pointsLists =
-        mapbox.features().stream()
-            .map(f -> ((Polygon) f.geometry()).coordinates().get(0))
-            .collect(Collectors.toList());
-
-    for (int i = 0; i < boundingBoxes.size(); i++) {
-      // Convert the list of Points to list of Coords
-      var coordsList =
-          pointsLists.get(i).stream().map(Coords::fromMapboxPoint).collect(Collectors.toList());
-      coordsList.remove(0); // remove the duplicate
-
-      // Count the number of points that are in the bounding box
-      int count = 0;
-      for (var coords : coordsList) {
-        if (boundingBoxes.get(i).contains(coords)) {
-          count++;
-        }
-      }
-      // Points on the very edge may not be considered to be in the box
-      assertTrue(
-          "At least all but the 2 most outer corners of an obstacle's points should be inside its bounding box",
-          count >= coordsList.size() - 2);
-    }
-  }
-
-  @Test
   public void meetsCornersLineNoCollision() {
     var start = obstacles.getAllPoints().get(0);
     var end = obstacles.getAllPoints().get(1);

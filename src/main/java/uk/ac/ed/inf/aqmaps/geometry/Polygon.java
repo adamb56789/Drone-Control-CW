@@ -2,13 +2,21 @@ package uk.ac.ed.inf.aqmaps.geometry;
 
 import com.mapbox.geojson.Feature;
 
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /** Holds a polygon as a list of Coords */
 public class Polygon {
-  private List<Coords> points;
+  public static final double OUTLINE_MARGIN = 0.00001;
+  private final List<Coords> points;
+  /**
+   * Holds a path around the polygon and is used for checking inside-ness and generating bounding
+   * boxes.
+   */
+  private final Path2D path;
 
   /**
    * Initialize a Polygon from a mapbox Feature
@@ -31,6 +39,7 @@ public class Polygon {
 
     // Convert the Mapbox points to Coords
     this.points = coordinates.stream().map(Coords::fromMapboxPoint).collect(Collectors.toList());
+    this.path = generatePath();
   }
 
   /**
@@ -40,6 +49,7 @@ public class Polygon {
    */
   public Polygon(List<Coords> points) {
     this.points = points;
+    this.path = generatePath();
   }
 
   /**
@@ -52,10 +62,87 @@ public class Polygon {
    * @return the outlining Polygon
    */
   public Polygon generateOutline() {
-    return null;
+    var newPoints = new ArrayList<Coords>();
+    for (int i = 0; i < points.size(); i++) {
+      // Get the current point and the 2 points on either side
+      Coords currentPoint = points.get(i);
+      int nextIndex = i + 1;
+      if (nextIndex == points.size()) { // Wrap around, this is faster than using %
+        nextIndex = 0;
+      }
+      Coords nextPoint = points.get(nextIndex);
+
+      int prevIndex = i - 1; // Get the previous point in the polygon
+      if (prevIndex == -1) {
+        prevIndex = points.size() - 1;
+      }
+      Coords prevPoint = points.get(prevIndex);
+
+      // Calculate the bisecting angle between the current point and its adjacent points
+      double angle1 = currentPoint.angleTo(prevPoint);
+      double angle2 = currentPoint.angleTo(nextPoint);
+      double bisectAngle = (angle1 + angle2) / 2;
+
+      // Create a new point a small distance away in the direction of the bisecting line
+      var newPoint = currentPoint.moveInDirection(bisectAngle, OUTLINE_MARGIN);
+
+      // If the new point is inside the polygon then put it in the opposite direction
+      if (contains(newPoint)) {
+        newPoint = currentPoint.moveInDirection(bisectAngle + Math.PI, OUTLINE_MARGIN);
+      }
+
+      newPoints.add(newPoint);
+    }
+    return new Polygon(newPoints);
+  }
+
+  /**
+   * Creates a list of the segments between adjacent points in the polygon.
+   *
+   * @return a list of Segments
+   */
+  public List<Segment> getSegments() {
+    var segments = new ArrayList<Segment>();
+
+    // Create a segment between each adjacent point.
+    for (int i = 0; i < points.size(); i++) {
+      Coords start = points.get(i);
+      Coords end = points.get((i + 1) % points.size());
+      segments.add(new Segment(start, end));
+    }
+    return segments;
+  }
+
+  /**
+   * Creates a bounding box that contains the rectangular bounds of the polygon.
+   *
+   * @return the bounding box as a Rectangle2D
+   */
+  public Rectangle2D getBoundingBox() {
+    return path.getBounds2D();
   }
 
   public List<Coords> getPoints() {
     return points;
+  }
+
+  private boolean contains(Coords p) {
+    return path.contains(p);
+  }
+
+  private Path2D generatePath() {
+    var path = new Path2D.Double();
+    boolean first = true; // The first point needs to be added with moveTo()
+
+    for (var point : points) {
+      if (first) {
+        path.moveTo(point.x, point.y);
+        first = false;
+      } else {
+        path.lineTo(point.x, point.y);
+      }
+    }
+    path.closePath();
+    return path;
   }
 }
