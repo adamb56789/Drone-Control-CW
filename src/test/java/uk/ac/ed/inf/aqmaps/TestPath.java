@@ -1,5 +1,7 @@
 package uk.ac.ed.inf.aqmaps;
 
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
+
 public class TestPath {
     public final Coords start;
     public final Coords end;

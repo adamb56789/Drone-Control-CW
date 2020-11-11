@@ -3,6 +3,7 @@ package uk.ac.ed.inf.aqmaps;
 import com.mapbox.geojson.Polygon;
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.io.ServerController;
 
 import java.util.stream.Collectors;

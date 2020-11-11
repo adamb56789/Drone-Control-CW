@@ -1,5 +1,7 @@
 package uk.ac.ed.inf.aqmaps;
 
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
+
 /** Holds What3words coordinate and word information. */
 public class W3W {
   private final Coords coordinates;

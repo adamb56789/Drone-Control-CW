@@ -1,5 +1,7 @@
 package uk.ac.ed.inf.aqmaps;
 
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
+
 /** Holds information about the confinement area and checking whether a point is inside it. */
 public class ConfinementArea {
   /** A Point representing the northwest corner of the confinement area. */

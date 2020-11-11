@@ -1,4 +1,6 @@
-package uk.ac.ed.inf.aqmaps;
+package uk.ac.ed.inf.aqmaps.geometry;
+
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;

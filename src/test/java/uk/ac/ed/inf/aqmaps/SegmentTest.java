@@ -1,6 +1,7 @@
 package uk.ac.ed.inf.aqmaps;
 
 import org.junit.Test;
+import uk.ac.ed.inf.aqmaps.geometry.Segment;
 
 import static org.junit.Assert.*;
 

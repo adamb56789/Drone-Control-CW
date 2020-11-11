@@ -1,6 +1,6 @@
 package uk.ac.ed.inf.aqmaps.deserializers;
 
-import uk.ac.ed.inf.aqmaps.Coords;
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 /**
  * Used for deserialization of Coords, this is needed since the field names in Coords inherit from

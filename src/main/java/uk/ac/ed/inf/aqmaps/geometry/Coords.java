@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.aqmaps;
+package uk.ac.ed.inf.aqmaps.geometry;
 
 import com.mapbox.geojson.Point;
 
@@ -26,7 +26,7 @@ public class Coords extends Point2D.Double {
 
   @Override
   public String toString() {
-    return "(" + x + ", " + y + ")";
+    return "[" + x + ", " + y + "[";
   }
 
   public boolean differentTo(Coords coords) {

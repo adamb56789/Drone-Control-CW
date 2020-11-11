@@ -4,10 +4,10 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Holds a weighted graph used for evading obstacles, and computes shortest paths. The graph has

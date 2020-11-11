@@ -1,5 +1,7 @@
 package uk.ac.ed.inf.aqmaps;
 
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
+
 /**
  * Holds the settings derived from the command line arguments.
  */

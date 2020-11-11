@@ -1,5 +1,7 @@
 package uk.ac.ed.inf.aqmaps;
 
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
+
 /** A class representing a single move to be made by the drone. */
 public class Move {
   private final Coords before;

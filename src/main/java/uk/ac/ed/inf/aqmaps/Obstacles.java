@@ -1,6 +1,8 @@
 package uk.ac.ed.inf.aqmaps;
 
 import com.mapbox.geojson.*;
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
+import uk.ac.ed.inf.aqmaps.geometry.Segment;
 
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
