@@ -16,7 +16,7 @@ public class TestPaths {
       new TestPath(-3.187011, 55.942771, -3.187011, 55.942446, 0);
 
   /** Path around a single rectangular building of 3 segments */
-  public static final TestPath COLLIDES_BUILDING =
+  public static final TestPath COLLIDES_1_BUILDING =
       new TestPath(-3.186126, 55.943397, -3.186925, 55.943252, 0.000825924945475);
 
   /** Tricky path around buildings involving small cutouts of buildings, of 4 segments */

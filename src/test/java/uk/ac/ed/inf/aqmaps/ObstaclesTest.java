@@ -56,7 +56,7 @@ public class ObstaclesTest {
 
   @Test
   public void collidesWith1BuildingLineCollides() {
-    var line = TestPaths.COLLIDES_BUILDING;
+    var line = TestPaths.COLLIDES_1_BUILDING;
     assertTrue(obstacles.collidesWith(line.start, line.end));
   }
 
