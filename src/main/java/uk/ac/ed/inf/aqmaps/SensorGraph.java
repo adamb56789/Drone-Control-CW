@@ -6,6 +6,7 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -81,7 +82,14 @@ public class SensorGraph {
     // Remove the start and end points from the graph for later reuse
     removeVertex(start);
 
-    return path.getVertexList();
+    var vertexList = path.getVertexList();
+    // The first element in the vertex list seems to be random, but we want it to be the start
+    vertexList.remove(0); // The first and last elements are duplicates, so remove the duplicate
+
+    // Rotate the list backwards so the starting position is at the front
+    Collections.rotate(vertexList, -vertexList.indexOf(start));
+    vertexList.add(vertexList.get(0)); // Put the starting position as the ending position as well
+    return vertexList;
   }
 
   private void addVertex(Coords vertex) {
