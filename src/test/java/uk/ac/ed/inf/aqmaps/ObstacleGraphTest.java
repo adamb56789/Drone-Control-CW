@@ -24,7 +24,7 @@ public class ObstacleGraphTest {
   @ParameterizedTest
   @MethodSource("provideArguments")
   void shortestPathLengthCorrect(String description, TestPath path) {
-    var testServer = ServerControllerTest.getServer();
+    var testServer = ServerControllerTest.getFakeServer();
     var input = new ServerController(testServer, 1, 1, 2020, 80);
     var obstacleGraph = new ObstacleGraph(new Obstacles(input.getNoFlyZones()));
 

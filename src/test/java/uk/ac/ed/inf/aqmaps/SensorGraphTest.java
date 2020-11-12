@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class SensorGraphTest {
   @Test
   public void getTourWorks() {
-    var testServer = ServerControllerTest.getServer();
+    var testServer = ServerControllerTest.getFakeServer();
     var input = new ServerController(testServer, 1, 1, 2020, 80);
     var obstacleGraph = new ObstacleGraph(new Obstacles(input.getNoFlyZones()));
     var sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleGraph, 0);

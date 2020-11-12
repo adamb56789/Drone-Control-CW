@@ -29,11 +29,12 @@ public class AQMaps {
    * @param args an array of arguments.
    */
   public static void main(String[] args) {
-    var settings = new Settings(TEST_ARGS);
-    var drone = new Drone(settings, new ServerController(settings), new OutputToFile());
-    long startTime = System.currentTimeMillis();
-    drone.start();
-    long endTime = System.currentTimeMillis();
-    System.out.printf("Took %d ms", endTime - startTime);
+//    Testing.test();
+//    var settings = new Settings(TEST_ARGS);
+//    var drone = new Drone(settings, new ServerController(settings), new OutputToFile());
+//    long startTime = System.currentTimeMillis();
+//    drone.start();
+//    long endTime = System.currentTimeMillis();
+//    System.out.printf("Took %d ms", endTime - startTime);
   }
 }

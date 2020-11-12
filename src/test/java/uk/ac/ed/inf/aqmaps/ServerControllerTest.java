@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 public class ServerControllerTest {
   private InputController input;
 
-  public static Server getServer() {
+  public static Server getFakeServer() {
     class TestServer implements Server {
 
       @Override
@@ -43,7 +43,7 @@ public class ServerControllerTest {
 
   @Before
   public void setup() {
-    input = new ServerController(getServer(), 1, 1, 2020, 80);
+    input = new ServerController(getFakeServer(), 1, 1, 2020, 80);
   }
 
   @Test
