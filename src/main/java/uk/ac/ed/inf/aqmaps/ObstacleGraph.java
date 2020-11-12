@@ -54,6 +54,11 @@ public class ObstacleGraph {
    * @return a list of points specifying the route
    */
   public List<Coords> getShortestPathPoints(Coords start, Coords end) {
+    // If the straight line between start and end does not collide, there is no need for pathfinding
+    if (!obstacles.collidesWith(start, end)) {
+      return List.of(start, end);
+    }
+
     return getShortestPath(start, end).getVertexList();
   }
 
@@ -66,6 +71,11 @@ public class ObstacleGraph {
    * @return a list of points specifying the route
    */
   public double getShortestPathLength(Coords start, Coords end) {
+    // If the straight line between start and end does not collide, there is no need for pathfinding
+    if (!obstacles.collidesWith(start, end)) {
+      return start.distance(end);
+    }
+
     return getShortestPath(start, end).getWeight();
   }
 

@@ -4,8 +4,6 @@ import uk.ac.ed.inf.aqmaps.io.InputController;
 import uk.ac.ed.inf.aqmaps.io.OutputController;
 import uk.ac.ed.inf.aqmaps.io.ServerController;
 
-import java.util.ArrayList;
-
 /** Represents the drone. Performs route planning, than follows that plan to collect sensor data. */
 public class Drone {
   private final Settings settings;
