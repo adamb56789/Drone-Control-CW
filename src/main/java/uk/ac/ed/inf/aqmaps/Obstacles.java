@@ -75,10 +75,6 @@ public class Obstacles {
     return mapbox;
   }
 
-  public List<Polygon> getOutlinePolygons() {
-    return outlinePolygons;
-  }
-
   /** @return a list of all of the points that make up the obstacle polygons */
   public List<Coords> getOutlinePoints() {
     return outlinePoints;
@@ -89,8 +85,4 @@ public class Obstacles {
     return segments;
   }
 
-  /** @return a list of Rectangles which form bounding boxes around each of the obstacles */
-  public List<Rectangle2D> getBoundingBoxes() {
-    return boundingBoxes;
-  }
 }
