@@ -2,7 +2,6 @@ package uk.ac.ed.inf.aqmaps;
 
 import uk.ac.ed.inf.aqmaps.io.InputController;
 import uk.ac.ed.inf.aqmaps.io.OutputController;
-import uk.ac.ed.inf.aqmaps.io.ServerController;
 
 /** Represents the drone. Performs route planning, than follows that plan to collect sensor data. */
 public class Drone {
@@ -16,13 +15,11 @@ public class Drone {
     this.output = output;
   }
 
-  /**
-   * Start the drone and perform route planning and data collection for the given settings.
-   */
+  /** Start the drone and perform route planning and data collection for the given settings. */
   public void start() {
-    var input = new ServerController(settings);
     var obstacleGraph = new ObstacleGraph(new Obstacles(input.getNoFlyZones()));
-    var sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleGraph, settings.getRandomSeed());
+    var sensorGraph =
+        new SensorGraph(input.getSensorLocations(), obstacleGraph, settings.getRandomSeed());
     var path = sensorGraph.getTour(settings.getStartCoords());
   }
 }

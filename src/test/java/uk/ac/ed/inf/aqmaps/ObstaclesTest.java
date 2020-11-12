@@ -2,7 +2,7 @@ package uk.ac.ed.inf.aqmaps;
 
 import org.junit.Before;
 import org.junit.Test;
-import uk.ac.ed.inf.aqmaps.io.ServerController;
+import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 
 import static org.junit.Assert.*;
 
@@ -11,8 +11,8 @@ public class ObstaclesTest {
 
   @Before
   public void setup() {
-    var testServer = ServerControllerTest.getFakeServer();
-    var input = new ServerController(testServer, 1, 1, 2020, 80);
+    var testServer = ServerInputControllerTest.getFakeServer();
+    var input = new ServerInputController(testServer, 1, 1, 2020, 80);
     obstacles = new Obstacles(input.getNoFlyZones());
   }
 

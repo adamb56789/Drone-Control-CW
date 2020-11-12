@@ -3,28 +3,29 @@ package uk.ac.ed.inf.aqmaps;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ed.inf.aqmaps.geometry.Polygon;
-import uk.ac.ed.inf.aqmaps.io.ServerController;
+import uk.ac.ed.inf.aqmaps.io.ServerInputController;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-@SuppressWarnings("ConstantConditions")
 public class PolygonTest {
   private Obstacles obstacles;
+  private List<Polygon> noFlyZones;
 
   @Before
   public void setup() {
-    var testServer = ServerControllerTest.getFakeServer();
-    var input = new ServerController(testServer, 1, 1, 2020, 80);
+    var testServer = ServerInputControllerTest.getFakeServer();
+    var input = new ServerInputController(testServer, 1, 1, 2020, 80);
+    noFlyZones = input.getNoFlyZones();
     obstacles = new Obstacles(input.getNoFlyZones());
   }
 
   @Test
   public void segmentListCorrect() {
     // Run the test for each of the polygons we have in the test mapbox
-    var features = obstacles.getMapbox().features();
-    for (int i = 0; i < features.size(); i++) {
-      var polygon = new Polygon(obstacles.getMapbox().features().get(i));
+    for (Polygon polygon : noFlyZones) {
       var segments = polygon.getSegments();
       assertEquals(
           "The polygon should have the same number of sides and vertices",
@@ -40,10 +41,7 @@ public class PolygonTest {
 
   @Test
   public void outlinePolygonCorrect() {
-    var features = obstacles.getMapbox().features();
-
-    for (int i = 0; i < features.size(); i++) { // Run the test for all of the examples we have
-      var polygon = new Polygon(obstacles.getMapbox().features().get(i));
+    for (Polygon polygon : noFlyZones) { // Run the test for all of the examples we have
       var outline = polygon.generateOutline();
 
       for (int j = 0; j < polygon.getPoints().size(); j++) {

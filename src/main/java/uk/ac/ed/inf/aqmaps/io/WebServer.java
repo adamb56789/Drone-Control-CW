@@ -6,9 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-/**
- * Handles requesting data from an HTTP server.
- */
+/** Handles requesting data from an HTTP server. */
 public class WebServer implements Server {
   private final HttpClient client = HttpClient.newHttpClient();
 

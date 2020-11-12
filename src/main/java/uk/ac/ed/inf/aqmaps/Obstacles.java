@@ -1,6 +1,5 @@
 package uk.ac.ed.inf.aqmaps;
 
-import com.mapbox.geojson.FeatureCollection;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.geometry.Polygon;
 import uk.ac.ed.inf.aqmaps.geometry.Segment;
@@ -11,7 +10,6 @@ import java.util.List;
 
 /** Holds information about the obstacles or no-fly zones that the drone must avoid. */
 public class Obstacles {
-  private final FeatureCollection mapbox;
   private final List<Segment> segments;
   private final List<Rectangle2D> boundingBoxes;
 
@@ -22,8 +20,7 @@ public class Obstacles {
 
   private final List<Coords> outlinePoints;
 
-  public Obstacles(FeatureCollection mapbox) {
-    this.mapbox = mapbox;
+  public Obstacles(List<Polygon> polygons) {
     segments = new ArrayList<>();
     boundingBoxes = new ArrayList<>();
 
@@ -32,9 +29,7 @@ public class Obstacles {
 
     // Derive a Polygon from each of the polygons in the mapbox, and get the points, segments and
     // bounding box from each polygon
-    //noinspection ConstantConditions - Ignore warning about Mapbox things being null, they won't be
-    for (var feature : mapbox.features()) {
-      var polygon = new Polygon(feature);
+    for (var polygon : polygons) {
       segments.addAll(polygon.getSegments());
       boundingBoxes.add(polygon.getBoundingBox());
 
@@ -71,10 +66,6 @@ public class Obstacles {
         .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y));
   }
 
-  public FeatureCollection getMapbox() {
-    return mapbox;
-  }
-
   /** @return a list of all of the points that make up the obstacle polygons */
   public List<Coords> getOutlinePoints() {
     return outlinePoints;
@@ -84,5 +75,4 @@ public class Obstacles {
   public List<Segment> getSegments() {
     return segments;
   }
-
 }

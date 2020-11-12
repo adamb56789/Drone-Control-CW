@@ -8,6 +8,7 @@ import uk.ac.ed.inf.aqmaps.Settings;
 import uk.ac.ed.inf.aqmaps.W3W;
 import uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer;
 import uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer;
+import uk.ac.ed.inf.aqmaps.geometry.Polygon;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -16,10 +17,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /** Implements the Remote interface using a connection to a simple web server. */
-public class ServerController implements InputController {
+public class ServerInputController implements InputController {
   private final HashMap<W3W, Sensor> sensorMap = new HashMap<>();
   private final Server server;
-  private FeatureCollection noFlyZones;
+  private List<Polygon> noFlyZones;
   private String serverUrl;
 
   /**
@@ -27,7 +28,7 @@ public class ServerController implements InputController {
    *
    * @param settings the Settings object containing the current settings
    */
-  public ServerController(Settings settings) {
+  public ServerInputController(Settings settings) {
     this(
         new WebServer(),
         settings.getDay(),
@@ -36,8 +37,8 @@ public class ServerController implements InputController {
         settings.getPort());
   }
 
-  /** This exists for passing in mock server objects for testing. */
-  public ServerController(Server server, int day, int month, int year, int port) {
+  /** This exists so mock server objects can be passed in for testing. */
+  public ServerInputController(Server server, int day, int month, int year, int port) {
     this.server = server;
     loadData(day, month, year, port);
   }
@@ -48,7 +49,11 @@ public class ServerController implements InputController {
     // Load no-fly zones
     String url = serverUrl + "/buildings/no-fly-zones.geojson";
     String nfzJson = server.requestData(url);
-    noFlyZones = FeatureCollection.fromJson(nfzJson);
+    //noinspection ConstantConditions ignore warning about features() being nullable
+    noFlyZones =
+        FeatureCollection.fromJson(nfzJson).features().stream()
+            .map(Polygon::fromGeojsonPolygon)
+            .collect(Collectors.toList());
 
     // Load today's sensors
     url =
@@ -106,7 +111,7 @@ public class ServerController implements InputController {
   }
 
   @Override
-  public FeatureCollection getNoFlyZones() {
+  public List<Polygon> getNoFlyZones() {
     return noFlyZones;
   }
 }

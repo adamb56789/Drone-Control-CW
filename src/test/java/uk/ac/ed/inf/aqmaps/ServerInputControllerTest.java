@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ed.inf.aqmaps.io.InputController;
 import uk.ac.ed.inf.aqmaps.io.Server;
-import uk.ac.ed.inf.aqmaps.io.ServerController;
+import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,7 +12,7 @@ import java.nio.file.Path;
 
 import static org.junit.Assert.*;
 
-public class ServerControllerTest {
+public class ServerInputControllerTest {
   private InputController input;
 
   public static Server getFakeServer() {
@@ -43,15 +43,14 @@ public class ServerControllerTest {
 
   @Before
   public void setup() {
-    input = new ServerController(getFakeServer(), 1, 1, 2020, 80);
+    input = new ServerInputController(getFakeServer(), 1, 1, 2020, 80);
   }
 
   @Test
   public void noFlyZoneLoadedCorrectly() {
     var noFlyZones = input.getNoFlyZones();
 
-    //noinspection ConstantConditions
-    assertEquals("There should be 4 buildings", 4, noFlyZones.features().size());
+    assertEquals("There should be 4 buildings", 4, noFlyZones.size());
   }
 
   @Test

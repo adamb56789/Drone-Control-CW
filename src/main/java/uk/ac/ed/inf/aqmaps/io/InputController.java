@@ -1,8 +1,8 @@
 package uk.ac.ed.inf.aqmaps.io;
 
-import com.mapbox.geojson.FeatureCollection;
 import uk.ac.ed.inf.aqmaps.Sensor;
 import uk.ac.ed.inf.aqmaps.W3W;
+import uk.ac.ed.inf.aqmaps.geometry.Polygon;
 
 import java.util.List;
 
@@ -33,5 +33,5 @@ public interface InputController {
    *
    * @return a FeatureCollection containing the locations of the no-fly zones
    */
-  FeatureCollection getNoFlyZones();
+  List<Polygon> getNoFlyZones();
 }

@@ -20,7 +20,7 @@ public class Coords extends Point2D.Double {
    *
    * @param p the mapbox Point
    */
-  public static Coords fromMapboxPoint(Point p) {
+  public static Coords fromGeojsonPoint(Point p) {
     return new Coords(p.longitude(), p.latitude());
   }
 

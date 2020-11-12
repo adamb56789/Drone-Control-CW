@@ -3,7 +3,7 @@ package uk.ac.ed.inf.aqmaps;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import uk.ac.ed.inf.aqmaps.io.ServerController;
+import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 
 import java.util.stream.Stream;
 
@@ -24,8 +24,8 @@ public class ObstacleGraphTest {
   @ParameterizedTest
   @MethodSource("provideArguments")
   void shortestPathLengthCorrect(String description, TestPath path) {
-    var testServer = ServerControllerTest.getFakeServer();
-    var input = new ServerController(testServer, 1, 1, 2020, 80);
+    var testServer = ServerInputControllerTest.getFakeServer();
+    var input = new ServerInputController(testServer, 1, 1, 2020, 80);
     var obstacleGraph = new ObstacleGraph(new Obstacles(input.getNoFlyZones()));
 
     assertEquals(

@@ -19,11 +19,21 @@ public class Polygon {
   private final Path2D path;
 
   /**
-   * Initialize a Polygon from a mapbox Feature
+   * Initialize a Polygon from a list of Coords points
+   *
+   * @param points a list of Coords
+   */
+  private Polygon(List<Coords> points) {
+    this.points = points;
+    this.path = generatePath();
+  }
+
+  /**
+   * Create a Polygon from a mapbox Feature
    *
    * @param feature a mapbox Feature containing a Polygon
    */
-  public Polygon(Feature feature) {
+  public static Polygon fromGeojsonPolygon(Feature feature) {
     // The Geometry interface does not have coordinates(), so we must cast to Polygon first. This is
     // potentially dangerous, but if they are not Polygons then something must have gone very wrong
     // somewhere else already.
@@ -38,18 +48,9 @@ public class Polygon {
     coordinates.remove(0);
 
     // Convert the Mapbox points to Coords
-    this.points = coordinates.stream().map(Coords::fromMapboxPoint).collect(Collectors.toList());
-    this.path = generatePath(); // Prepare the path for later use
-  }
-
-  /**
-   * Initialize a Polygon from a list of Coords points
-   *
-   * @param points a list of Coords
-   */
-  private Polygon(List<Coords> points) {
-    this.points = points;
-    this.path = generatePath();
+    var coordsList =
+        coordinates.stream().map(Coords::fromGeojsonPoint).collect(Collectors.toList());
+    return new Polygon(coordsList);
   }
 
   /**

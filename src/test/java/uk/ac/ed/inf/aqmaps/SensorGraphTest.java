@@ -3,7 +3,7 @@ package uk.ac.ed.inf.aqmaps;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
-import uk.ac.ed.inf.aqmaps.io.ServerController;
+import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,8 +12,8 @@ public class SensorGraphTest {
 
   @Before
   public void setup() {
-    var testServer = ServerControllerTest.getFakeServer();
-    var input = new ServerController(testServer, 1, 1, 2020, 80);
+    var testServer = ServerInputControllerTest.getFakeServer();
+    var input = new ServerInputController(testServer, 1, 1, 2020, 80);
     var obstacleGraph = new ObstacleGraph(new Obstacles(input.getNoFlyZones()));
     sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleGraph, 0);
   }

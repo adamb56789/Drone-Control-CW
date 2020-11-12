@@ -22,11 +22,15 @@ public class Sensor {
 
   @Override
   public String toString() {
-    return "Sensor{" +
-            "location=" + location +
-            ", battery=" + battery +
-            ", reading='" + reading + '\'' +
-            '}';
+    return "Sensor{"
+        + "location="
+        + location
+        + ", battery="
+        + battery
+        + ", reading='"
+        + reading
+        + '\''
+        + '}';
   }
 
   public String getReading() {

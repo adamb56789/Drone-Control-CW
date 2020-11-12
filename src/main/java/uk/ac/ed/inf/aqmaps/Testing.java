@@ -1,23 +1,23 @@
-//package uk.ac.ed.inf.aqmaps;
+// package uk.ac.ed.inf.aqmaps;
 //
-//import com.google.gson.Gson;
-//import com.mapbox.geojson.Feature;
-//import com.mapbox.geojson.FeatureCollection;
-//import com.mapbox.geojson.Point;
-//import uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer;
-//import uk.ac.ed.inf.aqmaps.geometry.Coords;
-//import uk.ac.ed.inf.aqmaps.io.Server;
-//import uk.ac.ed.inf.aqmaps.io.ServerController;
+// import com.google.gson.Gson;
+// import com.mapbox.geojson.Feature;
+// import com.mapbox.geojson.FeatureCollection;
+// import com.mapbox.geojson.Point;
+// import uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer;
+// import uk.ac.ed.inf.aqmaps.geometry.Coords;
+// import uk.ac.ed.inf.aqmaps.io.Server;
+// import uk.ac.ed.inf.aqmaps.io.ServerController;
 //
-//import java.io.IOException;
-//import java.nio.file.Files;
-//import java.nio.file.Path;
-//import java.nio.file.Paths;
-//import java.util.*;
-//import java.util.stream.Collectors;
-//import java.util.stream.Stream;
+// import java.io.IOException;
+// import java.nio.file.Files;
+// import java.nio.file.Path;
+// import java.nio.file.Paths;
+// import java.util.*;
+// import java.util.stream.Collectors;
+// import java.util.stream.Stream;
 //
-//public class Testing {
+// public class Testing {
 //  public static List<Double>[] results = new List[6];
 //  public static int[] winner = new int[6];
 //  public static List<Long> times = new ArrayList<>();
@@ -81,7 +81,8 @@
 //    //      }
 //    //      System.out.println(path);
 //    //
-//    // System.out.println(superList.stream().flatMap(Collection::stream).collect(Collectors.toList()));
+//    //
+// System.out.println(superList.stream().flatMap(Collection::stream).collect(Collectors.toList()));
 //    //
 //    //    } catch (IOException e) {
 //    //      e.printStackTrace();
@@ -128,7 +129,8 @@
 //      System.out.printf("(%d, %d) ", i, Collections.frequency(counters, i));
 //    }
 //    System.out.println();
-//    System.out.printf("Loading: %d ms%n", loadingTimes.stream().mapToLong(a -> a).sum() / 1000000);
+//    System.out.printf("Loading: %d ms%n", loadingTimes.stream().mapToLong(a -> a).sum() /
+// 1000000);
 //    System.out.printf(
 //        "Dijkstra: %d ms%n", dijkstraTimes.stream().mapToLong(a -> a).sum() / 1000000);
 //    System.out.printf("Everything: %d ms%n", times.stream().mapToLong(a -> a).sum() / 1000000);
@@ -164,4 +166,4 @@
 //    }
 //    times.add(System.nanoTime() - startTime);
 //  }
-//}
+// }
