@@ -1,10 +1,5 @@
 package uk.ac.ed.inf.aqmaps.io;
 
-import uk.ac.ed.inf.aqmaps.Move;
-import uk.ac.ed.inf.aqmaps.Sensor;
-
-import java.util.List;
-
 /**
  * Handles interaction with all output locations. Implementations may output to any source, such as
  * to a file or to a server.
@@ -14,15 +9,14 @@ public interface OutputController {
   /**
    * Outputs the flightpath planned by the drone
    *
-   * @param moves a list of Moves
+   * @param flightpathText the String containing the flightpath data
    */
-  void flightpath(List<Move> moves);
+  void outputFlightpath(String flightpathText);
 
   /**
-   * Outputs the sensor readings collected by the drone
+   * Outputs the GeoJSON map containing the flightpath and the sensor readings collected by the drone
    *
-   * @param moves a list of Moves
-   * @param sensors a list of Sensors containing readings collected by the drone
+   * @param json the GeoJSON String
    */
-  void readings(List<Move> moves, List<Sensor> sensors);
+  void outputMapGeoJSON(String json);
 }

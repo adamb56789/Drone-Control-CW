@@ -1,14 +1,44 @@
 package uk.ac.ed.inf.aqmaps.io;
 
-import uk.ac.ed.inf.aqmaps.Move;
-import uk.ac.ed.inf.aqmaps.Sensor;
+import uk.ac.ed.inf.aqmaps.Settings;
 
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
+/**
+ * Outputs to the current directory of the filesystem
+ */
 public class FileOutputController implements OutputController {
-  @Override
-  public void flightpath(List<Move> moves) {}
+  private final Settings settings;
+
+  public FileOutputController(Settings settings) {
+    this.settings = settings;
+  }
 
   @Override
-  public void readings(List<Move> moves, List<Sensor> sensors) {}
+  public void outputFlightpath(String flightpathText) {
+    String path =
+        String.format(
+            "flightpath-%02d-%02d-%04d.txt",
+            settings.getDay(), settings.getMonth(), settings.getYear());
+    try {
+      Files.writeString(Path.of(path), flightpathText);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void outputMapGeoJSON(String json) {
+    String path =
+        String.format(
+            "readings-%02d-%02d-%04d.txt",
+            settings.getDay(), settings.getMonth(), settings.getYear());
+    try {
+      Files.writeString(Path.of(path), json);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 }
