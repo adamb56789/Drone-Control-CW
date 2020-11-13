@@ -6,9 +6,10 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-/** Holds a polygon as a list of Coords */
+/** Holds a polygon as a list of the Coords that make up the vertices, in order */
 public class Polygon {
   public static final double OUTLINE_MARGIN = 1e-14;
   private final List<Coords> points;
@@ -29,27 +30,34 @@ public class Polygon {
   }
 
   /**
-   * Create a Polygon from a mapbox Feature
+   * Create a Polygon from a GeoJSON Feature
    *
-   * @param feature a mapbox Feature containing a Polygon
+   * @param feature a GeoJSON Feature containing a Polygon
    */
-  public static Polygon fromGeojsonPolygon(Feature feature) {
-    // The Geometry interface does not have coordinates(), so we must cast to Polygon first. This is
-    // potentially dangerous, but if they are not Polygons then something must have gone very wrong
-    // somewhere else already.
-    var p = (com.mapbox.geojson.Polygon) feature.geometry();
+  public static Polygon buildFromFeature(Feature feature) {
+    // The Geometry interface does not have coordinates(), so we must cast to Polygon first. If it
+    // isn't a polygon then something must have gone wrong
+    if (!Objects.requireNonNull(feature.geometry()).type().equals("Polygon")) {
+      System.out.println("Fatal error: no-fly zone GeoJSON feature was not a Polygon");
+      System.exit(1);
+    }
+    var polygon = (com.mapbox.geojson.Polygon) feature.geometry();
 
-    // We need to clone the list here to avoid modifying the original mapbox FeatureCollection.
-    // coordinates() has @NonNull, but ignore this for same reason as above
-    //noinspection ConstantConditions
-    var coordinates = new ArrayList<>(p.coordinates().get(0));
+    // Polygon features are a lists of lists to handle polygons with holes, but the program doesn't
+    // work with holes
+    if (polygon.coordinates().size() != 1) {
+      System.out.println("Fatal error: no-fly zone polygon must not contain any holes");
+      System.exit(1);
+    }
 
-    // In Mapbox Polygons the first and last points are identical, so we remove the duplicate
-    coordinates.remove(0);
-
-    // Convert the Mapbox points to Coords
+    // Convert the GeoJSON points to Coords
     var coordsList =
-        coordinates.stream().map(Coords::fromGeojsonPoint).collect(Collectors.toList());
+        polygon.coordinates().get(0).stream()
+            .map(Coords::buildFromGeojsonPoint)
+            .collect(Collectors.toList());
+
+    // In GeoJSON Polygons the first and last points are identical, so we remove the duplicate
+    coordsList.remove(0);
     return new Polygon(coordsList);
   }
 

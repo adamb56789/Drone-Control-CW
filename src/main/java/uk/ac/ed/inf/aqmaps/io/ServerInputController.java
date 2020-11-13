@@ -52,7 +52,7 @@ public class ServerInputController implements InputController {
     //noinspection ConstantConditions ignore warning about features() being nullable
     noFlyZones =
         FeatureCollection.fromJson(nfzJson).features().stream()
-            .map(Polygon::fromGeojsonPolygon)
+            .map(Polygon::buildFromFeature)
             .collect(Collectors.toList());
 
     // Load today's sensors
