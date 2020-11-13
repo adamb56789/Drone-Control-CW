@@ -56,15 +56,7 @@ public class ServerInputController implements InputController {
             .collect(Collectors.toList());
 
     // Load today's sensors
-    url =
-        serverUrl
-            + "/maps/"
-            + String.format("%04d", year)
-            + '/'
-            + String.format("%02d", month)
-            + '/'
-            + String.format("%02d", day)
-            + "/air-quality-data.json";
+    url = String.format("%s/maps/%04d/%02d/%02d/air-quality-data.json", serverUrl, year, month, day);
     String sensorJson = server.requestData(url);
 
     // Deserialize the air quality data into SensorDeserializer objects. A separate class is used
