@@ -115,7 +115,7 @@
       }
     }
 
-    dates.parallelStream().forEach(Testing::run);
+//    dates.parallelStream().forEach(Testing::run);
 
     //    for (var result : results) {
     //      var avg = result.stream().mapToDouble(a -> a).average().orElse(0.0);

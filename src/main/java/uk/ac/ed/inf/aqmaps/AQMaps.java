@@ -17,7 +17,7 @@ public class AQMaps {
    * @param args an array of arguments.
    */
   public static void main(String[] args) {
-//        Testing.test();
+        Testing.test();
 //    var settings = new Settings(TEST_ARGS);
 //    var drone =
 //        new Drone(settings, new ServerInputController(settings), new FileOutputController(settings));
