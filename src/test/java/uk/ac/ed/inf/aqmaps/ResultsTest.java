@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
+@SuppressWarnings("ConstantConditions")
 public class ResultsTest {
 
   @Test
@@ -22,7 +23,7 @@ public class ResultsTest {
     var move2 = new Move(TestPaths.NEAR_BUILDINGS.start, TestPaths.NEAR_BUILDINGS.end, 0, null);
 
     var results = new Results(List.of(w3w));
-    results.addFlightpath(List.of(move1, move2));
+    results.recordFlightpath(List.of(move1, move2));
 
     assertEquals(
         "1,-3.190433,55.945481,110,-3.189062,55.94351,seiso.yubi.yabai\n"
@@ -63,9 +64,9 @@ public class ResultsTest {
       results = new Results(List.of(sensor1Location, sensor2Location));
     }
 
-    results.addFlightpath(List.of(move1, move2, move3));
-    results.addSensorReading(sensor1);
-    results.addSensorReading(sensor2);
+    results.recordFlightpath(List.of(move1, move2, move3));
+    results.recordSensorReading(sensor1);
+    results.recordSensorReading(sensor2);
     return results;
   }
 
@@ -79,19 +80,17 @@ public class ResultsTest {
     var json = results.getMapGeoJSON();
     var map = FeatureCollection.fromJson(json);
 
-    assert map.features() != null;
-    var geometries = map.features().stream().map(Feature::geometry).collect(Collectors.toList());
-    assertEquals("Map should have 3 features - 1 line string and 2 points", 3, geometries.size());
-
     var lineStringOptional =
-        geometries.stream().filter(g -> g.type().equals("LineString")).findAny();
+        map.features().stream()
+            .map(Feature::geometry)
+            .filter(g -> g.type().equals("LineString"))
+            .findAny();
     assertTrue("The map should have a LineString", lineStringOptional.isPresent());
 
     var lineString = (LineString) lineStringOptional.get();
     assertEquals("The LineString should have 4 coordinates", 4, lineString.coordinates().size());
   }
 
-  @SuppressWarnings("ConstantConditions")
   @Test
   public void mapGeoJSONGoodReadingsCorrect() {
     var results = createResultsWithSensors(90, "42", 50, "250", false);
@@ -128,7 +127,6 @@ public class ResultsTest {
     assertPropertyCorrect(pointFeatures.get(1), "marker-symbol", "danger");
   }
 
-  @SuppressWarnings("ConstantConditions")
   @Test
   public void mapGeoJSONBadReadingsCorrect() {
     // "If the battery has less than 10% charge then [ignore the reading]" so exactly 10 should not

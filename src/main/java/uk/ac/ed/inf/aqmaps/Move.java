@@ -36,4 +36,12 @@ public class Move {
     return String.format(
         "%s,%s,%d,%s,%s,%s", before.x, before.y, direction, after.x, after.y, sensorString);
   }
+
+  public Coords getBefore() {
+    return before;
+  }
+
+  public Coords getAfter() {
+    return after;
+  }
 }
