@@ -1,12 +1,21 @@
 package uk.ac.ed.inf.aqmaps;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /** Holds and processes the calculated flightpath and collected sensor data */
 public class Results {
-  private final List<Sensor> sensors = new ArrayList<>();
+  private final HashSet<W3W> locationsPlanned;
+  private final List<Sensor> sensorsVisited = new ArrayList<>();
   private List<Move> flightpath;
+
+  /**
+   * @param locationsPlanned a list of sensor locations that have a planned visit today
+   */
+  public Results(List<W3W> locationsPlanned) {
+    this.locationsPlanned = new HashSet<>(locationsPlanned);
+  }
 
   /**
    * Adds a calculated flight to the results
@@ -23,7 +32,7 @@ public class Results {
    * @param sensor the Sensor
    */
   public void addSensorReading(Sensor sensor) {
-    sensors.add(sensor);
+    sensorsVisited.add(sensor);
   }
 
   /**

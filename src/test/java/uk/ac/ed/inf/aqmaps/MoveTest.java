@@ -11,8 +11,8 @@ public class MoveTest {
   public void toStringCorrectWhenSensorExists() {
     var start = new Coords(-1.23456789, 9.87654321);
     var end = new Coords(-3.14159265359, 2.71828182845);
-    var w3W = new W3W(new Coords(0, 0), "seiso.yubi.yabai");
-    var testmove = new Move(start, end, 110, w3W);
+    var w3w = new W3W(new Coords(0, 0), "seiso.yubi.yabai");
+    var testmove = new Move(start, end, 110, w3w);
 
     assertEquals(
         "-1.23456789,9.87654321,110,-3.14159265359,2.71828182845,seiso.yubi.yabai",
