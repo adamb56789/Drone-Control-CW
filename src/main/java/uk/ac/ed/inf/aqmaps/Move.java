@@ -10,8 +10,8 @@ public class Move {
   private final W3W sensor;
 
   /**
-   * @param before the starting position of the move
-   * @param after the ending position of the move
+   * @param before the position of the drone before the move
+   * @param after the position of the drone after the move
    * @param direction the direction of the move in degrees, from 0 to 350 anticlockwise starting
    *     from east
    * @param sensor the location of the sensor visited by the drone at the end of this move, or null
