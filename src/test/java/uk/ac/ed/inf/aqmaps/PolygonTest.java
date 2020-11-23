@@ -11,7 +11,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class PolygonTest {
-  private Obstacles obstacles;
   private List<Polygon> noFlyZones;
 
   @Before
@@ -19,7 +18,6 @@ public class PolygonTest {
     var testServer = ServerInputControllerTest.getFakeServer();
     var input = new ServerInputController(testServer, 1, 1, 2020, 80);
     noFlyZones = input.getNoFlyZones();
-    obstacles = new Obstacles(input.getNoFlyZones());
   }
 
   @Test
