@@ -26,7 +26,6 @@ public class MoveTest {
     var testmove = new Move(start, end, 110, null);
 
     assertEquals(
-            "-1.23456789,9.87654321,110,-3.14159265359,2.71828182845,null",
-            testmove.toString());
+        "-1.23456789,9.87654321,110,-3.14159265359,2.71828182845,null", testmove.toString());
   }
 }
