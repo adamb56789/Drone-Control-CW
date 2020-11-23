@@ -20,19 +20,6 @@ public class Sensor {
     return battery;
   }
 
-  @Override
-  public String toString() {
-    return "Sensor{"
-        + "location="
-        + location
-        + ", battery="
-        + battery
-        + ", reading='"
-        + reading
-        + '\''
-        + '}';
-  }
-
   public String getReading() {
     return reading;
   }
