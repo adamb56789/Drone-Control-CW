@@ -2,6 +2,9 @@ package uk.ac.ed.inf.aqmaps;
 
 import uk.ac.ed.inf.aqmaps.io.InputController;
 import uk.ac.ed.inf.aqmaps.io.OutputController;
+import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleGraph;
+import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
+import uk.ac.ed.inf.aqmaps.pathfinding.SensorGraph;
 
 /** Represents the drone. Performs route planning, than follows that plan to collect sensor data. */
 public class Drone {

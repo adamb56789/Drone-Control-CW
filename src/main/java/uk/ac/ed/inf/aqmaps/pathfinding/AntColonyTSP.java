@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.aqmaps;
+package uk.ac.ed.inf.aqmaps.pathfinding;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;

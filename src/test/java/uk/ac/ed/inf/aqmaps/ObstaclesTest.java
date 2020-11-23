@@ -3,6 +3,7 @@ package uk.ac.ed.inf.aqmaps;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
+import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
 
 import static org.junit.Assert.*;
 

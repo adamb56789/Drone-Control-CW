@@ -4,6 +4,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
+import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleGraph;
+import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
 
 import java.util.stream.Stream;
 

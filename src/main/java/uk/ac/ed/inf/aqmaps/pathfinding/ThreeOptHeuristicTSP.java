@@ -15,7 +15,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR LGPL-2.1-or-later
  */
-package uk.ac.ed.inf.aqmaps;
+package uk.ac.ed.inf.aqmaps.pathfinding;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;

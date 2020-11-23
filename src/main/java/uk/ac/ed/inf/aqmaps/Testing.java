@@ -1,22 +1,16 @@
  package uk.ac.ed.inf.aqmaps;
 
- import com.google.gson.Gson;
- import com.mapbox.geojson.Feature;
- import com.mapbox.geojson.FeatureCollection;
- import com.mapbox.geojson.Point;
- import uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer;
  import uk.ac.ed.inf.aqmaps.geometry.Coords;
  import uk.ac.ed.inf.aqmaps.io.Server;
  import uk.ac.ed.inf.aqmaps.io.ServerInputController;
- import uk.ac.ed.inf.aqmaps.io.ServerInputController;
+ import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleGraph;
+ import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
+ import uk.ac.ed.inf.aqmaps.pathfinding.SensorGraph;
 
  import java.io.IOException;
  import java.nio.file.Files;
  import java.nio.file.Path;
- import java.nio.file.Paths;
  import java.util.*;
- import java.util.stream.Collectors;
- import java.util.stream.Stream;
 
  public class Testing {
   public static List<Double>[] results = new List[6];

@@ -2,6 +2,7 @@ package uk.ac.ed.inf.aqmaps;
 
 import org.junit.Test;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
+import uk.ac.ed.inf.aqmaps.pathfinding.ConfinementArea;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

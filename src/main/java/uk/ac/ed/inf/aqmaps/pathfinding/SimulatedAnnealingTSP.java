@@ -1,10 +1,11 @@
-package uk.ac.ed.inf.aqmaps;
+package uk.ac.ed.inf.aqmaps.pathfinding;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.tour.HamiltonianCycleAlgorithmBase;
 import org.jgrapht.alg.tour.RandomTourTSP;
 import org.jgrapht.graph.GraphWalk;
+import uk.ac.ed.inf.aqmaps.Testing;
 
 import java.util.*;
 

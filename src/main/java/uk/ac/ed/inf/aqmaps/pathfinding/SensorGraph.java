@@ -1,8 +1,9 @@
-package uk.ac.ed.inf.aqmaps;
+package uk.ac.ed.inf.aqmaps.pathfinding;
 
 import org.jgrapht.alg.tour.TwoOptHeuristicTSP;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
+import uk.ac.ed.inf.aqmaps.W3W;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.ArrayList;
