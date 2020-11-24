@@ -41,18 +41,18 @@ public class Polygon {
       System.out.println("Fatal error: no-fly zone GeoJSON feature was not a Polygon");
       System.exit(1);
     }
-    var polygon = (com.mapbox.geojson.Polygon) feature.geometry();
+    var mapboxPolygon = (com.mapbox.geojson.Polygon) feature.geometry();
 
     // Polygon features are a lists of lists to handle polygons with holes, but the program doesn't
     // work with holes
-    if (polygon.coordinates().size() != 1) {
+    if (mapboxPolygon.coordinates().size() != 1) {
       System.out.println("Fatal error: no-fly zone polygon must not contain any holes");
       System.exit(1);
     }
 
     // Convert the GeoJSON points to Coords
     var coordsList =
-        polygon.coordinates().get(0).stream()
+        mapboxPolygon.coordinates().get(0).stream()
             .map(Coords::buildFromGeojsonPoint)
             .collect(Collectors.toList());
 
@@ -76,12 +76,13 @@ public class Polygon {
       // Get the current point and the 2 points on either side
       Coords currentPoint = points.get(i);
       int nextIndex = i + 1;
-      if (nextIndex == points.size()) { // Wrap around, this is faster than using %
+      // Wrap around to the first point if necessary, this is faster than using %
+      if (nextIndex == points.size()) {
         nextIndex = 0;
       }
       Coords nextPoint = points.get(nextIndex);
 
-      int prevIndex = i - 1; // Get the previous point in the polygon
+      int prevIndex = i - 1; // Get the previous point in the polygon, wrap around to end if needed
       if (prevIndex == -1) {
         prevIndex = points.size() - 1;
       }
@@ -90,14 +91,14 @@ public class Polygon {
       // Calculate the bisecting angle between the current point and its adjacent points
       double angle1 = currentPoint.angleTo(prevPoint);
       double angle2 = currentPoint.angleTo(nextPoint);
-      double bisectAngle = (angle1 + angle2) / 2;
+      double bisectingAngle = (angle1 + angle2) / 2;
 
       // Create a new point a small distance away in the direction of the bisector
-      var newPoint = currentPoint.getPositionAfterMove(bisectAngle, OUTLINE_MARGIN);
+      var newPoint = currentPoint.getPositionAfterMove(bisectingAngle, OUTLINE_MARGIN);
 
       // If the new point is inside the polygon then put it in the opposite direction
-      if (contains(newPoint)) {
-        newPoint = currentPoint.getPositionAfterMove(bisectAngle + Math.PI, OUTLINE_MARGIN);
+      if (this.contains(newPoint)) {
+        newPoint = currentPoint.getPositionAfterMove(bisectingAngle + Math.PI, OUTLINE_MARGIN);
       }
 
       newPoints.add(newPoint);
