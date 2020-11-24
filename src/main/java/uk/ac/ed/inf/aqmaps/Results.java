@@ -57,7 +57,14 @@ public class Results {
 
   public String getMapGeoJSON() {
     var features = new ArrayList<Feature>();
-    features.add(createFlightpathLineString());
+
+    if (flightpath == null || flightpath.size() == 0) {
+      // This should only happen in testing
+      System.out.println("Cannot create a map with no flightpath");
+    } else {
+      features.add(createFlightpathLineString());
+    }
+
     features.addAll(createSensorPoints());
     return FeatureCollection.fromFeatures(features).toJson();
   }
