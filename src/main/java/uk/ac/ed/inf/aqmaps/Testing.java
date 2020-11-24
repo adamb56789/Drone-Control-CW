@@ -85,29 +85,29 @@
     //    }
     //
     //    System.exit(1);
-    long startTime = System.currentTimeMillis();
-    for (int i = 0; i < Testing.results.length; i++) {
-      results[i] = new ArrayList<>();
-    }
-    var dates = new ArrayList<int[]>();
-    for (int year = 2020; year <= 2021; year++) {
-      for (int month = 1; month <= 12; month++) {
-        for (int day = 1; day <= 31; day++) {
-          if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {
-            break;
-          } else if (day == 29 && month == 2 && year == 2021) {
-            break;
-          } else if (day == 30 && month == 2 && year == 2020) {
-            break;
-          }
-          int[] date = new int[3];
-          date[0] = day;
-          date[1] = month;
-          date[2] = year;
-          dates.add(date);
-        }
-      }
-    }
+//    long startTime = System.currentTimeMillis();
+//    for (int i = 0; i < Testing.results.length; i++) {
+//      results[i] = new ArrayList<>();
+//    }
+//    var dates = new ArrayList<int[]>();
+//    for (int year = 2020; year <= 2021; year++) {
+//      for (int month = 1; month <= 12; month++) {
+//        for (int day = 1; day <= 31; day++) {
+//          if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {
+//            break;
+//          } else if (day == 29 && month == 2 && year == 2021) {
+//            break;
+//          } else if (day == 30 && month == 2 && year == 2020) {
+//            break;
+//          }
+//          int[] date = new int[3];
+//          date[0] = day;
+//          date[1] = month;
+//          date[2] = year;
+//          dates.add(date);
+//        }
+//      }
+//    }
 
 //    dates.parallelStream().forEach(Testing::run);
 
@@ -115,22 +115,22 @@
     //      var avg = result.stream().mapToDouble(a -> a).average().orElse(0.0);
     //      System.out.println(avg);
     //    }
-    System.out.println(numbers.stream().mapToDouble(a -> a).average().orElse(0));
-    System.out.println(Arrays.toString(winner));
-
-    long endTime = System.currentTimeMillis();
-    System.out.printf("Counter: %d%n", counter);
-    System.out.print("Counters frequency: ");
-    for (int i = 0; i < 33; i++) {
-      System.out.printf("(%d, %d) ", i, Collections.frequency(counters, i));
-    }
-    System.out.println();
-    System.out.printf("Loading: %d ms%n", loadingTimes.stream().mapToLong(a -> a).sum() /
- 1000000);
-    System.out.printf(
-        "Dijkstra: %d ms%n", dijkstraTimes.stream().mapToLong(a -> a).sum() / 1000000);
-    System.out.printf("Everything: %d ms%n", times.stream().mapToLong(a -> a).sum() / 1000000);
-    System.out.printf("Real time: %d ms%n", endTime - startTime);
+//    System.out.println(numbers.stream().mapToDouble(a -> a).average().orElse(0));
+//    System.out.println(Arrays.toString(winner));
+//
+//    long endTime = System.currentTimeMillis();
+//    System.out.printf("Counter: %d%n", counter);
+//    System.out.print("Counters frequency: ");
+//    for (int i = 0; i < 33; i++) {
+//      System.out.printf("(%d, %d) ", i, Collections.frequency(counters, i));
+//    }
+//    System.out.println();
+//    System.out.printf("Loading: %d ms%n", loadingTimes.stream().mapToLong(a -> a).sum() /
+// 1000000);
+//    System.out.printf(
+//        "Dijkstra: %d ms%n", dijkstraTimes.stream().mapToLong(a -> a).sum() / 1000000);
+//    System.out.printf("Everything: %d ms%n", times.stream().mapToLong(a -> a).sum() / 1000000);
+//    System.out.printf("Real time: %d ms%n", endTime - startTime);
   }
 
   private static void run(int[] date) {
