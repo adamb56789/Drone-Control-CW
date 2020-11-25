@@ -57,8 +57,8 @@ public class Testing {
         }
       }
     }
-    run(dates.get(3));
-    //    dates.stream().forEach(Testing::run);
+//    run(dates.get(3));
+        dates.stream().forEach(Testing::run);
   }
 
   private static void run(int[] date) {
