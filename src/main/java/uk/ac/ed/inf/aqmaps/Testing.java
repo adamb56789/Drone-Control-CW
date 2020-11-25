@@ -3,7 +3,7 @@ package uk.ac.ed.inf.aqmaps;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.io.Server;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
-import uk.ac.ed.inf.aqmaps.pathfinding.DroneNavigation;
+import uk.ac.ed.inf.aqmaps.pathfinding.FlightPlanCreator;
 import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleEvader;
 import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
 import uk.ac.ed.inf.aqmaps.pathfinding.SensorGraph;
@@ -57,23 +57,26 @@ public class Testing {
         }
       }
     }
-//    run(dates.get(3));
-        dates.stream().forEach(Testing::run);
+    double before = System.currentTimeMillis();
+    dates.parallelStream().forEach(Testing::run);
+    System.out.println(results.stream().map(Collection::size).collect(Collectors.toList()));
+    System.out.println(results.stream().map(Collection::size).reduce(0, Integer::sum) * 1.0 / results.size());
+    System.out.println(System.currentTimeMillis() - before);
   }
 
   private static void run(int[] date) {
-    System.out.println(Arrays.toString(date));
+    //    System.out.println(Arrays.toString(date));
     var input = new ServerInputController(getFakeServer(), date[0], date[1], date[2], 80);
     var obstacles = new Obstacles(input.getNoFlyZones());
     var obstacleEvader = new ObstacleEvader(obstacles);
     var sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleEvader, 0);
     var tour = sensorGraph.getTour(new Coords(-3.186918944120407, 55.944958385847485));
-    var droneNavigation = new DroneNavigation(obstacles, input.getSensorLocations());
+    var droneNavigation = new FlightPlanCreator(obstacles, input.getSensorLocations());
     var flightPlan = droneNavigation.createFlightPlan(tour);
     var r = new Results(input.getSensorLocations());
     r.recordFlightpath(flightPlan);
 
     results.add(flightPlan);
-    System.out.println(r.getMapGeoJSON());
+    //    System.out.println(r.getMapGeoJSON());
   }
 }

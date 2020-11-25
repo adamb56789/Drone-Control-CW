@@ -24,18 +24,29 @@ public class WaypointNavigation {
 
   /**
    * Find a sequence of moves that navigates the drone from the current location along the waypoints
+   *
    * @param currentPosition the current position of the drone
    * @return a list of Moves
    */
   public List<Move> navigateToLocation(Coords currentPosition) {
     int maximumMovesUntilTimeout = 0;
     for (int i = 0; i < waypoints.size() - 1; i++) {
-      maximumMovesUntilTimeout += 2 + (int) (waypoints.get(i).distance(waypoints.get(i + 1)) / MOVE_LENGTH);
+      // Divide the distance by the length of a move and round up
+      maximumMovesUntilTimeout += (int) ((waypoints.get(i).distance(waypoints.get(i + 1)) / MOVE_LENGTH) + 1);
     }
-    return tryMove(currentPosition, 1, maximumMovesUntilTimeout);
+
+    maximumMovesUntilTimeout++; // Add an extra for safety
+
+    List<Move> outputMoves;
+    do {
+      outputMoves = tryMove(currentPosition, 1, maximumMovesUntilTimeout++);
+    } while (outputMoves == null);
+
+    return outputMoves;
   }
 
-  private List<Move> tryMove(Coords currentPosition, int currentWaypointNumber, int movesTilTimeout) {
+  private List<Move> tryMove(
+      Coords currentPosition, int currentWaypointNumber, int movesTilTimeout) {
     log(currentWaypointNumber + " " + currentPosition + " " + movesTilTimeout);
 
     // This flightpath is invalid if we timeout from taking too many moves
@@ -71,8 +82,9 @@ public class WaypointNavigation {
           && !obstacles.collidesWith(afterPosition, waypoints.get(currentWaypointNumber + 1))) {
         log("Rounded corner");
 
+        // Don't bother recursing again if it will timeout and return null here instead (efficiency)
         if (movesTilTimeout == 1) {
-          break;
+          return null;
         }
 
         var returnValue = tryMove(afterPosition, ++currentWaypointNumber, movesTilTimeout - 1);
@@ -96,8 +108,9 @@ public class WaypointNavigation {
         return returnList;
       }
 
+      // Don't bother recursing again if it will timeout and return null here instead (efficiency)
       if (movesTilTimeout == 1) {
-        break;
+        return null;
       }
 
       // If the move has not reached a waypoint or the target, and does not collide, then keep going
@@ -106,7 +119,8 @@ public class WaypointNavigation {
 
       if (returnValue == null) {
         // If we get a null that means it got stuck later on, so try a different offset
-        //noinspection UnnecessaryContinue (continue is technically unnessary but keeping it for readability)
+        // (continue is technically unnecessary but keeping it for readability)
+        // noinspection UnnecessaryContinue
         continue;
       } else {
         returnValue.add(new Move(currentPosition, afterPosition, direction, null));
@@ -138,6 +152,6 @@ public class WaypointNavigation {
   }
 
   private void log(Object o) {
-//    System.out.println(o);
+    //    System.out.println(o);
   }
 }
