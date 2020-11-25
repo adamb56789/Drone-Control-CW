@@ -44,4 +44,8 @@ public class Move {
   public Coords getAfter() {
     return after;
   }
+
+  public int getDirection() {
+    return direction;
+  }
 }

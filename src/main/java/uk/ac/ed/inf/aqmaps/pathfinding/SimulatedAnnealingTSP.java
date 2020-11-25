@@ -55,7 +55,6 @@ public class SimulatedAnnealingTSP<V, E> extends HamiltonianCycleAlgorithmBase<V
 //      }
     }
 //    System.out.println(getLength());
-    Testing.numbers.add(getLength() / INT);
     return vertexListToPath(tourVList);
   }
 

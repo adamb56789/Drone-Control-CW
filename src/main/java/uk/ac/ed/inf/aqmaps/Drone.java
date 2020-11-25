@@ -21,9 +21,10 @@ public class Drone {
 
   /** Start the drone and perform route planning and data collection for the given settings. */
   public void start() {
-    var obstacleEvader = new ObstacleEvader(new Obstacles(input.getNoFlyZones()));
+    var obstacles = new Obstacles(input.getNoFlyZones());
+    var obstacleEvader = new ObstacleEvader(obstacles);
     var sensorLocations = input.getSensorLocations();
-    var droneNavigation = new DroneNavigation(sensorLocations);
+    var droneNavigation = new DroneNavigation(obstacles, sensorLocations);
 
     var sensorGraph =
         new SensorGraph(sensorLocations, obstacleEvader, settings.getRandomSeed());
