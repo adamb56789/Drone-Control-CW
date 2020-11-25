@@ -3,7 +3,7 @@
  import uk.ac.ed.inf.aqmaps.geometry.Coords;
  import uk.ac.ed.inf.aqmaps.io.Server;
  import uk.ac.ed.inf.aqmaps.io.ServerInputController;
- import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleGraph;
+ import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleEvader;
  import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
  import uk.ac.ed.inf.aqmaps.pathfinding.SensorGraph;
 
@@ -133,33 +133,33 @@
 //    System.out.printf("Real time: %d ms%n", endTime - startTime);
   }
 
-  private static void run(int[] date) {
-    long startTime = System.nanoTime();
-    var input = new ServerInputController(getFakeServer(), date[0], date[1], date[2], 80);
-    long endTime = System.nanoTime();
-    loadingTimes.add(endTime - startTime);
-    var obstacles = new Obstacles(input.getNoFlyZones());
-    var obstacleGraph = new ObstacleGraph(obstacles);
-    var sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleGraph, 0);
-    var path = sensorGraph.getTour(new Coords(-3.186918944120407, 55.944958385847485));
-    var superList = new ArrayList<List<Coords>>();
-    int n = 0;
-    for (int i = 0; i < path.size(); i++) {
-      if (obstacles.collidesWith(path.get(i), path.get((i + 1) % path.size()))) {
-        n++;
-      }
-    }
-    counters.add(n);
-    if (n == 5) {
-
-      for (int i = 0; i < path.size(); i++) {
-        superList.add(
-            obstacleGraph.getShortestPathPoints(path.get(i), path.get((i + 1) % path.size())));
-      }
-      //    System.out.println(path);
-//      System.out.println(
-//          superList.stream().flatMap(Collection::stream).collect(Collectors.toList()));
-    }
-    times.add(System.nanoTime() - startTime);
-  }
+//  private static void run(int[] date) {
+//    long startTime = System.nanoTime();
+//    var input = new ServerInputController(getFakeServer(), date[0], date[1], date[2], 80);
+//    long endTime = System.nanoTime();
+//    loadingTimes.add(endTime - startTime);
+//    var obstacles = new Obstacles(input.getNoFlyZones());
+//    var obstacleGraph = new ObstacleEvader(obstacles);
+//    var sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleGraph, 0);
+//    var path = sensorGraph.getTour(new Coords(-3.186918944120407, 55.944958385847485));
+//    var superList = new ArrayList<List<Coords>>();
+//    int n = 0;
+//    for (int i = 0; i < path.size(); i++) {
+//      if (obstacles.collidesWith(path.get(i), path.get((i + 1) % path.size()))) {
+//        n++;
+//      }
+//    }
+//    counters.add(n);
+//    if (n == 5) {
+//
+//      for (int i = 0; i < path.size(); i++) {
+//        superList.add(
+//            obstacleGraph.getShortestPathPoints(path.get(i), path.get((i + 1) % path.size())));
+//      }
+//      //    System.out.println(path);
+////      System.out.println(
+////          superList.stream().flatMap(Collection::stream).collect(Collectors.toList()));
+//    }
+////    times.add(System.nanoTime() - startTime);
+//  }
  }

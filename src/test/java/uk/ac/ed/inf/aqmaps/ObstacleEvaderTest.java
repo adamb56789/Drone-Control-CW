@@ -4,14 +4,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
-import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleGraph;
+import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleEvader;
 import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
 
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 
-public class ObstacleGraphTest {
+public class ObstacleEvaderTest {
   private static Stream<Arguments> provideArguments() {
     return Stream.of(
         Arguments.of("Middle of nowhere path", TestPaths.MIDDLE_OF_NOWHERE),
@@ -28,7 +28,7 @@ public class ObstacleGraphTest {
   void shortestPathLengthCorrect(String description, TestPath path) {
     var testServer = ServerInputControllerTest.getFakeServer();
     var input = new ServerInputController(testServer, 1, 1, 2020, 80);
-    var obstacleGraph = new ObstacleGraph(new Obstacles(input.getNoFlyZones()));
+    var obstacleGraph = new ObstacleEvader(new Obstacles(input.getNoFlyZones()));
 
     assertEquals(
         description,

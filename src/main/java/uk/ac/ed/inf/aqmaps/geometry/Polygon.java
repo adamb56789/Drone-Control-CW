@@ -94,11 +94,11 @@ public class Polygon {
       double bisectingAngle = (angle1 + angle2) / 2;
 
       // Create a new point a small distance away in the direction of the bisector
-      var newPoint = currentPoint.getPositionAfterMove(bisectingAngle, OUTLINE_MARGIN);
+      var newPoint = currentPoint.getPositionAfterMoveRadians(bisectingAngle, OUTLINE_MARGIN);
 
       // If the new point is inside the polygon then put it in the opposite direction
       if (this.contains(newPoint)) {
-        newPoint = currentPoint.getPositionAfterMove(bisectingAngle + Math.PI, OUTLINE_MARGIN);
+        newPoint = currentPoint.getPositionAfterMoveRadians(bisectingAngle + Math.PI, OUTLINE_MARGIN);
       }
 
       newPoints.add(newPoint);

@@ -24,6 +24,11 @@ public class Coords extends Point2D.Double {
     return new Coords(p.longitude(), p.latitude());
   }
 
+  /** Create an exact copy of the Coords */
+  public Coords copy() {
+    return new Coords(x, y);
+  }
+
   /**
    * Calculates the angle of the line between this point and the point p with respect to the
    * horizontal, where east is 0, north is pi/2, south is -pi/2, west is pi
@@ -37,14 +42,26 @@ public class Coords extends Point2D.Double {
 
   /**
    * Creates a new Coords which is the result of moving from the current location at the specified
-   * angle for the specified length.
+   * angle for the specified length. Angle in degrees version.
    *
-   * @param angle the direction of the move as an angle in degrees
+   * @param degrees the direction of the move as an angle in degrees
    * @param length the length of the move
    * @return a Coords containing the calculated point
    */
-  public Coords getPositionAfterMove(double angle, double length) {
-    return new Coords(x + length * Math.cos(angle), y + length * Math.sin(angle));
+  public Coords getPositionAfterMoveDegrees(double degrees, double length) {
+    return getPositionAfterMoveRadians(Math.toRadians(degrees), length);
+  }
+
+  /**
+   * Creates a new Coords which is the result of moving from the current location at the specified
+   * angle for the specified length. Angle in radians version.
+   *
+   * @param radians the direction of the move as an angle in radians
+   * @param length the length of the move
+   * @return a Coords containing the calculated point
+   */
+  public Coords getPositionAfterMoveRadians(double radians, double length) {
+    return new Coords(x + length * Math.cos(radians), y + length * Math.sin(radians));
   }
 
   @Override

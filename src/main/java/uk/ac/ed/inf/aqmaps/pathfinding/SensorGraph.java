@@ -31,7 +31,7 @@ public class SensorGraph {
   /** We keep a separate list of vertices to make scanning through all vertices faster */
   private final List<Coords> vertices;
 
-  private final ObstacleGraph obstacleGraph;
+  private final ObstacleEvader obstacleEvader;
   private final long randomSeed;
 
   /**
@@ -39,11 +39,11 @@ public class SensorGraph {
    * Computes the shortest distance between every pair of points and adds them as an edge.
    *
    * @param sensorLocations a list of W3W with the locations of the sensors
-   * @param obstacleGraph the obstacle graph
+   * @param obstacleEvader the obstacle graph
    * @param randomSeed the random seed to use for the graph algorithms
    */
-  public SensorGraph(List<W3W> sensorLocations, ObstacleGraph obstacleGraph, long randomSeed) {
-    this.obstacleGraph = obstacleGraph;
+  public SensorGraph(List<W3W> sensorLocations, ObstacleEvader obstacleEvader, long randomSeed) {
+    this.obstacleEvader = obstacleEvader;
     this.randomSeed = randomSeed;
     graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
     vertices = new ArrayList<>();
@@ -64,11 +64,14 @@ public class SensorGraph {
   /**
    * Computes a tour which visits all sensors and returns to the starting point.
    *
-   * @param start a Point2D containing the starting point of the tour, which is separate from the
+   * @param start a Coords containing the starting point of the tour, which is separate from the
    *     sensors
-   * @return a list of points specifying the tour
+   * @return a tour represented as a list of lists of Coords specifying the path from each point to
+   *     the next. Each list starts with the starting sensor, ends with the ending sensor, and may
+   *     contain additional waypoints for navigating around obstacles. The starting and ending point
+   *     of the entire tour is not a sensor, it is the drone starting position.
    */
-  public List<Coords> getTour(Coords start) {
+  public List<List<Coords>> getTour(Coords start) {
     // Add the start point and all possible edges to and from
     addVertex(start);
     for (var vertex : vertices) {
@@ -90,7 +93,13 @@ public class SensorGraph {
     // Rotate the list backwards so the starting position is at the front
     Collections.rotate(vertexList, -vertexList.indexOf(start));
     vertexList.add(vertexList.get(0)); // Put the starting position as the ending position as well
-    return vertexList;
+
+    // Construct the tour by getting the waypoints from each sensor to the next
+    var tour = new ArrayList<List<Coords>>();
+    for (int i = 0; i < vertexList.size() - 1; i++) {
+      tour.add(obstacleEvader.getShortestPathPoints(vertexList.get(i), vertexList.get(i + 1)));
+    }
+    return tour;
   }
 
   private void addVertex(Coords vertex) {
@@ -105,6 +114,8 @@ public class SensorGraph {
 
   private void addEdge(Coords start, Coords end) {
     DefaultWeightedEdge e = graph.addEdge(start, end);
-    graph.setEdgeWeight(e, obstacleGraph.getShortestPathLength(start, end));
+    // Calculate the length of the shortest path between the two points, including diversions to
+    // avoid obstacles
+    graph.setEdgeWeight(e, obstacleEvader.getShortestPathLength(start, end));
   }
 }

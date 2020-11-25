@@ -34,7 +34,7 @@ public class CoordsTest {
   void getPositionAfterMoveCorrect(String description, double x, double y, double angle) {
     var p1 = new Coords(1, 1);
     var expectedP = new Coords(x, y);
-    var actualP = p1.getPositionAfterMove(Math.toRadians(angle), 2);
+    var actualP = p1.getPositionAfterMoveRadians(Math.toRadians(angle), 2);
 
     assertEquals(description, expectedP.x, actualP.x, 0.00000000001);
     assertEquals(description, expectedP.y, actualP.y, 0.00000000001);

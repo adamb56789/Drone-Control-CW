@@ -2,7 +2,8 @@ package uk.ac.ed.inf.aqmaps;
 
 import uk.ac.ed.inf.aqmaps.io.InputController;
 import uk.ac.ed.inf.aqmaps.io.OutputController;
-import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleGraph;
+import uk.ac.ed.inf.aqmaps.pathfinding.DroneNavigation;
+import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleEvader;
 import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
 import uk.ac.ed.inf.aqmaps.pathfinding.SensorGraph;
 
@@ -20,9 +21,20 @@ public class Drone {
 
   /** Start the drone and perform route planning and data collection for the given settings. */
   public void start() {
-    var obstacleGraph = new ObstacleGraph(new Obstacles(input.getNoFlyZones()));
+    var obstacleEvader = new ObstacleEvader(new Obstacles(input.getNoFlyZones()));
+    var sensorLocations = input.getSensorLocations();
+    var droneNavigation = new DroneNavigation(sensorLocations);
+
     var sensorGraph =
-        new SensorGraph(input.getSensorLocations(), obstacleGraph, settings.getRandomSeed());
-    var path = sensorGraph.getTour(settings.getStartCoords());
+        new SensorGraph(sensorLocations, obstacleEvader, settings.getRandomSeed());
+
+    var tour = sensorGraph.getTour(settings.getStartCoords());
+
+    var results = new Results(sensorLocations);
+    results.recordFlightpath(droneNavigation.createFlightPlan(tour));
+
+    System.out.println(results.getMapGeoJSON());
   }
+
+
 }

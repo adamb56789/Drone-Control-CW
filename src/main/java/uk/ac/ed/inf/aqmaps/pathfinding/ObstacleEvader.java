@@ -14,7 +14,7 @@ import java.util.List;
  * vertices corresponding to every point of the obstacle polygons, and edges wherever there is line
  * of sight.
  */
-public class ObstacleGraph {
+public class ObstacleEvader {
   private final SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
   private final Obstacles obstacles;
 
@@ -27,7 +27,7 @@ public class ObstacleGraph {
    *
    * @param obstacles the Obstacles
    */
-  public ObstacleGraph(Obstacles obstacles) {
+  public ObstacleEvader(Obstacles obstacles) {
     this.obstacles = obstacles;
     graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
     vertices = new ArrayList<>();

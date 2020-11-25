@@ -9,7 +9,7 @@ import uk.ac.ed.inf.aqmaps.io.ServerInputController;
  */
 public class AQMaps {
 
-  static final String[] TEST_ARGS = {"1", "1", "2020", "55.9444", "-3.1878", "0", "80"};
+  static final String[] TEST_ARGS = {"1", "1", "2020", "55.9443786", "-3.1863972", "0", "80"};
 
   /**
    * Does stuff
