@@ -91,15 +91,15 @@ public class Polygon {
       // Calculate the bisecting angle between the current point and its adjacent points
       double angle1 = currentPoint.angleTo(prevPoint);
       double angle2 = currentPoint.angleTo(nextPoint);
-      double bisectingAngle = (angle1 + angle2) / 2;
+      double bisector = (angle1 + angle2) / 2;
 
       // Create a new point a small distance away in the direction of the bisector
-      var newPoint = currentPoint.getPositionAfterMoveRadians(bisectingAngle, OUTLINE_MARGIN);
+      var newPoint = currentPoint.getPositionAfterMoveRadians(bisector, OUTLINE_MARGIN);
 
       // If the new point is inside the polygon then put it in the opposite direction
       if (this.contains(newPoint)) {
         newPoint =
-            currentPoint.getPositionAfterMoveRadians(bisectingAngle + Math.PI, OUTLINE_MARGIN);
+            currentPoint.getPositionAfterMoveRadians(bisector + Math.PI, OUTLINE_MARGIN);
       }
 
       newPoints.add(newPoint);
