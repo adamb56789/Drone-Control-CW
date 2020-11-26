@@ -30,6 +30,7 @@ public class ServerInputControllerTest {
         try {
           data = Files.readString(Path.of(path));
         } catch (IOException e) {
+          System.out.println("Path to test data incorrect or other input error");
           e.printStackTrace();
         }
 
