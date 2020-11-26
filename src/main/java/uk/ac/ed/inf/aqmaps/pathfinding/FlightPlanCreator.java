@@ -26,11 +26,15 @@ public class FlightPlanCreator {
       var waypoints = tour.get(i);
       var waypointNavigation = new WaypointNavigation(obstacles, waypoints, i == tour.size() - 1);
 
-      // This list is in reverse order because the algorithm builds it up starting at the end
       var movesToLocation = waypointNavigation.navigateToLocation(currentPosition);
 
-      currentPosition = movesToLocation.get(0).getAfter();
-      Collections.reverse(movesToLocation);
+      if (movesToLocation == null) {
+        // In case there is no valid flightpath, we give up here
+        System.out.println("Gave up searching for path");
+        return moves;
+      }
+
+      currentPosition = movesToLocation.get(movesToLocation.size() - 1).getAfter();
       moves.addAll(movesToLocation);
     }
     log(moves.size());
