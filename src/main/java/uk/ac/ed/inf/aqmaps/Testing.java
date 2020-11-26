@@ -63,6 +63,7 @@ public class Testing {
     thread.start();
     //    runOnce();
     dates.parallelStream().forEach(Testing::run);
+    //noinspection deprecation
     thread.stop();
     System.out.println(results.stream().map(Collection::size).collect(Collectors.toList()));
     System.out.println(times);
@@ -113,6 +114,7 @@ public class Testing {
       double start = System.nanoTime();
       var flightPlan = droneNavigation.createFlightPlan(tour);
       times.add((System.nanoTime() - start) / 1000000);
+      //noinspection deprecation
       thread.stop();
 
       var res = new Results(input.getSensorLocations());

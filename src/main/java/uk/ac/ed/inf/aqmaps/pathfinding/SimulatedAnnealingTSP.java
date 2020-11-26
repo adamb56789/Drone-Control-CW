@@ -108,7 +108,6 @@ public class SimulatedAnnealingTSP<V, E> extends HamiltonianCycleAlgorithmBase<V
       tourWeight += graph.getEdgeWeight(e);
     }
 
-    return new GraphWalk<V, E>(
-        graph, tour.get(0), tour.get(tour.size() - 1), tour, edges, tourWeight);
+    return new GraphWalk<>(graph, tour.get(0), tour.get(tour.size() - 1), tour, edges, tourWeight);
   }
 }
