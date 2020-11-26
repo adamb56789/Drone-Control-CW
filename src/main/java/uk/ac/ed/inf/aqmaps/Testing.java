@@ -86,14 +86,14 @@ public class Testing {
       var input = new ServerInputController(getFakeServer(), date[0], date[1], date[2], 80);
       var obstacles = new Obstacles(input.getNoFlyZones());
       var startingLocation = new Coords(randomLng, randomLat);
-      if (obstacles.pointInsideObstacle(startingLocation)) {
+      if (obstacles.pointInObstacle(startingLocation)) {
         continue;
       }
       var obstacleEvader = new ObstacleEvader(obstacles);
       var sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleEvader, 0);
       //      var tour = sensorGraph.getTour(new Coords(-3.186918944120407, 55.944958385847485));
       var tour = sensorGraph.getTour(startingLocation);
-      var droneNavigation = new FlightPlanner(obstacles, input.getSensorLocations());
+      var droneNavigation = new FlightPlanner(obstacles, obstacleEvader, input.getSensorLocations());
       int finalI = i;
       Thread thread =
           new Thread(
@@ -132,7 +132,7 @@ public class Testing {
     var sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleEvader, 0);
     //      var tour = sensorGraph.getTour(new Coords(-3.186918944120407, 55.944958385847485));
     var tour = sensorGraph.getTour(startingLocation);
-    var droneNavigation = new FlightPlanner(obstacles, input.getSensorLocations());
+    var droneNavigation = new FlightPlanner(obstacles, obstacleEvader, input.getSensorLocations());
     var flightPlan = droneNavigation.createFlightPlan(tour);
 
     var res = new Results(input.getSensorLocations());

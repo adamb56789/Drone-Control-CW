@@ -15,8 +15,9 @@ import static org.junit.Assert.*;
 @SuppressWarnings("SameParameterValue")
 public class FlightPlannerTest {
   // If testing takes too long, decrease these values.
-  public static final int DAYS_TO_TEST = 100; // Maximum is 731
-  public static final int STARTING_POINTS_TO_TRY = 10;
+  public static final int DAYS_TO_TEST = 20; // Maximum is 731
+  public static final int STARTING_POINTS_TO_TRY = 30;
+  public static int counter;
 
   private final Obstacles obstacles =
       new Obstacles(
@@ -57,7 +58,7 @@ public class FlightPlannerTest {
   private List<List<Move>> getFlightPlans() {
     // For each of the dates, get the flight plans for a number of starting locations
     return getDates(DAYS_TO_TEST)
-        .parallelStream() // This is slow so using a parallelStream makes the test go faster
+        .stream() // This is slow so using a parallelStream makes the test go faster
         .map(date -> runFlightPlansOnDate(date, STARTING_POINTS_TO_TRY))
         .flatMap(List::stream)
         .collect(Collectors.toList());
@@ -115,18 +116,19 @@ public class FlightPlannerTest {
       var startingLocation = new Coords(randomLng, randomLat);
 
       // Check that the starting location is not inside an obstacle
-      if (obstacles.pointInsideObstacle(startingLocation)) {
+      if (obstacles.pointInObstacle(startingLocation)) {
         continue;
       }
 
       // Create the sensor graph and compute the tour
+      var obstacleEvader = new ObstacleEvader(obstacles);
       var tour =
-          (new SensorGraph(input.getSensorLocations(), new ObstacleEvader(obstacles), 0))
+          (new SensorGraph(input.getSensorLocations(), obstacleEvader, 0))
               .getTour(startingLocation);
 
       // Compute the flight plan
       outputFlightPlans.add(
-          (new FlightPlanner(obstacles, input.getSensorLocations())).createFlightPlan(tour));
+          (new FlightPlanner(obstacles, obstacleEvader, input.getSensorLocations())).createFlightPlan(tour));
     }
     return outputFlightPlans;
   }

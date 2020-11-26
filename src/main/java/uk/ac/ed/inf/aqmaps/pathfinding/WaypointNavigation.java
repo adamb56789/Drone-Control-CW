@@ -9,9 +9,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class WaypointNavigation {
-  private static final double MOVE_LENGTH = 0.0003;
-  private static final double SENSOR_RANGE = 0.0002;
-  private static final double END_POSITION_RANGE = 0.0002;
+  public static final double MOVE_LENGTH = 0.0003;
+  public static final double SENSOR_RANGE = 0.0002;
+  public static final double END_POSITION_RANGE = 0.0002;
   private final Obstacles obstacles;
   private final List<Coords> waypoints;
   private final Coords targetLocation;
@@ -109,10 +109,10 @@ public class WaypointNavigation {
         }
       }
 
-      // Check if the move puts it in range of the target.
+      // Check if the move puts it in range of the target sensor.
       // If our target is the end position then we use a different range.
-      if (targetIsEnd && afterPosition.distance(targetLocation) < END_POSITION_RANGE
-          || afterPosition.distance(targetLocation) < SENSOR_RANGE) {
+      if (!targetIsEnd && afterPosition.distance(targetSensorW3W.getCoordinates()) < SENSOR_RANGE
+          || afterPosition.distance(targetLocation) < END_POSITION_RANGE) {
         // Create a list with just this final move, including the sensor we just reached, and return
         // it up the stack
         var returnList = new ArrayList<Move>();

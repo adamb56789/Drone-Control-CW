@@ -66,8 +66,16 @@ public class Obstacles {
         .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y));
   }
 
-  public boolean pointInsideObstacle(Coords coords) {
-    return outlinePolygons.stream().anyMatch(p -> p.contains(coords));
+  //TODO write tests for this
+  /**
+   * Determine whether the given point is inside an obstacle, or outside the confinement area.
+   *
+   * @param coords the point
+   * @return true if there is a collision, false otherwise
+   */
+  public boolean pointInObstacle(Coords coords) {
+    return !ConfinementArea.isInConfinement(coords)
+        || outlinePolygons.stream().anyMatch(p -> p.contains(coords));
   }
 
   /** @return a list of all of the points that make up the obstacle polygons */
