@@ -14,6 +14,10 @@ import static org.junit.Assert.*;
 
 @SuppressWarnings("SameParameterValue")
 public class FlightPlannerTest {
+  // If testing takes too long, decrease these values.
+  public static final int DAYS_TO_TEST = 100; // Maximum is 731
+  public static final int STARTING_POINTS_TO_TRY = 10;
+
   private final Obstacles obstacles =
       new Obstacles(
           (new ServerInputController(ServerInputControllerTest.getFakeServer(), 1, 1, 2020, 80))
@@ -21,9 +25,12 @@ public class FlightPlannerTest {
 
   @Test
   public void flightPlanCorrect() {
-    // All of the tests are done in one function since it takes a long time to generate the flight
-    // plans
-    for (var flightPlan : getFlightPlans()) {
+    // All tests are done at once since it takes a long time to generate this many flight plans
+    // Calculate average move length while we're at it
+    double flightPathLengths = 0;
+    var flightPlans = getFlightPlans();
+    for (var flightPlan : flightPlans) {
+      flightPathLengths += flightPlan.size();
       assertTrue("Flight plan should be no more than 150 moves", flightPlan.size() <= 150);
       var sensorCount = 0;
       for (var move : flightPlan) {
@@ -41,17 +48,17 @@ public class FlightPlannerTest {
         if (move.getSensor() != null) {
           sensorCount++;
         }
-
-        assertEquals(33, sensorCount);
       }
+      assertEquals("The flight plan should contain all of the sensors", 33, sensorCount);
     }
+    System.out.printf("Average length: %.3f moves%n", flightPathLengths / flightPlans.size());
   }
 
   private List<List<Move>> getFlightPlans() {
     // For each of the dates, get the flight plans for a number of starting locations
-    return getDates(100)
+    return getDates(DAYS_TO_TEST)
         .parallelStream() // This is slow so using a parallelStream makes the test go faster
-        .map(date -> runFlightPlansOnDate(date, 10))
+        .map(date -> runFlightPlansOnDate(date, STARTING_POINTS_TO_TRY))
         .flatMap(List::stream)
         .collect(Collectors.toList());
   }

@@ -16,12 +16,14 @@ public class WaypointNavigation {
   private final List<Coords> waypoints;
   private final Coords targetLocation;
   private final boolean targetIsEnd;
+  private final W3W targetSensorW3W;
 
-  public WaypointNavigation(Obstacles obstacles, List<Coords> waypoints, W3W targetSensor) {
+  public WaypointNavigation(Obstacles obstacles, List<Coords> waypoints, W3W targetSensorW3W) {
     this.obstacles = obstacles;
     this.waypoints = waypoints;
     this.targetLocation = waypoints.get(waypoints.size() - 1);
-    this.targetIsEnd = targetSensor == null;
+    this.targetIsEnd = targetSensorW3W == null;
+    this.targetSensorW3W = targetSensorW3W;
   }
 
   /**
@@ -118,9 +120,10 @@ public class WaypointNavigation {
       if (targetIsEnd && afterPosition.distance(targetLocation) < END_POSITION_RANGE
           || afterPosition.distance(targetLocation) < SENSOR_RANGE) {
         log("Reached target");
-        // Create a list with just this final move and return it up the stack
+        // Create a list with just this final move, including the sensor we just reached, and return
+        // it up the stack
         var returnList = new ArrayList<Move>();
-        returnList.add(new Move(currentPosition, afterPosition, direction, null));
+        returnList.add(new Move(currentPosition, afterPosition, direction, targetSensorW3W));
         return returnList;
       }
 
