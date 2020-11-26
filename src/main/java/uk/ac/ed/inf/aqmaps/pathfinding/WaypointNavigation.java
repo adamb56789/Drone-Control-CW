@@ -161,8 +161,8 @@ public class WaypointNavigation {
     // If the angle is negative, rotate it around one revolution so that it no longer is
     if (degrees < 0) {
       degrees += 360;
-    } else if (degrees == 360) {
-      degrees = 0;
+    } else if (degrees > 350) {
+      degrees -= 360;
     }
     return degrees;
   }
