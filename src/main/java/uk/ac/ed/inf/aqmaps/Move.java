@@ -48,4 +48,8 @@ public class Move {
   public int getDirection() {
     return direction;
   }
+
+  public W3W getSensor() {
+    return sensor;
+  }
 }
