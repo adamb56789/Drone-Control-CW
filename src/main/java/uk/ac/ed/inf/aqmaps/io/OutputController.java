@@ -14,7 +14,8 @@ public interface OutputController {
   void outputFlightpath(String flightpathText);
 
   /**
-   * Outputs the GeoJSON map containing the flightpath and the sensor readings collected by the drone
+   * Outputs the GeoJSON map containing the flightpath and the sensor readings collected by the
+   * drone
    *
    * @param json the GeoJSON String
    */

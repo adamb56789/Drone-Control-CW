@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-/**
- * Outputs to the current directory of the filesystem
- */
+/** Outputs to the current directory of the filesystem */
 public class FileOutputController implements OutputController {
   private final Settings settings;
 

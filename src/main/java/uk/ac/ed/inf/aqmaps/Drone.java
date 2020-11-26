@@ -26,8 +26,7 @@ public class Drone {
     var sensorLocations = input.getSensorLocations();
     var droneNavigation = new FlightPlanner(obstacles, sensorLocations);
 
-    var sensorGraph =
-        new SensorGraph(sensorLocations, obstacleEvader, settings.getRandomSeed());
+    var sensorGraph = new SensorGraph(sensorLocations, obstacleEvader, settings.getRandomSeed());
 
     var tour = sensorGraph.getTour(settings.getStartCoords());
 
@@ -36,6 +35,4 @@ public class Drone {
 
     System.out.println(results.getMapGeoJSON());
   }
-
-
 }

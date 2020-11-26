@@ -5,9 +5,11 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.tour.HamiltonianCycleAlgorithmBase;
 import org.jgrapht.alg.tour.RandomTourTSP;
 import org.jgrapht.graph.GraphWalk;
-import uk.ac.ed.inf.aqmaps.Testing;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 public class SimulatedAnnealingTSP<V, E> extends HamiltonianCycleAlgorithmBase<V, E> {
   public static final int INT = 10000;
@@ -37,7 +39,7 @@ public class SimulatedAnnealingTSP<V, E> extends HamiltonianCycleAlgorithmBase<V
     tourVList.remove(0);
 
     double bestDistance = getLength();
-//    System.out.println("Initial distance of travel: " + bestDistance);
+    //    System.out.println("Initial distance of travel: " + bestDistance);
 
     for (int i = 0; i < numberOfIterations; i++) {
       if (t > 0.1) {
@@ -50,18 +52,19 @@ public class SimulatedAnnealingTSP<V, E> extends HamiltonianCycleAlgorithmBase<V
         }
         t *= coolingRate;
       }
-//      if (i % 1000 == 0) {
-//        System.out.println("Iteration #" + i);
-//      }
+      //      if (i % 1000 == 0) {
+      //        System.out.println("Iteration #" + i);
+      //      }
     }
-//    System.out.println(getLength());
+    //    System.out.println(getLength());
     return vertexListToPath(tourVList);
   }
 
   private double getLength() {
     double weight = 0;
     for (int i = 0; i < n; i++) {
-      weight += graph.getEdgeWeight(graph.getEdge(tourVList.get(i), tourVList.get((i + 1) % n))) * INT;
+      weight +=
+          graph.getEdgeWeight(graph.getEdge(tourVList.get(i), tourVList.get((i + 1) % n))) * INT;
     }
     return weight;
   }

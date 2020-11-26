@@ -59,12 +59,10 @@ public class WaypointNavigation {
 
   private List<Move> tryMove(
       Coords currentPosition, int currentWaypointNumber, int movesTilTimeout) {
-    log(currentWaypointNumber + " " + currentPosition + " " + movesTilTimeout);
-
     // This flightpath is invalid if we timeout from taking too many moves
     // This happens if it gets stuck in a loop not making any progress
+    // This happens rarely
     if (movesTilTimeout == 0) {
-      log("TIMEOUT");
       return null;
     }
 
@@ -79,8 +77,6 @@ public class WaypointNavigation {
           radiansToRoundedDegrees(currentPosition.angleTo(waypoints.get(currentWaypointNumber)));
       direction = formatAngle(direction + offset); // Apply the offset
 
-      log(direction);
-
       // Calculate the position at the end of the move
       var afterPosition = currentPosition.getPositionAfterMoveDegrees(direction, MOVE_LENGTH);
 
@@ -94,7 +90,6 @@ public class WaypointNavigation {
       // sight
       if (currentWaypointNumber < waypoints.size() - 1
           && !obstacles.collidesWith(afterPosition, waypoints.get(currentWaypointNumber + 1))) {
-        log("Rounded corner");
 
         // Don't bother recursing again if it will timeout and return null here instead (efficiency)
         if (movesTilTimeout == 1) {
@@ -116,10 +111,8 @@ public class WaypointNavigation {
 
       // Check if the move puts it in range of the target.
       // If our target is the end position then we use a different range.
-      log(afterPosition.distance(targetLocation));
       if (targetIsEnd && afterPosition.distance(targetLocation) < END_POSITION_RANGE
           || afterPosition.distance(targetLocation) < SENSOR_RANGE) {
-        log("Reached target");
         // Create a list with just this final move, including the sensor we just reached, and return
         // it up the stack
         var returnList = new ArrayList<Move>();
@@ -168,9 +161,5 @@ public class WaypointNavigation {
       degrees -= 360;
     }
     return degrees;
-  }
-
-  private void log(Object o) {
-    //    System.out.println(o);
   }
 }

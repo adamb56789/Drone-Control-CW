@@ -14,8 +14,8 @@ public class Move {
    * @param after the position of the drone after the move
    * @param direction the direction of the move in degrees, from 0 to 350 anticlockwise starting
    *     from east
-   * @param sensorW3W the location of the sensor visited by the drone at the end of this move, or null
-   *     if no sensor is visited
+   * @param sensorW3W the location of the sensor visited by the drone at the end of this move, or
+   *     null if no sensor is visited
    */
   public Move(Coords before, Coords after, int direction, W3W sensorW3W) {
     this.before = before;

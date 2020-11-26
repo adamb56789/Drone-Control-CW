@@ -61,7 +61,7 @@ public class Testing {
     double before = System.currentTimeMillis();
     var thread = logProgress();
     thread.start();
-//    runOnce();
+    //    runOnce();
     dates.parallelStream().forEach(Testing::run);
     thread.stop();
     System.out.println(results.stream().map(Collection::size).collect(Collectors.toList()));

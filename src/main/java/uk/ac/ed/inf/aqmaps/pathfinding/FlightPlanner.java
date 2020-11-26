@@ -4,8 +4,10 @@ import uk.ac.ed.inf.aqmaps.Move;
 import uk.ac.ed.inf.aqmaps.W3W;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FlightPlanner {
   private final Obstacles obstacles;
@@ -18,8 +20,6 @@ public class FlightPlanner {
   }
 
   public List<Move> createFlightPlan(List<List<Coords>> tour) {
-    log(tour.stream().flatMap(List::stream).collect(Collectors.toList()));
-
     var moves = new ArrayList<Move>();
     var currentPosition = tour.get(0).get(0); // The starting position is the very start of the tour
     for (int i = 0; i < tour.size(); i++) {
@@ -47,11 +47,6 @@ public class FlightPlanner {
       currentPosition = movesToLocation.get(movesToLocation.size() - 1).getAfter();
       moves.addAll(movesToLocation);
     }
-    log(moves.size());
     return moves;
-  }
-
-  private void log(Object o) {
-    //    System.out.println(o);
   }
 }

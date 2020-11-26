@@ -98,7 +98,8 @@ public class Polygon {
 
       // If the new point is inside the polygon then put it in the opposite direction
       if (this.contains(newPoint)) {
-        newPoint = currentPoint.getPositionAfterMoveRadians(bisectingAngle + Math.PI, OUTLINE_MARGIN);
+        newPoint =
+            currentPoint.getPositionAfterMoveRadians(bisectingAngle + Math.PI, OUTLINE_MARGIN);
       }
 
       newPoints.add(newPoint);
