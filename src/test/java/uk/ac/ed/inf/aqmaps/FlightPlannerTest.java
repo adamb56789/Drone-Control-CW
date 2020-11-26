@@ -16,8 +16,7 @@ import static org.junit.Assert.*;
 public class FlightPlannerTest {
   // If testing takes too long, decrease these values.
   public static final int DAYS_TO_TEST = 20; // Maximum is 731
-  public static final int STARTING_POINTS_TO_TRY = 30;
-  public static int counter;
+  public static final int STARTING_POINTS_TO_TRY = 10;
 
   private final Obstacles obstacles =
       new Obstacles(
@@ -32,21 +31,27 @@ public class FlightPlannerTest {
     var flightPlans = getFlightPlans();
     for (var flightPlan : flightPlans) {
       flightPathLengths += flightPlan.size();
-      assertTrue("Flight plan should be no more than 150 moves", flightPlan.size() <= 150);
+      assertTrue(
+          "Flight plan should be no more than 150 moves, was " + flightPlan.size(),
+          flightPlan.size() <= 150);
       var sensorCount = 0;
       for (var move : flightPlan) {
         assertFalse(
             "Flight plan should not collide with any obstacles",
             obstacles.collidesWith(move.getBefore(), move.getAfter()));
 
+        var inRange =
+            0 <= move.getDirection() && move.getDirection() <= 350 && move.getDirection() % 10 == 0;
         assertTrue(
             "All directions should be multiples of 10 degrees and in range [0,350]. Instead was "
                 + move.getDirection(),
-            0 <= move.getDirection()
-                && move.getDirection() <= 350
-                && move.getDirection() % 10 == 0);
+            inRange);
 
         if (move.getSensor() != null) {
+          var distanceToSensor = move.getSensor().getCoordinates().distance(move.getAfter());
+          assertTrue(
+              "The move should end within 0.0003 of a sensor, was " + distanceToSensor,
+              distanceToSensor < 0.0002);
           sensorCount++;
         }
       }
@@ -128,7 +133,8 @@ public class FlightPlannerTest {
 
       // Compute the flight plan
       outputFlightPlans.add(
-          (new FlightPlanner(obstacles, obstacleEvader, input.getSensorLocations())).createFlightPlan(tour));
+          (new FlightPlanner(obstacles, obstacleEvader, input.getSensorLocations()))
+              .createFlightPlan(tour));
     }
     return outputFlightPlans;
   }

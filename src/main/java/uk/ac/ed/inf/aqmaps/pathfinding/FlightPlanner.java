@@ -38,11 +38,7 @@ public class FlightPlanner {
       }
 
       // If we are on any but the last leg of the tour, attempt to optimize the target location to
-      // cut the corner. This is very effective, cutting the average move length by 8, with no
-      // measurable performance impact.
-      // Average move lengths in testing:
-      // Without this step: 84.6
-      // With this step: 76.6
+      // cut the corner. This
       if (i < tour.size() - 1) {
         var currentTarget = waypoints.get(waypoints.size() - 1);
 
@@ -55,9 +51,12 @@ public class FlightPlanner {
         double angle2 = currentTarget.angleTo(nextTarget);
         double bisector = (angle1 + angle2) / 2;
 
-        // Move the target 1 * (sensor range) in that direction to cut the corner
+        // Move the target 0.5 * (sensor range) in that direction to cut the corner. 0.5 was chosen
+        // as it performed the best in testing. 1.0 doesn't work because it will often miss the
+        // sensor range by a small amount and then go in circles for a bit.
         var newTarget =
-            currentTarget.getPositionAfterMoveRadians(bisector, WaypointNavigation.SENSOR_RANGE);
+            currentTarget.getPositionAfterMoveRadians(
+                bisector, WaypointNavigation.SENSOR_RANGE * 0.5);
 
         // Check the the new target is not inside an obstacle
         if (!obstacles.pointInObstacle(newTarget)) {

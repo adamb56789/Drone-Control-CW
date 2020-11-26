@@ -61,8 +61,8 @@ public class Testing {
     double before = System.currentTimeMillis();
     var thread = logProgress();
     thread.start();
-    //    runOnce();
-    dates.parallelStream().forEach(Testing::run);
+        runOnce();
+//    dates.parallelStream().forEach(Testing::run);
     //noinspection deprecation
     thread.stop();
     System.out.println(results.stream().map(Collection::size).collect(Collectors.toList()));
@@ -138,9 +138,9 @@ public class Testing {
     var res = new Results(input.getSensorLocations());
     res.recordFlightpath(flightPlan);
 
-    results.add(flightPlan);
     System.out.println(flightPlan.size());
     System.out.println(res.getMapGeoJSON());
+    System.out.println(flightPlan);
   }
 
   private static Thread logProgress() {
