@@ -2,7 +2,7 @@ package uk.ac.ed.inf.aqmaps;
 
 import uk.ac.ed.inf.aqmaps.io.InputController;
 import uk.ac.ed.inf.aqmaps.io.OutputController;
-import uk.ac.ed.inf.aqmaps.pathfinding.FlightPlanCreator;
+import uk.ac.ed.inf.aqmaps.pathfinding.FlightPlanner;
 import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleEvader;
 import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
 import uk.ac.ed.inf.aqmaps.pathfinding.SensorGraph;
@@ -24,7 +24,7 @@ public class Drone {
     var obstacles = new Obstacles(input.getNoFlyZones());
     var obstacleEvader = new ObstacleEvader(obstacles);
     var sensorLocations = input.getSensorLocations();
-    var droneNavigation = new FlightPlanCreator(obstacles, sensorLocations);
+    var droneNavigation = new FlightPlanner(obstacles, sensorLocations);
 
     var sensorGraph =
         new SensorGraph(sensorLocations, obstacleEvader, settings.getRandomSeed());

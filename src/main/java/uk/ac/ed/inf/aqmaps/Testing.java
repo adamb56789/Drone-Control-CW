@@ -92,7 +92,7 @@ public class Testing {
       var sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleEvader, 0);
       //      var tour = sensorGraph.getTour(new Coords(-3.186918944120407, 55.944958385847485));
       var tour = sensorGraph.getTour(startingLocation);
-      var droneNavigation = new FlightPlanCreator(obstacles, input.getSensorLocations());
+      var droneNavigation = new FlightPlanner(obstacles, input.getSensorLocations());
       int finalI = i;
       Thread thread =
           new Thread(
@@ -130,7 +130,7 @@ public class Testing {
     var sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleEvader, 0);
     //      var tour = sensorGraph.getTour(new Coords(-3.186918944120407, 55.944958385847485));
     var tour = sensorGraph.getTour(startingLocation);
-    var droneNavigation = new FlightPlanCreator(obstacles, input.getSensorLocations());
+    var droneNavigation = new FlightPlanner(obstacles, input.getSensorLocations());
     var flightPlan = droneNavigation.createFlightPlan(tour);
 
     var res = new Results(input.getSensorLocations());

@@ -7,11 +7,11 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FlightPlanCreator {
+public class FlightPlanner {
   private final Obstacles obstacles;
   private final Map<Coords, W3W> sensorCoordsW3WMap;
 
-  public FlightPlanCreator(Obstacles obstacles, List<W3W> sensorLocations) {
+  public FlightPlanner(Obstacles obstacles, List<W3W> sensorLocations) {
     this.obstacles = obstacles;
     sensorCoordsW3WMap = new HashMap<>();
     sensorLocations.forEach(w3w -> sensorCoordsW3WMap.put(w3w.getCoordinates(), w3w));
@@ -21,10 +21,20 @@ public class FlightPlanCreator {
     log(tour.stream().flatMap(List::stream).collect(Collectors.toList()));
 
     var moves = new ArrayList<Move>();
-    var currentPosition = tour.get(0).get(0);
+    var currentPosition = tour.get(0).get(0); // The starting position is the very start of the tour
     for (int i = 0; i < tour.size(); i++) {
       var waypoints = tour.get(i);
-      var waypointNavigation = new WaypointNavigation(obstacles, waypoints, i == tour.size() - 1);
+
+      W3W targetSensorOrNull;
+      // If we are on the last step the target position will not be a sensor, so send null instead.
+      if (i < tour.size() - 1) {
+        // The target sensor is the last element of this section of the tour
+        targetSensorOrNull = sensorCoordsW3WMap.get(waypoints.get(waypoints.size() - 1));
+      } else {
+        targetSensorOrNull = null;
+      }
+
+      var waypointNavigation = new WaypointNavigation(obstacles, waypoints, targetSensorOrNull);
 
       var movesToLocation = waypointNavigation.navigateToLocation(currentPosition);
 
@@ -42,6 +52,6 @@ public class FlightPlanCreator {
   }
 
   private void log(Object o) {
-//    System.out.println(o);
+    //    System.out.println(o);
   }
 }

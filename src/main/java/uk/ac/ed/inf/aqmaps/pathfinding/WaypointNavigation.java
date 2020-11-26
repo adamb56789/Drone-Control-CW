@@ -1,6 +1,7 @@
 package uk.ac.ed.inf.aqmaps.pathfinding;
 
 import uk.ac.ed.inf.aqmaps.Move;
+import uk.ac.ed.inf.aqmaps.W3W;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.ArrayList;
@@ -16,11 +17,11 @@ public class WaypointNavigation {
   private final Coords targetLocation;
   private final boolean targetIsEnd;
 
-  public WaypointNavigation(Obstacles obstacles, List<Coords> waypoints, boolean targetIsEnd) {
+  public WaypointNavigation(Obstacles obstacles, List<Coords> waypoints, W3W targetSensor) {
     this.obstacles = obstacles;
     this.waypoints = waypoints;
     this.targetLocation = waypoints.get(waypoints.size() - 1);
-    this.targetIsEnd = targetIsEnd;
+    this.targetIsEnd = targetSensor == null;
   }
 
   /**
