@@ -4,6 +4,7 @@ import uk.ac.ed.inf.aqmaps.Move;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class WaypointNavigation {
@@ -23,26 +24,34 @@ public class WaypointNavigation {
   }
 
   /**
-   * Find a sequence of moves that navigates the drone from the current location along the waypoints
+   * Find a sequence of moves that navigates the drone from the current location along the
+   * waypoints.
    *
    * @param currentPosition the current position of the drone
-   * @return a list of Moves
+   * @return a list of Moves, or null if there is no valid flightpath
    */
   public List<Move> navigateToLocation(Coords currentPosition) {
-    int maximumMovesUntilTimeout = 0;
-    for (int i = 0; i < waypoints.size() - 1; i++) {
-      // Divide the distance by the length of a move and round up
-      maximumMovesUntilTimeout += (int) ((waypoints.get(i).distance(waypoints.get(i + 1)) / MOVE_LENGTH) + 1);
+    var moves = tryMove(currentPosition, 1, predictMaxMoveLength(0));
+    if (moves == null) {
+      // This never occurred in testing, but if a flightpath can't be found, return null
+      return null;
     }
+    // This list is in reverse order because the algorithm builds it up starting at the end
+    Collections.reverse(moves);
+    return moves;
+  }
 
-    maximumMovesUntilTimeout++; // Add an extra for safety
-
-    List<Move> outputMoves;
-    do {
-      outputMoves = tryMove(currentPosition, 1, maximumMovesUntilTimeout++);
-    } while (outputMoves == null);
-
-    return outputMoves;
+  /**
+   * Predict the maximum number of moves to reach the specified waypoint. The formula is
+   * ceiling(distance / MOVE_LENGTH) + 4. Using less than 4 may work, but it is safer to be at least
+   * this.
+   *
+   * @param i the waypoint number.
+   * @return the estimated maximum number of moves that it will take to go from waypoint i to the
+   *     next
+   */
+  private int predictMaxMoveLength(int i) {
+    return (int) ((waypoints.get(i).distance(waypoints.get(i + 1)) / MOVE_LENGTH) + 1) + 4;
   }
 
   private List<Move> tryMove(
@@ -65,7 +74,9 @@ public class WaypointNavigation {
       // Calculate the direction towards the next waypoint (to the nearest 10)
       var direction =
           radiansToRoundedDegrees(currentPosition.angleTo(waypoints.get(currentWaypointNumber)));
-      direction += offset; // Apply the offset
+      direction = formatAngle(direction + offset); // Apply the offset
+
+      log(direction);
 
       // Calculate the position at the end of the move
       var afterPosition = currentPosition.getPositionAfterMoveDegrees(direction, MOVE_LENGTH);
@@ -87,7 +98,9 @@ public class WaypointNavigation {
           return null;
         }
 
-        var returnValue = tryMove(afterPosition, ++currentWaypointNumber, movesTilTimeout - 1);
+        var nextEstimatedLength = predictMaxMoveLength(currentWaypointNumber);
+
+        var returnValue = tryMove(afterPosition, ++currentWaypointNumber, nextEstimatedLength);
 
         if (returnValue == null) {
           // If we get a null that means it got stuck later on, so try a different offset
@@ -100,8 +113,10 @@ public class WaypointNavigation {
 
       // Check if the move puts it in range of the target.
       // If our target is the end position then we use a different range.
+      log(afterPosition.distance(targetLocation));
       if (targetIsEnd && afterPosition.distance(targetLocation) < END_POSITION_RANGE
           || afterPosition.distance(targetLocation) < SENSOR_RANGE) {
+        log("Reached target");
         // Create a list with just this final move and return it up the stack
         var returnList = new ArrayList<Move>();
         returnList.add(new Move(currentPosition, afterPosition, direction, null));

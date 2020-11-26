@@ -3,19 +3,20 @@ package uk.ac.ed.inf.aqmaps;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.io.Server;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
-import uk.ac.ed.inf.aqmaps.pathfinding.FlightPlanCreator;
-import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleEvader;
-import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
-import uk.ac.ed.inf.aqmaps.pathfinding.SensorGraph;
+import uk.ac.ed.inf.aqmaps.pathfinding.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class Testing {
+  private static final Random random = new Random(0);
+  private static final int STARTING_POINT_COUNT = 1;
   public static List<List<Move>> results = new ArrayList<>();
+  public static List<Double> times = new ArrayList<>();
 
   public static Server getFakeServer() {
     class TestServer implements Server {
@@ -58,25 +59,99 @@ public class Testing {
       }
     }
     double before = System.currentTimeMillis();
+    var thread = logProgress();
+    thread.start();
+//    runOnce();
     dates.parallelStream().forEach(Testing::run);
+    thread.stop();
     System.out.println(results.stream().map(Collection::size).collect(Collectors.toList()));
-    System.out.println(results.stream().map(Collection::size).reduce(0, Integer::sum) * 1.0 / results.size());
-    System.out.println(System.currentTimeMillis() - before);
+    System.out.println(times);
+    System.out.println(
+        results.parallelStream().map(Collection::size).reduce(0, Integer::sum)
+            * 1.0
+            / results.size());
+    System.out.println("Total time taken " + (System.currentTimeMillis() - before));
   }
 
   private static void run(int[] date) {
-    //    System.out.println(Arrays.toString(date));
-    var input = new ServerInputController(getFakeServer(), date[0], date[1], date[2], 80);
+    for (int i = 0; i < STARTING_POINT_COUNT; i++) {
+      double randomLng =
+          ConfinementArea.TOP_LEFT.x
+              + (ConfinementArea.BOTTOM_RIGHT.x - ConfinementArea.TOP_LEFT.x) * random.nextDouble();
+      double randomLat =
+          ConfinementArea.BOTTOM_RIGHT.y
+              + (ConfinementArea.TOP_LEFT.y - ConfinementArea.BOTTOM_RIGHT.y) * random.nextDouble();
+
+      var input = new ServerInputController(getFakeServer(), date[0], date[1], date[2], 80);
+      var obstacles = new Obstacles(input.getNoFlyZones());
+      var startingLocation = new Coords(randomLng, randomLat);
+      if (obstacles.pointInsideObstacle(startingLocation)) {
+        continue;
+      }
+      var obstacleEvader = new ObstacleEvader(obstacles);
+      var sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleEvader, 0);
+      //      var tour = sensorGraph.getTour(new Coords(-3.186918944120407, 55.944958385847485));
+      var tour = sensorGraph.getTour(startingLocation);
+      var droneNavigation = new FlightPlanCreator(obstacles, input.getSensorLocations());
+      int finalI = i;
+      Thread thread =
+          new Thread(
+              () -> {
+                int count = 1;
+                while (true) {
+                  try {
+                    TimeUnit.SECONDS.sleep(1);
+                  } catch (InterruptedException e) {
+                    e.printStackTrace();
+                  }
+                  System.out.println(
+                      (count++) + " " + finalI + " " + Arrays.toString(date) + " " + tour);
+                }
+              });
+
+      thread.start();
+      double start = System.nanoTime();
+      var flightPlan = droneNavigation.createFlightPlan(tour);
+      times.add((System.nanoTime() - start) / 1000000);
+      thread.stop();
+
+      var res = new Results(input.getSensorLocations());
+      res.recordFlightpath(flightPlan);
+
+      results.add(flightPlan);
+    }
+  }
+
+  private static void runOnce() {
+    var input = new ServerInputController(getFakeServer(), 21, 5, 2020, 80);
     var obstacles = new Obstacles(input.getNoFlyZones());
+    var startingLocation = new Coords(-3.187241501223053, 55.94376202189103);
     var obstacleEvader = new ObstacleEvader(obstacles);
     var sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleEvader, 0);
-    var tour = sensorGraph.getTour(new Coords(-3.186918944120407, 55.944958385847485));
+    //      var tour = sensorGraph.getTour(new Coords(-3.186918944120407, 55.944958385847485));
+    var tour = sensorGraph.getTour(startingLocation);
     var droneNavigation = new FlightPlanCreator(obstacles, input.getSensorLocations());
     var flightPlan = droneNavigation.createFlightPlan(tour);
-    var r = new Results(input.getSensorLocations());
-    r.recordFlightpath(flightPlan);
+
+    var res = new Results(input.getSensorLocations());
+    res.recordFlightpath(flightPlan);
 
     results.add(flightPlan);
-    //    System.out.println(r.getMapGeoJSON());
+    System.out.println(flightPlan.size());
+    System.out.println(res.getMapGeoJSON());
+  }
+
+  private static Thread logProgress() {
+    return new Thread(
+        () -> {
+          while (true) {
+            System.out.println(times.size());
+            try {
+              TimeUnit.MILLISECONDS.sleep(5000);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+          }
+        });
   }
 }

@@ -136,7 +136,7 @@ public class Polygon {
     return points;
   }
 
-  private boolean contains(Coords p) {
+  public boolean contains(Coords p) {
     return path.contains(p);
   }
 

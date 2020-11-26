@@ -66,6 +66,10 @@ public class Obstacles {
         .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y));
   }
 
+  public boolean pointInsideObstacle(Coords coords) {
+    return outlinePolygons.stream().anyMatch(p -> p.contains(coords));
+  }
+
   /** @return a list of all of the points that make up the obstacle polygons */
   public List<Coords> getOutlinePoints() {
     return outlinePoints;
