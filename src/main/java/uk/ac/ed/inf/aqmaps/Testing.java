@@ -86,7 +86,7 @@ public class Testing {
       var input = new ServerInputController(getFakeServer(), date[0], date[1], date[2], 80);
       var obstacles = new Obstacles(input.getNoFlyZones());
       var startingLocation = new Coords(randomLng, randomLat);
-      if (obstacles.pointInObstacle(startingLocation)) {
+      if (obstacles.pointCollides(startingLocation)) {
         continue;
       }
       var obstacleEvader = new ObstacleEvader(obstacles);

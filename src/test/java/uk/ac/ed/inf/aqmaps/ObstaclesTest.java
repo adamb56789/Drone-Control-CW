@@ -2,6 +2,7 @@ package uk.ac.ed.inf.aqmaps;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
 
@@ -77,5 +78,20 @@ public class ObstaclesTest {
   public void shortestRouteLeavesConfinementLineCollides() {
     var line = TestPaths.SHORTEST_ROUTE_LEAVES_CONFINEMENT;
     assertTrue(obstacles.lineCollidesWith(line.start, line.end));
+  }
+
+  @Test
+  public void pointNotInObstacleNoCollision() {
+    assertFalse(obstacles.pointCollides(TestPaths.MIDDLE_OF_NOWHERE.start));
+  }
+
+  @Test
+  public void pointOutsideConfinementCollision() {
+    assertTrue(obstacles.pointCollides(TestPaths.LEAVES_CONFINEMENT.end));
+  }
+
+  @Test
+  public void pointInsideObstacleCollision() {
+    assertTrue(obstacles.pointCollides(new Coords(-3.186743, 55.944321)));
   }
 }

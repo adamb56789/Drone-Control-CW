@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 public class FlightPlannerTest {
   // If testing takes too long, decrease these values.
   public static final int DAYS_TO_TEST = 20; // Maximum is 731
-  public static final int STARTING_POINTS_TO_TRY = 10;
+  public static final int STARTING_POINTS_TO_TRY = 1;
 
   private final Obstacles obstacles =
       new Obstacles(
@@ -121,7 +121,7 @@ public class FlightPlannerTest {
       var startingLocation = new Coords(randomLng, randomLat);
 
       // Check that the starting location is not inside an obstacle
-      if (obstacles.pointInObstacle(startingLocation)) {
+      if (obstacles.pointCollides(startingLocation)) {
         continue;
       }
 

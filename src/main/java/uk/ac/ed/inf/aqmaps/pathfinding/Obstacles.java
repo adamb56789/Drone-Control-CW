@@ -73,7 +73,7 @@ public class Obstacles {
    * @param coords the point
    * @return true if there is a collision, false otherwise
    */
-  public boolean pointInObstacle(Coords coords) {
+  public boolean pointCollides(Coords coords) {
     return !ConfinementArea.isInConfinement(coords)
         || outlinePolygons.stream().anyMatch(p -> p.contains(coords));
   }
