@@ -20,10 +20,8 @@ package uk.ac.ed.inf.aqmaps.pathfinding;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.Graphs;
-import org.jgrapht.alg.interfaces.HamiltonianCycleAlgorithm;
 import org.jgrapht.alg.interfaces.HamiltonianCycleImprovementAlgorithm;
 import org.jgrapht.alg.tour.HamiltonianCycleAlgorithmBase;
-import org.jgrapht.alg.tour.RandomTourTSP;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.*;
@@ -52,10 +50,8 @@ import java.util.*;
  * @param <E> the graph edge type
  * @author Dimitrios Michail
  */
-public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<V, E>
+public class TwoOptFlightPlanImprover<V, E> extends HamiltonianCycleAlgorithmBase<V, E>
     implements HamiltonianCycleImprovementAlgorithm<V, E> {
-  private final int passes;
-  private final HamiltonianCycleAlgorithm<V, E> initializer;
   private final double minCostImprovement;
   private final Coords start;
   private final FlightPlanner flightPlanner;
@@ -64,55 +60,10 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
   private Map<V, Integer> index;
   private Map<Integer, V> revIndex;
 
-  /**
-   * Constructor
-   *
-   * @param passes how many initial random tours to check
-   * @param seed seed for the random number generator
-   */
-  public TwoOptHeuristicTSPPlus(int passes, long seed, Coords start, FlightPlanner flightPlanner) {
-    if (passes < 1) {
-      throw new IllegalArgumentException("passes must be at least one");
-    }
-    this.passes = passes;
-    this.initializer =
-        Objects.requireNonNull(
-            (HamiltonianCycleAlgorithm<V, E>) new RandomTourTSP<V, E>(new Random(seed)),
-            "Initial solver algorithm cannot be null");
+  public TwoOptFlightPlanImprover(Coords start, FlightPlanner flightPlanner) {
     this.minCostImprovement = Math.abs(1e-8);
     this.start = start;
     this.flightPlanner = flightPlanner;
-  }
-
-  // algorithm
-
-  /**
-   * Computes a 2-approximate tour.
-   *
-   * @param graph the input graph
-   * @return a tour
-   * @throws IllegalArgumentException if the graph is not undirected
-   * @throws IllegalArgumentException if the graph is not complete
-   * @throws IllegalArgumentException if the graph contains no vertices
-   */
-  public GraphPath<V, E> getTourPlus(Graph<V, E> graph) throws InterruptedException {
-    checkGraph(graph);
-    if (graph.vertexSet().size() == 1) {
-      return getSingletonTour(graph);
-    }
-
-    // Initialize vertex index and distances
-    init(graph);
-
-    // Execute 2-opt for the specified number of passes and a new permutation in each pass
-    GraphPath<V, E> best = tourToPath(improve(createInitialTour()));
-    for (int i = 1; i < passes; i++) {
-      GraphPath<V, E> other = tourToPath(improve(createInitialTour()));
-      if (other.getWeight() < best.getWeight()) {
-        best = other;
-      }
-    }
-    return best;
   }
 
   /**
@@ -145,15 +96,6 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
   }
 
   /**
-   * Create an initial tour
-   *
-   * @return a complete tour
-   */
-  private int[] createInitialTour() {
-    return pathToTour(initializer.getTour(graph));
-  }
-
-  /**
    * Improve the tour using the 2-opt heuristic. In each iteration it applies the best possible
    * 2-opt move which means to find the best pair of edges $(i,i+1)$ and $(j,j+1)$ such that
    * replacing them with $(i,j)$ and $(i+1,j+1)$ minimizes the tour length.
@@ -177,6 +119,7 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
       originalList.add(
           originalList.get(0)); // Put the starting position as the ending position as well
 
+      var originalDirectLength = getDirectLength(originalList);
       int originalLength = flightPlanner.createFlightPlan(originalList).size();
 
       moved = false;
@@ -197,11 +140,16 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
           vertexList.add(
               vertexList.get(0)); // Put the starting position as the ending position as well
 
-          int change = flightPlanner.createFlightPlan(vertexList).size() - originalLength;
-          if (change < minChange) {
-            minChange = change;
-            mini = i;
-            minj = j;
+          // The input graph has already been through 2-opt with the direct length calculation,
+          // so only try to swap when the change is relatively minor
+          var newDirectLength = getDirectLength(vertexList);
+          if (newDirectLength < originalDirectLength * 1.1) {
+            int change = flightPlanner.createFlightPlan(vertexList).size() - originalLength;
+            if (change < minChange) {
+              minChange = change;
+              mini = i;
+              minj = j;
+            }
           }
         }
       }
@@ -217,6 +165,15 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
     } while (moved);
 
     return tour;
+  }
+
+  /** @return The length of the tour in degrees, using euclidean distance */
+  private double getDirectLength(List<Coords> list) {
+    double directLength = 0;
+    for (int i = 0; i < list.size() - 1; i++) {
+      directLength += list.get(i).distance(list.get(i + 1));
+    }
+    return directLength;
   }
 
   private void swap(int[] tour, int[] newTour, int i, int j) {
@@ -254,20 +211,13 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
    * @return an array containing the index of the vertices of the tour
    */
   private int[] pathToTour(GraphPath<V, E> path) {
-    Set<V> visited = new HashSet<>();
     int i = 0;
     int[] tour = new int[n + 1];
     V v = path.getStartVertex();
     tour[i++] = index.get(v);
     for (E e : path.getEdgeList()) {
       v = Graphs.getOppositeVertex(graph, e, v);
-      if (!visited.add(v)) {
-        throw new IllegalArgumentException("Not a valid tour");
-      }
       tour[i++] = index.get(v);
-    }
-    if (i < n + 1) {
-      throw new IllegalArgumentException("Not a valid tour");
     }
     return tour;
   }

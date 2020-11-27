@@ -109,9 +109,7 @@ public class SensorGraph {
   private GraphPath<Coords, DefaultWeightedEdge> attemptImprovementWithDroneNavigation(
       Coords start, GraphPath<Coords, DefaultWeightedEdge> path) {
     var algorithmPlus =
-        new TwoOptHeuristicTSPPlus<Coords, DefaultWeightedEdge>(
-            INITIAL_TOURS,
-            randomSeed,
+        new TwoOptFlightPlanImprover<Coords, DefaultWeightedEdge>(
             start,
             new FlightPlanner(obstacleEvader.getObstacles(), obstacleEvader, sensorLocations));
 
@@ -119,7 +117,7 @@ public class SensorGraph {
     var finalPath = path;
     var future = executor.submit(() -> algorithmPlus.improveTourPlus(finalPath));
     try {
-      path = future.get(2, TimeUnit.SECONDS);
+      path = future.get(2, TimeUnit.SECONDS); // TODO increase this
     } catch (TimeoutException | InterruptedException | ExecutionException e) {
       System.out.println("Timeout");
       future.cancel(true);
