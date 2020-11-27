@@ -15,8 +15,13 @@ import static org.junit.Assert.*;
 @SuppressWarnings("SameParameterValue")
 public class FlightPlannerTest {
   // If testing takes too long, decrease these values.
-  public static final int DAYS_TO_TEST = 20; // Maximum is 731
-  public static final int STARTING_POINTS_TO_TRY = 1;
+  public static final int DAYS_TO_TEST = 200; // Maximum is 731
+  // Tries 3 tricky non-random points by default, try this many more random points
+  public static final int RANDOM_STARTING_POINTS_TO_TRY = 0;
+  // 3 tricky starting locations
+  public static final Coords INF_FORUM_ALCOVE = new Coords(-3.1869108, 55.9449634);
+  public static final Coords APPLETON_ALCOVE = new Coords(-3.1864079, 55.9443635);
+  public static final Coords LIBRARY_CORNER = new Coords(-3.189626, 55.942625);
 
   private final Obstacles obstacles =
       new Obstacles(
@@ -63,8 +68,8 @@ public class FlightPlannerTest {
   private List<List<Move>> getFlightPlans() {
     // For each of the dates, get the flight plans for a number of starting locations
     return getDates(DAYS_TO_TEST)
-        .stream() // This is slow so using a parallelStream makes the test go faster
-        .map(date -> runFlightPlansOnDate(date, STARTING_POINTS_TO_TRY))
+        .parallelStream() // This is slow so using a parallelStream makes the test go faster
+        .map(date -> runFlightPlansOnDate(date, RANDOM_STARTING_POINTS_TO_TRY))
         .flatMap(List::stream)
         .collect(Collectors.toList());
   }
@@ -104,6 +109,15 @@ public class FlightPlannerTest {
   private List<List<Move>> runFlightPlansOnDate(int[] date, int startingPointsToTry) {
     var outputFlightPlans = new ArrayList<List<Move>>();
     var random = new Random();
+    var startingLocations = new ArrayList<Coords>();
+    startingLocations.add(INF_FORUM_ALCOVE);
+    startingLocations.add(APPLETON_ALCOVE);
+    startingLocations.add(LIBRARY_CORNER);
+
+    var input =
+        new ServerInputController(
+            ServerInputControllerTest.getFakeServer(), date[0], date[1], date[2], 80);
+    var obstacles = new Obstacles(input.getNoFlyZones());
     for (int i = 0; i < startingPointsToTry; i++) {
 
       // Generate random starting location
@@ -114,17 +128,17 @@ public class FlightPlannerTest {
           ConfinementArea.BOTTOM_RIGHT.y
               + (ConfinementArea.TOP_LEFT.y - ConfinementArea.BOTTOM_RIGHT.y) * random.nextDouble();
 
-      var input =
-          new ServerInputController(
-              ServerInputControllerTest.getFakeServer(), date[0], date[1], date[2], 80);
-      var obstacles = new Obstacles(input.getNoFlyZones());
       var startingLocation = new Coords(randomLng, randomLat);
 
       // Check that the starting location is not inside an obstacle
       if (obstacles.pointCollision(startingLocation)) {
         continue;
       }
+      startingLocations.add(startingLocation);
+    }
 
+    // Run for each starting location
+    for (var startingLocation : startingLocations) {
       // Create the sensor graph and compute the tour
       var obstacleEvader = new ObstacleEvader(obstacles);
       var tour =

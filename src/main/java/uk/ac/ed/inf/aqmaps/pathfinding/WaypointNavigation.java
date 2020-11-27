@@ -60,12 +60,11 @@ public class WaypointNavigation {
   /**
    * Predict the maximum number of moves to reach the specified waypoint. The formula is
    * ceiling(distance / MOVE_LENGTH) + 4. Using less than 4 may work, but it is safer to be at least
-   * this.
+   * this. 1 worked ok in testing, but may not in different situations
    *
    * @param startPos the starting position of the move
    * @param target the target waypoint of the move
-   * @return the estimated maximum number of moves that it will take to go from waypoint i to the
-   *     next
+   * @return the estimated maximum number of moves that it will take to reach the target
    */
   private int predictMaxMoveLength(Coords startPos, Coords target) {
     return (int) ((startPos.distance(target) / MOVE_LENGTH) + 1) + 4;
