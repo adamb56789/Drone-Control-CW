@@ -22,6 +22,7 @@ public class WaypointNavigation {
   private List<Coords> waypoints;
   private Coords targetLocation;
   private W3W targetSensorW3W;
+  private int countIterations = 0;
 
   /** @param obstacles the obstacles for collision checking */
   public WaypointNavigation(Obstacles obstacles) {
@@ -39,7 +40,8 @@ public class WaypointNavigation {
    *     target
    */
   public List<Move> navigateToLocation(
-      Coords startingPosition, List<Coords> waypoints, W3W targetSensorW3W) {
+      Coords startingPosition, List<Coords> waypoints, W3W targetSensorW3W)
+      throws InterruptedException {
     this.waypoints = waypoints;
     this.targetLocation = waypoints.get(waypoints.size() - 1);
     this.targetSensorW3W = targetSensorW3W;
@@ -71,7 +73,13 @@ public class WaypointNavigation {
   }
 
   private List<Move> navigateAlongWaypoints(
-      Coords currentPosition, int currentWaypointNumber, int movesTilTimeout) {
+      Coords currentPosition, int currentWaypointNumber, int movesTilTimeout)
+      throws InterruptedException {
+    // If we have been interrupted by a timeout, throw the exception to stop execution. From:
+    // https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/InterruptedException.html
+    if (Thread.interrupted()) {
+      throw new InterruptedException();
+    }
     // This flightpath is invalid if we timeout from taking too many moves, which happens if it gets
     // stuck in a loop not making any progress. This doesn't happen very often
     if (movesTilTimeout == 0) {

@@ -27,7 +27,6 @@ import org.jgrapht.alg.tour.RandomTourTSP;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.*;
-import java.util.concurrent.*;
 
 /**
  * The 2-opt heuristic algorithm for the TSP problem.
@@ -47,7 +46,7 @@ import java.util.concurrent.*;
  * <p>See <a href="https://en.wikipedia.org/wiki/2-opt">wikipedia</a> for more details.
  *
  * <p>This implementation can also be used in order to try to improve an existing tour. See method
- * {@link #improveTour(GraphPath)}.
+ * {@link #improveTourPlus(GraphPath)}.
  *
  * @param <V> the graph vertex type
  * @param <E> the graph edge type
@@ -64,7 +63,6 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
   private int n;
   private Map<V, Integer> index;
   private Map<Integer, V> revIndex;
-  private List<Coords> vertexListToUpdate;
 
   /**
    * Constructor
@@ -86,6 +84,8 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
     this.flightPlanner = flightPlanner;
   }
 
+  // algorithm
+
   /**
    * Computes a 2-approximate tour.
    *
@@ -95,8 +95,7 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
    * @throws IllegalArgumentException if the graph is not complete
    * @throws IllegalArgumentException if the graph contains no vertices
    */
-  @Override
-  public GraphPath<V, E> getTour(Graph<V, E> graph) {
+  public GraphPath<V, E> getTourPlus(Graph<V, E> graph) throws InterruptedException {
     checkGraph(graph);
     if (graph.vertexSet().size() == 1) {
       return getSingletonTour(graph);
@@ -122,8 +121,7 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
    * @param tour a tour
    * @return a possibly improved tour
    */
-  @Override
-  public GraphPath<V, E> improveTour(GraphPath<V, E> tour) {
+  public GraphPath<V, E> improveTourPlus(GraphPath<V, E> tour) throws InterruptedException {
     init(tour.getGraph());
     return tourToPath(improve(pathToTour(tour)));
   }
@@ -165,7 +163,7 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
    * @param tour the input tour
    * @return a possibly improved tour
    */
-  private int[] improve(int[] tour) {
+  private int[] improve(int[] tour) throws InterruptedException {
     int[] newTour = new int[n + 1];
     boolean moved;
     double minChange;
@@ -179,7 +177,6 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
       originalList.add(
           originalList.get(0)); // Put the starting position as the ending position as well
 
-      var originalDirectLength = getDirectLength(originalList);
       int originalLength = flightPlanner.createFlightPlan(originalList).size();
 
       moved = false;
@@ -200,25 +197,11 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
           vertexList.add(
               vertexList.get(0)); // Put the starting position as the ending position as well
 
-          var newDirectLength = getDirectLength(vertexList);
-          if (newDirectLength < originalDirectLength * 420) {
-            double t = System.nanoTime();
-            var executor = Executors.newSingleThreadExecutor();
-            vertexListToUpdate = vertexList;
-            var future = executor.submit(newClass());
-            try {
-              int change = future.get(100, TimeUnit.MILLISECONDS) - originalLength;
-              if (change < minChange) {
-                minChange = change;
-                mini = i;
-                minj = j;
-              }
-            } catch (TimeoutException | InterruptedException | ExecutionException e) {
-              System.out.println("Timeout");
-              future.cancel(true);
-            } finally {
-              executor.shutdownNow();
-            }
+          int change = flightPlanner.createFlightPlan(vertexList).size() - originalLength;
+          if (change < minChange) {
+            minChange = change;
+            mini = i;
+            minj = j;
           }
         }
       }
@@ -234,24 +217,6 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
     } while (moved);
 
     return tour;
-  }
-
-  private Callable<Integer> newClass() {
-    class LongRunningTask implements Callable<Integer> {
-      @Override
-      public Integer call() {
-        return flightPlanner.createFlightPlan(vertexListToUpdate).size();
-      }
-    }
-    return new LongRunningTask();
-  }
-
-  private double getDirectLength(List<Coords> list) {
-    double directLength = 0;
-    for (int i = 0; i < list.size() - 1; i++) {
-      directLength += list.get(i).distance(list.get(i + 1));
-    }
-    return directLength;
   }
 
   private void swap(int[] tour, int[] newTour, int i, int j) {
@@ -305,5 +270,15 @@ public class TwoOptHeuristicTSPPlus<V, E> extends HamiltonianCycleAlgorithmBase<
       throw new IllegalArgumentException("Not a valid tour");
     }
     return tour;
+  }
+
+  @Override
+  public GraphPath<V, E> getTour(Graph<V, E> graph) {
+    return null;
+  }
+
+  @Override
+  public GraphPath<V, E> improveTour(GraphPath<V, E> graphPath) {
+    return null;
   }
 }

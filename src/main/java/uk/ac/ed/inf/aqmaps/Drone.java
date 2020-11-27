@@ -31,7 +31,7 @@ public class Drone {
     var tour = sensorGraph.getTour(settings.getStartCoords());
 
     var results = new Results(sensorLocations);
-    results.recordFlightpath(droneNavigation.createFlightPlan(tour));
+    //    results.recordFlightpath(droneNavigation.createFlightPlan(tour));
 
     System.out.println(results.getMapGeoJSON());
   }

@@ -29,7 +29,7 @@ public class FlightPlanner {
    * @param tour a list of points that make up the journey of the drone.
    * @return a list of Moves that make up the flight plan
    */
-  public List<Move> createFlightPlan(List<Coords> tour) {
+  public List<Move> createFlightPlan(List<Coords> tour) throws InterruptedException {
     var moves = new ArrayList<Move>();
     var currentPosition = tour.get(0); // The starting position is the very start of the tour
 

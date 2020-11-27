@@ -1,5 +1,6 @@
 package uk.ac.ed.inf.aqmaps.pathfinding;
 
+import org.jgrapht.GraphPath;
 import org.jgrapht.alg.tour.TwoOptHeuristicTSP;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
@@ -9,6 +10,10 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Holds a weighted graph containing the sensor locations and the shortest paths between them.
@@ -80,17 +85,12 @@ public class SensorGraph {
       }
     }
 
+    // Use 2-opt heuristic to find a tour
     var algorithm = new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(INITIAL_TOURS, randomSeed);
     var path = algorithm.getTour(graph);
 
-    var algorithmPlus =
-        new TwoOptHeuristicTSPPlus<Coords, DefaultWeightedEdge>(
-            INITIAL_TOURS,
-            randomSeed,
-            start,
-            new FlightPlanner(obstacleEvader.getObstacles(), obstacleEvader, sensorLocations));
-
-    path = algorithmPlus.improveTour(path);
+    // Attempt to find a shorter tour by running 2-opt again
+    path = attemptImprovementWithDroneNavigation(start, path);
 
     // Remove the start and end points from the graph for later reuse
     removeVertex(start);
@@ -104,6 +104,29 @@ public class SensorGraph {
     vertexList.add(vertexList.get(0)); // Put the starting position as the ending position as well
 
     return vertexList;
+  }
+
+  private GraphPath<Coords, DefaultWeightedEdge> attemptImprovementWithDroneNavigation(
+      Coords start, GraphPath<Coords, DefaultWeightedEdge> path) {
+    var algorithmPlus =
+        new TwoOptHeuristicTSPPlus<Coords, DefaultWeightedEdge>(
+            INITIAL_TOURS,
+            randomSeed,
+            start,
+            new FlightPlanner(obstacleEvader.getObstacles(), obstacleEvader, sensorLocations));
+
+    var executor = Executors.newSingleThreadExecutor();
+    var finalPath = path;
+    var future = executor.submit(() -> algorithmPlus.improveTourPlus(finalPath));
+    try {
+      path = future.get(2, TimeUnit.SECONDS);
+    } catch (TimeoutException | InterruptedException | ExecutionException e) {
+      System.out.println("Timeout");
+      future.cancel(true);
+    } finally {
+      executor.shutdownNow();
+    }
+    return path;
   }
 
   private void addVertex(Coords vertex) {

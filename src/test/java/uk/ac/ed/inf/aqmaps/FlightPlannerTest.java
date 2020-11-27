@@ -140,8 +140,7 @@ public class FlightPlannerTest {
 
     // Run for each starting location
     for (var startingLocation : startingLocations) {
-      System.out.println(
-          "date = " + Arrays.toString(date) + " " + startingLocation);
+      System.out.println("date = " + Arrays.toString(date) + " " + startingLocation);
       // Create the sensor graph and compute the tour
       var obstacleEvader = new ObstacleEvader(obstacles);
       var tour =
@@ -149,9 +148,13 @@ public class FlightPlannerTest {
               .getTour(startingLocation);
 
       // Compute the flight plan
-      outputFlightPlans.add(
-          (new FlightPlanner(obstacles, obstacleEvader, input.getSensorLocations()))
-              .createFlightPlan(tour));
+      try {
+        outputFlightPlans.add(
+            (new FlightPlanner(obstacles, obstacleEvader, input.getSensorLocations()))
+                .createFlightPlan(tour));
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
     return outputFlightPlans;
   }
