@@ -26,8 +26,7 @@ public class FlightPlanner {
   /**
    * Create a flight plan for the drone along the given tour.
    *
-   * @param tour a list of points that make up the journey of the drone. All except the first and
-   *     last are the location of a sensor.
+   * @param tour a list of points that make up the journey of the drone.
    * @return a list of Moves that make up the flight plan
    */
   public List<Move> createFlightPlan(List<Coords> tour) {
@@ -37,14 +36,8 @@ public class FlightPlanner {
     for (int i = 1; i < tour.size(); i++) {
       var currentTarget = tour.get(i);
 
-      W3W targetSensorOrNull;
-      // If we are on the last step the target position will not be a sensor, so send null instead.
-      if (i < tour.size() - 1) {
-        // The target sensor is the element after the current
-        targetSensorOrNull = sensorCoordsW3WMap.get(currentTarget);
-      } else {
-        targetSensorOrNull = null;
-      }
+      // If the target is not a sensor this will be null
+      W3W targetSensorOrNull = sensorCoordsW3WMap.get(currentTarget);
 
       // If we are on any but the last leg of the tour, attempt to optimize the target location to
       // cut the corner.
