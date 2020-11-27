@@ -46,7 +46,7 @@ public class Obstacles {
    * @param end the coordinates of the end point
    * @return true if the segment collides with an obstacle, false otherwise
    */
-  public boolean lineCollidesWith(Coords start, Coords end) {
+  public boolean lineCollision(Coords start, Coords end) {
     // If the line segment leaves the confinement area then that is a collision
     if (!ConfinementArea.isInConfinement(start) || !ConfinementArea.isInConfinement(end)) {
       return true;
@@ -73,7 +73,7 @@ public class Obstacles {
    * @param coords the point
    * @return true if there is a collision, false otherwise
    */
-  public boolean pointCollides(Coords coords) {
+  public boolean pointCollision(Coords coords) {
     return !ConfinementArea.isInConfinement(coords)
         || outlinePolygons.stream().anyMatch(p -> p.contains(coords));
   }

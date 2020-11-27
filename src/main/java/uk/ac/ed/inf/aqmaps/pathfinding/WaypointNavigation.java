@@ -17,8 +17,8 @@ public class WaypointNavigation {
   public static final double MOVE_LENGTH = 0.0003;
   public static final double SENSOR_RANGE = 0.0002;
   public static final double END_POSITION_RANGE = 0.0003;
-  private final Obstacles obstacles;
   private final ArrayList<Integer> offsets = getOffsets();
+  private final Obstacles obstacles;
   private List<Coords> waypoints;
   private Coords targetLocation;
   private boolean targetIsEnd;
@@ -93,14 +93,14 @@ public class WaypointNavigation {
       var positionAfterMove = currentPosition.getPositionAfterMoveDegrees(direction, MOVE_LENGTH);
 
       // If the move collides with an obstacle then try a different offset
-      if (obstacles.lineCollidesWith(currentPosition, positionAfterMove)) {
+      if (obstacles.lineCollision(currentPosition, positionAfterMove)) {
         continue;
       }
 
       // If our target waypoint is not the last then it is the corner of on obstacle so check if we
       // have line of sight to the next waypoint and have gone round the corner.
       if (currentWaypointNumber < waypoints.size() - 1
-          && !obstacles.lineCollidesWith(
+          && !obstacles.lineCollision(
               positionAfterMove, waypoints.get(currentWaypointNumber + 1))) {
 
         // Estimate the length of the journey to the next waypoint for checking loops
@@ -146,7 +146,7 @@ public class WaypointNavigation {
 
   private boolean inSightOfTarget(int currentWaypointNumber, Coords positionAfterMove) {
     return currentWaypointNumber < waypoints.size() - 1
-        && !obstacles.lineCollidesWith(positionAfterMove, waypoints.get(currentWaypointNumber + 1));
+        && !obstacles.lineCollision(positionAfterMove, waypoints.get(currentWaypointNumber + 1));
   }
 
   private boolean reachedTarget(Coords positionAfterMove) {

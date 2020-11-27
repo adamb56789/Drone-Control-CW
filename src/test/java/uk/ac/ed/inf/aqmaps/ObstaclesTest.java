@@ -35,63 +35,63 @@ public class ObstaclesTest {
   public void meetsCornersLineNoCollision() {
     var start = obstacles.getOutlinePoints().get(0);
     var end = obstacles.getOutlinePoints().get(1);
-    assertFalse(obstacles.lineCollidesWith(start, end));
+    assertFalse(obstacles.lineCollision(start, end));
   }
 
   @Test
   public void middleOfNowhereLineNoCollision() {
     var line = TestPaths.MIDDLE_OF_NOWHERE;
-    assertFalse(obstacles.lineCollidesWith(line.start, line.end));
+    assertFalse(obstacles.lineCollision(line.start, line.end));
   }
 
   @Test
   public void nearBuildingsLineNoCollision() {
     var line = TestPaths.NEAR_BUILDINGS;
-    assertFalse(obstacles.lineCollidesWith(line.start, line.end));
+    assertFalse(obstacles.lineCollision(line.start, line.end));
   }
 
   @Test
   public void leavesConfinementLineCollides() {
     var line = TestPaths.LEAVES_CONFINEMENT;
-    assertTrue(obstacles.lineCollidesWith(line.start, line.end));
+    assertTrue(obstacles.lineCollision(line.start, line.end));
   }
 
   @Test
   public void collidesWith1BuildingLineCollides() {
     var line = TestPaths.COLLIDES_1_BUILDING;
-    assertTrue(obstacles.lineCollidesWith(line.start, line.end));
+    assertTrue(obstacles.lineCollision(line.start, line.end));
   }
 
   @Test
   public void trickyPathThroughBuildingLineCollides() {
     var line = TestPaths.TRICKY_PATH_THROUGH_BUILDINGS;
-    assertTrue(obstacles.lineCollidesWith(line.start, line.end));
+    assertTrue(obstacles.lineCollision(line.start, line.end));
   }
 
   @Test
   public void collidesWith3BuildingsLineCollides() {
     var line = TestPaths.COLLIDES_3_BUILDINGS;
-    assertTrue(obstacles.lineCollidesWith(line.start, line.end));
+    assertTrue(obstacles.lineCollision(line.start, line.end));
   }
 
   @Test
   public void shortestRouteLeavesConfinementLineCollides() {
     var line = TestPaths.SHORTEST_ROUTE_LEAVES_CONFINEMENT;
-    assertTrue(obstacles.lineCollidesWith(line.start, line.end));
+    assertTrue(obstacles.lineCollision(line.start, line.end));
   }
 
   @Test
   public void pointNotInObstacleNoCollision() {
-    assertFalse(obstacles.pointCollides(TestPaths.MIDDLE_OF_NOWHERE.start));
+    assertFalse(obstacles.pointCollision(TestPaths.MIDDLE_OF_NOWHERE.start));
   }
 
   @Test
   public void pointOutsideConfinementCollision() {
-    assertTrue(obstacles.pointCollides(TestPaths.LEAVES_CONFINEMENT.end));
+    assertTrue(obstacles.pointCollision(TestPaths.LEAVES_CONFINEMENT.end));
   }
 
   @Test
   public void pointInsideObstacleCollision() {
-    assertTrue(obstacles.pointCollides(new Coords(-3.186743, 55.944321)));
+    assertTrue(obstacles.pointCollision(new Coords(-3.186743, 55.944321)));
   }
 }

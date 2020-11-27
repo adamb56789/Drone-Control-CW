@@ -24,11 +24,6 @@ public class Coords extends Point2D.Double {
     return new Coords(p.longitude(), p.latitude());
   }
 
-  /** Create an exact copy of the Coords */
-  public Coords copy() {
-    return new Coords(x, y);
-  }
-
   /**
    * Calculates the angle of the line between this point and the point p with respect to the
    * horizontal, where east is 0, north is pi/2, south is -pi/2, west is pi

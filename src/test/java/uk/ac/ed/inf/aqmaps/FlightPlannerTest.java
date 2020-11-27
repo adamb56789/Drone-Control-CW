@@ -38,7 +38,7 @@ public class FlightPlannerTest {
       for (var move : flightPlan) {
         assertFalse(
             "Flight plan should not collide with any obstacles",
-            obstacles.lineCollidesWith(move.getBefore(), move.getAfter()));
+            obstacles.lineCollision(move.getBefore(), move.getAfter()));
 
         var inRange =
             0 <= move.getDirection() && move.getDirection() <= 350 && move.getDirection() % 10 == 0;
@@ -121,7 +121,7 @@ public class FlightPlannerTest {
       var startingLocation = new Coords(randomLng, randomLat);
 
       // Check that the starting location is not inside an obstacle
-      if (obstacles.pointCollides(startingLocation)) {
+      if (obstacles.pointCollision(startingLocation)) {
         continue;
       }
 

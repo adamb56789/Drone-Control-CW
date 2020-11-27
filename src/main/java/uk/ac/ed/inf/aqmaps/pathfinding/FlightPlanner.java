@@ -67,7 +67,8 @@ public class FlightPlanner {
                 bisector, WaypointNavigation.SENSOR_RANGE * 0.5);
 
         // Check the the new target is not inside an obstacle
-        if (!obstacles.pointCollides(newTarget)) {
+        if (!obstacles.pointCollision(newTarget)) {
+          // Generate a new path to the new target
           waypoints = obstacleEvader.getShortestPathPoints(currentPosition, newTarget);
         }
       }
