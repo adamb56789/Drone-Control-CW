@@ -21,7 +21,6 @@ public class WaypointNavigation {
   private final Obstacles obstacles;
   private List<Coords> waypoints;
   private Coords targetLocation;
-  private boolean targetIsEnd;
   private W3W targetSensorW3W;
 
   /** @param obstacles the obstacles for collision checking */
@@ -31,12 +30,11 @@ public class WaypointNavigation {
 
   /**
    * Find a sequence of moves that navigates the drone from the current location along the waypoints
-   * to the target (usually a sensor).
+   * to the target.
    *
    * @param startingPosition the starting position of the drone
    * @param waypoints a list of Coords waypoints for the drone to follow on its way to the target.
-   * @param targetSensorW3W the W3W of the target sensor, or null if the target is the ending
-   *     position of the entire tour
+   * @param targetSensorW3W the W3W of the target sensor, or null if the target is not a sensor.
    * @return a list of Moves that navigate the drone from the starting position to in range of the
    *     target
    */
@@ -44,11 +42,10 @@ public class WaypointNavigation {
       Coords startingPosition, List<Coords> waypoints, W3W targetSensorW3W) {
     this.waypoints = waypoints;
     this.targetLocation = waypoints.get(waypoints.size() - 1);
-    this.targetIsEnd = targetSensorW3W == null;
     this.targetSensorW3W = targetSensorW3W;
 
     // Estimate the length of the path to first waypoint for checking loops (see moveToWaypoint())
-    var maxLengthFirstMove = predictMaxMoveLength(0);
+    var maxLengthFirstMove = predictMaxMoveLength(startingPosition, waypoints.get(1));
     var moves = navigateAlongWaypoints(startingPosition, 1, maxLengthFirstMove);
 
     if (moves == null) {
@@ -65,12 +62,13 @@ public class WaypointNavigation {
    * ceiling(distance / MOVE_LENGTH) + 4. Using less than 4 may work, but it is safer to be at least
    * this.
    *
-   * @param i the waypoint number.
+   * @param startPos the starting position of the move
+   * @param target the target waypoint of the move
    * @return the estimated maximum number of moves that it will take to go from waypoint i to the
    *     next
    */
-  private int predictMaxMoveLength(int i) {
-    return (int) ((waypoints.get(i).distance(waypoints.get(i + 1)) / MOVE_LENGTH) + 1) + 4;
+  private int predictMaxMoveLength(Coords startPos, Coords target) {
+    return (int) ((startPos.distance(target) / MOVE_LENGTH) + 1) + 4;
   }
 
   private List<Move> navigateAlongWaypoints(
@@ -104,7 +102,8 @@ public class WaypointNavigation {
               positionAfterMove, waypoints.get(currentWaypointNumber + 1))) {
 
         // Estimate the length of the journey to the next waypoint for checking loops
-        var nextEstimatedLength = predictMaxMoveLength(currentWaypointNumber);
+        var nextEstimatedLength =
+            predictMaxMoveLength(positionAfterMove, waypoints.get(currentWaypointNumber + 1));
         // Recursive call to move to the next waypoints
         var movesList =
             navigateAlongWaypoints(positionAfterMove, ++currentWaypointNumber, nextEstimatedLength);
@@ -144,14 +143,9 @@ public class WaypointNavigation {
     return null;
   }
 
-  private boolean inSightOfTarget(int currentWaypointNumber, Coords positionAfterMove) {
-    return currentWaypointNumber < waypoints.size() - 1
-        && !obstacles.lineCollision(positionAfterMove, waypoints.get(currentWaypointNumber + 1));
-  }
-
   private boolean reachedTarget(Coords positionAfterMove) {
     // The range is different if the target the end final end position
-    if (targetIsEnd) {
+    if (targetSensorW3W == null) {
       return positionAfterMove.distance(targetLocation) < END_POSITION_RANGE;
     } else {
       // We use the distance to the location of the sensor here instead of the target location since
