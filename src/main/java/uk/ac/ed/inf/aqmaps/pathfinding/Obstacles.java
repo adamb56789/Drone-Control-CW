@@ -46,7 +46,7 @@ public class Obstacles {
    * @param end the coordinates of the end point
    * @return true if the segment collides with an obstacle, false otherwise
    */
-  public boolean collidesWith(Coords start, Coords end) {
+  public boolean lineCollidesWith(Coords start, Coords end) {
     // If the line segment leaves the confinement area then that is a collision
     if (!ConfinementArea.isInConfinement(start) || !ConfinementArea.isInConfinement(end)) {
       return true;
@@ -66,7 +66,7 @@ public class Obstacles {
         .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y));
   }
 
-  //TODO write tests for this
+  // TODO write tests for this
   /**
    * Determine whether the given point is inside an obstacle, or outside the confinement area.
    *

@@ -61,8 +61,8 @@ public class Testing {
     double before = System.currentTimeMillis();
     var thread = logProgress();
     thread.start();
-        runOnce();
-//    dates.parallelStream().forEach(Testing::run);
+    runOnce();
+    //    dates.parallelStream().forEach(Testing::run);
     //noinspection deprecation
     thread.stop();
     System.out.println(results.stream().map(Collection::size).collect(Collectors.toList()));
@@ -93,7 +93,8 @@ public class Testing {
       var sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleEvader, 0);
       //      var tour = sensorGraph.getTour(new Coords(-3.186918944120407, 55.944958385847485));
       var tour = sensorGraph.getTour(startingLocation);
-      var droneNavigation = new FlightPlanner(obstacles, obstacleEvader, input.getSensorLocations());
+      var droneNavigation =
+          new FlightPlanner(obstacles, obstacleEvader, input.getSensorLocations());
       int finalI = i;
       Thread thread =
           new Thread(

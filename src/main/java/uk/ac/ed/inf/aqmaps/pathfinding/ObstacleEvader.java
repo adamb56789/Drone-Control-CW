@@ -55,7 +55,7 @@ public class ObstacleEvader {
    */
   public List<Coords> getShortestPathPoints(Coords start, Coords end) {
     // If the straight line between start and end does not collide, there is no need for pathfinding
-    if (!obstacles.collidesWith(start, end)) {
+    if (!obstacles.lineCollidesWith(start, end)) {
       return new ArrayList<>(List.of(start, end));
     }
 
@@ -72,7 +72,7 @@ public class ObstacleEvader {
    */
   public double getShortestPathLength(Coords start, Coords end) {
     // If the straight line between start and end does not collide, there is no need for pathfinding
-    if (!obstacles.collidesWith(start, end)) {
+    if (!obstacles.lineCollidesWith(start, end)) {
       return start.distance(end);
     }
 
@@ -112,7 +112,7 @@ public class ObstacleEvader {
   }
 
   private void addEdgeIfHasLineOfSight(Coords start, Coords end) {
-    if (!obstacles.collidesWith(start, end)) {
+    if (!obstacles.lineCollidesWith(start, end)) {
       DefaultWeightedEdge e = graph.addEdge(start, end);
       graph.setEdgeWeight(e, start.distance(end));
     }

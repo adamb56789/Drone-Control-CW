@@ -34,48 +34,48 @@ public class ObstaclesTest {
   public void meetsCornersLineNoCollision() {
     var start = obstacles.getOutlinePoints().get(0);
     var end = obstacles.getOutlinePoints().get(1);
-    assertFalse(obstacles.collidesWith(start, end));
+    assertFalse(obstacles.lineCollidesWith(start, end));
   }
 
   @Test
   public void middleOfNowhereLineNoCollision() {
     var line = TestPaths.MIDDLE_OF_NOWHERE;
-    assertFalse(obstacles.collidesWith(line.start, line.end));
+    assertFalse(obstacles.lineCollidesWith(line.start, line.end));
   }
 
   @Test
   public void nearBuildingsLineNoCollision() {
     var line = TestPaths.NEAR_BUILDINGS;
-    assertFalse(obstacles.collidesWith(line.start, line.end));
+    assertFalse(obstacles.lineCollidesWith(line.start, line.end));
   }
 
   @Test
   public void leavesConfinementLineCollides() {
     var line = TestPaths.LEAVES_CONFINEMENT;
-    assertTrue(obstacles.collidesWith(line.start, line.end));
+    assertTrue(obstacles.lineCollidesWith(line.start, line.end));
   }
 
   @Test
   public void collidesWith1BuildingLineCollides() {
     var line = TestPaths.COLLIDES_1_BUILDING;
-    assertTrue(obstacles.collidesWith(line.start, line.end));
+    assertTrue(obstacles.lineCollidesWith(line.start, line.end));
   }
 
   @Test
   public void trickyPathThroughBuildingLineCollides() {
     var line = TestPaths.TRICKY_PATH_THROUGH_BUILDINGS;
-    assertTrue(obstacles.collidesWith(line.start, line.end));
+    assertTrue(obstacles.lineCollidesWith(line.start, line.end));
   }
 
   @Test
   public void collidesWith3BuildingsLineCollides() {
     var line = TestPaths.COLLIDES_3_BUILDINGS;
-    assertTrue(obstacles.collidesWith(line.start, line.end));
+    assertTrue(obstacles.lineCollidesWith(line.start, line.end));
   }
 
   @Test
   public void shortestRouteLeavesConfinementLineCollides() {
     var line = TestPaths.SHORTEST_ROUTE_LEAVES_CONFINEMENT;
-    assertTrue(obstacles.collidesWith(line.start, line.end));
+    assertTrue(obstacles.lineCollidesWith(line.start, line.end));
   }
 }

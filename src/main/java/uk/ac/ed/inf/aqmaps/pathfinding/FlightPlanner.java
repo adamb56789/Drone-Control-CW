@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/** Handles the creation of a flight plan for the drone. */
 public class FlightPlanner {
   private final Obstacles obstacles;
   private final ObstacleEvader obstacleEvader;
@@ -22,9 +23,16 @@ public class FlightPlanner {
     sensorLocations.forEach(w3w -> sensorCoordsW3WMap.put(w3w.getCoordinates(), w3w));
   }
 
+  /**
+   * Create a flight plan for the drone along the given tour.
+   *
+   * @param tour a list of lists of waypoints for the drone to follow between each sensor.
+   * @return a list of Moves that make up the flight plan
+   */
   public List<Move> createFlightPlan(List<List<Coords>> tour) {
     var moves = new ArrayList<Move>();
     var currentPosition = tour.get(0).get(0); // The starting position is the very start of the tour
+
     for (int i = 0; i < tour.size(); i++) {
       var waypoints = tour.get(i);
 
@@ -64,9 +72,10 @@ public class FlightPlanner {
         }
       }
 
-      var waypointNavigation = new WaypointNavigation(obstacles, waypoints, targetSensorOrNull);
+      var waypointNavigation = new WaypointNavigation(obstacles);
 
-      var movesToLocation = waypointNavigation.navigateToLocation(currentPosition);
+      var movesToLocation =
+          waypointNavigation.navigateToLocation(currentPosition, waypoints, targetSensorOrNull);
 
       if (movesToLocation == null) {
         // In case there is no valid flightpath, we give up here

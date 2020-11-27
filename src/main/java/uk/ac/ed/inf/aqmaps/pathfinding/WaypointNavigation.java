@@ -8,33 +8,49 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * A class which handles the navigation of the drone along a series of waypoints. This is the core
+ * of the drone control algorithm that plans the movement of the drone itself including all rules
+ * about move lengths and directions.
+ */
 public class WaypointNavigation {
   public static final double MOVE_LENGTH = 0.0003;
   public static final double SENSOR_RANGE = 0.0002;
   public static final double END_POSITION_RANGE = 0.0003;
   private final Obstacles obstacles;
-  private final List<Coords> waypoints;
-  private final Coords targetLocation;
-  private final boolean targetIsEnd;
-  private final W3W targetSensorW3W;
+  private final ArrayList<Integer> offsets = getOffsets();
+  private List<Coords> waypoints;
+  private Coords targetLocation;
+  private boolean targetIsEnd;
+  private W3W targetSensorW3W;
 
-  public WaypointNavigation(Obstacles obstacles, List<Coords> waypoints, W3W targetSensorW3W) {
+  /** @param obstacles the obstacles for collision checking */
+  public WaypointNavigation(Obstacles obstacles) {
     this.obstacles = obstacles;
+  }
+
+  /**
+   * Find a sequence of moves that navigates the drone from the current location along the waypoints
+   * to the target (usually a sensor).
+   *
+   * @param startingPosition the starting position of the drone
+   * @param waypoints a list of Coords waypoints for the drone to follow on its way to the target.
+   * @param targetSensorW3W the W3W of the target sensor, or null if the target is the ending
+   *     position of the entire tour
+   * @return a list of Moves that navigate the drone from the starting position to in range of the
+   *     target
+   */
+  public List<Move> navigateToLocation(
+      Coords startingPosition, List<Coords> waypoints, W3W targetSensorW3W) {
     this.waypoints = waypoints;
     this.targetLocation = waypoints.get(waypoints.size() - 1);
     this.targetIsEnd = targetSensorW3W == null;
     this.targetSensorW3W = targetSensorW3W;
-  }
 
-  /**
-   * Find a sequence of moves that navigates the drone from the current location along the
-   * waypoints.
-   *
-   * @param currentPosition the current position of the drone
-   * @return a list of Moves, or null if there is no valid flightpath
-   */
-  public List<Move> navigateToLocation(Coords currentPosition) {
-    var moves = tryMove(currentPosition, 1, predictMaxMoveLength(0));
+    // Estimate the length of the path to first waypoint for checking loops (see moveToWaypoint())
+    var maxLengthFirstMove = predictMaxMoveLength(0);
+    var moves = navigateAlongWaypoints(startingPosition, 1, maxLengthFirstMove);
+
     if (moves == null) {
       // This never occurred in testing, but if a flightpath can't be found, return null
       return null;
@@ -57,89 +73,102 @@ public class WaypointNavigation {
     return (int) ((waypoints.get(i).distance(waypoints.get(i + 1)) / MOVE_LENGTH) + 1) + 4;
   }
 
-  private List<Move> tryMove(
+  private List<Move> navigateAlongWaypoints(
       Coords currentPosition, int currentWaypointNumber, int movesTilTimeout) {
-    // This flightpath is invalid if we timeout from taking too many moves
-    // This happens if it gets stuck in a loop not making any progress
-    // This happens rarely
+    // This flightpath is invalid if we timeout from taking too many moves, which happens if it gets
+    // stuck in a loop not making any progress. This doesn't happen very often
     if (movesTilTimeout == 0) {
       return null;
     }
 
-    var offsets =
-        new int[] {
-          0, 10, -10, 20, -20, 30, -30, 40, -40, 50, -50, 60, -60, 70, -70, 80, -80, 90, -90, 100,
-          -100, 110, -110, 120, -120, 130, -130, 140, -140, 150, -150, 160, -160, 170, -170, 180
-        };
+    // When looking for a move, start by going directly towards the next waypoint. This may fail if
+    // we hit an obstacle, so we try again but in a new direction offset from the direct line. We
+    // start with small offsets in both directions and work our way out.
     for (int offset : offsets) {
       // Calculate the direction towards the next waypoint (to the nearest 10)
       var direction =
           radiansToRoundedDegrees(currentPosition.angleTo(waypoints.get(currentWaypointNumber)));
-      direction = formatAngle(direction + offset); // Apply the offset
+      direction = formatAngle(direction + offset); // Apply the offset and ensure angle is [0,350]
 
-      // Calculate the position at the end of the move
-      var afterPosition = currentPosition.getPositionAfterMoveDegrees(direction, MOVE_LENGTH);
+      var positionAfterMove = currentPosition.getPositionAfterMoveDegrees(direction, MOVE_LENGTH);
 
       // If the move collides with an obstacle then try a different offset
-      if (obstacles.collidesWith(currentPosition, afterPosition)) {
+      if (obstacles.lineCollidesWith(currentPosition, positionAfterMove)) {
         continue;
       }
 
-      // If our target is a waypoint for obstacle evasion, instead of being within a certain
-      // radius we must ensure that we have gone round the corner and the next waypoint is in
-      // sight
+      // If our target waypoint is not the last then it is the corner of on obstacle so check if we
+      // have line of sight to the next waypoint and have gone round the corner.
       if (currentWaypointNumber < waypoints.size() - 1
-          && !obstacles.collidesWith(afterPosition, waypoints.get(currentWaypointNumber + 1))) {
+          && !obstacles.lineCollidesWith(
+              positionAfterMove, waypoints.get(currentWaypointNumber + 1))) {
 
-        // Don't bother recursing again if it will timeout and return null here instead (efficiency)
-        if (movesTilTimeout == 1) {
-          return null;
-        }
-
+        // Estimate the length of the journey to the next waypoint for checking loops
         var nextEstimatedLength = predictMaxMoveLength(currentWaypointNumber);
+        // Recursive call to move to the next waypoints
+        var movesList =
+            navigateAlongWaypoints(positionAfterMove, ++currentWaypointNumber, nextEstimatedLength);
 
-        var returnValue = tryMove(afterPosition, ++currentWaypointNumber, nextEstimatedLength);
-
-        if (returnValue == null) {
+        if (movesList != null) {
+          // Create a Move object for the calculated move, add it to the list which now contains all
+          // moves to the target ahead of where we are now, and return it up the stack
+          movesList.add(new Move(currentPosition, positionAfterMove, direction, null));
+          return movesList;
+        } else {
           // If we get a null that means it got stuck later on, so try a different offset
           continue;
-        } else {
-          returnValue.add(new Move(currentPosition, afterPosition, direction, null));
-          return returnValue;
         }
       }
 
-      // Check if the move puts it in range of the target sensor.
-      // If our target is the end position then we use a different range.
-      if ((!targetIsEnd && afterPosition.distance(targetSensorW3W.getCoordinates()) < SENSOR_RANGE)
-          || (targetIsEnd && afterPosition.distance(targetLocation) < END_POSITION_RANGE)) {
+      if (reachedTarget(positionAfterMove)) {
         // Create a list with just this final move, including the sensor we just reached, and return
         // it up the stack
-        var returnList = new ArrayList<Move>();
-        returnList.add(new Move(currentPosition, afterPosition, direction, targetSensorW3W));
-        return returnList;
-      }
-
-      // Don't bother recursing again if it will timeout and return null here instead (efficiency)
-      if (movesTilTimeout == 1) {
-        return null;
+        var movesList = new ArrayList<Move>();
+        movesList.add(new Move(currentPosition, positionAfterMove, direction, targetSensorW3W));
+        return movesList;
       }
 
       // If the move has not reached a waypoint or the target, and does not collide, then keep going
-      // and search for the next move
-      var returnValue = tryMove(afterPosition, currentWaypointNumber, movesTilTimeout - 1);
+      // and recursively search for the next move
+      var movesList =
+          navigateAlongWaypoints(positionAfterMove, currentWaypointNumber, movesTilTimeout - 1);
 
-      if (returnValue == null) {
-        // If we get a null that means it got stuck later on, so try a different offset
-        // (continue is technically unnecessary but keeping it for readability)
-        // noinspection UnnecessaryContinue
-        continue;
-      } else {
-        returnValue.add(new Move(currentPosition, afterPosition, direction, null));
-        return returnValue;
+      if (movesList != null) {
+        // Create a Move object for the calculated move, add it to the list which now contains all
+        // moves to the target ahead of where we are now, and return it up the stack
+        movesList.add(new Move(currentPosition, positionAfterMove, direction, null));
+        return movesList;
       }
+      // If we get a null that means it got stuck later on, so try a different offset
     }
     return null;
+  }
+
+  private boolean inSightOfTarget(int currentWaypointNumber, Coords positionAfterMove) {
+    return currentWaypointNumber < waypoints.size() - 1
+        && !obstacles.lineCollidesWith(positionAfterMove, waypoints.get(currentWaypointNumber + 1));
+  }
+
+  private boolean reachedTarget(Coords positionAfterMove) {
+    // The range is different if the target the end final end position
+    if (targetIsEnd) {
+      return positionAfterMove.distance(targetLocation) < END_POSITION_RANGE;
+    } else {
+      // We use the distance to the location of the sensor here instead of the target location since
+      // the target location might have been moved slightly to try to cut the corner (see
+      // FlightPlanner)
+      return positionAfterMove.distance(targetSensorW3W.getCoordinates()) < SENSOR_RANGE;
+    }
+  }
+
+  private ArrayList<Integer> getOffsets() {
+    var offsets = new ArrayList<Integer>();
+    offsets.add(0);
+    for (int i = 10; i <= 180; i += 10) {
+      offsets.add(i);
+      offsets.add(-i);
+    }
+    return offsets;
   }
 
   /**
@@ -153,11 +182,15 @@ public class WaypointNavigation {
     return formatAngle(degrees);
   }
 
+  /**
+   * @param degrees an angle in degrees
+   * @return the angle but rotated to be in the range [0,360), if it was not already
+   */
   private int formatAngle(int degrees) {
     // If the angle is negative, rotate it around one revolution so that it no longer is
     if (degrees < 0) {
       degrees += 360;
-    } else if (degrees > 350) {
+    } else if (degrees >= 360) {
       degrees -= 360;
     }
     return degrees;
