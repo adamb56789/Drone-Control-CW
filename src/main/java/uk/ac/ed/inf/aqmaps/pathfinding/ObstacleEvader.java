@@ -56,7 +56,7 @@ public class ObstacleEvader {
   public List<Coords> getShortestPathPoints(Coords start, Coords end) {
     // If the straight line between start and end does not collide, there is no need for pathfinding
     if (!obstacles.lineCollision(start, end)) {
-      return new ArrayList<>(List.of(start, end));
+      return List.of(start, end);
     }
 
     return getShortestPath(start, end).getVertexList();

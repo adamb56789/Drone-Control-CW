@@ -24,12 +24,12 @@ public class SensorGraphTest {
   @Test
   public void tourLengthCorrect() {
     var testCoords = new Coords(-3.1878, 55.9444);
-    assertEquals(34, sensorGraph.getTour(testCoords).size());
+    assertEquals(35, sensorGraph.getTour(testCoords).size());
   }
 
   @Test
   public void tourStartingPositionCorrect() {
     var testCoords = new Coords(-3.1878, 55.9444);
-    assertEquals(testCoords.x, sensorGraph.getTour(testCoords).get(0).get(0).x, 0.00000001);
+    assertEquals(testCoords.x, sensorGraph.getTour(testCoords).get(0).x, 0.00000001);
   }
 }

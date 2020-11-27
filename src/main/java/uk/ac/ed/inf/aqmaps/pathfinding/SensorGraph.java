@@ -66,12 +66,10 @@ public class SensorGraph {
    *
    * @param start a Coords containing the starting point of the tour, which is separate from the
    *     sensors
-   * @return a tour represented as a list of lists of Coords specifying the path from each point to
-   *     the next. Each list starts with the starting sensor, ends with the ending sensor, and may
-   *     contain additional waypoints for navigating around obstacles. The starting and ending point
-   *     of the entire tour is not a sensor, it is the drone starting position.
+   * @return a tour represented as a list of Coords specifying the path from each sensor to the
+   *     next, and back to the start.
    */
-  public List<List<Coords>> getTour(Coords start) {
+  public List<Coords> getTour(Coords start) {
     // Add the start point and all possible edges to and from
     addVertex(start);
     for (var vertex : vertices) {
@@ -94,12 +92,7 @@ public class SensorGraph {
     Collections.rotate(vertexList, -vertexList.indexOf(start));
     vertexList.add(vertexList.get(0)); // Put the starting position as the ending position as well
 
-    // Construct the tour by getting the waypoints from each sensor to the next
-    var tour = new ArrayList<List<Coords>>();
-    for (int i = 0; i < vertexList.size() - 1; i++) {
-      tour.add(obstacleEvader.getShortestPathPoints(vertexList.get(i), vertexList.get(i + 1)));
-    }
-    return tour;
+    return vertexList;
   }
 
   private void addVertex(Coords vertex) {

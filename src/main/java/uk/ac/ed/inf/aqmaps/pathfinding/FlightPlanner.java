@@ -26,32 +26,30 @@ public class FlightPlanner {
   /**
    * Create a flight plan for the drone along the given tour.
    *
-   * @param tour a list of lists of waypoints for the drone to follow between each sensor.
+   * @param tour a list of points that make up the journey of the drone. All except the first and
+   *     last are the location of a sensor.
    * @return a list of Moves that make up the flight plan
    */
-  public List<Move> createFlightPlan(List<List<Coords>> tour) {
+  public List<Move> createFlightPlan(List<Coords> tour) {
     var moves = new ArrayList<Move>();
-    var currentPosition = tour.get(0).get(0); // The starting position is the very start of the tour
+    var currentPosition = tour.get(0); // The starting position is the very start of the tour
 
-    for (int i = 0; i < tour.size(); i++) {
-      var waypoints = tour.get(i);
+    for (int i = 1; i < tour.size(); i++) {
+      var currentTarget = tour.get(i);
 
       W3W targetSensorOrNull;
       // If we are on the last step the target position will not be a sensor, so send null instead.
       if (i < tour.size() - 1) {
-        // The target sensor is the last element of this section of the tour
-        targetSensorOrNull = sensorCoordsW3WMap.get(waypoints.get(waypoints.size() - 1));
+        // The target sensor is the element after the current
+        targetSensorOrNull = sensorCoordsW3WMap.get(currentTarget);
       } else {
         targetSensorOrNull = null;
       }
 
       // If we are on any but the last leg of the tour, attempt to optimize the target location to
-      // cut the corner. This
+      // cut the corner.
       if (i < tour.size() - 1) {
-        var currentTarget = waypoints.get(waypoints.size() - 1);
-
-        var nextWaypoints = tour.get(i + 1);
-        var nextTarget = nextWaypoints.get(nextWaypoints.size() - 1);
+        var nextTarget = tour.get(i + 1);
 
         // Calculate the bisector between the direction from the target to the current position and
         // the target to the next target
@@ -68,24 +66,27 @@ public class FlightPlanner {
 
         // Check the the new target is not inside an obstacle
         if (!obstacles.pointCollision(newTarget)) {
-          // Generate a new path to the new target
-          waypoints = obstacleEvader.getShortestPathPoints(currentPosition, newTarget);
+          // Update the target to the optimised one
+          currentTarget = newTarget;
         }
       }
+      // Compute a list of waypoints from the current position to the target
+      var waypoints = obstacleEvader.getShortestPathPoints(currentPosition, currentTarget);
 
+      // Compute a list of Moves from the current position to the target
       var waypointNavigation = new WaypointNavigation(obstacles);
-
-      var movesToLocation =
+      var movesToTarget =
           waypointNavigation.navigateToLocation(currentPosition, waypoints, targetSensorOrNull);
 
-      if (movesToLocation == null) {
+      if (movesToTarget == null) {
         // In case there is no valid flightpath, we give up here
         System.out.println("Gave up searching for path");
         return moves;
       }
+      // Update the current position to the end of the sequence of moves
+      currentPosition = movesToTarget.get(movesToTarget.size() - 1).getAfter();
 
-      currentPosition = movesToLocation.get(movesToLocation.size() - 1).getAfter();
-      moves.addAll(movesToLocation);
+      moves.addAll(movesToTarget);
     }
     return moves;
   }
