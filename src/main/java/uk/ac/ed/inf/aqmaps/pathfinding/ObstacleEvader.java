@@ -117,4 +117,8 @@ public class ObstacleEvader {
       graph.setEdgeWeight(e, start.distance(end));
     }
   }
+
+  public Obstacles getObstacles() {
+    return obstacles;
+  }
 }

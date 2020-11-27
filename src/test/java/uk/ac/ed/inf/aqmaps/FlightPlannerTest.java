@@ -6,6 +6,7 @@ import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 import uk.ac.ed.inf.aqmaps.pathfinding.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -15,9 +16,9 @@ import static org.junit.Assert.*;
 @SuppressWarnings("SameParameterValue")
 public class FlightPlannerTest {
   // If testing takes too long, decrease these values.
-  public static final int DAYS_TO_TEST = 200; // Maximum is 731
+  public static final int DAYS_TO_TEST = 100; // Maximum is 731
   // Tries 3 tricky non-random points by default, try this many more random points
-  public static final int RANDOM_STARTING_POINTS_TO_TRY = 0;
+  public static final int RANDOM_STARTING_POINTS_TO_TRY = 5;
   // 3 tricky starting locations
   public static final Coords INF_FORUM_ALCOVE = new Coords(-3.1869108, 55.9449634);
   public static final Coords APPLETON_ALCOVE = new Coords(-3.1864079, 55.9443635);
@@ -68,7 +69,7 @@ public class FlightPlannerTest {
   private List<List<Move>> getFlightPlans() {
     // For each of the dates, get the flight plans for a number of starting locations
     return getDates(DAYS_TO_TEST)
-        .parallelStream() // This is slow so using a parallelStream makes the test go faster
+        .stream() // This is slow so using a parallelStream makes the test go faster
         .map(date -> runFlightPlansOnDate(date, RANDOM_STARTING_POINTS_TO_TRY))
         .flatMap(List::stream)
         .collect(Collectors.toList());
@@ -139,6 +140,8 @@ public class FlightPlannerTest {
 
     // Run for each starting location
     for (var startingLocation : startingLocations) {
+      System.out.println(
+          "date = " + Arrays.toString(date) + " " + startingLocation);
       // Create the sensor graph and compute the tour
       var obstacleEvader = new ObstacleEvader(obstacles);
       var tour =

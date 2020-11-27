@@ -33,6 +33,7 @@ public class SensorGraph {
 
   private final ObstacleEvader obstacleEvader;
   private final long randomSeed;
+  private final List<W3W> sensorLocations;
 
   /**
    * Initialise the graph using a list of sensor locations and an obstacle graph for pathfinding.
@@ -43,6 +44,7 @@ public class SensorGraph {
    * @param randomSeed the random seed to use for the graph algorithms
    */
   public SensorGraph(List<W3W> sensorLocations, ObstacleEvader obstacleEvader, long randomSeed) {
+    this.sensorLocations = sensorLocations;
     this.obstacleEvader = obstacleEvader;
     this.randomSeed = randomSeed;
     graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
@@ -80,6 +82,15 @@ public class SensorGraph {
 
     var algorithm = new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(INITIAL_TOURS, randomSeed);
     var path = algorithm.getTour(graph);
+
+    var algorithmPlus =
+        new TwoOptHeuristicTSPPlus<Coords, DefaultWeightedEdge>(
+            INITIAL_TOURS,
+            randomSeed,
+            start,
+            new FlightPlanner(obstacleEvader.getObstacles(), obstacleEvader, sensorLocations));
+
+    path = algorithmPlus.improveTour(path);
 
     // Remove the start and end points from the graph for later reuse
     removeVertex(start);
