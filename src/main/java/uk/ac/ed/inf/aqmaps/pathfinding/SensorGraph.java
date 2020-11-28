@@ -33,11 +33,9 @@ public class SensorGraph {
   /** We keep a separate list of vertices to make scanning through all vertices faster */
   private final List<Coords> vertices;
 
-  private final List<W3W> sensorLocations;
-  private final Obstacles obstacles;
   private final ObstacleEvader obstacleEvader;
   private final long randomSeed;
-  private FlightPlanner flightPlanner;
+  private final FlightPlanner flightPlanner;
 
   /**
    * Initialise the graph using a list of sensor locations and an obstacle graph for pathfinding.
@@ -53,8 +51,6 @@ public class SensorGraph {
       Obstacles obstacles,
       ObstacleEvader obstacleEvader,
       long randomSeed) {
-    this.sensorLocations = sensorLocations;
-    this.obstacles = obstacles;
     this.obstacleEvader = obstacleEvader;
     this.randomSeed = randomSeed;
     this.flightPlanner = new FlightPlanner(obstacles, obstacleEvader, sensorLocations);
@@ -107,7 +103,6 @@ public class SensorGraph {
       Collections.rotate(tour, -tour.indexOf(startPosition));
       tour.add(tour.get(0)); // Put the starting position as the ending position as well
 
-      flightPlanner = new FlightPlanner(obstacles, obstacleEvader, sensorLocations);
       int tourLength = flightPlanner.createFlightPlan(tour).size();
       if (tourLength < shortestLength) {
         shortestTour = tour;
