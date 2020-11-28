@@ -90,9 +90,7 @@ public class Polygon {
       Coords prevPoint = points.get(prevIndex);
 
       // Calculate the bisecting angle between the current point and its adjacent points
-      double angle1 = currentPoint.angleTo(prevPoint);
-      double angle2 = currentPoint.angleTo(nextPoint);
-      double bisector = (angle1 + angle2) / 2;
+      var bisector = Angle.bisectorDirection(currentPoint, prevPoint, nextPoint);
 
       // Create a new point a small distance away in the direction of the bisector
       var newPoint = currentPoint.getPositionAfterMoveRadians(bisector, OUTLINE_MARGIN);

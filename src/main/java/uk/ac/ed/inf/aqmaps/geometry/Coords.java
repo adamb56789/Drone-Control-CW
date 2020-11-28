@@ -25,17 +25,6 @@ public class Coords extends Point2D.Double {
   }
 
   /**
-   * Calculates the angle of the line between this point and the point p with respect to the
-   * horizontal, where east is 0, north is pi/2, south is -pi/2, west is pi
-   *
-   * @param p the end point of the line
-   * @return the angle in radians
-   */
-  public double angleTo(Coords p) {
-    return Math.atan2(p.y - y, p.x - x);
-  }
-
-  /**
    * Creates a new Coords which is the result of moving from the current location at the specified
    * angle for the specified length. Angle in degrees version.
    *

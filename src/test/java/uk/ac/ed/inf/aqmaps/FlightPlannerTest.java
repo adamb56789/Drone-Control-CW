@@ -3,7 +3,10 @@ package uk.ac.ed.inf.aqmaps;
 import org.junit.Test;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
-import uk.ac.ed.inf.aqmaps.pathfinding.*;
+import uk.ac.ed.inf.aqmaps.pathfinding.ConfinementArea;
+import uk.ac.ed.inf.aqmaps.pathfinding.FlightPlanner;
+import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleEvader;
+import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,21 +143,14 @@ public class FlightPlannerTest {
     }
 
     // Run for each starting location
-    for (var startingLocation : startingLocations) {
+    for (var startLocation : startingLocations) {
       // Create the sensor graph and compute the tour
       var obstacleEvader = new ObstacleEvader(obstacles);
-      var sensorCoords = W3W.convertToCoords(input.getSensorW3Ws());
-      var tour =
-          (new SensorGraph(
-                  obstacleEvader,
-                  new FlightPlanner(obstacles, obstacleEvader, input.getSensorW3Ws()),
-                  0))
-              .createSensorTour(startingLocation, sensorCoords);
 
       // Compute the flight plan
       outputFlightPlans.add(
-          (new FlightPlanner(obstacles, obstacleEvader, input.getSensorW3Ws()))
-              .createFlightPlan(tour));
+          (new FlightPlanner(obstacles, obstacleEvader, input.getSensorW3Ws(), 0))
+              .createFlightPlan(startLocation));
     }
     return outputFlightPlans;
   }

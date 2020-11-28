@@ -3,14 +3,14 @@ package uk.ac.ed.inf.aqmaps;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import uk.ac.ed.inf.aqmaps.geometry.Angle;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 
-public class CoordsTest {
-
+public class AngleTest {
   private static Stream<Arguments> provideArguments() {
     return Stream.of(
         Arguments.of("angle in quadrant 1", 1 + Math.sqrt(3), 2, 30),
@@ -23,12 +23,9 @@ public class CoordsTest {
 
   @ParameterizedTest
   @MethodSource("provideArguments")
-  void getPositionAfterMoveCorrect(String description, double x, double y, double angle) {
+  void lineDirectionCorrect(String description, double x, double y, double angle) {
     var p1 = new Coords(1, 1);
-    var expectedP = new Coords(x, y);
-    var actualP = p1.getPositionAfterMoveRadians(Math.toRadians(angle), 2);
-
-    assertEquals(description, expectedP.x, actualP.x, 0.00000000001);
-    assertEquals(description, expectedP.y, actualP.y, 0.00000000001);
+    var p2 = new Coords(x, y);
+    assertEquals(description, Math.toRadians(angle), Angle.lineDirection(p1, p2), 0.00000000001);
   }
 }

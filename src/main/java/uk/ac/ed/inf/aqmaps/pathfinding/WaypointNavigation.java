@@ -2,6 +2,7 @@ package uk.ac.ed.inf.aqmaps.pathfinding;
 
 import uk.ac.ed.inf.aqmaps.Move;
 import uk.ac.ed.inf.aqmaps.W3W;
+import uk.ac.ed.inf.aqmaps.geometry.Angle;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.ArrayList;
@@ -91,8 +92,9 @@ public class WaypointNavigation {
     for (int offset : offsets) {
       // Calculate the direction towards the next waypoint (to the nearest 10)
       var direction =
-          radiansToRoundedDegrees(currentPosition.angleTo(waypoints.get(currentWaypointNumber)));
-      direction = formatAngle(direction + offset); // Apply the offset and ensure angle is [0,350]
+          Angle.roundTo10Degrees(
+              Angle.lineDirection(currentPosition, waypoints.get(currentWaypointNumber)));
+      direction = Angle.formatAngle(direction + offset); // Apply the offset and ensure angle is [0,350]
 
       var positionAfterMove = currentPosition.getPositionAfterMoveDegrees(direction, MOVE_LENGTH);
 
@@ -171,28 +173,4 @@ public class WaypointNavigation {
     return offsets;
   }
 
-  /**
-   * Convert an angle in radians (that ranges from -pi to pi) to the angle in degrees to the nearest
-   * 10, ranging from 0 to 350
-   */
-  private int radiansToRoundedDegrees(double angle) {
-    angle = Math.toDegrees(angle);
-    int degrees = (int) (Math.round(angle / 10.0) * 10);
-
-    return formatAngle(degrees);
-  }
-
-  /**
-   * @param degrees an angle in degrees
-   * @return the angle but rotated to be in the range [0,360), if it was not already
-   */
-  private int formatAngle(int degrees) {
-    // If the angle is negative, rotate it around one revolution so that it no longer is
-    if (degrees < 0) {
-      degrees += 360;
-    } else if (degrees >= 360) {
-      degrees -= 360;
-    }
-    return degrees;
-  }
 }
