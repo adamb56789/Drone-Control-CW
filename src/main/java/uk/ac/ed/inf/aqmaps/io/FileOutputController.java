@@ -31,7 +31,7 @@ public class FileOutputController implements OutputController {
   public void outputMapGeoJSON(String json) {
     String path =
         String.format(
-            "readings-%02d-%02d-%04d.txt",
+            "readings-%02d-%02d-%04d.geojson",
             settings.getDay(), settings.getMonth(), settings.getYear());
     try {
       Files.writeString(Path.of(path), json);
