@@ -7,7 +7,7 @@ public class Move {
   private final Coords before;
   private final Coords after;
   private final int direction;
-  private final W3W sensor;
+  private final W3W sensorW3W;
 
   /**
    * @param before the position of the drone before the move
@@ -21,14 +21,14 @@ public class Move {
     this.before = before;
     this.after = after;
     this.direction = direction;
-    this.sensor = sensorW3W;
+    this.sensorW3W = sensorW3W;
   }
 
   @Override
   public String toString() {
     String sensorString;
-    if (sensor != null) {
-      sensorString = sensor.getWords();
+    if (sensorW3W != null) {
+      sensorString = sensorW3W.getWords();
     } else {
       sensorString = "null";
     }
@@ -49,7 +49,8 @@ public class Move {
     return direction;
   }
 
-  public W3W getSensor() {
-    return sensor;
+  /** @return the W3W of the sensor that this move reaches, or null if it does not reach a sensor */
+  public W3W getSensorW3W() {
+    return sensorW3W;
   }
 }

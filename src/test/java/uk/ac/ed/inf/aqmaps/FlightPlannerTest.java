@@ -56,8 +56,8 @@ public class FlightPlannerTest {
                 + move.getDirection(),
             inRange);
 
-        if (move.getSensor() != null) {
-          var distanceToSensor = move.getSensor().getCoordinates().distance(move.getAfter());
+        if (move.getSensorW3W() != null) {
+          var distanceToSensor = move.getSensorW3W().getCoordinates().distance(move.getAfter());
           assertTrue(
               "The move should end within 0.0003 of a sensor, was " + distanceToSensor,
               distanceToSensor < 0.0002);

@@ -1,10 +1,12 @@
 package uk.ac.ed.inf.aqmaps;
 
-import uk.ac.ed.inf.aqmaps.io.InputController;
-import uk.ac.ed.inf.aqmaps.io.OutputController;
 import uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner;
 import uk.ac.ed.inf.aqmaps.flightplanning.ObstacleEvader;
 import uk.ac.ed.inf.aqmaps.flightplanning.Obstacles;
+import uk.ac.ed.inf.aqmaps.io.InputController;
+import uk.ac.ed.inf.aqmaps.io.OutputController;
+
+import java.util.List;
 
 /** Represents the drone. Performs route planning, than follows that plan to collect sensor data. */
 public class Drone {
@@ -12,6 +14,11 @@ public class Drone {
   private final InputController input;
   private final OutputController output;
 
+  /**
+   * @param settings the current Settings
+   * @param input the InputController which handles data input
+   * @param output the OutputController which handles data output
+   */
   public Drone(Settings settings, InputController input, OutputController output) {
     this.settings = settings;
     this.input = input;
@@ -20,15 +27,43 @@ public class Drone {
 
   /** Start the drone and perform route planning and data collection for the given settings. */
   public void start() {
+    var flightPlan = planRoute();
+
+    var results = new Results(input.getSensorW3Ws());
+    results.recordFlightpath(flightPlan);
+
+    flyRoute(flightPlan, results);
+
+    output.outputFlightpath(results.getFlightpathString());
+    output.outputMapGeoJSON(results.getMapGeoJSON());
+  }
+
+  private List<Move> planRoute() {
+    // Input and prepare the obstacle and sensor location data
     var obstacles = new Obstacles(input.getNoFlyZones());
     var obstacleEvader = new ObstacleEvader(obstacles);
     var sensorW3Ws = input.getSensorW3Ws();
     var flightPlanner =
         new FlightPlanner(obstacles, obstacleEvader, sensorW3Ws, settings.getRandomSeed());
 
-    var results = new Results(sensorW3Ws);
-    results.recordFlightpath(flightPlanner.createFlightPlan(settings.getStartCoords()));
+    return flightPlanner.createFlightPlan(settings.getStartCoords());
+  }
 
-    System.out.println(results.getMapGeoJSON());
+  /**
+   * Fly the drone along the route, collecting sensor data and adding it to the results.
+   *
+   * @param flightPlan the flight plan for the drone to follow
+   * @param results the Results object to record the sensor data in
+   */
+  private void flyRoute(List<Move> flightPlan, Results results) {
+    for (var move : flightPlan) {
+      // Make the move and read the sensor, if there is one
+      var sensorData = input.readSensor(move.getSensorW3W());
+
+      // If we visited a sensor, record the data
+      if (sensorData != null) {
+        results.recordSensorReading(sensorData);
+      }
+    }
   }
 }
