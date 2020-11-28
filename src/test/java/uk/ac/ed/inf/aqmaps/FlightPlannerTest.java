@@ -79,6 +79,42 @@ public class FlightPlannerTest {
         .collect(Collectors.toList());
   }
 
+  private List<List<Move>> runFlightPlansOnDate(int[] date, int startingPointsToTry) {
+    var outputFlightPlans = new ArrayList<List<Move>>();
+    var random = new Random();
+    var startingLocations = new ArrayList<Coords>();
+    startingLocations.add(INF_FORUM_ALCOVE);
+    startingLocations.add(APPLETON_ALCOVE);
+    startingLocations.add(LIBRARY_CORNER);
+
+    var input =
+        new ServerInputController(
+            ServerInputControllerTest.getFakeServer(), date[0], date[1], date[2], 80);
+    var obstacles = new Obstacles(input.getNoFlyZones());
+    for (int i = 0; i < startingPointsToTry; i++) {
+      double randomLng =
+          ConfinementArea.TOP_LEFT.x
+              + (ConfinementArea.BOTTOM_RIGHT.x - ConfinementArea.TOP_LEFT.x) * random.nextDouble();
+      double randomLat =
+          ConfinementArea.BOTTOM_RIGHT.y
+              + (ConfinementArea.TOP_LEFT.y - ConfinementArea.BOTTOM_RIGHT.y) * random.nextDouble();
+
+      var startingLocation = new Coords(randomLng, randomLat);
+
+      if (obstacles.pointCollides(startingLocation)) {
+        continue;
+      }
+      startingLocations.add(startingLocation);
+    }
+
+    for (var startLocation : startingLocations) {
+      var obstacleEvader = new ObstacleEvader(obstacles);
+      var flightPlanner = new FlightPlanner(obstacles, obstacleEvader, input.getSensorW3Ws(), 0);
+      outputFlightPlans.add(flightPlanner.createFlightPlan(startLocation));
+    }
+    return outputFlightPlans;
+  }
+
   /**
    * Gets the first n dates in 2020 and 2021
    *
@@ -109,49 +145,5 @@ public class FlightPlannerTest {
       }
     }
     return dates;
-  }
-
-  private List<List<Move>> runFlightPlansOnDate(int[] date, int startingPointsToTry) {
-    var outputFlightPlans = new ArrayList<List<Move>>();
-    var random = new Random();
-    var startingLocations = new ArrayList<Coords>();
-    startingLocations.add(INF_FORUM_ALCOVE);
-    startingLocations.add(APPLETON_ALCOVE);
-    startingLocations.add(LIBRARY_CORNER);
-
-    var input =
-        new ServerInputController(
-            ServerInputControllerTest.getFakeServer(), date[0], date[1], date[2], 80);
-    var obstacles = new Obstacles(input.getNoFlyZones());
-    for (int i = 0; i < startingPointsToTry; i++) {
-
-      // Generate random starting location
-      double randomLng =
-          ConfinementArea.TOP_LEFT.x
-              + (ConfinementArea.BOTTOM_RIGHT.x - ConfinementArea.TOP_LEFT.x) * random.nextDouble();
-      double randomLat =
-          ConfinementArea.BOTTOM_RIGHT.y
-              + (ConfinementArea.TOP_LEFT.y - ConfinementArea.BOTTOM_RIGHT.y) * random.nextDouble();
-
-      var startingLocation = new Coords(randomLng, randomLat);
-
-      // Check that the starting location is not inside an obstacle
-      if (obstacles.pointCollision(startingLocation)) {
-        continue;
-      }
-      startingLocations.add(startingLocation);
-    }
-
-    // Run for each starting location
-    for (var startLocation : startingLocations) {
-      // Create the sensor graph and compute the tour
-      var obstacleEvader = new ObstacleEvader(obstacles);
-
-      // Compute the flight plan
-      outputFlightPlans.add(
-          (new FlightPlanner(obstacles, obstacleEvader, input.getSensorW3Ws(), 0))
-              .createFlightPlan(startLocation));
-    }
-    return outputFlightPlans;
   }
 }

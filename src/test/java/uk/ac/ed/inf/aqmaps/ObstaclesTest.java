@@ -65,16 +65,16 @@ public class ObstaclesTest {
 
   @Test
   public void pointNotInObstacleNoCollision() {
-    assertFalse(obstacles.pointCollision(TestPaths.MIDDLE_OF_NOWHERE.start));
+    assertFalse(obstacles.pointCollides(TestPaths.MIDDLE_OF_NOWHERE.start));
   }
 
   @Test
   public void pointOutsideConfinementCollision() {
-    assertTrue(obstacles.pointCollision(TestPaths.LEAVES_CONFINEMENT.end));
+    assertTrue(obstacles.pointCollides(TestPaths.LEAVES_CONFINEMENT.end));
   }
 
   @Test
   public void pointInsideObstacleCollision() {
-    assertTrue(obstacles.pointCollision(new Coords(-3.186743, 55.944321)));
+    assertTrue(obstacles.pointCollides(new Coords(-3.186743, 55.944321)));
   }
 }

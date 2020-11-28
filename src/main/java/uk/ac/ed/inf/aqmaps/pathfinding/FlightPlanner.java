@@ -134,35 +134,17 @@ public class FlightPlanner {
     var moves = new ArrayList<Move>();
     var currentPosition = tour.get(0);
 
+    // Plan the flight from each sensor to the next
     for (int i = 1; i < tour.size(); i++) {
       var currentTarget = tour.get(i);
-
-      // If the target is not a sensor this will be null
       W3W targetSensorOrNull = sensorCoordsW3WMap.get(currentTarget);
 
-      // If we are on any but the last leg of the tour, attempt to optimize the target location to
-      // cut the corner.
+      // If the target is not the end, shorten the route by using the sensor range to cut the corner
       if (i < tour.size() - 1) {
         var nextTarget = tour.get(i + 1);
-
-        // Calculate the direction of the bisector from the target to the current position and
-        // the target to the next target
-        var bisector = Angle.bisectorDirection(currentTarget, currentPosition, nextTarget);
-
-        // Move the target 0.5 * (sensor range) in that direction to cut the corner. 0.5 was chosen
-        // as it performed the best in testing. 1.0 doesn't work because it will often miss the
-        // sensor range by a small amount and then go in circles for a bit.
-        var newTarget =
-            currentTarget.getPositionAfterMoveRadians(
-                bisector, WaypointNavigation.SENSOR_RANGE * 0.5);
-
-        // Check the the new target is not inside an obstacle
-        if (!obstacles.pointCollision(newTarget)) {
-          // Update the target to the optimised one
-          currentTarget = newTarget;
-        }
+        currentTarget = cutCorner(currentPosition, currentTarget, nextTarget);
       }
-      // Compute a list of waypoints from the current position to the target
+      // Compute a list of waypoints from the current position to the target, avoiding obstacles
       var waypoints = obstacleEvader.getPath(currentPosition, currentTarget);
 
       // Compute a list of Moves from the current position to the target
@@ -181,5 +163,18 @@ public class FlightPlanner {
       moves.addAll(movesToTarget);
     }
     return moves;
+  }
+
+  private Coords cutCorner(Coords currentPosition, Coords currentTarget, Coords nextTarget) {
+    // Move the target 0.5 * (sensor range) in the direction of the bisector to cut the corner.
+    // 0.5 was chosen as it performed well in testing.
+    var bisector = Angle.bisectorDirection(currentTarget, currentPosition, nextTarget);
+    var newTarget =
+        currentTarget.getPositionAfterMoveRadians(bisector, WaypointNavigation.SENSOR_RANGE * 0.5);
+
+    if (!obstacles.pointCollides(newTarget)) {
+      currentTarget = newTarget;
+    }
+    return currentTarget;
   }
 }
