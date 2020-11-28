@@ -27,14 +27,13 @@ public class Angle {
   }
 
   /**
-   * Convert an angle in radians (that ranges from -pi to pi) to the angle in degrees to the nearest
-   * 10, ranging from 0 to 350
+   * Convert an angle in radians to the angle in degrees to the nearest 10.
+   *
+   * @param radians an angle in radians
+   * @return a rounded angle in degrees
    */
-  public static int roundTo10Degrees(double angle) {
-    angle = Math.toDegrees(angle);
-    int degrees = (int) (Math.round(angle / 10.0) * 10);
-
-    return formatAngle(degrees);
+  public static int roundTo10Degrees(double radians) {
+    return (int) (Math.round(Math.toDegrees(radians) / 10.0) * 10);
   }
 
   /**
@@ -42,7 +41,6 @@ public class Angle {
    * @return the angle but rotated to be in the range [0,360), if it was not already
    */
   public static int formatAngle(int degrees) {
-    // If the angle is negative, rotate it around one revolution so that it no longer is
     if (degrees < 0) {
       degrees += 360;
     } else if (degrees >= 360) {
