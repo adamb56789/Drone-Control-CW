@@ -27,13 +27,17 @@ public class Drone {
 
   /** Start the drone and perform route planning and data collection for the given settings. */
   public void start() {
+    // Create a flight plan and record it in the results
     var flightPlan = planRoute();
+    System.out.printf("Flight plan is %d moves%n", flightPlan.size());
 
     var results = new Results(input.getSensorW3Ws());
     results.recordFlightpath(flightPlan);
 
+    // Fly the route and collect sensor data
     flyRoute(flightPlan, results);
 
+    // Output the flight path and GeoJSON map
     output.outputFlightpath(results.getFlightpathString());
     output.outputMapGeoJSON(results.getMapGeoJSON());
   }

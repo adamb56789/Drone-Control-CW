@@ -18,7 +18,17 @@ public class WaypointNavigation {
   public static final double MOVE_LENGTH = 0.0003;
   public static final double SENSOR_RANGE = 0.0002;
   public static final double END_POSITION_RANGE = 0.0003;
-  private final ArrayList<Integer> offsets = getOffsets();
+
+  /**
+   * The offsets from the direct direction to try when looking for a direction to move in. Starts at
+   * 0 and works outwards. This is easier and faster to hardcode than to generate everytime we run
+   * navigation.
+   */
+  private final int[] OFFSETS = {
+    0, 10, -10, 20, -20, 30, -30, 40, -40, 50, -50, 60, -60, 70, -70, 80, -80, 90, -90, 100, -100,
+    110, -110, 120, -120, 130, -130, 140, -140, 150, -150, 160, -160, 170, -170, 180
+  };
+
   private final Obstacles obstacles;
   private List<Coords> waypoints;
   private Coords targetLocation;
@@ -88,7 +98,7 @@ public class WaypointNavigation {
     // When looking for a move, start by going directly towards the next waypoint. This may fail if
     // we hit an obstacle, so we try again but in a new direction offset from the direct line. We
     // start with small offsets in both directions and work our way out.
-    for (int offset : offsets) {
+    for (int offset : OFFSETS) {
       // Calculate the direction towards the next waypoint (to the nearest 10)
       var direction =
           Angle.roundTo10Degrees(Angle.lineDirection(currentPosition, waypoints.get(currWaypoint)));
@@ -156,15 +166,5 @@ public class WaypointNavigation {
       // FlightPlanner)
       return positionAfterMove.distance(targetSensorW3W.getCoordinates()) < SENSOR_RANGE;
     }
-  }
-
-  private ArrayList<Integer> getOffsets() {
-    var offsets = new ArrayList<Integer>();
-    offsets.add(0);
-    for (int i = 10; i <= 180; i += 10) {
-      offsets.add(i);
-      offsets.add(-i);
-    }
-    return offsets;
   }
 }
