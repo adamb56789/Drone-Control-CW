@@ -53,9 +53,9 @@ public class ObstacleEvader {
    * @param end the ending point
    * @return a list of points specifying the route
    */
-  public List<Coords> getShortestPathPoints(Coords start, Coords end) {
-    // If the straight line between start and end does not collide, there is no need for pathfinding
+  public List<Coords> getPath(Coords start, Coords end) {
     if (!obstacles.lineCollision(start, end)) {
+      // Return a direct path if it does not collide with anything
       return List.of(start, end);
     }
 
@@ -68,11 +68,11 @@ public class ObstacleEvader {
    *
    * @param start the starting point
    * @param end the ending point
-   * @return a list of points specifying the route
+   * @return the length of the path in degrees
    */
-  public double getShortestPathLength(Coords start, Coords end) {
-    // If the straight line between start and end does not collide, there is no need for pathfinding
+  public double getPathLength(Coords start, Coords end) {
     if (!obstacles.lineCollision(start, end)) {
+      // Return the distance between the points if the direct path does not collide with anything
       return start.distance(end);
     }
 

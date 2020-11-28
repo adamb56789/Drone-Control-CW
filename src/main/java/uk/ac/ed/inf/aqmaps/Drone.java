@@ -27,10 +27,9 @@ public class Drone {
     var sensorCoords = W3W.convertToCoords(sensorW3Ws);
     var flightPlanner = new FlightPlanner(obstacles, obstacleEvader, sensorW3Ws);
 
-    var sensorGraph =
-        new SensorGraph(sensorCoords, obstacleEvader, flightPlanner, settings.getRandomSeed());
+    var sensorGraph = new SensorGraph(obstacleEvader, flightPlanner, settings.getRandomSeed());
 
-    var tour = sensorGraph.getTour(settings.getStartCoords());
+    var tour = sensorGraph.createSensorTour(settings.getStartCoords(), sensorCoords);
 
     var results = new Results(sensorW3Ws);
     //    results.recordFlightpath(droneNavigation.createFlightPlan(tour));

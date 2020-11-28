@@ -33,7 +33,7 @@ public class ObstacleEvaderTest {
     assertEquals(
         description,
         path.shortestPathLength,
-        obstacleGraph.getShortestPathLength(path.start, path.end),
+        obstacleGraph.getPathLength(path.start, path.end),
         0.0000000001);
   }
 }

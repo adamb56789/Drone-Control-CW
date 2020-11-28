@@ -9,10 +9,13 @@ import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleEvader;
 import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
 import uk.ac.ed.inf.aqmaps.pathfinding.SensorGraph;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class SensorGraphTest {
   SensorGraph sensorGraph;
+  List<Coords> sensorCoords;
 
   @Before
   public void setup() {
@@ -20,23 +23,22 @@ public class SensorGraphTest {
     var input = new ServerInputController(testServer, 1, 1, 2020, 80);
     var obstacles = new Obstacles(input.getNoFlyZones());
     var obstacleGraph = new ObstacleEvader(obstacles);
+    sensorCoords = W3W.convertToCoords(input.getSensorW3Ws());
     sensorGraph =
         new SensorGraph(
-            W3W.convertToCoords(input.getSensorW3Ws()),
-            obstacleGraph,
-            new FlightPlanner(obstacles, obstacleGraph, input.getSensorW3Ws()),
-            0);
+            obstacleGraph, new FlightPlanner(obstacles, obstacleGraph, input.getSensorW3Ws()), 0);
   }
 
   @Test
   public void tourLengthCorrect() {
     var testCoords = new Coords(-3.1878, 55.9444);
-    assertEquals(35, sensorGraph.getTour(testCoords).size());
+    assertEquals(35, sensorGraph.createSensorTour(testCoords, sensorCoords).size());
   }
 
   @Test
   public void tourStartingPositionCorrect() {
     var testCoords = new Coords(-3.1878, 55.9444);
-    assertEquals(testCoords.x, sensorGraph.getTour(testCoords).get(0).x, 0.00000001);
+    assertEquals(
+        testCoords.x, sensorGraph.createSensorTour(testCoords, sensorCoords).get(0).x, 0.00000001);
   }
 }

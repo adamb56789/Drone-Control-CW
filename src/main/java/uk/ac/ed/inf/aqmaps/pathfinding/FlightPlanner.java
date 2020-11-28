@@ -70,7 +70,7 @@ public class FlightPlanner {
         }
       }
       // Compute a list of waypoints from the current position to the target
-      var waypoints = obstacleEvader.getShortestPathPoints(currentPosition, currentTarget);
+      var waypoints = obstacleEvader.getPath(currentPosition, currentTarget);
 
       // Compute a list of Moves from the current position to the target
       var waypointNavigation = new WaypointNavigation(obstacles);
@@ -79,7 +79,7 @@ public class FlightPlanner {
 
       if (movesToTarget == null) {
         // In case there is no valid flightpath, we give up here
-        System.out.println("Gave up searching for path");
+        System.out.println("Gave up searching for path"); // TODO
         return moves;
       }
       // Update the current position to the end of the sequence of moves
