@@ -24,7 +24,7 @@ public class Drone {
     var obstacles = new Obstacles(input.getNoFlyZones());
     var obstacleEvader = new ObstacleEvader(obstacles);
     var sensorLocations = input.getSensorLocations();
-    var droneNavigation = new FlightPlanner(obstacles, obstacleEvader, sensorLocations);
+    var droneNavigation = new FlightPlanner(obstacleEvader, sensorLocations);
 
     var sensorGraph = new SensorGraph(sensorLocations, obstacleEvader, settings.getRandomSeed());
 

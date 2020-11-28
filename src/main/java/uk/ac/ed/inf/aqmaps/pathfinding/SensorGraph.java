@@ -1,6 +1,5 @@
 package uk.ac.ed.inf.aqmaps.pathfinding;
 
-import org.jgrapht.GraphPath;
 import org.jgrapht.alg.tour.TwoOptHeuristicTSP;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
@@ -10,10 +9,6 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Holds a weighted graph containing the sensor locations and the shortest paths between them.
@@ -22,16 +17,17 @@ import java.util.concurrent.TimeoutException;
  * algorithms, however this could be changed easily.
  */
 public class SensorGraph {
-  /**
-   * The number of initial tours tried by the 2-opt TSP. 400 was chosen since in testing, with all
-   * days from 2020 and 2021 and the random seed 0, increasing it further yielded no further
-   * improvement. It can be adjusted depending on the needs of the scenario. Note that in testing,
-   * reducing it from 400 to 10 only increased the average path length by about 0.03 %, with a
-   * performance improvement of about 10 ms per day, which is negligible in this case. Decreasing it
-   * to 1 increased path length by about 4.0 %.
-   */
-  private static final int INITIAL_TOURS = 400;
 
+  /**
+   * The number of initial tours to try when running 2-opt. Unless ITERATIONS is low, increasing
+   * this reduces the average move length.
+   */
+  public static final int TWO_OPT_PASSES = 1;
+  /**
+   * The number of times to run the algorithm before picking the shortest. Can be changed to trade
+   * off for speed and efficacy.
+   */
+  private static final int ITERATIONS = 1000;
   private final SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
   /** We keep a separate list of vertices to make scanning through all vertices faster */
   private final List<Coords> vertices;
@@ -71,60 +67,46 @@ public class SensorGraph {
   /**
    * Computes a tour which visits all sensors and returns to the starting point.
    *
-   * @param start a Coords containing the starting point of the tour, which is separate from the
-   *     sensors
+   * @param startPosition a Coords containing the starting point of the tour, which is separate from
+   *     the sensors
    * @return a tour represented as a list of Coords specifying the path from each sensor to the
    *     next, and back to the start.
    */
-  public List<Coords> getTour(Coords start) {
+  public List<Coords> getTour(Coords startPosition) {
     // Add the start point and all possible edges to and from
-    addVertex(start);
+    addVertex(startPosition);
     for (var vertex : vertices) {
-      if (start != vertex) {
-        addEdge(start, vertex);
+      if (startPosition != vertex) {
+        addEdge(startPosition, vertex);
       }
     }
 
-    // Use 2-opt heuristic to find a tour
-    var algorithm = new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(INITIAL_TOURS, randomSeed);
-    var path = algorithm.getTour(graph);
+    // Try several times and keep the best tour. Also stop if too much time passes
+    List<Coords> shortestTour = null;
+    int shortestLength = Integer.MAX_VALUE;
+    for (int i = 0; i < ITERATIONS; i++) {
 
-    // Attempt to find a shorter tour by running 2-opt again
-    path = attemptImprovementWithDroneNavigation(start, path);
+      var twoOpt =
+          new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(TWO_OPT_PASSES, randomSeed + i);
+      var graphPath = twoOpt.getTour(graph);
+      var tour = graphPath.getVertexList();
 
-    // Remove the start and end points from the graph for later reuse
-    removeVertex(start);
+      tour.remove(0); // The first and last elements are duplicates, so remove the duplicate
 
-    var vertexList = path.getVertexList();
-    // The first element in the vertex list seems to be random, but we want it to be the start
-    vertexList.remove(0); // The first and last elements are duplicates, so remove the duplicate
+      // Rotate the list backwards so the starting position is at the front
+      Collections.rotate(tour, -tour.indexOf(startPosition));
+      tour.add(tour.get(0)); // Put the starting position as the ending position as well
 
-    // Rotate the list backwards so the starting position is at the front
-    Collections.rotate(vertexList, -vertexList.indexOf(start));
-    vertexList.add(vertexList.get(0)); // Put the starting position as the ending position as well
-
-    return vertexList;
-  }
-
-  private GraphPath<Coords, DefaultWeightedEdge> attemptImprovementWithDroneNavigation(
-      Coords start, GraphPath<Coords, DefaultWeightedEdge> path) {
-    var algorithmPlus =
-        new TwoOptFlightPlanImprover<Coords, DefaultWeightedEdge>(
-            start,
-            new FlightPlanner(obstacleEvader.getObstacles(), obstacleEvader, sensorLocations));
-
-    var executor = Executors.newSingleThreadExecutor();
-    var finalPath = path;
-    var future = executor.submit(() -> algorithmPlus.improveTourPlus(finalPath));
-    try {
-      path = future.get(2, TimeUnit.SECONDS); // TODO increase this
-    } catch (TimeoutException | InterruptedException | ExecutionException e) {
-      System.out.println("Timeout");
-      future.cancel(true);
-    } finally {
-      executor.shutdownNow();
+      int tourLength =
+          (new FlightPlanner(obstacleEvader, sensorLocations)).createFlightPlan(tour).size();
+      if (tourLength < shortestLength) {
+        shortestTour = tour;
+        shortestLength = tourLength;
+      }
     }
-    return path;
+
+    removeVertex(startPosition); // Remove the start point from the graph
+    return shortestTour;
   }
 
   private void addVertex(Coords vertex) {

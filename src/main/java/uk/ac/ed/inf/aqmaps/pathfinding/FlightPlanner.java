@@ -15,10 +15,9 @@ public class FlightPlanner {
   private final ObstacleEvader obstacleEvader;
   private final Map<Coords, W3W> sensorCoordsW3WMap;
 
-  public FlightPlanner(
-      Obstacles obstacles, ObstacleEvader obstacleEvader, List<W3W> sensorLocations) {
-    this.obstacles = obstacles;
+  public FlightPlanner(ObstacleEvader obstacleEvader, List<W3W> sensorLocations) {
     this.obstacleEvader = obstacleEvader;
+    obstacles = obstacleEvader.getObstacles();
     sensorCoordsW3WMap = new HashMap<>();
     sensorLocations.forEach(w3w -> sensorCoordsW3WMap.put(w3w.getCoordinates(), w3w));
   }
@@ -29,7 +28,7 @@ public class FlightPlanner {
    * @param tour a list of points that make up the journey of the drone.
    * @return a list of Moves that make up the flight plan
    */
-  public List<Move> createFlightPlan(List<Coords> tour) throws InterruptedException {
+  public List<Move> createFlightPlan(List<Coords> tour) {
     var moves = new ArrayList<Move>();
     var currentPosition = tour.get(0); // The starting position is the very start of the tour
 

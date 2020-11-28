@@ -6,7 +6,6 @@ import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 import uk.ac.ed.inf.aqmaps.pathfinding.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -16,9 +15,9 @@ import static org.junit.Assert.*;
 @SuppressWarnings("SameParameterValue")
 public class FlightPlannerTest {
   // If testing takes too long, decrease these values.
-  public static final int DAYS_TO_TEST = 731; // Maximum is 731
+  public static final int DAYS_TO_TEST = 10; // Maximum is 731
   // Tries 3 tricky non-random points by default, try this many more random points
-  public static final int RANDOM_STARTING_POINTS_TO_TRY = 10;
+  public static final int RANDOM_STARTING_POINTS_TO_TRY = 1;
   // 3 tricky starting locations
   public static final Coords INF_FORUM_ALCOVE = new Coords(-3.1869108, 55.9449634);
   public static final Coords APPLETON_ALCOVE = new Coords(-3.1864079, 55.9443635);
@@ -31,6 +30,7 @@ public class FlightPlannerTest {
 
   @Test
   public void flightPlanCorrect() {
+
     // All tests are done at once since it takes a long time to generate this many flight plans
     // Calculate average move length while we're at it
     double flightPathLengths = 0;
@@ -148,13 +148,8 @@ public class FlightPlannerTest {
               .getTour(startingLocation);
 
       // Compute the flight plan
-      try {
-        outputFlightPlans.add(
-            (new FlightPlanner(obstacles, obstacleEvader, input.getSensorLocations()))
-                .createFlightPlan(tour));
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+      outputFlightPlans.add(
+          (new FlightPlanner(obstacleEvader, input.getSensorLocations())).createFlightPlan(tour));
     }
     return outputFlightPlans;
   }
