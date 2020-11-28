@@ -2,14 +2,37 @@ package uk.ac.ed.inf.aqmaps;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
+
+import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
 public class ObstaclesTest {
   private Obstacles obstacles;
+
+  private static Stream<Arguments> lineCollisionArguments() {
+    return Stream.of(
+        Arguments.of("Middle of nowhere line no collision", TestPaths.MIDDLE_OF_NOWHERE, false),
+        Arguments.of("Near buildings line no collision", TestPaths.NEAR_BUILDINGS, false),
+        Arguments.of("leaves confinement line collides", TestPaths.LEAVES_CONFINEMENT, true),
+        Arguments.of("Collides with 1 building line collides", TestPaths.COLLIDES_1_BUILDING, true),
+        Arguments.of(
+            "Tricky path through building line collides",
+            TestPaths.TRICKY_PATH_THROUGH_BUILDINGS,
+            true),
+        Arguments.of(
+            "Collides with 3 buildings line collides", TestPaths.COLLIDES_3_BUILDINGS, true),
+        Arguments.of(
+            "Shortest route leaves confinement line collides",
+            TestPaths.SHORTEST_ROUTE_LEAVES_CONFINEMENT,
+            true));
+  }
 
   @Before
   public void setup() {
@@ -31,46 +54,13 @@ public class ObstaclesTest {
     assertFalse(obstacles.lineCollision(start, end));
   }
 
-  @Test
-  public void middleOfNowhereLineNoCollision() {
-    var line = TestPaths.MIDDLE_OF_NOWHERE;
-    assertFalse(obstacles.lineCollision(line.start, line.end));
-  }
-
-  @Test
-  public void nearBuildingsLineNoCollision() {
-    var line = TestPaths.NEAR_BUILDINGS;
-    assertFalse(obstacles.lineCollision(line.start, line.end));
-  }
-
-  @Test
-  public void leavesConfinementLineCollides() {
-    var line = TestPaths.LEAVES_CONFINEMENT;
-    assertTrue(obstacles.lineCollision(line.start, line.end));
-  }
-
-  @Test
-  public void collidesWith1BuildingLineCollides() {
-    var line = TestPaths.COLLIDES_1_BUILDING;
-    assertTrue(obstacles.lineCollision(line.start, line.end));
-  }
-
-  @Test
-  public void trickyPathThroughBuildingLineCollides() {
-    var line = TestPaths.TRICKY_PATH_THROUGH_BUILDINGS;
-    assertTrue(obstacles.lineCollision(line.start, line.end));
-  }
-
-  @Test
-  public void collidesWith3BuildingsLineCollides() {
-    var line = TestPaths.COLLIDES_3_BUILDINGS;
-    assertTrue(obstacles.lineCollision(line.start, line.end));
-  }
-
-  @Test
-  public void shortestRouteLeavesConfinementLineCollides() {
-    var line = TestPaths.SHORTEST_ROUTE_LEAVES_CONFINEMENT;
-    assertTrue(obstacles.lineCollision(line.start, line.end));
+  @ParameterizedTest
+  @MethodSource("lineCollisionArguments")
+  public void formatAngle(String description, TestPath testPath, boolean collision) {
+    var testServer = ServerInputControllerTest.getFakeServer();
+    var input = new ServerInputController(testServer, 1, 1, 2020, 80);
+    obstacles = new Obstacles(input.getNoFlyZones());
+    assertEquals(description, collision, obstacles.lineCollision(testPath.start, testPath.end));
   }
 
   @Test
