@@ -31,9 +31,8 @@ public class PolygonTest {
           segments.size());
       assertEquals(
           "The segments should wrap around correctly",
-          segments.get(0).x1,
-          segments.get(segments.size() - 1).x2,
-          1e-10);
+          segments.get(0).getP1(),
+          segments.get(segments.size() - 1).getP2());
     }
   }
 

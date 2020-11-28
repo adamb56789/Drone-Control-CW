@@ -15,9 +15,10 @@ public class FlightPlanner {
   private final ObstacleEvader obstacleEvader;
   private final Map<Coords, W3W> sensorCoordsW3WMap;
 
-  public FlightPlanner(ObstacleEvader obstacleEvader, List<W3W> sensorLocations) {
+  public FlightPlanner(
+      Obstacles obstacles, ObstacleEvader obstacleEvader, List<W3W> sensorLocations) {
+    this.obstacles = obstacles;
     this.obstacleEvader = obstacleEvader;
-    obstacles = obstacleEvader.getObstacles();
     sensorCoordsW3WMap = new HashMap<>();
     sensorLocations.forEach(w3w -> sensorCoordsW3WMap.put(w3w.getCoordinates(), w3w));
   }

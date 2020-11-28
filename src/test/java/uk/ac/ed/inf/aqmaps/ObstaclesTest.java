@@ -25,13 +25,6 @@ public class ObstaclesTest {
   }
 
   @Test
-  public void numberOfSegmentsCorrect() {
-    var segments = obstacles.getSegments();
-    assertEquals(
-        "The obstacle polygons should have a total of 32 line segments", 32, segments.size());
-  }
-
-  @Test
   public void meetsCornersLineNoCollision() {
     var start = obstacles.getOutlinePoints().get(0);
     var end = obstacles.getOutlinePoints().get(1);

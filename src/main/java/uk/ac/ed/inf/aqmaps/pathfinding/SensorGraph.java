@@ -28,26 +28,36 @@ public class SensorGraph {
    * off for speed and efficacy.
    */
   private static final int ITERATIONS = 1000;
+
   private final SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
   /** We keep a separate list of vertices to make scanning through all vertices faster */
   private final List<Coords> vertices;
 
+  private final List<W3W> sensorLocations;
+  private final Obstacles obstacles;
   private final ObstacleEvader obstacleEvader;
   private final long randomSeed;
-  private final List<W3W> sensorLocations;
+  private FlightPlanner flightPlanner;
 
   /**
    * Initialise the graph using a list of sensor locations and an obstacle graph for pathfinding.
    * Computes the shortest distance between every pair of points and adds them as an edge.
    *
    * @param sensorLocations a list of W3W with the locations of the sensors
+   * @param obstacles the obstacles
    * @param obstacleEvader the obstacle graph
    * @param randomSeed the random seed to use for the graph algorithms
    */
-  public SensorGraph(List<W3W> sensorLocations, ObstacleEvader obstacleEvader, long randomSeed) {
+  public SensorGraph(
+      List<W3W> sensorLocations,
+      Obstacles obstacles,
+      ObstacleEvader obstacleEvader,
+      long randomSeed) {
     this.sensorLocations = sensorLocations;
+    this.obstacles = obstacles;
     this.obstacleEvader = obstacleEvader;
     this.randomSeed = randomSeed;
+    this.flightPlanner = new FlightPlanner(obstacles, obstacleEvader, sensorLocations);
     graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
     vertices = new ArrayList<>();
 
@@ -81,7 +91,7 @@ public class SensorGraph {
       }
     }
 
-    // Try several times and keep the best tour. Also stop if too much time passes
+    // Try several times and keep the best tour.
     List<Coords> shortestTour = null;
     int shortestLength = Integer.MAX_VALUE;
     for (int i = 0; i < ITERATIONS; i++) {
@@ -97,8 +107,8 @@ public class SensorGraph {
       Collections.rotate(tour, -tour.indexOf(startPosition));
       tour.add(tour.get(0)); // Put the starting position as the ending position as well
 
-      int tourLength =
-          (new FlightPlanner(obstacleEvader, sensorLocations)).createFlightPlan(tour).size();
+      flightPlanner = new FlightPlanner(obstacles, obstacleEvader, sensorLocations);
+      int tourLength = flightPlanner.createFlightPlan(tour).size();
       if (tourLength < shortestLength) {
         shortestTour = tour;
         shortestLength = tourLength;
@@ -119,10 +129,12 @@ public class SensorGraph {
     vertices.remove(vertex);
   }
 
+  /**
+   * Add an edge between the two points with the weight of the length of the shortest path between
+   * the two points, including flying around any obstacles.
+   */
   private void addEdge(Coords start, Coords end) {
     DefaultWeightedEdge e = graph.addEdge(start, end);
-    // Calculate the length of the shortest path between the two points, including diversions to
-    // avoid obstacles
     graph.setEdgeWeight(e, obstacleEvader.getShortestPathLength(start, end));
   }
 }

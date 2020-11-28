@@ -17,8 +17,9 @@ public class SensorGraphTest {
   public void setup() {
     var testServer = ServerInputControllerTest.getFakeServer();
     var input = new ServerInputController(testServer, 1, 1, 2020, 80);
-    var obstacleGraph = new ObstacleEvader(new Obstacles(input.getNoFlyZones()));
-    sensorGraph = new SensorGraph(input.getSensorLocations(), obstacleGraph, 0);
+    var obstacles = new Obstacles(input.getNoFlyZones());
+    var obstacleGraph = new ObstacleEvader(obstacles);
+    sensorGraph = new SensorGraph(input.getSensorLocations(), obstacles, obstacleGraph, 0);
   }
 
   @Test

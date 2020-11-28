@@ -45,12 +45,6 @@ public class WaypointNavigation {
     this.targetLocation = waypoints.get(waypoints.size() - 1);
     this.targetSensorW3W = targetSensorW3W;
 
-    if (countIterations++ > 100000) {
-      // Fail if the algorithm continues for too long TODO get rid of this
-      System.out.println("Navigation timed out");
-      return null;
-    }
-
     // Estimate the length of the path to first waypoint for checking loops (see moveToWaypoint())
     var maxLengthFirstMove = predictMaxMoveLength(startingPosition, waypoints.get(1));
     var moves = navigateAlongWaypoints(startingPosition, 1, maxLengthFirstMove);
@@ -82,6 +76,12 @@ public class WaypointNavigation {
     // This flightpath is invalid if we timeout from taking too many moves, which happens if it gets
     // stuck in a loop not making any progress. This doesn't happen very often
     if (movesTilTimeout == 0) {
+      return null;
+    }
+
+    if (countIterations++ > 1000000) {
+      // Fail if the algorithm continues for too long TODO get rid of this
+      System.out.println("Counter time out");
       return null;
     }
 

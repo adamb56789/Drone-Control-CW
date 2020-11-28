@@ -2,6 +2,7 @@ package uk.ac.ed.inf.aqmaps.geometry;
 
 import com.mapbox.geojson.Feature;
 
+import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -109,16 +110,16 @@ public class Polygon {
   /**
    * Creates a list of the segments between adjacent points in the polygon.
    *
-   * @return a list of Segments
+   * @return a list of Segments as Line2D
    */
-  public List<Segment> getSegments() {
-    var segments = new ArrayList<Segment>();
+  public List<Line2D> getSegments() {
+    var segments = new ArrayList<Line2D>();
 
     // Create a segment between each adjacent point.
     for (int i = 0; i < points.size(); i++) {
-      Coords start = points.get(i);
-      Coords end = points.get((i + 1) % points.size());
-      segments.add(new Segment(start, end));
+      var start = points.get(i);
+      var end = points.get((i + 1) % points.size());
+      segments.add(new Line2D.Double(start, end));
     }
     return segments;
   }

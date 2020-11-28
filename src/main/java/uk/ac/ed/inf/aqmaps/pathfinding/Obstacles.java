@@ -2,15 +2,15 @@ package uk.ac.ed.inf.aqmaps.pathfinding;
 
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.geometry.Polygon;
-import uk.ac.ed.inf.aqmaps.geometry.Segment;
 
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
 /** Holds information about the obstacles or no-fly zones that the drone must avoid. */
 public class Obstacles {
-  private final List<Segment> segments;
+  private final List<Line2D> segments;
   private final List<Rectangle2D> boundingBoxes;
 
   /**
@@ -66,7 +66,6 @@ public class Obstacles {
         .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y));
   }
 
-  // TODO write tests for this
   /**
    * Determine whether the given point is inside an obstacle, or outside the confinement area.
    *
@@ -81,10 +80,5 @@ public class Obstacles {
   /** @return a list of all of the points that make up the obstacle polygons */
   public List<Coords> getOutlinePoints() {
     return outlinePoints;
-  }
-
-  /** @return a list of all the line segments that make up the obstacle polygons */
-  public List<Segment> getSegments() {
-    return segments;
   }
 }
