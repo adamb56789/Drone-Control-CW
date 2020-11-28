@@ -23,15 +23,16 @@ public class Drone {
   public void start() {
     var obstacles = new Obstacles(input.getNoFlyZones());
     var obstacleEvader = new ObstacleEvader(obstacles);
-    var sensorLocations = input.getSensorLocations();
-    var droneNavigation = new FlightPlanner(obstacles, obstacleEvader, sensorLocations);
+    var sensorW3Ws = input.getSensorW3Ws();
+    var sensorCoords = W3W.convertToCoords(sensorW3Ws);
+    var flightPlanner = new FlightPlanner(obstacles, obstacleEvader, sensorW3Ws);
 
     var sensorGraph =
-        new SensorGraph(sensorLocations, obstacles, obstacleEvader, settings.getRandomSeed());
+        new SensorGraph(sensorCoords, obstacleEvader, flightPlanner, settings.getRandomSeed());
 
     var tour = sensorGraph.getTour(settings.getStartCoords());
 
-    var results = new Results(sensorLocations);
+    var results = new Results(sensorW3Ws);
     //    results.recordFlightpath(droneNavigation.createFlightPlan(tour));
 
     System.out.println(results.getMapGeoJSON());

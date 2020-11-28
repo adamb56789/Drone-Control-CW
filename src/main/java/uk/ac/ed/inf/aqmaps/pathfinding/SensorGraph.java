@@ -3,10 +3,8 @@ package uk.ac.ed.inf.aqmaps.pathfinding;
 import org.jgrapht.alg.tour.TwoOptHeuristicTSP;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
-import uk.ac.ed.inf.aqmaps.W3W;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,8 +28,6 @@ public class SensorGraph {
   private static final int ITERATIONS = 1000;
 
   private final SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
-  /** We keep a separate list of vertices to make scanning through all vertices faster */
-  private final List<Coords> vertices;
 
   private final ObstacleEvader obstacleEvader;
   private final long randomSeed;
@@ -41,31 +37,30 @@ public class SensorGraph {
    * Initialise the graph using a list of sensor locations and an obstacle graph for pathfinding.
    * Computes the shortest distance between every pair of points and adds them as an edge.
    *
-   * @param sensorLocations a list of W3W with the locations of the sensors
-   * @param obstacles the obstacles
+   * @param sensorLocations a list of Coords with the locations of the sensors
    * @param obstacleEvader the obstacle graph
+   * @param flightPlanner the FlightPlanner for finding drone flight plans
    * @param randomSeed the random seed to use for the graph algorithms
    */
   public SensorGraph(
-      List<W3W> sensorLocations,
-      Obstacles obstacles,
+      List<Coords> sensorLocations,
       ObstacleEvader obstacleEvader,
+      FlightPlanner flightPlanner,
       long randomSeed) {
     this.obstacleEvader = obstacleEvader;
     this.randomSeed = randomSeed;
-    this.flightPlanner = new FlightPlanner(obstacles, obstacleEvader, sensorLocations);
+    this.flightPlanner = flightPlanner;
     graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
-    vertices = new ArrayList<>();
 
     // Add all of the vertices from the sensors
-    for (var w3w : sensorLocations) {
-      addVertex(w3w.getCoordinates());
+    for (var coords : sensorLocations) {
+      graph.addVertex(coords);
     }
 
     // Create edges between all pairs of points
-    for (int i = 0; i < vertices.size(); i++) {
+    for (int i = 0; i < sensorLocations.size(); i++) {
       for (int j = 0; j < i; j++) {
-        addEdge(vertices.get(i), vertices.get(j));
+        addEdge(sensorLocations.get(i), sensorLocations.get(j));
       }
     }
   }
@@ -80,8 +75,8 @@ public class SensorGraph {
    */
   public List<Coords> getTour(Coords startPosition) {
     // Add the start point and all possible edges to and from
-    addVertex(startPosition);
-    for (var vertex : vertices) {
+    graph.addVertex(startPosition);
+    for (var vertex : graph.vertexSet()) {
       if (startPosition != vertex) {
         addEdge(startPosition, vertex);
       }
@@ -110,18 +105,9 @@ public class SensorGraph {
       }
     }
 
-    removeVertex(startPosition); // Remove the start point from the graph
+    // Remove the start point from the graph
+    graph.removeVertex(startPosition);
     return shortestTour;
-  }
-
-  private void addVertex(Coords vertex) {
-    graph.addVertex(vertex);
-    vertices.add(vertex);
-  }
-
-  private void removeVertex(Coords vertex) {
-    graph.removeVertex(vertex);
-    vertices.remove(vertex);
   }
 
   /**

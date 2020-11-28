@@ -15,12 +15,18 @@ public class FlightPlanner {
   private final ObstacleEvader obstacleEvader;
   private final Map<Coords, W3W> sensorCoordsW3WMap;
 
-  public FlightPlanner(
-      Obstacles obstacles, ObstacleEvader obstacleEvader, List<W3W> sensorLocations) {
+  /**
+   * Constructor
+   *
+   * @param obstacles the Obstacles for collision detection
+   * @param obstacleEvader the ObstacleEvader for finding paths between points around obstacles
+   * @param sensorW3Ws the W3W locations of the sensors
+   */
+  public FlightPlanner(Obstacles obstacles, ObstacleEvader obstacleEvader, List<W3W> sensorW3Ws) {
     this.obstacles = obstacles;
     this.obstacleEvader = obstacleEvader;
     sensorCoordsW3WMap = new HashMap<>();
-    sensorLocations.forEach(w3w -> sensorCoordsW3WMap.put(w3w.getCoordinates(), w3w));
+    sensorW3Ws.forEach(w3w -> sensorCoordsW3WMap.put(w3w.getCoordinates(), w3w));
   }
 
   /**

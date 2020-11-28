@@ -56,7 +56,7 @@ public class ServerInputControllerTest {
 
   @Test
   public void sensorLocationsCorrect() {
-    var sensorLocations = input.getSensorLocations();
+    var sensorLocations = input.getSensorW3Ws();
 
     assertEquals("There should be 33 sensors to visit in one day", 33, sensorLocations.size());
     assertTrue("The words should exist", sensorLocations.get(0).getWords().length() > 0);
@@ -69,7 +69,7 @@ public class ServerInputControllerTest {
 
   @Test
   public void sensorReadingCorrect() {
-    var sensor = input.readSensor(input.getSensorLocations().get(0));
+    var sensor = input.readSensor(input.getSensorW3Ws().get(0));
 
     assertTrue(
         "The battery should be displaying a sensible number",

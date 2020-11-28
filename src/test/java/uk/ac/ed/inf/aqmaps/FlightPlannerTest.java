@@ -144,12 +144,16 @@ public class FlightPlannerTest {
       // Create the sensor graph and compute the tour
       var obstacleEvader = new ObstacleEvader(obstacles);
       var tour =
-          (new SensorGraph(input.getSensorLocations(), obstacles, obstacleEvader, 0))
+          (new SensorGraph(
+                  W3W.convertToCoords(input.getSensorW3Ws()),
+                  obstacleEvader,
+                  new FlightPlanner(obstacles, obstacleEvader, input.getSensorW3Ws()),
+                  0))
               .getTour(startingLocation);
 
       // Compute the flight plan
       outputFlightPlans.add(
-          (new FlightPlanner(obstacles, obstacleEvader, input.getSensorLocations()))
+          (new FlightPlanner(obstacles, obstacleEvader, input.getSensorW3Ws()))
               .createFlightPlan(tour));
     }
     return outputFlightPlans;

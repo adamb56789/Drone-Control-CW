@@ -26,7 +26,7 @@ public interface InputController {
    *
    * @return a list of W3W locations of the sensors
    */
-  List<W3W> getSensorLocations();
+  List<W3W> getSensorW3Ws();
 
   /**
    * Gets information about no-fly zones from a remote source

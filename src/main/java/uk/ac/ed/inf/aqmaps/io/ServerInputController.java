@@ -99,7 +99,7 @@ public class ServerInputController implements InputController {
   }
 
   @Override
-  public List<W3W> getSensorLocations() {
+  public List<W3W> getSensorW3Ws() {
     return new ArrayList<>(sensorMap.keySet());
   }
 
