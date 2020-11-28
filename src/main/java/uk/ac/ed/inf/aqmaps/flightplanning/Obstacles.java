@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.aqmaps.pathfinding;
+package uk.ac.ed.inf.aqmaps.flightplanning;
 
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.geometry.Polygon;

@@ -3,10 +3,10 @@ package uk.ac.ed.inf.aqmaps;
 import org.junit.Test;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
-import uk.ac.ed.inf.aqmaps.pathfinding.ConfinementArea;
-import uk.ac.ed.inf.aqmaps.pathfinding.FlightPlanner;
-import uk.ac.ed.inf.aqmaps.pathfinding.ObstacleEvader;
-import uk.ac.ed.inf.aqmaps.pathfinding.Obstacles;
+import uk.ac.ed.inf.aqmaps.flightplanning.ConfinementArea;
+import uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner;
+import uk.ac.ed.inf.aqmaps.flightplanning.ObstacleEvader;
+import uk.ac.ed.inf.aqmaps.flightplanning.Obstacles;
 
 import java.util.ArrayList;
 import java.util.List;

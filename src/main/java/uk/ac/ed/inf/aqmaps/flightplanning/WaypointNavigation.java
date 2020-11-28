@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.aqmaps.pathfinding;
+package uk.ac.ed.inf.aqmaps.flightplanning;
 
 import uk.ac.ed.inf.aqmaps.Move;
 import uk.ac.ed.inf.aqmaps.W3W;
