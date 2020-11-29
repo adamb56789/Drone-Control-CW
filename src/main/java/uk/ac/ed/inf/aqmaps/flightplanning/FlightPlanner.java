@@ -11,7 +11,7 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 /**
  * Handles the creation of a flight plan for the drone. Uses JGraphT's TwoOptHeuristicTSP algorithm
@@ -55,14 +55,50 @@ public class FlightPlanner {
   }
 
   /**
-   * Create a flight plan for the drone which visits all sensors and returns to the start.
+   * Create a flight plan for the drone which visits all sensors and returns to the start. Runs the
+   * algorithm a large number of times with different random seeds, in parallel, and chooses the
+   * shortest.
    *
    * @param startPosition the starting position of the drone
    * @return a list of Moves representing the flight plan
    */
   public List<Move> createFlightPlan(Coords startPosition) {
-    var tour = createSensorTour(startPosition, sensorCoordsW3WMap.keySet());
-    return tour;
+    var sensorGraph = createSensorGraph(startPosition, sensorCoordsW3WMap.keySet());
+
+    // Generate a list of seeds [randomSeed, randomSeed + 1, ..., randomSeed + ITERATIONS - 1]
+    var seeds =
+        LongStream.range(randomSeed, randomSeed + ITERATIONS).boxed().collect(Collectors.toList());
+
+    return seeds.parallelStream() // Run in parallel to decrease run time
+        .map(seed -> createPlanWithSeed(startPosition, sensorGraph, seed))
+        .min(Comparator.comparing(List::size)) // Get the tour with the minimal number of moves
+        .orElse(null); // min() returns an Optional so get the value out
+  }
+
+  /**
+   * Creates a flight plan for the drone which visits all sensors and returns to the start. First
+   * uses 2-opt heuristic to generate a tour, then constructs a flight plan for the drone along the
+   * route.
+   *
+   * @param startPosition the starting position of the drone
+   * @param sensorGraph the graph containing all of the sensors and distances
+   * @param seed the random seed
+   * @return a list of Moves representing the flight plan
+   */
+  private List<Move> createPlanWithSeed(
+      Coords startPosition,
+      SimpleWeightedGraph<Coords, DefaultWeightedEdge> sensorGraph,
+      long seed) {
+    var twoOpt = new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(TWO_OPT_PASSES, seed);
+    var graphPath = twoOpt.getTour(sensorGraph);
+    var tour = graphPath.getVertexList();
+
+    tour.remove(0); // The first and last elements are duplicates, so remove the duplicate
+
+    // Rotate the list backwards so the starting position is at the front
+    Collections.rotate(tour, -tour.indexOf(startPosition));
+    tour.add(tour.get(0)); // Put the starting position as the ending position as well
+    return constructFlightAlongTour(tour);
   }
 
   /**
@@ -91,64 +127,6 @@ public class FlightPlanner {
       }
     }
     return graph;
-  }
-
-  /**
-   * Computes a tour which visits all sensors and returns to the starting point.
-   *
-   * @param startPosition a Coords containing the starting point of the tour
-   * @param sensorCoords a collection of Coords with the locations of the sensors to visit
-   * @return a list of Coords which specifies the order to visit the sensors, and starts and ends
-   *     with the starting position
-   */
-  private List<Move> createSensorTour(Coords startPosition, Collection<Coords> sensorCoords) {
-    var sensorGraph = createSensorGraph(startPosition, sensorCoords);
-
-    // Before going parallel generate a list of numbers to increment the random seed by
-    var iterationNumbers = IntStream.range(0, ITERATIONS).boxed().collect(Collectors.toList());
-
-//    // Try several times and keep the best tour.
-//    List<Coords> shortestTour = null;
-//    int shortestLength = Integer.MAX_VALUE;
-//    for (int i = 0; i < ITERATIONS; i++) {
-//
-//      var twoOpt =
-//              new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(TWO_OPT_PASSES, randomSeed + i);
-//      var graphPath = twoOpt.getTour(sensorGraph);
-//      var tour = graphPath.getVertexList();
-//
-//      tour.remove(0); // The first and last elements are duplicates, so remove the duplicate
-//
-//      // Rotate the list backwards so the starting position is at the front
-//      Collections.rotate(tour, -tour.indexOf(startPosition));
-//      tour.add(tour.get(0)); // Put the starting position as the ending position as well
-//
-//      int tourLength = constructFlightAlongTour(tour).size();
-//      if (tourLength < shortestLength) {
-//        shortestTour = tour;
-//        shortestLength = tourLength;
-//      }
-//    }
-//    return constructFlightAlongTour(shortestTour);
-    return iterationNumbers.stream()
-        .map(i -> get(startPosition, sensorGraph, i))
-        .min(Comparator.comparing(List::size))
-        .orElse(null);
-  }
-
-  private List<Move> get(
-      Coords startPosition, SimpleWeightedGraph<Coords, DefaultWeightedEdge> sensorGraph, int i) {
-    var twoOpt =
-        new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(TWO_OPT_PASSES, randomSeed + i);
-    var graphPath = twoOpt.getTour(sensorGraph);
-    var tour = graphPath.getVertexList();
-
-    tour.remove(0); // The first and last elements are duplicates, so remove the duplicate
-
-    // Rotate the list backwards so the starting position is at the front
-    Collections.rotate(tour, -tour.indexOf(startPosition));
-    tour.add(tour.get(0)); // Put the starting position as the ending position as well
-    return constructFlightAlongTour(tour);
   }
 
   /**

@@ -1,6 +1,7 @@
 package uk.ac.ed.inf.aqmaps.flightplanning;
 
 import org.jgrapht.GraphPath;
+import org.jgrapht.Graphs;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
@@ -18,9 +19,6 @@ public class ObstacleEvader {
   private final SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
   private final Obstacles obstacles;
 
-  /** We keep a separate list of vertices to make scanning through all vertices faster */
-  private final List<Coords> vertices;
-
   /**
    * Initialise a graph for pathfinding around obstacles by generating a graph with all edges that
    * have line of sight between the points in the Obstacles.
@@ -30,7 +28,6 @@ public class ObstacleEvader {
   public ObstacleEvader(Obstacles obstacles) {
     this.obstacles = obstacles;
     graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
-    vertices = new ArrayList<>();
 
     // Add all of the vertices from the outline polygons
     for (var point : obstacles.getOutlinePoints()) {
@@ -38,11 +35,28 @@ public class ObstacleEvader {
     }
 
     // Create edges between all pairs of points that have line of sight
-    for (int i = 0; i < vertices.size(); i++) {
+    var vertexList = new ArrayList<>(graph.vertexSet());
+    for (int i = 0; i < vertexList.size(); i++) {
       for (int j = 0; j < i; j++) {
-        addEdgeIfHasLineOfSight(vertices.get(i), vertices.get(j));
+        addEdgeIfHasLineOfSight(vertexList.get(i), vertexList.get(j));
       }
     }
+  }
+
+  private ObstacleEvader(
+      SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph, Obstacles obstacles) {
+    this.graph = graph;
+    this.obstacles = obstacles;
+  }
+
+  /**
+   * Get a copy of this ObstacleEvader which includes a hard copy of the obstacle graph, to allow it
+   * to be used concurrently.
+   */
+  public ObstacleEvader getCopy() {
+    var graphCopy = new SimpleWeightedGraph<Coords, DefaultWeightedEdge>(DefaultWeightedEdge.class);
+    Graphs.addGraph(graphCopy, graph);
+    return new ObstacleEvader(graphCopy, obstacles);
   }
 
   /**
@@ -85,7 +99,7 @@ public class ObstacleEvader {
     addVertex(start);
     addVertex(end);
     addEdgeIfHasLineOfSight(start, end);
-    for (var vertex : vertices) {
+    for (var vertex : graph.vertexSet()) {
       if (vertex != start && vertex != end) { // Avoid self loops and duplication
         addEdgeIfHasLineOfSight(start, vertex);
         addEdgeIfHasLineOfSight(end, vertex);
@@ -104,12 +118,10 @@ public class ObstacleEvader {
 
   private void addVertex(Coords vertex) {
     graph.addVertex(vertex);
-    vertices.add(vertex);
   }
 
   private void removeVertex(Coords vertex) {
     graph.removeVertex(vertex);
-    vertices.remove(vertex);
   }
 
   private void addEdgeIfHasLineOfSight(Coords start, Coords end) {
@@ -117,15 +129,5 @@ public class ObstacleEvader {
       DefaultWeightedEdge e = graph.addEdge(start, end);
       graph.setEdgeWeight(e, start.distance(end));
     }
-  }
-
-  private ObstacleEvader (SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph, Obstacles obstacles,  List<Coords> vertices) {
-    this.graph = (SimpleWeightedGraph<Coords, DefaultWeightedEdge>) graph.clone();
-    this.obstacles = obstacles;
-    this.vertices = new ArrayList<>(vertices);
-  }
-
-  public ObstacleEvader getCopy() {
-    return new ObstacleEvader(graph, obstacles, vertices);
   }
 }
