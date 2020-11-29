@@ -62,19 +62,4 @@ public class ObstaclesTest {
     obstacles = new Obstacles(input.getNoFlyZones());
     assertEquals(description, collision, obstacles.lineCollision(testPath.start, testPath.end));
   }
-
-  @Test
-  public void pointNotInObstacleNoCollision() {
-    assertFalse(obstacles.pointCollides(TestPaths.MIDDLE_OF_NOWHERE.start));
-  }
-
-  @Test
-  public void pointOutsideConfinementCollision() {
-    assertTrue(obstacles.pointCollides(TestPaths.LEAVES_CONFINEMENT.end));
-  }
-
-  @Test
-  public void pointInsideObstacleCollision() {
-    assertTrue(obstacles.pointCollides(new Coords(-3.186743, 55.944321)));
-  }
 }

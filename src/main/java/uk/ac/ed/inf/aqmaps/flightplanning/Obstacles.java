@@ -68,7 +68,8 @@ public class Obstacles {
   }
 
   /**
-   * Determine whether the given point is inside an obstacle, or outside the confinement area.
+   * Determine whether the given point is inside an obstacle, or outside the confinement area. This
+   * is currently only used in testing to generate random starting points.
    *
    * @param coords the point
    * @return true if there is a collision, false otherwise
