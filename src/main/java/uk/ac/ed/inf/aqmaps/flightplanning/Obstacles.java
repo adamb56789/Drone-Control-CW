@@ -17,10 +17,12 @@ public class Obstacles {
    * Holds data about the Polygons that outline the obstacles, see {@link Polygon#generateOutline()}
    */
   private final List<Polygon> outlinePolygons;
+  private final List<Polygon> polygons;
 
   private final List<Coords> outlinePoints;
 
   public Obstacles(List<Polygon> polygons) {
+    this.polygons = polygons;
     segments = new ArrayList<>();
     boundingBoxes = new ArrayList<>();
 
@@ -76,7 +78,7 @@ public class Obstacles {
    */
   public boolean pointCollides(Coords coords) {
     return !ConfinementArea.isInConfinement(coords)
-        || outlinePolygons.stream().anyMatch(p -> p.contains(coords));
+        || polygons.stream().anyMatch(p -> p.contains(coords));
   }
 
   /** @return a list of all of the points that make up the obstacle polygons */

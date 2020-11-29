@@ -166,16 +166,25 @@ public class FlightPlanner {
   }
 
   private Coords cutCorner(Coords currentPosition, Coords currentTarget, Coords nextTarget) {
+
     // Move the target 0.5 * (sensor range) in the direction of the bisector to cut the corner.
     // 0.5 was chosen as it performed well in testing.
     var bisector = Angle.bisectorDirection(currentTarget, currentPosition, nextTarget);
     var newTarget =
-        currentTarget.getPositionAfterMoveRadians(bisector, WaypointNavigation.SENSOR_RANGE * 0.5);
+        currentTarget.getPositionAfterMoveRadians(bisector, WaypointNavigation.SENSOR_RANGE * 0.5); //TODO tune this
 
-    // It is not worth it if the new route now needs to avoid an obstacle
+    // It is not worth it if the new route now needs to avoid an obstacle. The move may also have
+    // put the point inside an obstacle.
     if (!obstacles.lineCollision(currentPosition, newTarget)
         && !obstacles.lineCollision(newTarget, nextTarget)) {
-      currentTarget = newTarget;
+
+      // Check that the distance gets shorter, it will not if the 3 points are roughly collinear
+      var oldDistance =
+          currentPosition.distance(currentTarget) + currentTarget.distance(nextTarget);
+      var newDistance = currentPosition.distance(newTarget) + newTarget.distance(nextTarget);
+      if (newDistance < oldDistance) {
+        currentTarget = newTarget;
+      }
     }
     return currentTarget;
   }

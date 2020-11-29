@@ -23,7 +23,12 @@ public class Angle {
    * @return the direction of the bisector in radians
    */
   public static double bisectorDirection(Coords x, Coords a, Coords b) {
-    return (lineDirection(x, a) + lineDirection(x, b)) / 2;
+    var u = lineDirection(x, a);
+    var v = lineDirection(x, b);
+    if (u - v < 0 && v - u > Math.PI || v - u < 0 && u - v > Math.PI) {
+      return Math.PI + (u + v) / 2;
+    }
+    return (u + v) / 2;
   }
 
   /**

@@ -58,6 +58,30 @@ public class AngleTest {
     assertEquals(Math.toRadians(-45), Angle.bisectorDirection(x, a, b), 1e-12);
   }
 
+  @Test
+  public void bisectorDirectionCorrect2() {
+    var x = new Coords(0, 0);
+    var a = new Coords(1, 0);
+    var b = new Coords(0, 1);
+    assertEquals(Math.toRadians(45), Angle.bisectorDirection(x, a, b), 1e-12);
+  }
+
+  @Test
+  public void bisectorDirectionCorrect3() {
+    var x = new Coords(0, 0);
+    var a = new Coords(0, 1);
+    var b = new Coords(-1, 0);
+    assertEquals(Math.toRadians(135), Angle.bisectorDirection(x, a, b), 1e-12);
+  }
+
+  @Test
+  public void bisectorDirectionCorrect4() {
+    var x = new Coords(0, 0);
+    var a = new Coords(-1, 0);
+    var b = new Coords(0, -1);
+    assertEquals(Math.toRadians(225), Angle.bisectorDirection(x, a, b), 1e-12);
+  }
+
   @ParameterizedTest
   @MethodSource("roundTo10Arguments")
   public void roundTo10Correct(int angle, int roundedAngle) {
