@@ -1,12 +1,12 @@
 package uk.ac.ed.inf.aqmaps;
 
 import org.junit.Test;
-import uk.ac.ed.inf.aqmaps.geometry.Coords;
-import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 import uk.ac.ed.inf.aqmaps.flightplanning.ConfinementArea;
 import uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner;
 import uk.ac.ed.inf.aqmaps.flightplanning.ObstacleEvader;
 import uk.ac.ed.inf.aqmaps.flightplanning.Obstacles;
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
+import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +18,14 @@ import static org.junit.Assert.*;
 @SuppressWarnings("SameParameterValue")
 public class FlightPlannerTest {
   // If testing takes too long, decrease these values.
-  public static final int DAYS_TO_TEST = 10; // Maximum is 731
+  public static final int DAYS_TO_TEST = 100; // Maximum is 731
   // Tries 3 tricky non-random points by default, try this many more random points
-  public static final int RANDOM_STARTING_POINTS_TO_TRY = 1;
+  public static final int RANDOM_STARTING_POINTS_TO_TRY = 2;
   // 3 tricky starting locations
   public static final Coords INF_FORUM_ALCOVE = new Coords(-3.1869108, 55.9449634);
   public static final Coords APPLETON_ALCOVE = new Coords(-3.1864079, 55.9443635);
   public static final Coords LIBRARY_CORNER = new Coords(-3.189626, 55.942625);
+  public static final Coords PRESCRIBED_START = new Coords(-3.188396, 55.944425);
 
   private final Obstacles obstacles =
       new Obstacles(
@@ -86,6 +87,7 @@ public class FlightPlannerTest {
     startingLocations.add(INF_FORUM_ALCOVE);
     startingLocations.add(APPLETON_ALCOVE);
     startingLocations.add(LIBRARY_CORNER);
+    startingLocations.add(PRESCRIBED_START);
 
     var input =
         new ServerInputController(
@@ -133,16 +135,20 @@ public class FlightPlannerTest {
           } else if (day == 30 && month == 2 && year == 2020) {
             break;
           }
-          int[] date = new int[3];
-          date[0] = day;
-          date[1] = month;
-          date[2] = year;
-          dates.add(date);
+          dates.add(new int[]{day, month, year});
           if (--days == 0) {
             return dates;
           }
         }
       }
+    }
+    return dates;
+  }
+
+  private List<int[]> getDates() {
+    var dates = new ArrayList<int[]>();
+    for (int i = 1; i <= 12; i++) {
+      dates.add(new int[]{i, i, 2020});
     }
     return dates;
   }

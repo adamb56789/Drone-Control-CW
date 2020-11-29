@@ -23,9 +23,9 @@ public class FlightPlanner {
   public static final int TWO_OPT_PASSES = 1;
   /**
    * The number of times to run the algorithm before picking the shortest. Can be changed to trade
-   * off for speed and efficacy.
+   * off for speed and efficacy. Increasing it more has almost no effect.
    */
-  private static final int ITERATIONS = 1000;
+  private static final int ITERATIONS = 500;
 
   private final Obstacles obstacles;
   private final ObstacleEvader obstacleEvader;
@@ -172,7 +172,9 @@ public class FlightPlanner {
     var newTarget =
         currentTarget.getPositionAfterMoveRadians(bisector, WaypointNavigation.SENSOR_RANGE * 0.5);
 
-    if (!obstacles.pointCollides(newTarget)) {
+    // It is not worth it if the new route now needs to avoid an obstacle
+    if (!obstacles.lineCollision(currentPosition, newTarget)
+        && !obstacles.lineCollision(newTarget, nextTarget)) {
       currentTarget = newTarget;
     }
     return currentTarget;
