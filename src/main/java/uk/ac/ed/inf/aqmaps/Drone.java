@@ -1,7 +1,6 @@
 package uk.ac.ed.inf.aqmaps;
 
 import uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner;
-import uk.ac.ed.inf.aqmaps.flightplanning.ObstacleEvader;
 import uk.ac.ed.inf.aqmaps.flightplanning.Obstacles;
 import uk.ac.ed.inf.aqmaps.io.InputController;
 import uk.ac.ed.inf.aqmaps.io.OutputController;
@@ -45,10 +44,8 @@ public class Drone {
   private List<Move> planRoute() {
     // Input and prepare the obstacle and sensor location data
     var obstacles = new Obstacles(input.getNoFlyZones());
-    var obstacleEvader = new ObstacleEvader(obstacles);
     var sensorW3Ws = input.getSensorW3Ws();
-    var flightPlanner =
-        new FlightPlanner(obstacles, obstacleEvader, sensorW3Ws, settings.getRandomSeed());
+    var flightPlanner = new FlightPlanner(obstacles, sensorW3Ws, settings.getRandomSeed());
 
     return flightPlanner.createFlightPlan(settings.getStartCoords());
   }

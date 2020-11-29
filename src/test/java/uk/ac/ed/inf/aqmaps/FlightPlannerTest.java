@@ -3,7 +3,6 @@ package uk.ac.ed.inf.aqmaps;
 import org.junit.Test;
 import uk.ac.ed.inf.aqmaps.flightplanning.ConfinementArea;
 import uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner;
-import uk.ac.ed.inf.aqmaps.flightplanning.ObstacleEvader;
 import uk.ac.ed.inf.aqmaps.flightplanning.Obstacles;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
@@ -34,11 +33,7 @@ public class FlightPlannerTest {
 
   @Test
   public void flightPlanCorrect() {
-    for (double a = 0.6338; a <= 0.6352001; a += 0.0001) {
-//      System.out.println(a);
-      Testing.a = a;
-
-      // All tests are done at once since it takes a long time to generate this many flight plans
+// All tests are done at once since it takes a long time to generate this many flight plans
       // Calculate average move length while we're at it
       double flightPathLengths = 0;
       var flightPlans = getFlightPlans();
@@ -72,16 +67,14 @@ public class FlightPlannerTest {
         }
         assertEquals("The flight plan should contain all of the sensors", 33, sensorCount);
       }
-      //      System.out.printf("Average length: %.3f moves%n", flightPathLengths /
-      // flightPlans.size());
-      System.out.printf("%f, %.3f%n", a, flightPathLengths / flightPlans.size());
-//      System.out.println("Runs completed: " + flightPlans.size());
-    }
+    System.out.printf("Average length: %.3f moves%n", flightPathLengths / flightPlans.size());
+            System.out.println("Runs completed: " + flightPlans.size());
+
   }
 
   private List<List<Move>> getFlightPlans() {
     // For each of the dates, get the flight plans for a number of starting locations
-    return getDates().stream() // This is slow so using a parallelStream makes the test go faster
+    return getDates(DAYS_TO_TEST).stream()
         .map(date -> runFlightPlansOnDate(date, RANDOM_STARTING_POINTS_TO_TRY))
         .flatMap(List::stream)
         .collect(Collectors.toList());
@@ -91,9 +84,9 @@ public class FlightPlannerTest {
     var outputFlightPlans = new ArrayList<List<Move>>();
     var random = new Random();
     var startingLocations = new ArrayList<Coords>();
-    //    startingLocations.add(INF_FORUM_ALCOVE);
-    //    startingLocations.add(APPLETON_ALCOVE);
-    //    startingLocations.add(LIBRARY_CORNER);
+        startingLocations.add(INF_FORUM_ALCOVE);
+        startingLocations.add(APPLETON_ALCOVE);
+        startingLocations.add(LIBRARY_CORNER);
     startingLocations.add(PRESCRIBED_START);
 
     var input =
@@ -117,8 +110,7 @@ public class FlightPlannerTest {
     }
 
     for (var startLocation : startingLocations) {
-      var obstacleEvader = new ObstacleEvader(obstacles);
-      var flightPlanner = new FlightPlanner(obstacles, obstacleEvader, input.getSensorW3Ws(), 0);
+      var flightPlanner = new FlightPlanner(obstacles, input.getSensorW3Ws(), 0);
       outputFlightPlans.add(flightPlanner.createFlightPlan(startLocation));
     }
     return outputFlightPlans;

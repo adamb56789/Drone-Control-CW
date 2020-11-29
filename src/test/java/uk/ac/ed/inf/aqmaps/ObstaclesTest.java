@@ -5,13 +5,13 @@ import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import uk.ac.ed.inf.aqmaps.geometry.Coords;
-import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 import uk.ac.ed.inf.aqmaps.flightplanning.Obstacles;
+import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class ObstaclesTest {
   private Obstacles obstacles;

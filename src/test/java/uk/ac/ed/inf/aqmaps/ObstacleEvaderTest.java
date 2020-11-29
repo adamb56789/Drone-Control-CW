@@ -3,9 +3,8 @@ package uk.ac.ed.inf.aqmaps;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import uk.ac.ed.inf.aqmaps.io.ServerInputController;
-import uk.ac.ed.inf.aqmaps.flightplanning.ObstacleEvader;
 import uk.ac.ed.inf.aqmaps.flightplanning.Obstacles;
+import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 
 import java.util.stream.Stream;
 
@@ -28,12 +27,12 @@ public class ObstacleEvaderTest {
   void shortestPathLengthCorrect(String description, TestPath path) {
     var testServer = ServerInputControllerTest.getFakeServer();
     var input = new ServerInputController(testServer, 1, 1, 2020, 80);
-    var obstacleGraph = new ObstacleEvader(new Obstacles(input.getNoFlyZones()));
+    var obstacles = new Obstacles(input.getNoFlyZones());
 
     assertEquals(
         description,
         path.shortestPathLength,
-        obstacleGraph.getPathLength(path.start, path.end),
+        obstacles.getObstacleEvader().getPathLength(path.start, path.end),
         0.0000000001);
   }
 }

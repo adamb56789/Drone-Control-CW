@@ -1,7 +1,7 @@
 package uk.ac.ed.inf.aqmaps.geometry;
 
 /** Contains various static methods for calculation of angles and directions. */
-public class Angle {
+public final class Angle {
   /**
    * Calculates the angle of the line AB with respect to the horizontal, where east is 0, north is
    * pi/2, south is -pi/2, west is pi

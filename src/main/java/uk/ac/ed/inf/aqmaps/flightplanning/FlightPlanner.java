@@ -4,7 +4,6 @@ import org.jgrapht.alg.tour.TwoOptHeuristicTSP;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import uk.ac.ed.inf.aqmaps.Move;
-import uk.ac.ed.inf.aqmaps.Testing;
 import uk.ac.ed.inf.aqmaps.W3W;
 import uk.ac.ed.inf.aqmaps.geometry.Angle;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
@@ -20,35 +19,39 @@ import java.util.stream.LongStream;
  */
 public class FlightPlanner {
   /**
-   * The number of initial tours to try when running 2-opt. Unless ITERATIONS is low, increasing
+   * The number of initial tours to try when running 2-opt. Unless {@link #ITERATIONS} is low, increasing
    * this reduces the average move length.
    */
-  public static final int TWO_OPT_PASSES = 1;
+  private static final int TWO_OPT_PASSES = 1;
 
-  public static final int CORNER_CUT_STEP = 100;
   /**
    * The number of times to run the algorithm before picking the shortest. Can be changed to trade
    * off for speed and efficacy. Increasing it more has almost no effect.
    */
-  private static final int ITERATIONS = 1000;
+  private static final int ITERATIONS = 1;
+
+  /**
+   * See {@link #cutCorner(Coords, Coords, Coords)}
+   */
+  private static final double CORNER_CUT_RADIUS_FRACTION = 0.634;
+  /**
+   * See {@link #cutCorner(Coords, Coords, Coords)}
+   */
+  private static final double CORNER_CUT_STEP = Math.PI / 10;
 
   private final Obstacles obstacles;
-  private final ObstacleEvader obstacleEvader;
   private final Map<Coords, W3W> sensorCoordsW3WMap;
   private final long randomSeed;
 
   /**
    * Constructor
    *
-   * @param obstacles the Obstacles for collision detection
-   * @param obstacleEvader the ObstacleEvader for finding paths between points around obstacles
+   * @param obstacles the Obstacles containing the no-fly zones
    * @param sensorW3Ws the W3W locations of the sensors
    * @param randomSeed the random seed to use for the graph algorithm
    */
-  public FlightPlanner(
-      Obstacles obstacles, ObstacleEvader obstacleEvader, List<W3W> sensorW3Ws, long randomSeed) {
+  public FlightPlanner(Obstacles obstacles, List<W3W> sensorW3Ws, long randomSeed) {
     this.obstacles = obstacles;
-    this.obstacleEvader = obstacleEvader;
     sensorCoordsW3WMap = new HashMap<>();
     sensorW3Ws.forEach(w3w -> sensorCoordsW3WMap.put(w3w.getCoordinates(), w3w));
     this.randomSeed = randomSeed;
@@ -110,6 +113,7 @@ public class FlightPlanner {
    */
   private SimpleWeightedGraph<Coords, DefaultWeightedEdge> createSensorGraph(
       Coords startPosition, Collection<Coords> sensorCoords) {
+    var obstacleEvader = obstacles.getObstacleEvader();
     var graph = new SimpleWeightedGraph<Coords, DefaultWeightedEdge>(DefaultWeightedEdge.class);
 
     for (var coords : sensorCoords) {
@@ -136,7 +140,7 @@ public class FlightPlanner {
    * @return a list of Moves representing the flight plan
    */
   private List<Move> constructFlightAlongTour(List<Coords> tour) {
-    var obstacleEv = obstacleEvader.getCopy();
+    var obstacleEvader = obstacles.getObstacleEvader();
     var moves = new ArrayList<Move>();
     var currentPosition = tour.get(0);
 
@@ -151,7 +155,7 @@ public class FlightPlanner {
         currentTarget = cutCorner(currentPosition, currentTarget, nextTarget);
       }
       // Compute a list of waypoints from the current position to the target, avoiding obstacles
-      var waypoints = obstacleEv.getPath(currentPosition, currentTarget);
+      var waypoints = obstacleEvader.getPath(currentPosition, currentTarget);
 
       // Compute a list of Moves from the current position to the target
       var waypointNavigation = new WaypointNavigation(obstacles);
@@ -172,39 +176,47 @@ public class FlightPlanner {
   }
 
   /**
-   * Let BA be the line from the current target to the current position, and AC be the line from the
-   * current target to the next target.
+   * Let A be the current position of the drone, B be the current target, and C be the next target.
+   * This method scans through the acute directions between lines BA and AC, and generates points a
+   * distance of {@value CORNER_CUT_RADIUS_FRACTION} * {@link WaypointNavigation#SENSOR_RANGE} every
+   * {@value CORNER_CUT_STEP}, and chooses the one that results in the shortest path length of ABC without
+   * colliding with an obstacle.
+   *
+   * <p>max = max(BA, BC)
+   *
+   * <p>min = min(BA, BC)
+   *
+   * <p>range = [min,max] if max - min < PI
+   *
+   * <p>range = [max,(min + 2PI)] otherwise
    */
-  private Coords cutCorner(Coords currentPosition, Coords currentTarget, Coords nextTarget) {
+  private Coords cutCorner(Coords A, Coords B, Coords C) {
 
-    var dirToPos = Angle.lineDirection(currentTarget, currentPosition);
-    var dirToNext = Angle.lineDirection(currentTarget, nextTarget);
-    var minAngle = Math.min(dirToPos, dirToNext);
-    var maxAngle = Math.max(dirToPos, dirToNext);
-    var startDir = maxAngle - minAngle > Math.PI ? maxAngle : minAngle;
-    var endDir = maxAngle - minAngle > Math.PI ? minAngle + 2 * Math.PI : maxAngle;
+    var BA = Angle.lineDirection(B, A);
+    var BC = Angle.lineDirection(B, C);
+    var minAngle = Math.min(BA, BC);
+    var maxAngle = Math.max(BA, BC);
+    var startDir = maxAngle - minAngle < Math.PI ? minAngle : maxAngle;
+    var endDir = maxAngle - minAngle < Math.PI ? maxAngle : minAngle + 2 * Math.PI;
+
     double minDistance = Double.POSITIVE_INFINITY;
-    Coords bestTarget = currentTarget;
-    for (double dir = startDir; dir < endDir; dir += (endDir - startDir) / CORNER_CUT_STEP) {
+    Coords bestTarget = B;
+    for (double dir = startDir; dir <= endDir; dir += CORNER_CUT_STEP) {
       var newTarget =
-          currentTarget.getPositionAfterMoveRadians(
-              dir,
-              WaypointNavigation.SENSOR_RANGE
-                  * Testing.a); // TODO tune this, explain bisection, direction -> bearing?
+          B.getPositionAfterMoveRadians(dir, WaypointNavigation.SENSOR_RANGE * CORNER_CUT_RADIUS_FRACTION);
 
       // It is not worth it if the new route now needs to avoid an obstacle. The move may also have
       // put the point inside an obstacle.
-      if (!obstacles.lineCollision(currentPosition, newTarget)
-          && !obstacles.lineCollision(newTarget, nextTarget)) {
+      if (!obstacles.lineCollision(A, newTarget) && !obstacles.lineCollision(newTarget, C)) {
 
-        var distance = currentPosition.distance(newTarget) + newTarget.distance(nextTarget);
+        var distance = A.distance(newTarget) + newTarget.distance(C);
         if (distance < minDistance) {
           minDistance = distance;
           bestTarget = newTarget;
         }
       }
     }
-    currentTarget = bestTarget;
-    return currentTarget;
+    B = bestTarget;
+    return B;
   }
 }

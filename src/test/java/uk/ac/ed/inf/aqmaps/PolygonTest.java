@@ -12,11 +12,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class PolygonTest {
-  private List<Polygon> noFlyZones;
   private final Obstacles obstacles =
       new Obstacles(
           (new ServerInputController(ServerInputControllerTest.getFakeServer(), 1, 1, 2020, 80))
               .getNoFlyZones());
+  private List<Polygon> noFlyZones;
 
   @Before
   public void setup() {
@@ -54,9 +54,9 @@ public class PolygonTest {
             1e-14);
 
         System.out.println(obstacles.pointCollides(polygon.getPoints().get(i)));
-//        assertFalse(
-//            "The points of the outline polygon should not collide with an obstacle",
-//            obstacles.pointCollides(polygon.getPoints().get(i)));
+        //        assertFalse(
+        //            "The points of the outline polygon should not collide with an obstacle",
+        //            obstacles.pointCollides(polygon.getPoints().get(i)));
       }
 
       for (var l1 : polygon.getSegments()) {
