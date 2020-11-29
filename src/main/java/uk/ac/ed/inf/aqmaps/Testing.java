@@ -1,4 +1,4 @@
-// package uk.ac.ed.inf.aqmaps;
+ package uk.ac.ed.inf.aqmaps;
 //
 // import uk.ac.ed.inf.aqmaps.geometry.Coords;
 // import uk.ac.ed.inf.aqmaps.io.Server;
@@ -12,7 +12,8 @@
 // import java.util.concurrent.TimeUnit;
 // import java.util.stream.Collectors;
 //
-// public class Testing {
+ public class Testing {
+     public static double a = 0.5;
 //  private static final Random random = new Random(0);
 //  private static final int STARTING_POINT_COUNT = 1;
 //  public static List<List<Move>> results = new ArrayList<>();
@@ -160,4 +161,4 @@
 //          }
 //        });
 //  }
-// }
+ }

@@ -119,4 +119,13 @@ public class ObstacleEvader {
     }
   }
 
+  private ObstacleEvader (SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph, Obstacles obstacles,  List<Coords> vertices) {
+    this.graph = (SimpleWeightedGraph<Coords, DefaultWeightedEdge>) graph.clone();
+    this.obstacles = obstacles;
+    this.vertices = new ArrayList<>(vertices);
+  }
+
+  public ObstacleEvader getCopy() {
+    return new ObstacleEvader(graph, obstacles, vertices);
+  }
 }

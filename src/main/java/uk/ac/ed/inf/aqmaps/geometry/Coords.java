@@ -50,6 +50,6 @@ public class Coords extends Point2D.Double {
 
   @Override
   public String toString() {
-    return "[" + x + ", " + y + "]";
+    return "(" + x + ", " + y + ")";
   }
 }

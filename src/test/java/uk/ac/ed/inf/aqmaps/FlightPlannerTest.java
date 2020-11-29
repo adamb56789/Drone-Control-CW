@@ -34,47 +34,54 @@ public class FlightPlannerTest {
 
   @Test
   public void flightPlanCorrect() {
+    for (double a = 0.6338; a <= 0.6352001; a += 0.0001) {
+//      System.out.println(a);
+      Testing.a = a;
 
-    // All tests are done at once since it takes a long time to generate this many flight plans
-    // Calculate average move length while we're at it
-    double flightPathLengths = 0;
-    var flightPlans = getFlightPlans();
-    for (var flightPlan : flightPlans) {
-      flightPathLengths += flightPlan.size();
-      assertTrue(
-          "Flight plan should be no more than 150 moves, was " + flightPlan.size(),
-          flightPlan.size() <= 150);
-      var sensorCount = 0;
-      for (var move : flightPlan) {
-        assertFalse(
-            "Flight plan should not collide with any obstacles",
-            obstacles.lineCollision(move.getBefore(), move.getAfter()));
-
-        var inRange =
-            0 <= move.getDirection() && move.getDirection() <= 350 && move.getDirection() % 10 == 0;
+      // All tests are done at once since it takes a long time to generate this many flight plans
+      // Calculate average move length while we're at it
+      double flightPathLengths = 0;
+      var flightPlans = getFlightPlans();
+      for (var flightPlan : flightPlans) {
+        flightPathLengths += flightPlan.size();
         assertTrue(
-            "All directions should be multiples of 10 degrees and in range [0,350]. Instead was "
-                + move.getDirection(),
-            inRange);
+            "Flight plan should be no more than 150 moves, was " + flightPlan.size(),
+            flightPlan.size() <= 150);
+        var sensorCount = 0;
+        for (var move : flightPlan) {
+          assertFalse(
+              "Flight plan should not collide with any obstacles",
+              obstacles.lineCollision(move.getBefore(), move.getAfter()));
 
-        if (move.getSensorW3W() != null) {
-          var distanceToSensor = move.getSensorW3W().getCoordinates().distance(move.getAfter());
+          var inRange =
+              0 <= move.getDirection()
+                  && move.getDirection() <= 350
+                  && move.getDirection() % 10 == 0;
           assertTrue(
-              "The move should end within 0.0003 of a sensor, was " + distanceToSensor,
-              distanceToSensor < 0.0002);
-          sensorCount++;
+              "All directions should be multiples of 10 degrees and in range [0,350]. Instead was "
+                  + move.getDirection(),
+              inRange);
+
+          if (move.getSensorW3W() != null) {
+            var distanceToSensor = move.getSensorW3W().getCoordinates().distance(move.getAfter());
+            assertTrue(
+                "The move should end within 0.0003 of a sensor, was " + distanceToSensor,
+                distanceToSensor < 0.0002);
+            sensorCount++;
+          }
         }
+        assertEquals("The flight plan should contain all of the sensors", 33, sensorCount);
       }
-      assertEquals("The flight plan should contain all of the sensors", 33, sensorCount);
+      //      System.out.printf("Average length: %.3f moves%n", flightPathLengths /
+      // flightPlans.size());
+      System.out.printf("%f, %.3f%n", a, flightPathLengths / flightPlans.size());
+//      System.out.println("Runs completed: " + flightPlans.size());
     }
-    System.out.printf("Average length: %.3f moves%n", flightPathLengths / flightPlans.size());
-    System.out.println("Runs completed: " + flightPlans.size());
   }
 
   private List<List<Move>> getFlightPlans() {
     // For each of the dates, get the flight plans for a number of starting locations
-    return getDates()
-        .stream() // This is slow so using a parallelStream makes the test go faster
+    return getDates().stream() // This is slow so using a parallelStream makes the test go faster
         .map(date -> runFlightPlansOnDate(date, RANDOM_STARTING_POINTS_TO_TRY))
         .flatMap(List::stream)
         .collect(Collectors.toList());
@@ -84,9 +91,9 @@ public class FlightPlannerTest {
     var outputFlightPlans = new ArrayList<List<Move>>();
     var random = new Random();
     var startingLocations = new ArrayList<Coords>();
-//    startingLocations.add(INF_FORUM_ALCOVE);
-//    startingLocations.add(APPLETON_ALCOVE);
-//    startingLocations.add(LIBRARY_CORNER);
+    //    startingLocations.add(INF_FORUM_ALCOVE);
+    //    startingLocations.add(APPLETON_ALCOVE);
+    //    startingLocations.add(LIBRARY_CORNER);
     startingLocations.add(PRESCRIBED_START);
 
     var input =
@@ -135,7 +142,7 @@ public class FlightPlannerTest {
           } else if (day == 30 && month == 2 && year == 2020) {
             break;
           }
-          dates.add(new int[]{day, month, year});
+          dates.add(new int[] {day, month, year});
           if (--days == 0) {
             return dates;
           }
@@ -148,7 +155,7 @@ public class FlightPlannerTest {
   private List<int[]> getDates() {
     var dates = new ArrayList<int[]>();
     for (int i = 1; i <= 12; i++) {
-      dates.add(new int[]{i, i, 2020});
+      dates.add(new int[] {i, i, 2020});
     }
     return dates;
   }

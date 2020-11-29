@@ -4,11 +4,14 @@ import org.jgrapht.alg.tour.TwoOptHeuristicTSP;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import uk.ac.ed.inf.aqmaps.Move;
+import uk.ac.ed.inf.aqmaps.Testing;
 import uk.ac.ed.inf.aqmaps.W3W;
 import uk.ac.ed.inf.aqmaps.geometry.Angle;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Handles the creation of a flight plan for the drone. Uses JGraphT's TwoOptHeuristicTSP algorithm
@@ -21,11 +24,13 @@ public class FlightPlanner {
    * this reduces the average move length.
    */
   public static final int TWO_OPT_PASSES = 1;
+
+  public static final int CORNER_CUT_STEP = 100;
   /**
    * The number of times to run the algorithm before picking the shortest. Can be changed to trade
    * off for speed and efficacy. Increasing it more has almost no effect.
    */
-  private static final int ITERATIONS = 500;
+  private static final int ITERATIONS = 1000;
 
   private final Obstacles obstacles;
   private final ObstacleEvader obstacleEvader;
@@ -57,7 +62,7 @@ public class FlightPlanner {
    */
   public List<Move> createFlightPlan(Coords startPosition) {
     var tour = createSensorTour(startPosition, sensorCoordsW3WMap.keySet());
-    return constructFlightAlongTour(tour);
+    return tour;
   }
 
   /**
@@ -96,32 +101,54 @@ public class FlightPlanner {
    * @return a list of Coords which specifies the order to visit the sensors, and starts and ends
    *     with the starting position
    */
-  private List<Coords> createSensorTour(Coords startPosition, Collection<Coords> sensorCoords) {
+  private List<Move> createSensorTour(Coords startPosition, Collection<Coords> sensorCoords) {
     var sensorGraph = createSensorGraph(startPosition, sensorCoords);
 
-    // Try several times and keep the best tour.
-    List<Coords> shortestTour = null;
-    int shortestLength = Integer.MAX_VALUE;
-    for (int i = 0; i < ITERATIONS; i++) {
+    // Before going parallel generate a list of numbers to increment the random seed by
+    var iterationNumbers = IntStream.range(0, ITERATIONS).boxed().collect(Collectors.toList());
 
-      var twoOpt =
-          new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(TWO_OPT_PASSES, randomSeed + i);
-      var graphPath = twoOpt.getTour(sensorGraph);
-      var tour = graphPath.getVertexList();
+//    // Try several times and keep the best tour.
+//    List<Coords> shortestTour = null;
+//    int shortestLength = Integer.MAX_VALUE;
+//    for (int i = 0; i < ITERATIONS; i++) {
+//
+//      var twoOpt =
+//              new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(TWO_OPT_PASSES, randomSeed + i);
+//      var graphPath = twoOpt.getTour(sensorGraph);
+//      var tour = graphPath.getVertexList();
+//
+//      tour.remove(0); // The first and last elements are duplicates, so remove the duplicate
+//
+//      // Rotate the list backwards so the starting position is at the front
+//      Collections.rotate(tour, -tour.indexOf(startPosition));
+//      tour.add(tour.get(0)); // Put the starting position as the ending position as well
+//
+//      int tourLength = constructFlightAlongTour(tour).size();
+//      if (tourLength < shortestLength) {
+//        shortestTour = tour;
+//        shortestLength = tourLength;
+//      }
+//    }
+//    return constructFlightAlongTour(shortestTour);
+    return iterationNumbers.stream()
+        .map(i -> get(startPosition, sensorGraph, i))
+        .min(Comparator.comparing(List::size))
+        .orElse(null);
+  }
 
-      tour.remove(0); // The first and last elements are duplicates, so remove the duplicate
+  private List<Move> get(
+      Coords startPosition, SimpleWeightedGraph<Coords, DefaultWeightedEdge> sensorGraph, int i) {
+    var twoOpt =
+        new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(TWO_OPT_PASSES, randomSeed + i);
+    var graphPath = twoOpt.getTour(sensorGraph);
+    var tour = graphPath.getVertexList();
 
-      // Rotate the list backwards so the starting position is at the front
-      Collections.rotate(tour, -tour.indexOf(startPosition));
-      tour.add(tour.get(0)); // Put the starting position as the ending position as well
+    tour.remove(0); // The first and last elements are duplicates, so remove the duplicate
 
-      int tourLength = constructFlightAlongTour(tour).size();
-      if (tourLength < shortestLength) {
-        shortestTour = tour;
-        shortestLength = tourLength;
-      }
-    }
-    return shortestTour;
+    // Rotate the list backwards so the starting position is at the front
+    Collections.rotate(tour, -tour.indexOf(startPosition));
+    tour.add(tour.get(0)); // Put the starting position as the ending position as well
+    return constructFlightAlongTour(tour);
   }
 
   /**
@@ -131,6 +158,7 @@ public class FlightPlanner {
    * @return a list of Moves representing the flight plan
    */
   private List<Move> constructFlightAlongTour(List<Coords> tour) {
+    var obstacleEv = obstacleEvader.getCopy();
     var moves = new ArrayList<Move>();
     var currentPosition = tour.get(0);
 
@@ -145,7 +173,7 @@ public class FlightPlanner {
         currentTarget = cutCorner(currentPosition, currentTarget, nextTarget);
       }
       // Compute a list of waypoints from the current position to the target, avoiding obstacles
-      var waypoints = obstacleEvader.getPath(currentPosition, currentTarget);
+      var waypoints = obstacleEv.getPath(currentPosition, currentTarget);
 
       // Compute a list of Moves from the current position to the target
       var waypointNavigation = new WaypointNavigation(obstacles);
@@ -165,27 +193,40 @@ public class FlightPlanner {
     return moves;
   }
 
+  /**
+   * Let BA be the line from the current target to the current position, and AC be the line from the
+   * current target to the next target.
+   */
   private Coords cutCorner(Coords currentPosition, Coords currentTarget, Coords nextTarget) {
 
-    // Move the target 0.5 * (sensor range) in the direction of the bisector to cut the corner.
-    // 0.5 was chosen as it performed well in testing.
-    var bisector = Angle.bisectorDirection(currentTarget, currentPosition, nextTarget);
-    var newTarget =
-        currentTarget.getPositionAfterMoveRadians(bisector, WaypointNavigation.SENSOR_RANGE * 0.5); //TODO tune this
+    var dirToPos = Angle.lineDirection(currentTarget, currentPosition);
+    var dirToNext = Angle.lineDirection(currentTarget, nextTarget);
+    var minAngle = Math.min(dirToPos, dirToNext);
+    var maxAngle = Math.max(dirToPos, dirToNext);
+    var startDir = maxAngle - minAngle > Math.PI ? maxAngle : minAngle;
+    var endDir = maxAngle - minAngle > Math.PI ? minAngle + 2 * Math.PI : maxAngle;
+    double minDistance = Double.POSITIVE_INFINITY;
+    Coords bestTarget = currentTarget;
+    for (double dir = startDir; dir < endDir; dir += (endDir - startDir) / CORNER_CUT_STEP) {
+      var newTarget =
+          currentTarget.getPositionAfterMoveRadians(
+              dir,
+              WaypointNavigation.SENSOR_RANGE
+                  * Testing.a); // TODO tune this, explain bisection, direction -> bearing?
 
-    // It is not worth it if the new route now needs to avoid an obstacle. The move may also have
-    // put the point inside an obstacle.
-    if (!obstacles.lineCollision(currentPosition, newTarget)
-        && !obstacles.lineCollision(newTarget, nextTarget)) {
+      // It is not worth it if the new route now needs to avoid an obstacle. The move may also have
+      // put the point inside an obstacle.
+      if (!obstacles.lineCollision(currentPosition, newTarget)
+          && !obstacles.lineCollision(newTarget, nextTarget)) {
 
-      // Check that the distance gets shorter, it will not if the 3 points are roughly collinear
-      var oldDistance =
-          currentPosition.distance(currentTarget) + currentTarget.distance(nextTarget);
-      var newDistance = currentPosition.distance(newTarget) + newTarget.distance(nextTarget);
-      if (newDistance < oldDistance) {
-        currentTarget = newTarget;
+        var distance = currentPosition.distance(newTarget) + newTarget.distance(nextTarget);
+        if (distance < minDistance) {
+          minDistance = distance;
+          bestTarget = newTarget;
+        }
       }
     }
+    currentTarget = bestTarget;
     return currentTarget;
   }
 }
