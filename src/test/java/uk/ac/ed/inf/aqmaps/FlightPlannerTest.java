@@ -33,48 +33,45 @@ public class FlightPlannerTest {
 
   @Test
   public void flightPlanCorrect() {
-// All tests are done at once since it takes a long time to generate this many flight plans
-      // Calculate average move length while we're at it
-      double flightPathLengths = 0;
-      var flightPlans = getFlightPlans();
-      for (var flightPlan : flightPlans) {
-        flightPathLengths += flightPlan.size();
+    // All tests are done at once since it takes a long time to generate this many flight plans
+    // Calculate average move length while we're at it
+    double flightPathLengths = 0;
+    var flightPlans = getFlightPlans();
+    for (var flightPlan : flightPlans) {
+      flightPathLengths += flightPlan.size();
+      assertTrue(
+          "Flight plan should be no more than 150 moves, was " + flightPlan.size(),
+          flightPlan.size() <= 150);
+      var sensorCount = 0;
+      for (var move : flightPlan) {
+        assertFalse(
+            "Flight plan should not collide with any obstacles",
+            obstacles.lineCollision(move.getBefore(), move.getAfter()));
+
+        var inRange =
+            0 <= move.getDirection() && move.getDirection() <= 350 && move.getDirection() % 10 == 0;
         assertTrue(
-            "Flight plan should be no more than 150 moves, was " + flightPlan.size(),
-            flightPlan.size() <= 150);
-        var sensorCount = 0;
-        for (var move : flightPlan) {
-          assertFalse(
-              "Flight plan should not collide with any obstacles",
-              obstacles.lineCollision(move.getBefore(), move.getAfter()));
+            "All directions should be multiples of 10 degrees and in range [0,350]. Instead was "
+                + move.getDirection(),
+            inRange);
 
-          var inRange =
-              0 <= move.getDirection()
-                  && move.getDirection() <= 350
-                  && move.getDirection() % 10 == 0;
+        if (move.getSensorW3W() != null) {
+          var distanceToSensor = move.getSensorW3W().getCoordinates().distance(move.getAfter());
           assertTrue(
-              "All directions should be multiples of 10 degrees and in range [0,350]. Instead was "
-                  + move.getDirection(),
-              inRange);
-
-          if (move.getSensorW3W() != null) {
-            var distanceToSensor = move.getSensorW3W().getCoordinates().distance(move.getAfter());
-            assertTrue(
-                "The move should end within 0.0003 of a sensor, was " + distanceToSensor,
-                distanceToSensor < 0.0002);
-            sensorCount++;
-          }
+              "The move should end within 0.0003 of a sensor, was " + distanceToSensor,
+              distanceToSensor < 0.0002);
+          sensorCount++;
         }
-        assertEquals("The flight plan should contain all of the sensors", 33, sensorCount);
       }
+      assertEquals("The flight plan should contain all of the sensors", 33, sensorCount);
+    }
     System.out.printf("Average length: %.3f moves%n", flightPathLengths / flightPlans.size());
-            System.out.println("Runs completed: " + flightPlans.size());
-
+    System.out.println("Runs completed: " + flightPlans.size());
   }
 
   private List<List<Move>> getFlightPlans() {
     // For each of the dates, get the flight plans for a number of starting locations
-    return getDates(DAYS_TO_TEST).stream()
+    return getDates().stream()
         .map(date -> runFlightPlansOnDate(date, RANDOM_STARTING_POINTS_TO_TRY))
         .flatMap(List::stream)
         .collect(Collectors.toList());
@@ -84,9 +81,9 @@ public class FlightPlannerTest {
     var outputFlightPlans = new ArrayList<List<Move>>();
     var random = new Random();
     var startingLocations = new ArrayList<Coords>();
-        startingLocations.add(INF_FORUM_ALCOVE);
-        startingLocations.add(APPLETON_ALCOVE);
-        startingLocations.add(LIBRARY_CORNER);
+//    startingLocations.add(INF_FORUM_ALCOVE);
+//    startingLocations.add(APPLETON_ALCOVE);
+//    startingLocations.add(LIBRARY_CORNER);
     startingLocations.add(PRESCRIBED_START);
 
     var input =

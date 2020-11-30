@@ -2,7 +2,6 @@ package uk.ac.ed.inf.aqmaps.flightplanning;
 
 import uk.ac.ed.inf.aqmaps.Move;
 import uk.ac.ed.inf.aqmaps.W3W;
-import uk.ac.ed.inf.aqmaps.geometry.Angle;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.ArrayList;
@@ -100,10 +99,7 @@ public class WaypointNavigation {
     // start with small offsets in both directions and work our way out.
     for (int offset : OFFSETS) {
       // Calculate the direction towards the next waypoint (to the nearest 10)
-      var direction =
-          Angle.roundTo10Degrees(Angle.lineDirection(currentPosition, waypoints.get(currWaypoint)));
-      direction =
-          Angle.formatAngle(direction + offset); // Apply the offset and ensure angle is [0,350]
+      int direction = currentPosition.roundedDirection10Degrees(waypoints.get(currWaypoint), offset);
 
       var positionAfterMove = currentPosition.getPositionAfterMoveDegrees(direction, MOVE_LENGTH);
 
