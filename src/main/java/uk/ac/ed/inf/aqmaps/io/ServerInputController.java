@@ -32,7 +32,7 @@ public class ServerInputController implements InputController {
   private String serverUrl;
 
   /**
-   * Create a new WebServer instance for a given day and port.
+   * Create a new ServerInputController instance with the given settings
    *
    * @param settings the Settings object containing the current settings
    */
@@ -45,7 +45,15 @@ public class ServerInputController implements InputController {
         settings.getPort());
   }
 
-  /** This exists so mock server objects can be passed in for testing. */
+  /**
+   * Create a new ServerInputController instance with the given Server, date, and port number
+   *
+   * @param server a Server
+   * @param day the day
+   * @param month the month
+   * @param year the year
+   * @param port the port of the Server
+   */
   public ServerInputController(Server server, int day, int month, int year, int port) {
     this.server = server;
     loadData(day, month, year, port);

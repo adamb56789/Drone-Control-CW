@@ -7,7 +7,7 @@ import uk.ac.ed.inf.aqmaps.io.ServerInputController;
  * Flies a drone around Edinburgh to collect air quality data from sensors and create a map. This
  * code follows the Google Java Style Guide at https://google.github.io/styleguide/javaguide.html
  */
-public class AQMaps {
+public class App {
 
   public static void main(String[] args) {
     (new Testing()).run();

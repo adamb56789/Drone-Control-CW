@@ -1,6 +1,5 @@
 package uk.ac.ed.inf.aqmaps.flightplanning;
 
-import org.jgrapht.alg.tour.TwoOptHeuristicTSP;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import uk.ac.ed.inf.aqmaps.Move;
@@ -23,7 +22,7 @@ public class FlightPlanner {
    * as possible with different random seeds within this time frame, up to a maximum of {@value
    * MAX_ITERATIONS} and then the best flight path will be chosen.
    */
-  private static final int MAX_RUNTIME_MILLIS = 1000;
+  private static final int MAX_RUNTIME_MILLIS = 500;
   /**
    * The time limit can be turned off to run for a specified {@link #ITERATIONS} number of
    * iterations to produce consistent output.
@@ -40,14 +39,14 @@ public class FlightPlanner {
    * run before the time is up, it stops and does not wait for the timer. The current value is high
    * enough for this to never happen.
    */
-  private static final int MAX_ITERATIONS = 5000;
+  private static final int MAX_ITERATIONS = 50000;
   /**
    * The number of initial tours to try when running 2-opt. Unless {@link #ITERATIONS} is low,
    * increasing this reduces the average move length.
    */
   private static final int TWO_OPT_PASSES = 5;
 
-  /** This constant isSee {@link #cutCorner(Coords, Coords, Coords)} */
+  /** See {@link #cutCorner(Coords, Coords, Coords)} This value performed the best in testing. */
   private static final double CORNER_CUT_RADIUS_FRACTION = 0.634;
   /**
    * Increasing the value of this constant reduces run time but slightly increases average path
@@ -117,9 +116,7 @@ public class FlightPlanner {
             .filter(Objects::nonNull) // Once the max runtime has elapsed they will be null
             .min(Comparator.comparing(List::size)) // Get the tour with the minimal number of moves
             .orElse(null);
-    System.out.printf(
-        "Length: %d. Cache hits=%d, misses=%d. Iterations=%d%n",
-        flightPlan.size(), hits, misses, iterationCount);
+    System.out.printf("Cache hits=%d, misses=%d. Iterations = %d%n", hits, misses, iterationCount);
     return flightPlan;
   }
 
@@ -137,17 +134,14 @@ public class FlightPlanner {
       Coords startPosition,
       SimpleWeightedGraph<Coords, DefaultWeightedEdge> sensorGraph,
       long seed) {
-    if (TIME_LIMIT_ON && System.nanoTime() - startTime > MAX_RUNTIME_MILLIS * 1000000) {
+    if (TIME_LIMIT_ON && (System.nanoTime() - startTime) / 1000000 > MAX_RUNTIME_MILLIS) {
       // If more than the max runtime has elapsed, stop the algorithm by returning null
       return null;
     }
     iterationCount++;
-    var twoOpt = new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(TWO_OPT_PASSES, seed);
-    var graphPath = twoOpt.getTour(sensorGraph);
 
-    var improver =
-        new TwoOptFlightPlanImprover<Coords, DefaultWeightedEdge>(startPosition, this, seed);
-    graphPath = improver.improveTour(graphPath);
+    var twoOpt = new TwoOptFlightPlanImprover(TWO_OPT_PASSES, seed, startPosition, this);
+    var graphPath = twoOpt.getTour(sensorGraph);
 
     var tour = graphPath.getVertexList();
 
@@ -291,7 +285,7 @@ public class FlightPlanner {
 
   /**
    * Attempts to cut the corner by moving from the target a distance of {@value
-   * WaypointNavigation#SENSOR_RANGE} * {@link * #CORNER_CUT_RADIUS_FRACTION} in a direction between
+   * WaypointNavigation#SENSOR_RANGE} * {@link #CORNER_CUT_RADIUS_FRACTION} in a direction between
    * the current position and the next target. It tries 3 directions: the bisector between the
    * directions, and the 2 recursive bisectors (3 equally spaced directions). Picks the target which
    * minimises the new path that goes through the new point, and does not collide with an obstacle.

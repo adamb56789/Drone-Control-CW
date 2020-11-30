@@ -31,9 +31,10 @@ public class Polygon {
   }
 
   /**
-   * Create a Polygon from a GeoJSON Feature
+   * Create a Polygon from a GeoJSON Polygon
    *
    * @param feature a GeoJSON Feature containing a Polygon
+   * @return the converted Polygon
    */
   public static Polygon buildFromFeature(Feature feature) {
     // The Geometry interface does not have coordinates(), so we must cast to Polygon first. If it

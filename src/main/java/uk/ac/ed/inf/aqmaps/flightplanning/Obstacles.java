@@ -117,6 +117,8 @@ public class Obstacles {
   /**
    * Gets an ObstacleEvader using these Obstacles. The ObstacleEvader uses a (deep) copy of the
    * obstacle graph, allowing it to be used concurrently with other ObstacleEvaders.
+   *
+   * @return an ObstacleEvader instance with these obstacles
    */
   public ObstacleEvader getObstacleEvader() {
     var graphCopy = new SimpleWeightedGraph<Coords, DefaultWeightedEdge>(DefaultWeightedEdge.class);

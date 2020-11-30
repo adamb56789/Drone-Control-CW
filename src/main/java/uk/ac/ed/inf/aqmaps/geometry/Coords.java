@@ -19,6 +19,7 @@ public class Coords extends Point2D.Double {
    * Convert a mapbox point into a Coords
    *
    * @param p the mapbox Point
+   * @return an equivalent Coords
    */
   public static Coords buildFromGeojsonPoint(Point p) {
     return new Coords(p.longitude(), p.latitude());

@@ -89,7 +89,7 @@ public class WaypointNavigation {
       return null;
     }
 
-    if (countIterations++ > 1000000) {
+    if (countIterations++ > 100000) {
       // Fail if the algorithm continues for too long TODO get rid of this
       System.out.println("Counter time out");
       return null;
