@@ -21,13 +21,13 @@ public class FlightPlanner {
    * The number of initial tours to try when running 2-opt. Unless {@link #ITERATIONS} is low,
    * increasing this reduces the average move length.
    */
-  private static final int TWO_OPT_PASSES = 1000;
+  private static final int TWO_OPT_PASSES = 10;
 
   /**
    * The number of times to run the algorithm before picking the shortest. Can be changed to trade
    * off for speed and efficacy. Increasing it more has almost no effect.
    */
-  private static final int ITERATIONS = 1; // TODO 1000, 500 gets best results on specification
+  private static final int ITERATIONS = 12;
 
   /** This constant isSee {@link #cutCorner(Coords, Coords, Coords)} */
   private static final double CORNER_CUT_RADIUS_FRACTION = 0.634;
@@ -49,8 +49,6 @@ public class FlightPlanner {
 
   private final long randomSeed;
   private final Map<CacheKey, CacheValue> cache = new Hashtable<>();
-  private int misses = 0;
-  private int hits = 0;
 
   /**
    * Constructor
@@ -85,7 +83,7 @@ public class FlightPlanner {
     return seeds.parallelStream() // Run in parallel to decrease run time
             .map(seed -> createPlanWithSeed(startPosition, sensorGraph, seed))
             .min(Comparator.comparing(List::size)) // Get the tour with the minimal number of moves
-            .orElse(null); // min() returns an Optional so get the value out
+            .orElse(null);
   }
 
   /**
@@ -102,12 +100,11 @@ public class FlightPlanner {
           Coords startPosition,
           SimpleWeightedGraph<Coords, DefaultWeightedEdge> sensorGraph,
           long seed) {
-//    var twoOpt = new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(TWO_OPT_PASSES, seed);
-//    var graphPath = twoOpt.getTour(sensorGraph);
+    var twoOpt = new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(TWO_OPT_PASSES, seed);
+    var graphPath = twoOpt.getTour(sensorGraph);
 
-    var improver = new TwoOptFlightPlanImprover<Coords, DefaultWeightedEdge>(startPosition, this);
-    var graphPath = improver.getTour(sensorGraph);
-//    graphPath = improver.improveTour(graphPath);
+    var improver = new TwoOptFlightPlanImprover<Coords, DefaultWeightedEdge>(startPosition, this, seed);
+    graphPath = improver.improveTour(graphPath);
 
     var tour = graphPath.getVertexList();
 
@@ -116,57 +113,53 @@ public class FlightPlanner {
     // Rotate the list backwards so the starting position is at the front
     Collections.rotate(tour, -tour.indexOf(startPosition));
     tour.add(tour.get(0)); // Put the starting position as the ending position as well
-    System.out.printf("hits=%d misses=%d%n", hits, misses);
     return constructFlightAlongTour(tour);
   }
 
-  public int getSize(List<Coords> tour) {
-    return constructFlightAlongTour(tour).size();
-//    var obstacleEvader = obstacles.getObstacleEvader();
-//    var length = 0;
-//    var currentPosition = tour.get(0);
-//
-//    // Plan the flight from each sensor to the next
-//    for (int i = 1; i < tour.size(); i++) {
-//      var currentTarget = tour.get(i);
-//      var cacheEntry =
-//          new CacheKey(
-//              currentPosition, currentTarget, i < tour.size() - 1 ? tour.get(i + 1) : null);
-//      if (cache.containsKey(cacheEntry)) {
-//        hits++;
-//        var cacheValue = cache.get(cacheEntry);
-//        length += cacheValue.getLength();
-//        currentPosition = cacheValue.getEndPosition();
-//        continue;
-//      }
-//      misses++;
-//      W3W targetSensorOrNull = sensorCoordsW3WMap.get(currentTarget);
-//
-//      // If the target is not the end, shorten the route by using the sensor range to cut the corner
-//      if (i < tour.size() - 1) {
-//        var nextTarget = tour.get(i + 1);
-//        currentTarget = cutCorner(currentPosition, currentTarget, nextTarget);
-//      }
-//      // Compute a list of waypoints from the current position to the target, avoiding obstacles
-//      var waypoints = obstacleEvader.getPath(currentPosition, currentTarget);
-//
-//      // Compute a list of Moves from the current position to the target
-//      var waypointNavigation = new WaypointNavigation(obstacles);
-//      var movesToTarget =
-//          waypointNavigation.navigateToLocation(currentPosition, waypoints, targetSensorOrNull);
-//
-//      if (movesToTarget == null) {
-//        // In case there is no valid flightpath, we give up here
-//        System.out.println("Gave up searching for path"); // TODO
-//        break;
-//      }
-//      // Update the current position to the end of the sequence of moves
-//      currentPosition = movesToTarget.get(movesToTarget.size() - 1).getAfter();
-//
-//      length += movesToTarget.size();
-//      cache.put(cacheEntry, new CacheValue(movesToTarget.size(), (Coords) currentPosition.clone()));
-//    }
-//    return length;
+  public int computeFlightAlongTourLength(List<Coords> tour) {
+    var obstacleEvader = obstacles.getObstacleEvader();
+    var length = 0;
+    var currentPosition = tour.get(0);
+
+    // Plan the flight from each sensor to the next
+    for (int i = 1; i < tour.size(); i++) {
+      var currentTarget = tour.get(i);
+      var cacheEntry =
+          new CacheKey(
+              currentPosition, currentTarget, i < tour.size() - 1 ? tour.get(i + 1) : null);
+      if (cache.containsKey(cacheEntry)) {
+        var cacheValue = cache.get(cacheEntry);
+        length += cacheValue.getLength();
+        currentPosition = cacheValue.getEndPosition();
+        continue;
+      }
+      W3W targetSensorOrNull = sensorCoordsW3WMap.get(currentTarget);
+
+      // If the target is not the end, shorten the route by using the sensor range to cut the corner
+      if (i < tour.size() - 1) {
+        var nextTarget = tour.get(i + 1);
+        currentTarget = cutCorner(currentPosition, currentTarget, nextTarget);
+      }
+      // Compute a list of waypoints from the current position to the target, avoiding obstacles
+      var waypoints = obstacleEvader.getPath(currentPosition, currentTarget);
+
+      // Compute a list of Moves from the current position to the target
+      var waypointNavigation = new WaypointNavigation(obstacles);
+      var movesToTarget =
+          waypointNavigation.navigateToLocation(currentPosition, waypoints, targetSensorOrNull);
+
+      if (movesToTarget == null) {
+        // In case there is no valid flightpath, we give up here
+        System.out.println("Gave up searching for path"); // TODO
+        break;
+      }
+      // Update the current position to the end of the sequence of moves
+      currentPosition = movesToTarget.get(movesToTarget.size() - 1).getAfter();
+
+      length += movesToTarget.size();
+      cache.put(cacheEntry, new CacheValue(movesToTarget.size(), (Coords) currentPosition.clone()));
+    }
+    return length;
   }
 
   /**

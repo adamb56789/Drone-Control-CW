@@ -5,7 +5,7 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import java.util.Objects;
 
 public class CacheKey {
-  public static final int PRECISION = 14;
+  public static final double PRECISION = 14;
   private final double startLng;
   private final double startLat;
   private final Coords currentTarget;
