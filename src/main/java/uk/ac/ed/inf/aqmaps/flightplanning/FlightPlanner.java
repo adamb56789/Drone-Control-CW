@@ -21,13 +21,13 @@ public class FlightPlanner {
    * The number of initial tours to try when running 2-opt. Unless {@link #ITERATIONS} is low,
    * increasing this reduces the average move length.
    */
-  private static final int TWO_OPT_PASSES = 1;
+  private static final int TWO_OPT_PASSES = 1000;
 
   /**
    * The number of times to run the algorithm before picking the shortest. Can be changed to trade
    * off for speed and efficacy. Increasing it more has almost no effect.
    */
-  private static final int ITERATIONS = 1000;
+  private static final int ITERATIONS = 1; // TODO 1000, 500 gets best results on specification
 
   /** This constant isSee {@link #cutCorner(Coords, Coords, Coords)} */
   private static final double CORNER_CUT_RADIUS_FRACTION = 0.634;
@@ -48,6 +48,9 @@ public class FlightPlanner {
   private final List<Coords> sensorCoords;
 
   private final long randomSeed;
+  private final Map<CacheKey, CacheValue> cache = new Hashtable<>();
+  private int misses = 0;
+  private int hits = 0;
 
   /**
    * Constructor
@@ -77,12 +80,12 @@ public class FlightPlanner {
 
     // Generate a list of seeds [randomSeed, randomSeed + 1, ..., randomSeed + ITERATIONS - 1]
     var seeds =
-        LongStream.range(randomSeed, randomSeed + ITERATIONS).boxed().collect(Collectors.toList());
+            LongStream.range(randomSeed, randomSeed + ITERATIONS).boxed().collect(Collectors.toList());
 
     return seeds.parallelStream() // Run in parallel to decrease run time
-        .map(seed -> createPlanWithSeed(startPosition, sensorGraph, seed))
-        .min(Comparator.comparing(List::size)) // Get the tour with the minimal number of moves
-        .orElse(null); // min() returns an Optional so get the value out
+            .map(seed -> createPlanWithSeed(startPosition, sensorGraph, seed))
+            .min(Comparator.comparing(List::size)) // Get the tour with the minimal number of moves
+            .orElse(null); // min() returns an Optional so get the value out
   }
 
   /**
@@ -96,11 +99,16 @@ public class FlightPlanner {
    * @return a list of Moves representing the flight plan
    */
   private List<Move> createPlanWithSeed(
-      Coords startPosition,
-      SimpleWeightedGraph<Coords, DefaultWeightedEdge> sensorGraph,
-      long seed) {
-    var twoOpt = new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(TWO_OPT_PASSES, seed);
-    var graphPath = twoOpt.getTour(sensorGraph);
+          Coords startPosition,
+          SimpleWeightedGraph<Coords, DefaultWeightedEdge> sensorGraph,
+          long seed) {
+//    var twoOpt = new TwoOptHeuristicTSP<Coords, DefaultWeightedEdge>(TWO_OPT_PASSES, seed);
+//    var graphPath = twoOpt.getTour(sensorGraph);
+
+    var improver = new TwoOptFlightPlanImprover<Coords, DefaultWeightedEdge>(startPosition, this);
+    var graphPath = improver.getTour(sensorGraph);
+//    graphPath = improver.improveTour(graphPath);
+
     var tour = graphPath.getVertexList();
 
     tour.remove(0); // The first and last elements are duplicates, so remove the duplicate
@@ -108,7 +116,57 @@ public class FlightPlanner {
     // Rotate the list backwards so the starting position is at the front
     Collections.rotate(tour, -tour.indexOf(startPosition));
     tour.add(tour.get(0)); // Put the starting position as the ending position as well
+    System.out.printf("hits=%d misses=%d%n", hits, misses);
     return constructFlightAlongTour(tour);
+  }
+
+  public int getSize(List<Coords> tour) {
+    return constructFlightAlongTour(tour).size();
+//    var obstacleEvader = obstacles.getObstacleEvader();
+//    var length = 0;
+//    var currentPosition = tour.get(0);
+//
+//    // Plan the flight from each sensor to the next
+//    for (int i = 1; i < tour.size(); i++) {
+//      var currentTarget = tour.get(i);
+//      var cacheEntry =
+//          new CacheKey(
+//              currentPosition, currentTarget, i < tour.size() - 1 ? tour.get(i + 1) : null);
+//      if (cache.containsKey(cacheEntry)) {
+//        hits++;
+//        var cacheValue = cache.get(cacheEntry);
+//        length += cacheValue.getLength();
+//        currentPosition = cacheValue.getEndPosition();
+//        continue;
+//      }
+//      misses++;
+//      W3W targetSensorOrNull = sensorCoordsW3WMap.get(currentTarget);
+//
+//      // If the target is not the end, shorten the route by using the sensor range to cut the corner
+//      if (i < tour.size() - 1) {
+//        var nextTarget = tour.get(i + 1);
+//        currentTarget = cutCorner(currentPosition, currentTarget, nextTarget);
+//      }
+//      // Compute a list of waypoints from the current position to the target, avoiding obstacles
+//      var waypoints = obstacleEvader.getPath(currentPosition, currentTarget);
+//
+//      // Compute a list of Moves from the current position to the target
+//      var waypointNavigation = new WaypointNavigation(obstacles);
+//      var movesToTarget =
+//          waypointNavigation.navigateToLocation(currentPosition, waypoints, targetSensorOrNull);
+//
+//      if (movesToTarget == null) {
+//        // In case there is no valid flightpath, we give up here
+//        System.out.println("Gave up searching for path"); // TODO
+//        break;
+//      }
+//      // Update the current position to the end of the sequence of moves
+//      currentPosition = movesToTarget.get(movesToTarget.size() - 1).getAfter();
+//
+//      length += movesToTarget.size();
+//      cache.put(cacheEntry, new CacheValue(movesToTarget.size(), (Coords) currentPosition.clone()));
+//    }
+//    return length;
   }
 
   /**
@@ -119,7 +177,7 @@ public class FlightPlanner {
    * @return a complete SimpleWeightedGraph of sensors and the starting position
    */
   private SimpleWeightedGraph<Coords, DefaultWeightedEdge> createSensorGraph(
-      Coords startPosition, Collection<Coords> sensorCoords) {
+          Coords startPosition, Collection<Coords> sensorCoords) {
     var obstacleEvader = obstacles.getObstacleEvader();
     var graph = new SimpleWeightedGraph<Coords, DefaultWeightedEdge>(DefaultWeightedEdge.class);
 
@@ -134,7 +192,7 @@ public class FlightPlanner {
       for (int j = i + 1; j < vertexList.size(); j++) {
         var edge = graph.addEdge(vertexList.get(i), vertexList.get(j));
         graph.setEdgeWeight(
-            edge, obstacleEvader.getPathLength(vertexList.get(i), vertexList.get(j)));
+                edge, obstacleEvader.getPathLength(vertexList.get(i), vertexList.get(j)));
       }
     }
     return graph;
@@ -167,7 +225,7 @@ public class FlightPlanner {
       // Compute a list of Moves from the current position to the target
       var waypointNavigation = new WaypointNavigation(obstacles);
       var movesToTarget =
-          waypointNavigation.navigateToLocation(currentPosition, waypoints, targetSensorOrNull);
+              waypointNavigation.navigateToLocation(currentPosition, waypoints, targetSensorOrNull);
 
       if (movesToTarget == null) {
         // In case there is no valid flightpath, we give up here
@@ -197,8 +255,8 @@ public class FlightPlanner {
     Coords bestTarget = P;
     for (double dir = range[0]; dir <= range[1]; dir += CORNER_CUT_STEP) {
       var newTarget =
-          P.getPositionAfterMoveRadians(
-              dir, WaypointNavigation.SENSOR_RANGE * CORNER_CUT_RADIUS_FRACTION);
+              P.getPositionAfterMoveRadians(
+                      dir, WaypointNavigation.SENSOR_RANGE * CORNER_CUT_RADIUS_FRACTION);
 
       // It is not worth it if the new route now needs to avoid an obstacle. The move may also have
       // put the point inside an obstacle.

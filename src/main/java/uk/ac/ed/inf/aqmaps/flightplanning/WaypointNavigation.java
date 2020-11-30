@@ -4,9 +4,7 @@ import uk.ac.ed.inf.aqmaps.Move;
 import uk.ac.ed.inf.aqmaps.W3W;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * A class which handles the navigation of the drone along a series of waypoints. This is the core
@@ -29,6 +27,8 @@ public class WaypointNavigation {
   };
 
   private final Obstacles obstacles;
+  /** Keeps track of all of the points we have visited so far */
+  private final Set<Coords> visitedSet = new HashSet<>();
   private List<Coords> waypoints;
   private Coords targetLocation;
   private W3W targetSensorW3W;
@@ -70,21 +70,21 @@ public class WaypointNavigation {
 
   /**
    * Predict the maximum number of moves to reach the specified waypoint. The formula is
-   * ceiling(distance / MOVE_LENGTH) + 4. Using less than 4 may work, but it is safer to be at least
-   * this.
+   * ceiling(distance / MOVE_LENGTH) + 2.
    *
    * @param startPos the starting position of the move
    * @param target the target waypoint of the move
    * @return the estimated maximum number of moves that it will take to reach the target
    */
   private int predictMaxMoveLength(Coords startPos, Coords target) {
-    return (int) ((startPos.distance(target) / MOVE_LENGTH) + 1) + 4;
+    return (int) ((startPos.distance(target) / MOVE_LENGTH) + 1) + 2;
   }
 
   private List<Move> navigateAlongWaypoints(
       Coords currentPosition, int currWaypoint, int movesTilTimeout) {
     // If we take more moves than expected, we got stuck so this route is invalid
     if (movesTilTimeout == 0) {
+      //      System.out.println("Move timeout");
       return null;
     }
 
@@ -99,9 +99,16 @@ public class WaypointNavigation {
     // start with small offsets in both directions and work our way out.
     for (int offset : OFFSETS) {
       // Calculate the direction towards the next waypoint (to the nearest 10)
-      int direction = currentPosition.roundedDirection10Degrees(waypoints.get(currWaypoint), offset);
+      int direction =
+          currentPosition.roundedDirection10Degrees(waypoints.get(currWaypoint), offset);
 
       var positionAfterMove = currentPosition.getPositionAfterMoveDegrees(direction, MOVE_LENGTH);
+
+      if (visitedSet.contains(positionAfterMove)) {
+        // If we have moved here before, don't do it again
+        continue;
+      }
+      visitedSet.add(positionAfterMove);
 
       // If the move collides with an obstacle then try a different offset
       if (obstacles.lineCollision(currentPosition, positionAfterMove)) {
