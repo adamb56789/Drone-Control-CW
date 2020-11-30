@@ -56,11 +56,11 @@ public class TwoOptFlightPlanImprover<V, E> extends HamiltonianCycleAlgorithmBas
   private final double minCostImprovement;
   private final Coords start;
   private final FlightPlanner flightPlanner;
+  private final long randomSeed;
   private Graph<V, E> graph;
   private int n;
   private Map<V, Integer> index;
   private Map<Integer, V> revIndex;
-  private final long randomSeed;
 
   public TwoOptFlightPlanImprover(Coords start, FlightPlanner flightPlanner, long randomSeed) {
     this.minCostImprovement = Math.abs(1e-8);
@@ -112,7 +112,7 @@ public class TwoOptFlightPlanImprover<V, E> extends HamiltonianCycleAlgorithmBas
           originalList.get(0)); // Put the starting position as the ending position as well
 
       var originalDirectLength = getDirectLength(originalList);
-      int originalLength = flightPlanner.computeFlightAlongTourLength(originalList);
+      int originalLength = flightPlanner.computeLengthOfFlight(originalList);
 
       moved = false;
       minChange = -minCostImprovement;
@@ -136,7 +136,7 @@ public class TwoOptFlightPlanImprover<V, E> extends HamiltonianCycleAlgorithmBas
           // so only try to swap when the change is relatively minor
           var newDirectLength = getDirectLength(vertexList);
           if (newDirectLength < originalDirectLength * 1.1) {
-            int change = flightPlanner.computeFlightAlongTourLength(vertexList) - originalLength;
+            int change = flightPlanner.computeLengthOfFlight(vertexList) - originalLength;
             if (change < minChange) {
               minChange = change;
               mini = i;

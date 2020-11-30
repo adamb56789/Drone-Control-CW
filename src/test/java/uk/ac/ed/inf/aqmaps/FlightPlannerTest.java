@@ -81,9 +81,9 @@ public class FlightPlannerTest {
     var outputFlightPlans = new ArrayList<List<Move>>();
     var random = new Random();
     var startingLocations = new ArrayList<Coords>();
-//    startingLocations.add(INF_FORUM_ALCOVE);
-//    startingLocations.add(APPLETON_ALCOVE);
-//    startingLocations.add(LIBRARY_CORNER);
+    //    startingLocations.add(INF_FORUM_ALCOVE);
+    //    startingLocations.add(APPLETON_ALCOVE);
+    //    startingLocations.add(LIBRARY_CORNER);
     startingLocations.add(PRESCRIBED_START);
 
     var input =

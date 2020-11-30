@@ -95,33 +95,6 @@ public class Coords extends Point2D.Double {
     return new Coords(x + length * Math.cos(radians), y + length * Math.sin(radians));
   }
 
-  /**
-   * Let this point be P. Calculates a range between the directions of lines PA and PB, which is
-   * smooth, i.e does not pass from 180 to -179 but instead from 180 to 181. //TODO write tests
-   *
-   * <p>max = max(PA, PB)
-   *
-   * <p>min = min(PA, PB)
-   *
-   * <p>range = [min,max] if max - min < PI
-   *
-   * <p>range = [max,(min + 2PI)] otherwise
-   *
-   * @param A point A
-   * @param B point B
-   * @return an double[2] containing the start and end values of the range, [start, end] where start
-   *     < end
-   */
-  public double[] getSmoothRangeBetweenLines(Coords A, Coords B) {
-    var PA = directionTo(A);
-    var PB = directionTo(B);
-    var min = Math.min(PA, PB);
-    var max = Math.max(PA, PB);
-    var start = max - min < Math.PI ? min : max;
-    var end = max - min < Math.PI ? max : min + 2 * Math.PI;
-    return new double[] {start, end};
-  }
-
   @Override
   public String toString() {
     return "(" + x + ", " + y + ")";

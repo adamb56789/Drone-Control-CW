@@ -10,13 +10,14 @@ import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 public class AQMaps {
 
   public static void main(String[] args) {
-    if (args.length != 7) {
-      System.out.println("Incorrect number of arguments: should be 7");
-    }
-    var settings = new Settings(args);
-    var drone =
-        new Drone(
-            settings, new ServerInputController(settings), new FileOutputController(settings));
-    drone.start();
+    (new Testing()).run();
+//    if (args.length != 7) {
+//      System.out.println("Incorrect number of arguments: should be 7");
+//    }
+//    var settings = new Settings(args);
+//    var drone =
+//        new Drone(
+//            settings, new ServerInputController(settings), new FileOutputController(settings));
+//    drone.start();
   }
 }

@@ -22,7 +22,7 @@ public class Testing {
     drone.start();
   }
 
-  private List<int[]> getDates() {
+  private static List<int[]> getDates() {
     var dates = new ArrayList<int[]>();
     for (int i = 1; i <= 12; i++) {
       dates.add(new int[] {i, i, 2020});

@@ -29,6 +29,7 @@ public class WaypointNavigation {
   private final Obstacles obstacles;
   /** Keeps track of all of the points we have visited so far */
   private final Set<Coords> visitedSet = new HashSet<>();
+
   private List<Coords> waypoints;
   private Coords targetLocation;
   private W3W targetSensorW3W;
