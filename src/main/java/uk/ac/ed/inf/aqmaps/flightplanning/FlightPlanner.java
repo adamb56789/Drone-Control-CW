@@ -58,11 +58,11 @@ public class FlightPlanner {
   private final List<Coords> sensorCoords;
   /**
    * Caches the number of moves and end position of navigating from a point to a target, with a
-   * particular following target. Used in {@link #computeLengthOfFlight}. This does not cache the
+   * particular following target. Used in {@link #computeFlightLength}. This does not cache the
    * actual moves that would be needed to use the cache in {@link #constructFlightAlongTour} since
    * the memory use would be too high and almost all of the moves stored would not be used since we
    * only need to construct the tour once. Using a cache in testing resulted in a speedup of 60-70%.
-   * Since {@link #computeLengthOfFlight} will be run in parallel, we use a ConcurrentHashMap to
+   * Since {@link #computeFlightLength} will be run in parallel, we use a ConcurrentHashMap to
    * prevent blocking, which was about 60% faster than a Hashtable in testing (on 6 cores/12
    * threads).
    */
@@ -234,7 +234,7 @@ public class FlightPlanner {
    * @param tour a list of Coords specifying the order to visit the sensors
    * @return the number of moves in the flight plan
    */
-  public int computeLengthOfFlight(List<Coords> tour) {
+  public int computeFlightLength(List<Coords> tour) {
     var obstacleEvader = obstacles.getObstacleEvader();
     var length = 0;
     var currentPosition = tour.get(0);
@@ -315,7 +315,8 @@ public class FlightPlanner {
           waypointNavigation.navigateToLocation(currentPosition, waypoints, targetSensorOrNull);
 
       if (movesToTarget == null) {
-        // In case there is no valid flightpath, we give up here
+        // In the exceptional case that there is no valid flightpath, we give up here
+        // This never happened in testing
         return moves;
       }
       // Update the current position to the end of the sequence of moves

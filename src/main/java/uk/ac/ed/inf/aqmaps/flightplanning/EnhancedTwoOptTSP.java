@@ -143,7 +143,7 @@ public class EnhancedTwoOptTSP extends TwoOptHeuristicTSP<Coords, DefaultWeighte
       // Calculate the direct and drone lengths of the current state of the tour
       var originalList = getTourAsList(tour);
       var originalDirectLength = getDirectLength(originalList);
-      int originalLength = flightPlanner.computeLengthOfFlight(originalList);
+      int originalLength = flightPlanner.computeFlightLength(originalList);
 
       moved = false;
       var minChange = 0;
@@ -160,7 +160,7 @@ public class EnhancedTwoOptTSP extends TwoOptHeuristicTSP<Coords, DefaultWeighte
           // so only try to swap when the change is relatively minor
           var newDirectLength = getDirectLength(vertexList);
           if (newDirectLength < originalDirectLength * 1.1) {
-            int change = flightPlanner.computeLengthOfFlight(vertexList) - originalLength;
+            int change = flightPlanner.computeFlightLength(vertexList) - originalLength;
             if (change < minChange) {
               minChange = change;
               mini = i;
