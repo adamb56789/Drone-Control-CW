@@ -64,8 +64,7 @@ public class EnhancedTwoOptTSP extends TwoOptHeuristicTSP<Coords, DefaultWeighte
   /** The FlightPlanner for computing tour weights */
   private final FlightPlanner flightPlanner;
   /**
-   * A graph representation of the sensors with edge weights of shortest path distance as calculated
-   * by {@link ObstacleEvader}
+   * A graph representation of the sensors
    */
   private Graph<Coords, DefaultWeightedEdge> graph;
 
@@ -284,7 +283,7 @@ public class EnhancedTwoOptTSP extends TwoOptHeuristicTSP<Coords, DefaultWeighte
    * tour by instead using a FlightPlanner to generate the actual drone moves along the tour and
    * using the number of moves as the weight of a tour.
    *
-   * @param graph the input graph containing the start location and the sensors, and edge weights of
+   * @param graph the input sensor graph containing the start location and the sensors, and edge weights of
    *     the shortest path between two points which avoids obstacles.
    * @return the tour as a GraphPath
    */
