@@ -18,6 +18,7 @@ public class App {
   public static void main(String[] args) {
     if (args.length != 7) {
       System.out.println("Incorrect number of arguments: should be 7");
+      System.exit(-1);
     }
     var settings = new Settings(args);
     var drone =

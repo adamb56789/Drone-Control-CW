@@ -12,8 +12,15 @@ import java.util.stream.Collectors;
 
 /** Holds a polygon as a list of the Coords that make up the vertices, in order */
 public class Polygon {
+  /**
+   * The margin to use when generating a polygon which outlines another, see {@link
+   * #generateOutlinePoints}
+   */
   public static final double OUTLINE_MARGIN = 1e-14;
+
+  /** A list of the vertices of the polygon */
   private final List<Coords> points;
+
   /**
    * Holds a path around the polygon and is used for checking inside-ness and generating bounding
    * boxes.

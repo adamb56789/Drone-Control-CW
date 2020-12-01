@@ -40,18 +40,10 @@ public class FlightPlanner {
    * enough for this to never happen.
    */
   private static final int MAX_ITERATIONS = 50000;
-  /**
-   * The number of initial tours to try when running 2-opt. Unless {@link #ITERATIONS} is low,
-   * increasing this reduces the average move length.
-   */
-  private static final int TWO_OPT_PASSES = 5;
 
   /** See {@link #cutCorner(Coords, Coords, Coords)} This value performed the best in testing. */
   private static final double CORNER_CUT_RADIUS_FRACTION = 0.634;
-  /**
-   * Increasing the value of this constant reduces run time but slightly increases average path
-   * length. See {@link #cutCorner(Coords, Coords, Coords)}
-   */
+
   private final Obstacles obstacles;
 
   private final Map<Coords, W3W> sensorCoordsW3WMap;
@@ -65,15 +57,26 @@ public class FlightPlanner {
 
   private final long randomSeed;
   /**
-   * Caching the results of {@link #computeLengthOfFlight} resulted in a speedup of 60-70%. Using a
-   * ConcurrentHashMap was about 60% faster than a Hashtable when using parallelStream() (on 6
-   * cores/12 threads).
+   * Caches the number of moves and end position of navigating from a point to a target, with a
+   * particular following target. Used in {@link #computeLengthOfFlight}. This does not cache the
+   * actual moves that would be needed to use the cache in {@link #constructFlightAlongTour} since
+   * the memory use would be too high and almost all of the moves stored would not be used since we
+   * only need to construct the tour once. Using a cache in testing resulted in a speedup of 60-70%.
+   * Since {@link #computeLengthOfFlight} will be run in parallel, we use a ConcurrentHashMap to
+   * prevent blocking, which was about 60% faster than a Hashtable in testing (on 6 cores/12
+   * threads).
    */
-  private final Map<FlightCacheKeys, FlightCacheValues> cache = new ConcurrentHashMap<>();
+  private final Map<FlightCacheKey, FlightCacheValue> cache = new ConcurrentHashMap<>();
 
-  private int misses = 0;
-  private int hits = 0;
+  /**
+   * The number of times that the flight planning algorithm is ran with a different seed. Collected
+   * for logging purposes.
+   */
   private int iterationCount = 0;
+
+  /**
+   * The System.nanoTime() at which we started running flight planning algorithms.
+   */
   private double startTime;
 
   /**
@@ -116,7 +119,7 @@ public class FlightPlanner {
             .filter(Objects::nonNull) // Once the max runtime has elapsed they will be null
             .min(Comparator.comparing(List::size)) // Get the tour with the minimal number of moves
             .orElse(null);
-    System.out.printf("Cache hits=%d, misses=%d. Iterations = %d%n", hits, misses, iterationCount);
+    System.out.printf("Number of flight planning iterations completed: %d%n", iterationCount);
     return flightPlan;
   }
 
@@ -141,7 +144,7 @@ public class FlightPlanner {
     iterationCount++;
 
     // Get a short tour which visits
-    var twoOpt = new EnhancedTwoOptTSP(TWO_OPT_PASSES, seed, startPosition, this);
+    var twoOpt = new EnhancedTwoOptTSP(seed, startPosition, this);
     var graphPath = twoOpt.getTour(sensorGraph);
 
     var tour = graphPath.getVertexList();
@@ -201,18 +204,16 @@ public class FlightPlanner {
       var currentTarget = tour.get(i);
 
       // Check the cache to see if we have already made a similar computation, and if so use the
-      // cached output instead.
-      var cacheEntry =
-          new FlightCacheKeys(
+      // cached output instead. If there is no next target, use null in the keu
+      var cacheKey =
+          new FlightCacheKey(
               currentPosition, currentTarget, i < tour.size() - 1 ? tour.get(i + 1) : null);
-      if (cache.containsKey(cacheEntry)) {
-        hits++;
-        var cacheValue = cache.get(cacheEntry);
+      if (cache.containsKey(cacheKey)) {
+        var cacheValue = cache.get(cacheKey);
         length += cacheValue.getLength();
         currentPosition = cacheValue.getEndPosition();
         continue;
       }
-      misses++;
       W3W targetSensorOrNull = sensorCoordsW3WMap.get(currentTarget);
 
       // If the target is not the end, shorten the route by using the sensor range to cut the corner
@@ -239,7 +240,7 @@ public class FlightPlanner {
 
       length += movesToTarget.size();
 
-      cache.put(cacheEntry, new FlightCacheValues(movesToTarget.size(), newPosition));
+      cache.put(cacheKey, new FlightCacheValue(movesToTarget.size(), newPosition));
     }
     return length;
   }

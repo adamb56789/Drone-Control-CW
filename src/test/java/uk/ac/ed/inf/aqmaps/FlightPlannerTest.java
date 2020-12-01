@@ -58,7 +58,7 @@ public class FlightPlannerTest {
         if (move.getSensorW3W() != null) {
           var distanceToSensor = move.getSensorW3W().getCoordinates().distance(move.getAfter());
           assertTrue(
-              "The move should end within 0.0003 of a sensor, was " + distanceToSensor,
+              "The move should end within 0.0002 of a sensor, was " + distanceToSensor,
               distanceToSensor < 0.0002);
           sensorCount++;
         }
@@ -81,9 +81,9 @@ public class FlightPlannerTest {
     var outputFlightPlans = new ArrayList<List<Move>>();
     var random = new Random();
     var startingLocations = new ArrayList<Coords>();
-    //    startingLocations.add(INF_FORUM_ALCOVE);
-    //    startingLocations.add(APPLETON_ALCOVE);
-    //    startingLocations.add(LIBRARY_CORNER);
+    startingLocations.add(INF_FORUM_ALCOVE);
+    startingLocations.add(APPLETON_ALCOVE);
+    startingLocations.add(LIBRARY_CORNER);
     startingLocations.add(PRESCRIBED_START);
 
     var input =
@@ -111,34 +111,6 @@ public class FlightPlannerTest {
       outputFlightPlans.add(flightPlanner.createFlightPlan(startLocation));
     }
     return outputFlightPlans;
-  }
-
-  /**
-   * Gets the first n dates in 2020 and 2021
-   *
-   * @param days the number of days to get
-   * @return a list of arrays containing all dates in 2020 and 2021
-   */
-  private List<int[]> getDates(int days) {
-    var dates = new ArrayList<int[]>();
-    for (int year = 2020; year <= 2021; year++) {
-      for (int month = 1; month <= 12; month++) {
-        for (int day = 1; day <= 31; day++) {
-          if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {
-            break;
-          } else if (day == 29 && month == 2 && year == 2021) {
-            break;
-          } else if (day == 30 && month == 2 && year == 2020) {
-            break;
-          }
-          dates.add(new int[] {day, month, year});
-          if (--days == 0) {
-            return dates;
-          }
-        }
-      }
-    }
-    return dates;
   }
 
   private List<int[]> getDates() {

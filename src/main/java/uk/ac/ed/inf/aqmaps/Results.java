@@ -10,13 +10,21 @@ import java.util.stream.Collectors;
 
 /** Holds and processes the calculated flightpath and collected sensor data */
 public class Results {
-  // This is a map since we need to know which planned sensors haven't been visited. It allows us to
-  // easily scan through the planned locations and get the associated sensor if there is one.
+
+  /** A map from W3W sensor locations to their corresponding Sensor data. */
   private final Map<W3W, Sensor> sensorsVisited = new HashMap<>();
+
+  /** A list of the W3W of the sensors that are planned to be visited. */
   private final List<W3W> sensorW3Ws;
+
+  /** The planned flightpath of the drone as a list of Moves */
   private List<Move> flightpath;
 
-  /** @param sensorW3Ws a list of sensor locations as W3W that the drone is visiting */
+  /**
+   * Constructor
+   *
+   * @param sensorW3Ws a list of sensor locations as W3W that the drone is visiting
+   */
   public Results(List<W3W> sensorW3Ws) {
     this.sensorW3Ws = sensorW3Ws;
   }

@@ -7,16 +7,17 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
  * to a sensor, potentially with a next sensor. This does not hold the actual tour, and is only
  * used for the size of the tour, as it would use a lot of memory.
  */
-public class FlightCacheValues {
+public class FlightCacheValue {
   private final int length;
-
   private final Coords endPosition;
 
   /**
+   * Constructor
+   *
    * @param length the number of moves in this flight path section
    * @param endPosition the ending position of the drone in this flight path section
    */
-  public FlightCacheValues(int length, Coords endPosition) {
+  public FlightCacheValue(int length, Coords endPosition) {
     this.length = (byte) length;
     this.endPosition = endPosition;
   }

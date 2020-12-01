@@ -59,10 +59,26 @@ import java.util.*;
  * @author Dimitrios Michail
  */
 public class EnhancedTwoOptTSP extends TwoOptHeuristicTSP<Coords, DefaultWeightedEdge> {
-  private final double minCostImprovement;
+  /**
+   * The number of initial tours to try when running 2-opt. Increasing this does not necessarily
+   * reduce average path length, and may increase it, since it will introduce less variability in
+   * what goes into the flight-plan mode 2-opt. We do not want the tours given to the improver to
+   * all be similarly optimal, since the two tour weight measures are different. There is a trade
+   * off to be had between this constant and the number of times this class' algorithm is expected
+   * ot be ran.
+   */
+  private static final int TWO_OPT_PASSES = 5;
+  /** The start and end position of the drone */
   private final Coords start;
+  /** The FlightPlanner for computing tour weights */
   private final FlightPlanner flightPlanner;
+  /**
+   * A graph representation of the sensors with edge weights of shortest path distance as calculated
+   * by {@link ObstacleEvader}
+   */
   private Graph<Coords, DefaultWeightedEdge> graph;
+
+  // These fields are from the original TwoOptHeuristicTSP and are used in copied functions
   private int n;
   private Map<Coords, Integer> index;
   private Map<Integer, Coords> revIndex;
@@ -70,16 +86,13 @@ public class EnhancedTwoOptTSP extends TwoOptHeuristicTSP<Coords, DefaultWeighte
   /**
    * Constructor
    *
-   * @param passes the number of initial random tours to try when running the initial distance-based
-   *     2-opt TSP
    * @param seed the random seed
    * @param start the start position of the drone
    * @param flightPlanner the FlightPlanner to use for the second 2-opt pass to compute tour weights
    *     as the number of moves needed by the drone
    */
-  public EnhancedTwoOptTSP(int passes, long seed, Coords start, FlightPlanner flightPlanner) {
-    super(passes, seed);
-    this.minCostImprovement = Math.abs(1e-8);
+  public EnhancedTwoOptTSP(long seed, Coords start, FlightPlanner flightPlanner) {
+    super(TWO_OPT_PASSES, seed);
     this.start = start;
     this.flightPlanner = flightPlanner;
   }
@@ -134,7 +147,6 @@ public class EnhancedTwoOptTSP extends TwoOptHeuristicTSP<Coords, DefaultWeighte
   private int[] improve(int[] tour) {
     int[] newTour = new int[n + 1];
     boolean moved;
-    double minChange;
     do {
       // Calculate the direct and drone lengths of the current state of the tour
       var originalList = getTourAsList(tour);
@@ -142,7 +154,7 @@ public class EnhancedTwoOptTSP extends TwoOptHeuristicTSP<Coords, DefaultWeighte
       int originalLength = flightPlanner.computeLengthOfFlight(originalList);
 
       moved = false;
-      minChange = -minCostImprovement;
+      var minChange = 0;
       int mini = -1;
       int minj = -1;
       for (int i = 0; i < n - 2; i++) {
@@ -217,6 +229,7 @@ public class EnhancedTwoOptTSP extends TwoOptHeuristicTSP<Coords, DefaultWeighte
   /**
    * This code is part of the original library's improve(), but it is extracted into a method to
    * avoid duplication as this class uses it in more than one place.
+   *
    * @param tour the tour to apply the move to
    * @param newTour the new tour with the move applied
    * @param i the first swap point

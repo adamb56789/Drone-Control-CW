@@ -13,7 +13,13 @@ import java.util.List;
  * do not collides with any obstacles.
  */
 public class ObstacleEvader {
+  /**
+   * A weighted graph containing all points which form an outline around the polygons as vertices,
+   * and edges connecting them if they have line of sight, which have a weight equal to the distance
+   * between them.
+   */
   private final SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
+
   private final Obstacles obstacles;
 
   /**

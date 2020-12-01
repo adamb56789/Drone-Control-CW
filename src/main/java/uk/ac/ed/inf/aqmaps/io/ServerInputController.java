@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 /** Implements the Remote interface using a connection to a simple web server. */
 public class ServerInputController implements InputController {
   private final HashMap<W3W, Sensor> sensorMap = new HashMap<>();
+
   /**
    * Note: we need the sensor W3W as a list instead of using keySet() on the map since the set has
    * an undetermined ordering (specifically, not determined by the random seed), which changes the
@@ -27,9 +28,18 @@ public class ServerInputController implements InputController {
    */
   private final List<W3W> sensorW3Ws = new ArrayList<>();
 
+  /**
+   * Represents the server which we will get data from
+   */
   private final Server server;
+
+  /**
+   * The base URL of the server, such as http://localhost:80
+   */
+  private final String serverUrl;
+
+
   private List<Polygon> noFlyZones;
-  private String serverUrl;
 
   /**
    * Create a new ServerInputController instance with the given settings
@@ -56,7 +66,8 @@ public class ServerInputController implements InputController {
    */
   public ServerInputController(Server server, int day, int month, int year, int port) {
     this.server = server;
-    loadData(day, month, year, port);
+    serverUrl = "http://localhost:" + port;
+    loadData(day, month, year);
   }
 
   /**
@@ -65,11 +76,8 @@ public class ServerInputController implements InputController {
    * @param day the day
    * @param month the month
    * @param year the year
-   * @param port the port of the server
    */
-  private void loadData(int day, int month, int year, int port) {
-    serverUrl = "http://localhost:" + port;
-
+  private void loadData(int day, int month, int year) {
     // Load no-fly zones
     String url = serverUrl + "/buildings/no-fly-zones.geojson";
     String nfzJson = server.requestData(url);

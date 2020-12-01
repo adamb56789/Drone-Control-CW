@@ -7,13 +7,16 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import java.util.*;
 
 /**
- * A class which handles the navigation of the drone along a series of waypoints to a target. This is the core
- * of the drone control algorithm that plans the movement of the drone itself including all rules
- * about move lengths and directions.
+ * A class which handles the navigation of the drone along a series of waypoints to a target. This
+ * is the core of the drone control algorithm that plans the movement of the drone itself including
+ * all rules about move lengths and directions.
  */
 public class WaypointNavigation {
+  /** The distance the drone travels in one move. */
   public static final double MOVE_LENGTH = 0.0003;
+  /** The drone must be within this distance of a sensor to be able to read it. */
   public static final double SENSOR_RANGE = 0.0002;
+  /** The drone must be within this distance of the end position at the end of the flight */
   public static final double END_POSITION_RANGE = 0.0003;
 
   /**
@@ -27,11 +30,26 @@ public class WaypointNavigation {
   };
 
   private final Obstacles obstacles;
-  /** Keeps track of all of the points we have visited so far */
+
+  /**
+   * Keeps track of all of the points we have visited so far so we can avoid looping back on
+   * ourselves.
+   */
   private final Set<Coords> visitedSet = new HashSet<>();
 
+  /**
+   * A list of Coords waypoints for the drone to follow on its way to the target.
+   */
   private List<Coords> waypoints;
+
+  /**
+   * The target location, such as a sensor or end position
+   */
   private Coords targetLocation;
+
+  /**
+   * If the target is a sensor holds its W3W location, otherwise null
+   */
   private W3W targetSensorW3W;
   private int countIterations = 0;
 
@@ -95,7 +113,6 @@ public class WaypointNavigation {
       Coords currentPosition, int currWaypoint, int movesTilTimeout) {
     // If we take more moves than expected, we got stuck so this route is invalid
     if (movesTilTimeout == 0) {
-      //      System.out.println("Move timeout");
       return null;
     }
 

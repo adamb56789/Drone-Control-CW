@@ -13,10 +13,26 @@ import java.util.List;
 
 /** Holds information about the obstacles or no-fly zones that the drone must avoid. */
 public class Obstacles {
+  /**
+   * A weighted graph containing all points which form an outline around the polygons as vertices,
+   * and edges connecting them if they have line of sight, which have a weight equal to the
+   * distance between them.
+   */
   private final SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
+
+  /**
+   * A list of all line segments that make up the obstacle polygons, as Line2Ds
+   */
   private final List<Line2D> segments;
+
+  /**
+   * A list of the bounding boxes of each obstacle
+   */
   private final List<Rectangle2D> boundingBoxes;
 
+  /**
+   * A list of the Polygon representations of the obstacles
+   */
   private final List<Polygon> polygons;
 
   /**
