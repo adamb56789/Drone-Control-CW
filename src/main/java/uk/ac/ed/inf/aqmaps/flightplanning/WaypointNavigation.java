@@ -75,7 +75,7 @@ public class WaypointNavigation {
     var moves = navigateAlongWaypoints(startingPosition, 1, maxLengthFirstMove);
 
     if (moves == null) {
-      // This never occurred in testing, but if a flightpath can't be found, return null TODO
+      // This never occurred in testing, but if a flightpath can't be found, return null
       return null;
     }
     // This list is in reverse order because the algorithm builds it up starting at the end

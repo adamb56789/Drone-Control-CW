@@ -157,6 +157,10 @@ public class FlightPlanner {
             .min(Comparator.comparing(List::size)) // Get the tour with the minimal number of moves
             .orElse(null);
     System.out.printf("Number of flight planning iterations completed: %d%n", iterationCount.get());
+    if (bestFlightPlan == null) {
+      System.out.println("Error: valid flight plan could not be found");
+      System.exit(1);
+    }
     return bestFlightPlan;
   }
 
