@@ -4,18 +4,21 @@ import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import uk.ac.ed.inf.aqmaps.flightplanning.ConfinementArea;
 import uk.ac.ed.inf.aqmaps.flightplanning.Obstacles;
+import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.geometry.Polygon;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 public class ObstaclesTest {
+  private final Obstacles obstacles =
+      new Obstacles(
+          (new ServerInputController(ServerInputControllerTest.getFakeServer(), 1, 1, 2020, 80))
+              .getNoFlyZones());
 
   private static Stream<Arguments> lineCollisionArguments() {
     return Stream.of(
@@ -53,7 +56,7 @@ public class ObstaclesTest {
         // If the point is not in confinement then it will always collide, so ignore it
         var p1 = outlinePoints.get(i);
         var p2 = outlinePoints.get(i + 1);
-        if (ConfinementArea.isInConfinement(p1) && ConfinementArea.isInConfinement(p2)) {
+        if (obstacles.isInConfinement(p1) && obstacles.isInConfinement(p2)) {
           assertFalse(obstacles.lineCollision(p1, p2));
         }
       }
@@ -63,9 +66,24 @@ public class ObstaclesTest {
   @ParameterizedTest
   @MethodSource("lineCollisionArguments")
   public void lineCollisionCorrect(String description, TestPath testPath, boolean collision) {
-    var testServer = ServerInputControllerTest.getFakeServer();
-    var input = new ServerInputController(testServer, 1, 1, 2020, 80);
-    var obstacles = new Obstacles(input.getNoFlyZones());
     assertEquals(description, collision, obstacles.lineCollision(testPath.start, testPath.end));
+  }
+
+  @Test
+  public void pointInsideConfinementIsInside() {
+    var point = new Coords(-3.18612, 55.94329);
+    assertTrue(obstacles.isInConfinement(point));
+  }
+
+  @Test
+  public void pointOutsideConfinementIsNotInside() {
+    var point = new Coords(-3.18769, 55.94084);
+    assertFalse(obstacles.isInConfinement(point));
+  }
+
+  @Test
+  public void pointOnBoundaryIsNotInside() {
+    var point = new Coords(-3.192473, 55.946233);
+    assertFalse(obstacles.isInConfinement(point));
   }
 }

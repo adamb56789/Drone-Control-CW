@@ -13,6 +13,10 @@ import java.util.List;
 
 /** Holds information about the obstacles or no-fly zones that the drone must avoid. */
 public class Obstacles {
+  /** A Point representing the northwest corner of the confinement area. */
+  public static final Coords TOP_LEFT = new Coords(-3.192473, 55.946233);
+  /** A Point representing the southeast corner of the confinement area. */
+  public static final Coords BOTTOM_RIGHT = new Coords(-3.184319, 55.942617);
   /**
    * A weighted graph containing all points which form an outline around the polygons as vertices,
    * and edges connecting them if they have line of sight, which have a weight equal to the distance
@@ -50,6 +54,19 @@ public class Obstacles {
       outlinePoints.addAll(polygon.generateOutlinePoints());
     }
     this.graph = prepareGraph(outlinePoints);
+  }
+
+  /**
+   * Determines whether or not a point is inside the confinement area
+   *
+   * @param point the point to examine
+   * @return true if the point is inside the confinement area, false otherwise
+   */
+  public boolean isInConfinement(Coords point) {
+    return TOP_LEFT.x < point.x
+        && point.x < BOTTOM_RIGHT.x
+        && BOTTOM_RIGHT.y < point.y
+        && point.y < TOP_LEFT.y;
   }
 
   /**
@@ -95,7 +112,7 @@ public class Obstacles {
    */
   public boolean lineCollision(Coords start, Coords end) {
     // If the line segment leaves the confinement area then that is a collision
-    if (!ConfinementArea.isInConfinement(start) || !ConfinementArea.isInConfinement(end)) {
+    if (!isInConfinement(start) || !isInConfinement(end)) {
       return true;
     }
 
@@ -122,7 +139,7 @@ public class Obstacles {
    * @return true if there is a collision, false otherwise
    */
   public boolean pointCollides(Coords coords) {
-    return !ConfinementArea.isInConfinement(coords)
+    return !isInConfinement(coords)
         || polygons.stream().anyMatch(p -> p.contains(coords));
   }
 

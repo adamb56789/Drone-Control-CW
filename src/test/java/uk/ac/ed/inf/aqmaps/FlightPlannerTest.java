@@ -1,7 +1,6 @@
 package uk.ac.ed.inf.aqmaps;
 
 import org.junit.Test;
-import uk.ac.ed.inf.aqmaps.flightplanning.ConfinementArea;
 import uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner;
 import uk.ac.ed.inf.aqmaps.flightplanning.Obstacles;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
@@ -94,11 +93,11 @@ public class FlightPlannerTest {
     var obstacles = new Obstacles(input.getNoFlyZones());
     for (int i = 0; i < startingPointsToTry; i++) {
       double randomLng =
-          ConfinementArea.TOP_LEFT.x
-              + (ConfinementArea.BOTTOM_RIGHT.x - ConfinementArea.TOP_LEFT.x) * random.nextDouble();
+          Obstacles.TOP_LEFT.x
+              + (Obstacles.BOTTOM_RIGHT.x - Obstacles.TOP_LEFT.x) * random.nextDouble();
       double randomLat =
-          ConfinementArea.BOTTOM_RIGHT.y
-              + (ConfinementArea.TOP_LEFT.y - ConfinementArea.BOTTOM_RIGHT.y) * random.nextDouble();
+          Obstacles.BOTTOM_RIGHT.y
+              + (Obstacles.TOP_LEFT.y - Obstacles.BOTTOM_RIGHT.y) * random.nextDouble();
 
       var startingLocation = new Coords(randomLng, randomLat);
 

@@ -2,7 +2,6 @@ package uk.ac.ed.inf.aqmaps;
 
 import org.junit.Before;
 import org.junit.Test;
-import uk.ac.ed.inf.aqmaps.flightplanning.ConfinementArea;
 import uk.ac.ed.inf.aqmaps.flightplanning.Obstacles;
 import uk.ac.ed.inf.aqmaps.geometry.Polygon;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
@@ -57,7 +56,7 @@ public class PolygonTest {
         // If the point is not in confinement then it will always collide, so ignore it
         assertFalse(
             "The points of the outline polygon should not collide with an obstacle",
-            ConfinementArea.isInConfinement(outlinePoints.get(i))
+            obstacles.isInConfinement(outlinePoints.get(i))
                 && obstacles.pointCollides(outlinePoints.get(i)));
       }
     }
