@@ -6,6 +6,7 @@ import uk.ac.ed.inf.aqmaps.io.InputController;
 import uk.ac.ed.inf.aqmaps.io.Server;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,10 +26,11 @@ public class ServerInputControllerTest {
         String serverUrl = url.substring(0, 19);
         assertEquals("http://localhost:80", serverUrl);
 
-        // Get the data from the local filesystem.
-        String path = "WebServer" + url.substring(19);
+        // Get the data from the local filesystem resources
+        String path = "/WebServer" + url.substring(19);
+        var file = new File(ServerInputControllerTest.class.getResource(path).getFile());
         try {
-          data = Files.readString(Path.of(path));
+          data = Files.readString(file.toPath());
         } catch (IOException e) {
           System.out.println("Path to test data incorrect or other input error");
           e.printStackTrace();

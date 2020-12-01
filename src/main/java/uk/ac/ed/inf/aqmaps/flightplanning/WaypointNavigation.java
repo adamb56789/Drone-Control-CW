@@ -7,7 +7,7 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import java.util.*;
 
 /**
- * A class which handles the navigation of the drone along a series of waypoints. This is the core
+ * A class which handles the navigation of the drone along a series of waypoints to a target. This is the core
  * of the drone control algorithm that plans the movement of the drone itself including all rules
  * about move lengths and directions.
  */

@@ -4,7 +4,7 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 /**
  * A class which holds data about the output values of the flight planning algorithm from a position
- * * to a sensor, potentially with a next sensor. This does not hold the actual tour, and is only
+ * to a sensor, potentially with a next sensor. This does not hold the actual tour, and is only
  * used for the size of the tour, as it would use a lot of memory.
  */
 public class FlightCacheValues {
