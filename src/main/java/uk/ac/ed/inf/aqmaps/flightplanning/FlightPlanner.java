@@ -158,10 +158,12 @@ public class FlightPlanner {
    * position. The edge weights are the shortest distance between the points, avoiding obstacles if
    * necessary.
    *
+   * @param startPosition the starting position of the drone
+   * @param sensorCoords a list of the Coords of the sensors to be visited
    * @return a complete SimpleWeightedGraph of sensors and the starting position
    */
   private SimpleWeightedGraph<Coords, DefaultWeightedEdge> createSensorGraph(
-      Coords startPosition, Collection<Coords> sensorCoords) {
+      Coords startPosition, List<Coords> sensorCoords) {
     var obstacleEvader = obstacles.getObstacleEvader();
     var graph = new SimpleWeightedGraph<Coords, DefaultWeightedEdge>(DefaultWeightedEdge.class);
 
@@ -218,7 +220,7 @@ public class FlightPlanner {
         currentTarget = cutCorner(currentPosition, currentTarget, nextTarget);
       }
       // Compute a list of waypoints from the current position to the target, avoiding obstacles
-      var waypoints = obstacleEvader.getPath(currentPosition, currentTarget);
+      var waypoints = obstacleEvader.getPathBetweenPoints(currentPosition, currentTarget);
 
       // Compute a list of Moves from the current position to the target
       var waypointNavigation = new WaypointNavigation(obstacles);
@@ -263,7 +265,7 @@ public class FlightPlanner {
         currentTarget = cutCorner(currentPosition, currentTarget, nextTarget);
       }
       // Compute a list of waypoints from the current position to the target, avoiding obstacles
-      var waypoints = obstacleEvader.getPath(currentPosition, currentTarget);
+      var waypoints = obstacleEvader.getPathBetweenPoints(currentPosition, currentTarget);
 
       // Compute a list of Moves from the current position to the target
       var waypointNavigation = new WaypointNavigation(obstacles);
@@ -290,6 +292,11 @@ public class FlightPlanner {
    * directions, and the 2 recursive bisectors (3 equally spaced directions). Picks the target which
    * minimises the new path that goes through the new point, and does not collide with an obstacle.
    * If none of the new targets are an improvement, outputs the original target.
+   *
+   * @param currPos the position of the drone before it will move towards the target
+   * @param target the location of the target
+   * @param nextTarget the location of the target after the current target
+   * @return a new target, which has potentially been moved in order to cut the corner
    */
   private Coords cutCorner(Coords currPos, Coords target, Coords nextTarget) {
     var newTargets = new ArrayList<Coords>();

@@ -20,16 +20,16 @@ public class Obstacles {
   private final List<Polygon> polygons;
 
   /**
-   * Holds data about the Polygons that outline the obstacles, see {@link Polygon#generateOutline()}
+   * Constructs Obstacles out of a list of Polygons specifying their locations
+   *
+   * @param polygons the Polygons which make up the obstacles
    */
-  private final List<Coords> outlinePoints;
-
   public Obstacles(List<Polygon> polygons) {
     this.polygons = polygons;
     segments = new ArrayList<>();
     boundingBoxes = new ArrayList<>();
 
-    outlinePoints = new ArrayList<>();
+    var outlinePoints = new ArrayList<Coords>();
 
     // Derive a Polygon from each of the polygons in the mapbox, and get the points, segments and
     // bounding box from each polygon
@@ -37,13 +37,24 @@ public class Obstacles {
       segments.addAll(polygon.getSegments());
       boundingBoxes.add(polygon.getBoundingBox());
 
-      var outline = polygon.generateOutline();
-      outlinePoints.addAll(outline.getPoints());
+      outlinePoints.addAll(polygon.generateOutlinePoints());
     }
-    this.graph = prepareGraph();
+    this.graph = prepareGraph(outlinePoints);
   }
 
-  private SimpleWeightedGraph<Coords, DefaultWeightedEdge> prepareGraph() {
+  /**
+   * Prepare a weighted graph containing all points which form an outline around the polygons as
+   * vertices, and edges connecting them if they have line of sight, which have a weight equal to
+   * the distance between them. The graph uses outline polygons since if it used the original
+   * polygons, their points would occupy the same location and any line emerging from the corner of
+   * an obstacle would be considered to be colliding with it. See see {@link
+   * Polygon#generateOutlinePoints()}.
+   *
+   * @param outlinePoints the points which form the outline of the obstacle polygons
+   * @return a SimpleWeightedGraph representation of the obstacles
+   */
+  private SimpleWeightedGraph<Coords, DefaultWeightedEdge> prepareGraph(
+      List<Coords> outlinePoints) {
     var graph = new SimpleWeightedGraph<Coords, DefaultWeightedEdge>(DefaultWeightedEdge.class);
 
     // Add all of the vertices from the outline polygons
@@ -52,14 +63,13 @@ public class Obstacles {
     }
 
     // Create edges between all pairs of points that have line of sight
-    var vertexList = new ArrayList<>(graph.vertexSet());
-    for (int i = 0; i < vertexList.size(); i++) {
+    for (int i = 0; i < outlinePoints.size(); i++) {
       for (int j = 0; j < i; j++) {
-        var start = vertexList.get(i);
-        var end = vertexList.get(j);
+        var start = outlinePoints.get(i);
+        var end = outlinePoints.get(j);
         if (!lineCollision(start, end)) {
-          DefaultWeightedEdge e = graph.addEdge(start, end);
-          graph.setEdgeWeight(e, start.distance(end));
+          var edge = graph.addEdge(start, end);
+          graph.setEdgeWeight(edge, start.distance(end));
         }
       }
     }
@@ -104,14 +114,6 @@ public class Obstacles {
   public boolean pointCollides(Coords coords) {
     return !ConfinementArea.isInConfinement(coords)
         || polygons.stream().anyMatch(p -> p.contains(coords));
-  }
-
-  /**
-   * @return a list of all of the points that make up the obstacle polygons. Currently only used in
-   *     tests.
-   */
-  public List<Coords> getOutlinePoints() {
-    return outlinePoints;
   }
 
   /**

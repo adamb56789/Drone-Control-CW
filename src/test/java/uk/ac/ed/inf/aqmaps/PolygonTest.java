@@ -2,6 +2,7 @@ package uk.ac.ed.inf.aqmaps;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ed.inf.aqmaps.flightplanning.ConfinementArea;
 import uk.ac.ed.inf.aqmaps.flightplanning.Obstacles;
 import uk.ac.ed.inf.aqmaps.geometry.Polygon;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
@@ -27,7 +28,7 @@ public class PolygonTest {
 
   @Test
   public void segmentListCorrect() {
-    // Run the test for each of the polygons we have in the test mapbox
+    // Run the test for each of the polygons we have in the test geojson
     for (Polygon polygon : noFlyZones) {
       var segments = polygon.getSegments();
       assertEquals(
@@ -43,28 +44,21 @@ public class PolygonTest {
 
   @Test
   public void outlinePolygonCorrect() {
-    for (Polygon polygon : noFlyZones) { // Run the test for all of the examples we have
-      var outline = polygon.generateOutline();
+    for (var polygon : noFlyZones) { // Run the test for all of the examples we have
+      var outlinePoints = polygon.generateOutlinePoints();
 
-      for (int i = 0; i < polygon.getPoints().size(); i++) {
+      for (int i = 0; i < outlinePoints.size(); i++) {
         assertEquals(
-            "The points of the outline polygon should be 1e-13 from the original",
+            "The points of the outline polygon should be 1e-14 from the original",
             Polygon.OUTLINE_MARGIN,
-            polygon.getPoints().get(i).distance(outline.getPoints().get(i)),
+            polygon.getPoints().get(i).distance(outlinePoints.get(i)),
             1e-14);
 
-        System.out.println(obstacles.pointCollides(polygon.getPoints().get(i)));
-        //        assertFalse(
-        //            "The points of the outline polygon should not collide with an obstacle",
-        //            obstacles.pointCollides(polygon.getPoints().get(i)));
-      }
-
-      for (var l1 : polygon.getSegments()) {
-        for (var l2 : outline.getSegments()) {
-          assertFalse(
-              "The segments of the outline polygon should not intercept with the original",
-              l1.intersectsLine(l2));
-        }
+        // If the point is not in confinement then it will always collide, so ignore it
+        assertFalse(
+            "The points of the outline polygon should not collide with an obstacle",
+            ConfinementArea.isInConfinement(outlinePoints.get(i))
+                && obstacles.pointCollides(outlinePoints.get(i)));
       }
     }
   }

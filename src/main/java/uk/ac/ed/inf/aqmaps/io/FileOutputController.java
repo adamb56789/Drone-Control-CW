@@ -10,6 +10,9 @@ import java.nio.file.Path;
 public class FileOutputController implements OutputController {
   private final Settings settings;
 
+  /**
+   * @param settings a Settings holding the current input arguments
+   */
   public FileOutputController(Settings settings) {
     this.settings = settings;
   }

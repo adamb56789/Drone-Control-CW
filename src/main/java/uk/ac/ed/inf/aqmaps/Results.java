@@ -13,12 +13,12 @@ public class Results {
   // This is a map since we need to know which planned sensors haven't been visited. It allows us to
   // easily scan through the planned locations and get the associated sensor if there is one.
   private final Map<W3W, Sensor> sensorsVisited = new HashMap<>();
-  private final List<W3W> locationsPlanned;
+  private final List<W3W> sensorW3Ws;
   private List<Move> flightpath;
 
-  /** @param locationsPlanned a list of sensor locations that have a planned visit today */
-  public Results(List<W3W> locationsPlanned) {
-    this.locationsPlanned = locationsPlanned;
+  /** @param sensorW3Ws a list of sensor locations as W3W that the drone is visiting */
+  public Results(List<W3W> sensorW3Ws) {
+    this.sensorW3Ws = sensorW3Ws;
   }
 
   /**
@@ -55,20 +55,29 @@ public class Results {
     return stringBuilder.toString();
   }
 
+  /**
+   * Creates a GeoJSON string of a map which displays the flightpath of the drone and markers
+   * displaying the readings or status of the sensors.
+   *
+   * @return a String of the GeoJSON
+   */
   public String getMapGeoJSON() {
+    Objects.requireNonNull(flightpath, "cannot create a map without a flightpath");
+
+    // Create a list of features and add the line string and all of the markers
     var features = new ArrayList<Feature>();
+    features.add(createFlightpathLineString());
+    features.addAll(createSensorMarkers());
 
-    if (flightpath == null || flightpath.size() == 0) {
-      // This should only happen in testing
-      System.out.println("Cannot create a map with no flightpath");
-    } else {
-      features.add(createFlightpathLineString());
-    }
-
-    features.addAll(createSensorPoints());
+    // Use mapbox.geojson to create the JSON string
     return FeatureCollection.fromFeatures(features).toJson();
   }
 
+  /**
+   * Creates a GeoJSON LineString which shows the path that shows the path taken by the drone.
+   *
+   * @return a Feature containing the LineString
+   */
   private Feature createFlightpathLineString() {
     // Insert the position before each move into the list
     var pointList =
@@ -83,87 +92,15 @@ public class Results {
     return Feature.fromGeometry(LineString.fromLngLats(pointList));
   }
 
-  private List<Feature> createSensorPoints() {
-    return locationsPlanned.stream().map(this::createSensorMarker).collect(Collectors.toList());
-  }
-
-  private Feature createSensorMarker(W3W w3w) {
-    var sensor = Optional.ofNullable(sensorsVisited.get(w3w));
-
-    if (sensor.isPresent()) {
-      var battery = sensor.get().getBattery();
-
-      if (battery < 10) {
-        // If the battery is less than 10 then we do not display the unreliable sensor reading and
-        // display a black cross instead
-        return createPoint(w3w, "#000000", "cross");
-      } else {
-        // If the battery level is sufficient we create a marker that displays the pollution level
-        // as a colour and a symbol
-        double pollutionLevel = Double.parseDouble(sensor.get().getReading());
-        return createPoint(w3w, getRgbString(pollutionLevel), getMarkerSymbol(pollutionLevel));
-      }
-
-    } else {
-      // If the drone did not visit the sensor at this location we use a gray marker with no symbol
-      return createPoint(w3w, "#aaaaaa");
-    }
-  }
-
-  /** Create a point with its position, colour, and marker symbol */
-  private Feature createPoint(W3W w3w, String rgbString, String markerSymbol) {
-    var feature = createPoint(w3w, rgbString);
-    feature.addStringProperty("marker-symbol", markerSymbol);
-    return feature;
-  }
-
-  /** Create a point with its position, colour, and no marker symbol */
-  private Feature createPoint(W3W w3w, String rgbString) {
-    var point = Point.fromLngLat(w3w.getCoordinates().x, w3w.getCoordinates().y);
-    var feature = Feature.fromGeometry(point);
-    feature.addStringProperty("location", w3w.getWords());
-    feature.addStringProperty("rgb-string", rgbString);
-    feature.addStringProperty("marker-color", rgbString);
-    return feature;
-  }
-
   /**
-   * Converts a pollution level to a corresponding RGB string.
+   * Creates Features containing Points which mark the position and reading/status of the sensors.
    *
-   * @return the rgb string #xxxxxx of the colour representing the pollution level
+   * @return a List of Features
    */
-  private String getRgbString(double pollutionLevel) {
-    if (0 <= pollutionLevel && pollutionLevel < 32) {
-      return "#00ff00";
-    } else if (32 <= pollutionLevel && pollutionLevel < 64) {
-      return "#40ff00";
-    } else if (64 <= pollutionLevel && pollutionLevel < 96) {
-      return "#80ff00";
-    } else if (96 <= pollutionLevel && pollutionLevel < 128) {
-      return "#c0ff00";
-    } else if (128 <= pollutionLevel && pollutionLevel < 160) {
-      return "#ffc000";
-    } else if (160 <= pollutionLevel && pollutionLevel < 192) {
-      return "#ff8000";
-    } else if (192 <= pollutionLevel && pollutionLevel < 224) {
-      return "#ff4000";
-    } else if (224 <= pollutionLevel && pollutionLevel < 256) {
-      return "#ff0000";
-    } else {
-      throw new IllegalArgumentException("pollution level not in range");
-    }
-  }
-
-  /**
-   * Gets the marker symbol string for the given pollution level
-   *
-   * @return a String describing the marker symbol
-   */
-  private String getMarkerSymbol(double pollutionLevel) {
-    if (pollutionLevel < 128) {
-      return "lighthouse";
-    } else {
-      return "danger";
-    }
+  private List<Feature> createSensorMarkers() {
+    var markerFactory = new SensorMarkerFactory();
+    return sensorW3Ws.stream()
+        .map(w3w -> markerFactory.getSensorMarker(w3w, sensorsVisited.get(w3w)))
+        .collect(Collectors.toList());
   }
 }

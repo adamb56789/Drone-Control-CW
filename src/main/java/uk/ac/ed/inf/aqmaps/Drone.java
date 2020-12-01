@@ -41,12 +41,18 @@ public class Drone {
     output.outputMapGeoJSON(results.getMapGeoJSON());
   }
 
+  /**
+   * Plan the route that the drone will follow.
+   *
+   * @return a list of Moves specifying the route
+   */
   private List<Move> planRoute() {
     // Input and prepare the obstacle and sensor location data
     var obstacles = new Obstacles(input.getNoFlyZones());
     var sensorW3Ws = input.getSensorW3Ws();
     var flightPlanner = new FlightPlanner(obstacles, sensorW3Ws, settings.getRandomSeed());
 
+    // Run the flight planning algorithm
     return flightPlanner.createFlightPlan(settings.getStartCoords());
   }
 

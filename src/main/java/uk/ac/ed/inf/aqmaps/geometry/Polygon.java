@@ -27,7 +27,7 @@ public class Polygon {
    */
   private Polygon(List<Coords> points) {
     this.points = points;
-    this.path = generatePath();
+    this.path = generatePath2D();
   }
 
   /**
@@ -64,16 +64,16 @@ public class Polygon {
   }
 
   /**
-   * Generates a new Polygon which contains the original by a very tiny margin. It generates points
-   * a distance of 1.0e-14 from each point in the original Polygon in the direction of the bisecting
-   * angle between the two adjacent sides, or the opposite direction if that point is inside the
-   * polygon. The resulting polygon will be larger than the original by a margin of 1.0e-14 on all
-   * sides.
+   * Generates the points of a new polygon which contains the original by a very small margin. It
+   * generates points a distance of 1.0e-14 from each point in the original Polygon in the direction
+   * of the bisecting angle between the two adjacent sides, or the opposite direction if that point
+   * is inside the polygon. The resulting polygon will be larger than the original by a margin of
+   * 1.0e-14 on all sides.
    *
    * @return the outlining Polygon
    */
-  public Polygon generateOutline() {
-    var newPoints = new ArrayList<Coords>();
+  public List<Coords> generateOutlinePoints() {
+    var outlinePoints = new ArrayList<Coords>();
     for (int i = 0; i < points.size(); i++) {
       // Get the current point and the 2 points on either side
       Coords currentPoint = points.get(i);
@@ -101,9 +101,9 @@ public class Polygon {
         newPoint = currentPoint.getPositionAfterMoveRadians(bisector + Math.PI, OUTLINE_MARGIN);
       }
 
-      newPoints.add(newPoint);
+      outlinePoints.add(newPoint);
     }
-    return new Polygon(newPoints);
+    return outlinePoints;
   }
 
   /**
@@ -132,18 +132,31 @@ public class Polygon {
     return path.getBounds2D();
   }
 
+  /** @return the points which make up the vertices of this polygon */
   public List<Coords> getPoints() {
     return points;
   }
 
+  /**
+   * Checks whether a given point is containing within this polygon.
+   *
+   * @param p the point
+   * @return true if the polygon contains the point, false otherwise
+   */
   public boolean contains(Coords p) {
     return path.contains(p);
   }
 
-  private Path2D generatePath() {
+  /**
+   * Creates a Path2D of the points in this polygon, so we can use its getBounds2D() and contains()
+   * methods.
+   *
+   * @return a Path2D containing the vertices of the polygon
+   */
+  private Path2D generatePath2D() {
     var path = new Path2D.Double();
-    boolean first = true; // The first point needs to be added with moveTo()
-
+    // The first point needs to be added with moveTo(), and subsequent ones with lineTo()
+    boolean first = true;
     for (var point : points) {
       if (first) {
         path.moveTo(point.x, point.y);

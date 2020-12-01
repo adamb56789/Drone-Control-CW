@@ -4,7 +4,10 @@ import com.mapbox.geojson.Point;
 
 import java.awt.geom.Point2D;
 
-/** Holds a longitude and latitude pair, using a Point2D. */
+/**
+ * Holds a longitude and latitude pair, using a Point2D. This class uses euclidean geometry and its
+ * calculations do <b>not</b> match with real life.
+ */
 public class Coords extends Point2D.Double {
 
   /**
@@ -98,6 +101,6 @@ public class Coords extends Point2D.Double {
 
   @Override
   public String toString() {
-    return "(" + x + ", " + y + ")";
+    return "[" + x + ", " + y + "]";
   }
 }

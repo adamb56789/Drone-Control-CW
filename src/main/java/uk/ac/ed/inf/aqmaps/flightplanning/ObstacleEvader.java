@@ -36,7 +36,7 @@ public class ObstacleEvader {
    * @param end the ending point
    * @return a list of points specifying the route
    */
-  public List<Coords> getPath(Coords start, Coords end) {
+  public List<Coords> getPathBetweenPoints(Coords start, Coords end) {
     if (!obstacles.lineCollision(start, end)) {
       // Return a direct path if it does not collide with anything
       // This shortcut decreases the runtime of this method by about 30 times
@@ -63,6 +63,14 @@ public class ObstacleEvader {
     return getShortestPath(start, end).getWeight();
   }
 
+  /**
+   * Computes a GraphPath containing the shortest path from the start to the end coordinates,
+   * navigating around obstacles if required.
+   *
+   * @param start the start point
+   * @param end the end point
+   * @return a GraphPath
+   */
   private GraphPath<Coords, DefaultWeightedEdge> getShortestPath(Coords start, Coords end) {
     // Add the start and end points and all possible edges to and from them
     graph.addVertex(start);
@@ -85,10 +93,17 @@ public class ObstacleEvader {
     return path;
   }
 
-  private void addEdgeIfHasLineOfSight(Coords start, Coords end) {
-    if (!obstacles.lineCollision(start, end)) {
-      DefaultWeightedEdge e = graph.addEdge(start, end);
-      graph.setEdgeWeight(e, start.distance(end));
+  /**
+   * Adds an edge between points A and B if they have line of sight to each other, or in other words if
+   * the line between them does not collide with an obstacle. Sets the edge weight to the distance between the points.
+   *
+   * @param A point A
+   * @param B point B
+   */
+  private void addEdgeIfHasLineOfSight(Coords A, Coords B) {
+    if (!obstacles.lineCollision(A, B)) {
+      var edge = graph.addEdge(A, B);
+      graph.setEdgeWeight(edge, A.distance(B));
     }
   }
 }
