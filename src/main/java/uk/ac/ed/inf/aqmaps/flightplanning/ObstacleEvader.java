@@ -94,8 +94,9 @@ public class ObstacleEvader {
   }
 
   /**
-   * Adds an edge between points A and B if they have line of sight to each other, or in other words if
-   * the line between them does not collide with an obstacle. Sets the edge weight to the distance between the points.
+   * Adds an edge between points A and B if they have line of sight to each other, or in other words
+   * if the line between them does not collide with an obstacle. Sets the edge weight to the
+   * distance between the points.
    *
    * @param A point A
    * @param B point B

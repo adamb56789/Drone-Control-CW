@@ -140,7 +140,8 @@ public class FlightPlanner {
     }
     iterationCount++;
 
-    var twoOpt = new TwoOptFlightPlanImprover(TWO_OPT_PASSES, seed, startPosition, this);
+    // Get a short tour which visits
+    var twoOpt = new EnhancedTwoOptTSP(TWO_OPT_PASSES, seed, startPosition, this);
     var graphPath = twoOpt.getTour(sensorGraph);
 
     var tour = graphPath.getVertexList();

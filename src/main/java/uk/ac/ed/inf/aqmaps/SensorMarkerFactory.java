@@ -40,14 +40,27 @@ public class SensorMarkerFactory {
     }
   }
 
-  /** Create a point with its position, colour, and marker symbol */
+  /**
+   * Create a Feature with a position, colour, and marker symbol.
+   *
+   * @param w3w the W3W location of the sensor
+   * @param rgbString the RGB colour string of the point
+   * @param markerSymbol the marker symbol string
+   * @return a Feature containing a Point
+   */
   private Feature createPoint(W3W w3w, String rgbString, String markerSymbol) {
     var feature = createPoint(w3w, rgbString);
     feature.addStringProperty("marker-symbol", markerSymbol);
     return feature;
   }
 
-  /** Create a point with its position, colour, and no marker symbol */
+  /**
+   * Create a Feature containing a Point marker with a position, colour, and no marker symbol.
+   *
+   * @param w3w the W3W location of the sensor
+   * @param rgbString the RGB colour string of the point
+   * @return a Feature containing a Point
+   */
   private Feature createPoint(W3W w3w, String rgbString) {
     var point = Point.fromLngLat(w3w.getCoordinates().x, w3w.getCoordinates().y);
     var feature = Feature.fromGeometry(point);
@@ -60,6 +73,7 @@ public class SensorMarkerFactory {
   /**
    * Converts a pollution level to a corresponding RGB string.
    *
+   * @param pollutionLevel the pollution level as a double between 0 and 256
    * @return the rgb string #xxxxxx of the colour representing the pollution level
    */
   private String getRgbString(double pollutionLevel) {
@@ -87,6 +101,7 @@ public class SensorMarkerFactory {
   /**
    * Gets the marker symbol string for the given pollution level
    *
+   * @param pollutionLevel the pollution level as a double between 0 and 256
    * @return a String describing the marker symbol
    */
   private String getMarkerSymbol(double pollutionLevel) {

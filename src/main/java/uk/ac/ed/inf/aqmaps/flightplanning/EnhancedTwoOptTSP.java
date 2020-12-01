@@ -28,14 +28,14 @@ import java.util.*;
 
 /**
  * A modified version of TwoOptHeuristicTSP from JGraphT which is used to compute tours which visit
- * all sensors and return to the starting point. Source code of TwoOptHeuristicTSP can be found <a
+ * all sensors and returns to the starting point. Source code of TwoOptHeuristicTSP can be found <a
  * href="https://github.com/jgrapht/jgrapht/blob/master/jgrapht-core/src/main/java/org/jgrapht/alg/tour/TwoOptHeuristicTSP.java">here
  * (GitHub)</a>.
  *
  * <p><a href="https://jgrapht.org/">JGraphT main website</a>, <a
  * href="https://github.com/jgrapht/jgrapht">GitHub source</a>, accessed 30/11/2020
  *
- * <p>The following is unchanged from the the original
+ * <p>The following JavaDoc is unchanged from the the original:
  *
  * <p>The 2-opt heuristic algorithm for the TSP problem.
  *
@@ -58,7 +58,7 @@ import java.util.*;
  *
  * @author Dimitrios Michail
  */
-public class TwoOptFlightPlanImprover extends TwoOptHeuristicTSP<Coords, DefaultWeightedEdge> {
+public class EnhancedTwoOptTSP extends TwoOptHeuristicTSP<Coords, DefaultWeightedEdge> {
   private final double minCostImprovement;
   private final Coords start;
   private final FlightPlanner flightPlanner;
@@ -67,8 +67,17 @@ public class TwoOptFlightPlanImprover extends TwoOptHeuristicTSP<Coords, Default
   private Map<Coords, Integer> index;
   private Map<Integer, Coords> revIndex;
 
-  public TwoOptFlightPlanImprover(
-      int passes, long seed, Coords start, FlightPlanner flightPlanner) {
+  /**
+   * Constructor
+   *
+   * @param passes the number of initial random tours to try when running the initial distance-based
+   *     2-opt TSP
+   * @param seed the random seed
+   * @param start the start position of the drone
+   * @param flightPlanner the FlightPlanner to use for the second 2-opt pass to compute tour weights
+   *     as the number of moves needed by the drone
+   */
+  public EnhancedTwoOptTSP(int passes, long seed, Coords start, FlightPlanner flightPlanner) {
     super(passes, seed);
     this.minCostImprovement = Math.abs(1e-8);
     this.start = start;
@@ -190,15 +199,17 @@ public class TwoOptFlightPlanImprover extends TwoOptHeuristicTSP<Coords, Default
   }
 
   /**
-   * New method, not in the library.
+   * (New method, not in the library). Computes the length of tour using the direct real distance
+   * between the vertices.
    *
-   * @return The length of the tour in degrees, using euclidean distance (not using the flight
+   * @param tourList the tour as a list of Coords
+   * @return the length of the tour in degrees, using euclidean distance (not using the flight
    *     planner)
    */
-  private double getDirectLength(List<Coords> list) {
+  private double getDirectLength(List<Coords> tourList) {
     double directLength = 0;
-    for (int i = 0; i < list.size() - 1; i++) {
-      directLength += list.get(i).distance(list.get(i + 1));
+    for (int i = 0; i < tourList.size() - 1; i++) {
+      directLength += tourList.get(i).distance(tourList.get(i + 1));
     }
     return directLength;
   }
@@ -206,6 +217,10 @@ public class TwoOptFlightPlanImprover extends TwoOptHeuristicTSP<Coords, Default
   /**
    * This code is part of the original library's improve(), but it is extracted into a method to
    * avoid duplication as this class uses it in more than one place.
+   * @param tour the tour to apply the move to
+   * @param newTour the new tour with the move applied
+   * @param i the first swap point
+   * @param j the second swap point
    */
   private void applyMove(int[] tour, int[] newTour, int i, int j) {
     int a = 0;
@@ -259,9 +274,10 @@ public class TwoOptFlightPlanImprover extends TwoOptHeuristicTSP<Coords, Default
 
   /**
    * Computes a tour by first using JGraphT's TwoOptHeuristicTSP (the superclass of this) to find a
-   * short tour using the edge weights in the provided graph, and then running a modified version of
-   * JGraphT's TwoOptHeuristicTSP.improveTour() which uses the drone FlightPlanner to compute tour
-   * weight.
+   * short tour using the edge weights in the provided graph, which are straight line (obstacle
+   * avoiding) distance measures. Then, it runs a second pass of 2-opt to further improve upon the
+   * tour by instead using a FlightPlanner to generate the actual drone moves along the tour and
+   * using the number of moves as the weight of a tour.
    *
    * @param graph the input graph containing the start location and the sensors, and edge weights of
    *     the shortest path between two points which avoids obstacles.

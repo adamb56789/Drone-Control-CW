@@ -81,6 +81,16 @@ public class WaypointNavigation {
     return (int) ((startPos.distance(target) / MOVE_LENGTH) + 1) + 2;
   }
 
+  /**
+   * Recursively finds moves which navigate from waypoint to waypoint, until the target location is
+   * reached.
+   *
+   * @param currentPosition the current position of the drone
+   * @param currWaypoint the current waypoint number
+   * @param movesTilTimeout the maximum number of moves to the next waypoint until the current
+   *     branch of the search is ended
+   * @return a list of moves which take the drone from the current location to the target
+   */
   private List<Move> navigateAlongWaypoints(
       Coords currentPosition, int currWaypoint, int movesTilTimeout) {
     // If we take more moves than expected, we got stuck so this route is invalid
@@ -138,7 +148,7 @@ public class WaypointNavigation {
         }
       }
 
-      if (reachedTarget(positionAfterMove)) {
+      if (inRangeOfTarget(positionAfterMove)) {
         // Create a list with just this final move with the sensor and return it up the stack
         var movesList = new ArrayList<Move>();
         movesList.add(new Move(currentPosition, positionAfterMove, direction, targetSensorW3W));
@@ -160,15 +170,22 @@ public class WaypointNavigation {
     return null;
   }
 
-  private boolean reachedTarget(Coords positionAfterMove) {
+  /**
+   * Determines whether or not the position is in range of the target. The range that determines
+   * this depends on whether the target is a sensor or the start/end position of the drone.
+   *
+   * @param position the position
+   * @return true if it is in range of the target sensor or end position, false otherwise
+   */
+  private boolean inRangeOfTarget(Coords position) {
     // The range is different if the target is the end position
     if (targetSensorW3W == null) {
-      return positionAfterMove.distance(targetLocation) < END_POSITION_RANGE;
+      return position.distance(targetLocation) < END_POSITION_RANGE;
     } else {
-      // We use the distance to the location of the sensor here instead of the target location since
-      // the target location might have been moved slightly to try to cut the corner (see
-      // FlightPlanner)
-      return positionAfterMove.distance(targetSensorW3W.getCoordinates()) < SENSOR_RANGE;
+      // We use the distance to the location of the sensor W3W here instead of the target location
+      // since the target location may have been moved to cut the corner (see
+      // FlightPlanner.cutCorner())
+      return position.distance(targetSensorW3W.getCoordinates()) < SENSOR_RANGE;
     }
   }
 }

@@ -37,24 +37,17 @@ public class Move {
         "%s,%s,%d,%s,%s,%s", before.x, before.y, direction, after.x, after.y, sensorString);
   }
 
-  /**
-   * @return the position of the drone before making the move
-   */
+  /** @return the position of the drone before making the move */
   public Coords getBefore() {
     return before;
   }
 
-  /**
-   *
-   * @return the position of the drone after making the move
-   */
+  /** @return the position of the drone after making the move */
   public Coords getAfter() {
     return after;
   }
 
-  /**
-   * @return the direction of move in degrees
-   */
+  /** @return the direction of move in degrees */
   public int getDirection() {
     return direction;
   }
