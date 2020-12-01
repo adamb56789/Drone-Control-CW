@@ -3,6 +3,7 @@ package uk.ac.ed.inf.aqmaps.flightplanning;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
+import uk.ac.ed.inf.aqmaps.noflyzone.Obstacles;
 
 import java.util.ArrayList;
 import java.util.Collection;

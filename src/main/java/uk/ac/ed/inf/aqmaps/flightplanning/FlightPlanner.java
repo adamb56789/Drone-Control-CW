@@ -1,10 +1,9 @@
 package uk.ac.ed.inf.aqmaps.flightplanning;
 
-import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.SimpleWeightedGraph;
 import uk.ac.ed.inf.aqmaps.Move;
 import uk.ac.ed.inf.aqmaps.W3W;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
+import uk.ac.ed.inf.aqmaps.noflyzone.Obstacles;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -172,8 +171,7 @@ public class FlightPlanner {
    * @param sensorGraph the graph containing all of the sensors and distances
    * @return a list of Moves representing the flight plan
    */
-  private List<Move> createPlan(
-      Coords startPosition, SensorGraph sensorGraph) {
+  private List<Move> createPlan(Coords startPosition, SensorGraph sensorGraph) {
     if (timeLimitOn && (System.nanoTime() - startTime) > timeLimitNanos) {
       // If more than the max runtime has elapsed, stop the algorithm by returning null
       return null;

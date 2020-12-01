@@ -3,6 +3,7 @@ package uk.ac.ed.inf.aqmaps.flightplanning;
 import uk.ac.ed.inf.aqmaps.Move;
 import uk.ac.ed.inf.aqmaps.W3W;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
+import uk.ac.ed.inf.aqmaps.noflyzone.Obstacles;
 
 import java.util.*;
 

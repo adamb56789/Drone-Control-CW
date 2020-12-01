@@ -1,9 +1,9 @@
 package uk.ac.ed.inf.aqmaps;
 
 import uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner;
-import uk.ac.ed.inf.aqmaps.flightplanning.Obstacles;
 import uk.ac.ed.inf.aqmaps.io.InputController;
 import uk.ac.ed.inf.aqmaps.io.OutputController;
+import uk.ac.ed.inf.aqmaps.noflyzone.Obstacles;
 
 import java.util.List;
 

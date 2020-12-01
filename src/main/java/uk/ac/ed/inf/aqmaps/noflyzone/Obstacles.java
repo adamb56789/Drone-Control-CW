@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.aqmaps.flightplanning;
+package uk.ac.ed.inf.aqmaps.noflyzone;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -53,7 +53,7 @@ public class Obstacles {
 
       outlinePoints.addAll(polygon.generateOutlinePoints());
     }
-    this.graph = prepareGraph(outlinePoints);
+    this.graph = ObstacleGraph.prepareGraph(outlinePoints, this);
   }
 
   /**
@@ -139,8 +139,7 @@ public class Obstacles {
    * @return true if there is a collision, false otherwise
    */
   public boolean pointCollides(Coords coords) {
-    return !isInConfinement(coords)
-        || polygons.stream().anyMatch(p -> p.contains(coords));
+    return !isInConfinement(coords) || polygons.stream().anyMatch(p -> p.contains(coords));
   }
 
   /**
@@ -149,9 +148,9 @@ public class Obstacles {
    *
    * @return an ObstacleEvader instance with these obstacles
    */
-  public ObstacleEvader getObstacleEvader() {
+  public ObstaclePathfinder getObstacleEvader() {
     var graphCopy = new SimpleWeightedGraph<Coords, DefaultWeightedEdge>(DefaultWeightedEdge.class);
     Graphs.addGraph(graphCopy, graph);
-    return new ObstacleEvader(graphCopy, this);
+    return new ObstaclePathfinder(graphCopy, this);
   }
 }

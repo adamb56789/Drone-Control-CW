@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.aqmaps.flightplanning;
+package uk.ac.ed.inf.aqmaps.noflyzone;
 
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
@@ -12,7 +12,7 @@ import java.util.List;
  * Handles obstacle evasion. Uses Obstacles and an ObstacleGraph to find paths between points which
  * do not collides with any obstacles.
  */
-public class ObstacleEvader {
+public class ObstaclePathfinder {
   /**
    * A weighted graph containing all points which form an outline around the polygons as vertices,
    * and edges connecting them if they have line of sight, which have a weight equal to the distance
@@ -28,7 +28,7 @@ public class ObstacleEvader {
    * @param graph a SimpleWeightedGraph of the obstacles
    * @param obstacles the Obstacles
    */
-  public ObstacleEvader(
+  public ObstaclePathfinder(
       SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph, Obstacles obstacles) {
     this.graph = graph;
     this.obstacles = obstacles;
