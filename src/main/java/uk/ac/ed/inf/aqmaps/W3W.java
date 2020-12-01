@@ -4,10 +4,9 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 /** Holds what3words coordinate and word information. */
 public class W3W {
-  /**
-   * The coordinates of the centre of the W3W square
-   */
+  /** The coordinates of the centre of the W3W square */
   private final Coords coordinates;
+
   private final String words;
 
   /**

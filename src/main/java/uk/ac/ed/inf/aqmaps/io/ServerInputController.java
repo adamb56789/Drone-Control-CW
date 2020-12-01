@@ -28,16 +28,11 @@ public class ServerInputController implements InputController {
    */
   private final List<W3W> sensorW3Ws = new ArrayList<>();
 
-  /**
-   * Represents the server which we will get data from
-   */
+  /** Represents the server which we will get data from */
   private final Server server;
 
-  /**
-   * The base URL of the server, such as http://localhost:80
-   */
+  /** The base URL of the server, such as http://localhost:80 */
   private final String serverUrl;
-
 
   private List<Polygon> noFlyZones;
 
@@ -112,7 +107,8 @@ public class ServerInputController implements InputController {
   }
 
   /**
-   * Converts a SensorDeserializer to a Sensor by getting the coordinates of its W3W location from the server.
+   * Converts a SensorDeserializer to a Sensor by getting the coordinates of its W3W location from
+   * the server.
    *
    * @param sensorDeserializer the sensorDeserializer to convert
    * @return an equivalent Sensor containing its coordinates

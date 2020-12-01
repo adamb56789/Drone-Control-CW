@@ -12,12 +12,12 @@ public class App {
   /**
    * Main method
    *
-   * @param args a list of arguments in the form [day] [month] [year] [latitude] [longitude] [random
-   *     seed] [port number]
+   * @param args a list of arguments in the form: day month year latitude longitude randomSeed
+   *     portNumber [timeLimit]
    */
   public static void main(String[] args) {
-    if (args.length != 7) {
-      System.out.println("Incorrect number of arguments: should be 7");
+    if (args.length < 7) {
+      System.out.println("Incorrect number of arguments: should be at least 7");
       System.exit(-1);
     }
     var settings = new Settings(args);

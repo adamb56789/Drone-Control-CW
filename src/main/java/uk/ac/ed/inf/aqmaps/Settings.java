@@ -10,6 +10,7 @@ public class Settings {
   private final Coords startCoords;
   private final int randomSeed;
   private final int port;
+  private final double maxRunTime;
 
   /** @param args the input command line args */
   public Settings(String[] args) {
@@ -19,6 +20,12 @@ public class Settings {
     this.startCoords = new Coords(Double.parseDouble(args[4]), Double.parseDouble(args[3]));
     this.randomSeed = Integer.parseInt(args[5]);
     this.port = Integer.parseInt(args[6]);
+
+    if (args.length > 7) {
+      maxRunTime = Double.parseDouble(args[7]);
+    } else {
+      maxRunTime = -1;
+    }
   }
 
   /** @return the day to generate the map for */
@@ -49,5 +56,13 @@ public class Settings {
   /** @return the port number of the server */
   public int getPort() {
     return port;
+  }
+
+  /**
+   * @return the maximum run time of the flight planner in seconds. If no value was provided and the
+   *     default is to be used, is equal to -1. 0 means that the time limit is to be turned off.
+   */
+  public double getMaxRunTime() {
+    return maxRunTime;
   }
 }

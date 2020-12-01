@@ -99,10 +99,7 @@ public class Coords extends Point2D.Double {
     return new Coords(x + length * Math.cos(radians), y + length * Math.sin(radians));
   }
 
-  /**
-   * Used for printing Coords for debugging
-   * {@inheritDoc}
-   */
+  /** Used for printing Coords for debugging {@inheritDoc} */
   @Override
   public String toString() {
     return "[" + x + ", " + y + "]";

@@ -59,15 +59,6 @@ import java.util.*;
  * @author Dimitrios Michail
  */
 public class EnhancedTwoOptTSP extends TwoOptHeuristicTSP<Coords, DefaultWeightedEdge> {
-  /**
-   * The number of initial tours to try when running 2-opt. Increasing this does not necessarily
-   * reduce average path length, and may increase it, since it will introduce less variability in
-   * what goes into the flight-plan mode 2-opt. We do not want the tours given to the improver to
-   * all be similarly optimal, since the two tour weight measures are different. There is a trade
-   * off to be had between this constant and the number of times this class' algorithm is expected
-   * ot be ran.
-   */
-  private static final int TWO_OPT_PASSES = 5;
   /** The start and end position of the drone */
   private final Coords start;
   /** The FlightPlanner for computing tour weights */
@@ -86,13 +77,14 @@ public class EnhancedTwoOptTSP extends TwoOptHeuristicTSP<Coords, DefaultWeighte
   /**
    * Constructor
    *
+   * @param passes how many initial random tours to check when running 2-opt
    * @param seed the random seed
    * @param start the start position of the drone
    * @param flightPlanner the FlightPlanner to use for the second 2-opt pass to compute tour weights
    *     as the number of moves needed by the drone
    */
-  public EnhancedTwoOptTSP(long seed, Coords start, FlightPlanner flightPlanner) {
-    super(TWO_OPT_PASSES, seed);
+  public EnhancedTwoOptTSP(int passes, int seed, Coords start, FlightPlanner flightPlanner) {
+    super(passes, seed);
     this.start = start;
     this.flightPlanner = flightPlanner;
   }

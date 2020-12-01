@@ -50,10 +50,12 @@ public class Drone {
     // Input and prepare the obstacle and sensor location data
     var obstacles = new Obstacles(input.getNoFlyZones());
     var sensorW3Ws = input.getSensorW3Ws();
-    var flightPlanner = new FlightPlanner(obstacles, sensorW3Ws, settings.getRandomSeed());
+    var flightPlanner =
+        new FlightPlanner(
+            obstacles, sensorW3Ws, settings.getRandomSeed(), settings.getMaxRunTime());
 
     // Run the flight planning algorithm
-    return flightPlanner.createFlightPlan(settings.getStartCoords());
+    return flightPlanner.createBestFlightPlan(settings.getStartCoords());
   }
 
   /**

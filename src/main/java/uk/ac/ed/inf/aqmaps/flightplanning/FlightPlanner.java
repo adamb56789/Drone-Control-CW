@@ -8,8 +8,9 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
+import java.util.stream.IntStream;
 
 /**
  * Handles the creation of a flight plan for the drone. Uses JGraphT's TwoOptHeuristicTSP algorithm
@@ -18,16 +19,13 @@ import java.util.stream.LongStream;
  */
 public class FlightPlanner {
   /**
-   * The approximate maximum run time for flight planning. The algorithm will repeat as many times
-   * as possible with different random seeds within this time frame, up to a maximum of {@value
-   * MAX_ITERATIONS} and then the best flight path will be chosen.
+   * The number of initial tours to try when running 2-opt. Increasing this does not necessarily
+   * reduce average path length, and may increase it, since it will introduce less variability in
+   * what goes into the flight-plan mode 2-opt. We do not want the tours given to the improver to
+   * all be similarly optimal, since the two tour weight measures are different. There is a trade
+   * off to be had between this constant and the number of times the algorithm runs
    */
-  private static final int MAX_RUNTIME_MILLIS = 500;
-  /**
-   * The time limit can be turned off to run for a specified {@link #ITERATIONS} number of
-   * iterations to produce consistent output.
-   */
-  private static final boolean TIME_LIMIT_ON = true;
+  static final int TWO_OPT_PASSES = 5;
   /**
    * When the time limit is off, this is the number of times to run the algorithm before picking the
    * shortest. Can be changed to trade off for speed and efficacy. Increasing it more has almost no
@@ -40,12 +38,16 @@ public class FlightPlanner {
    * enough for this to never happen.
    */
   private static final int MAX_ITERATIONS = 50000;
-
   /** See {@link #cutCorner(Coords, Coords, Coords)} This value performed the best in testing. */
   private static final double CORNER_CUT_RADIUS_FRACTION = 0.634;
+  /**
+   * The approximate maximum run time for flight planning in seconds. The algorithm will repeat as
+   * many times as possible with different random seeds within this time frame, up to a maximum of
+   * {@value MAX_ITERATIONS} and then the best flight path will be chosen.
+   */
+  private static final double DEFAULT_TIME_LIMIT_SECONDS = 0.5;
 
   private final Obstacles obstacles;
-
   private final Map<Coords, W3W> sensorCoordsW3WMap;
   /**
    * Note: we need the sensor Coords as a list instead of using keySet() on the map since the set
@@ -54,8 +56,6 @@ public class FlightPlanner {
    * the same seed.
    */
   private final List<Coords> sensorCoords;
-
-  private final long randomSeed;
   /**
    * Caches the number of moves and end position of navigating from a point to a target, with a
    * particular following target. Used in {@link #computeLengthOfFlight}. This does not cache the
@@ -67,31 +67,72 @@ public class FlightPlanner {
    * threads).
    */
   private final Map<FlightCacheKey, FlightCacheValue> cache = new ConcurrentHashMap<>();
-
+  /**
+   * Holds the next random seed to be used when creating the next plan. This is used so when the
+   * time limit is being used to cut off execution, it will have run using the first seeds in the
+   * planned sequence (seed, seed+1, seed+2, ...). The alternative is to create this sequence in
+   * advance and then run through it with map(), however when executed in parallel they would not be
+   * executed starting from the front, and the seeds that were chosen would end up being essentially
+   * random.
+   *
+   * <p>Using this allows to say with confidence that if the algorithm produced a flight plan in n
+   * iterations, that flight plan used a random seed between the command line input seed and
+   * (seed+n), and you would be able to generate the same flight plan again.
+   */
+  private final AtomicInteger atomicSeedCounter;
   /**
    * The number of times that the flight planning algorithm is ran with a different seed. Collected
    * for logging purposes.
    */
-  private int iterationCount = 0;
-
+  private final AtomicInteger iterationCount = new AtomicInteger(0);
   /**
-   * The System.nanoTime() at which we started running flight planning algorithms.
+   * The time limit can be turned off to run for a specified {@link #ITERATIONS} number of
+   * iterations to produce consistent output.
    */
+  private final boolean timeLimitOn;
+  /**
+   * The approximate maximum run time for flight planning in nanoseconds (to work with
+   * System.nanoTime()). The algorithm will repeat as many times as possible with different random
+   * seeds within this time frame, up to a maximum of {@value MAX_ITERATIONS} and then the best
+   * flight path will be chosen.
+   */
+  private long timeLimitNanos;
+  /** The System.nanoTime() at which we started running flight planning algorithms. */
   private double startTime;
 
   /**
-   * Constructor
+   * Construct a flight planner with the given time limit in seconds. If the time limit is not
+   * greater than 0, turns it off and uses a maximum number of iterations instead.
    *
    * @param obstacles the Obstacles containing the no-fly zones
    * @param sensorW3Ws the W3W locations of the sensors
-   * @param randomSeed the random seed to use for the graph algorithm
+   * @param randomSeed the initial random seed to use
+   * @param timeLimit the time limit for the algorithm in seconds. If -1 uses the default of {@link
+   *     #DEFAULT_TIME_LIMIT_SECONDS}, and if 0 then disables the time limit and runs for a fixed
+   *     number of iterations.
    */
-  public FlightPlanner(Obstacles obstacles, List<W3W> sensorW3Ws, long randomSeed) {
+  public FlightPlanner(
+      Obstacles obstacles, List<W3W> sensorW3Ws, int randomSeed, double timeLimit) {
     this.obstacles = obstacles;
+    // Prepare the map from sensor coords to their W3Ws
     sensorCoordsW3WMap = new HashMap<>();
     sensorW3Ws.forEach(w3w -> sensorCoordsW3WMap.put(w3w.getCoordinates(), w3w));
+    // Prepare the list of all sensor coordinates
     sensorCoords = sensorW3Ws.stream().map(W3W::getCoordinates).collect(Collectors.toList());
-    this.randomSeed = randomSeed;
+    // Set the first random seed to the user-provided seed in the settings
+    this.atomicSeedCounter = new AtomicInteger(randomSeed);
+
+    if (timeLimit == 0) {
+      // Run with no time limit
+      timeLimitOn = false;
+    } else if (timeLimit == -1) {
+      // Run with default time limit
+      timeLimitOn = true;
+      timeLimitNanos = (long) (DEFAULT_TIME_LIMIT_SECONDS * 1e9);
+    } else {
+      timeLimitNanos = (long) (timeLimit * 1e9);
+      timeLimitOn = true;
+    }
   }
 
   /**
@@ -102,25 +143,21 @@ public class FlightPlanner {
    * @param startPosition the starting position of the drone
    * @return a list of Moves representing the flight plan
    */
-  public List<Move> createFlightPlan(Coords startPosition) {
+  public List<Move> createBestFlightPlan(Coords startPosition) {
     startTime = System.nanoTime();
     var sensorGraph = createSensorGraph(startPosition, sensorCoords);
 
-    // Generate a list of seeds [randomSeed, randomSeed + 1, ..., randomSeed + ITERATIONS - 1]
-    // See the description of the constants MAX_ITERATIONS and ITERATIONS
-    var seeds =
-        LongStream.range(randomSeed, randomSeed + (TIME_LIMIT_ON ? MAX_ITERATIONS : ITERATIONS))
-            .boxed()
-            .collect(Collectors.toList());
-
-    var flightPlan =
-        seeds.parallelStream() // Run in parallel to decrease run time
-            .map(seed -> createPlanWithSeed(startPosition, sensorGraph, seed))
-            .filter(Objects::nonNull) // Once the max runtime has elapsed they will be null
+    // Run flight planning either ITERATIONS or MAX_ITERATIONS times in a parallel stream
+    // Note that if time limit is on all results after the time has ended will be null
+    var bestFlightPlan =
+        IntStream.range(0, timeLimitOn ? MAX_ITERATIONS : ITERATIONS)
+            .parallel() // Run in parallel to decrease run time
+            .mapToObj(i -> createPlan(startPosition, sensorGraph))
+            .filter(Objects::nonNull) // Once max runtime has elapsed they will be null so filter
             .min(Comparator.comparing(List::size)) // Get the tour with the minimal number of moves
             .orElse(null);
-    System.out.printf("Number of flight planning iterations completed: %d%n", iterationCount);
-    return flightPlan;
+    System.out.printf("Number of flight planning iterations completed: %d%n", iterationCount.get());
+    return bestFlightPlan;
   }
 
   /**
@@ -130,21 +167,20 @@ public class FlightPlanner {
    *
    * @param startPosition the starting position of the drone
    * @param sensorGraph the graph containing all of the sensors and distances
-   * @param seed the random seed
    * @return a list of Moves representing the flight plan
    */
-  private List<Move> createPlanWithSeed(
-      Coords startPosition,
-      SimpleWeightedGraph<Coords, DefaultWeightedEdge> sensorGraph,
-      long seed) {
-    if (TIME_LIMIT_ON && (System.nanoTime() - startTime) / 1000000 > MAX_RUNTIME_MILLIS) {
+  private List<Move> createPlan(
+      Coords startPosition, SimpleWeightedGraph<Coords, DefaultWeightedEdge> sensorGraph) {
+    if (timeLimitOn && (System.nanoTime() - startTime) > timeLimitNanos) {
       // If more than the max runtime has elapsed, stop the algorithm by returning null
       return null;
     }
-    iterationCount++;
+    iterationCount.incrementAndGet(); // Increment the iteration counter (for logging)
+
+    var seed = atomicSeedCounter.getAndIncrement(); // Get the next random seed
 
     // Get a short tour which visits
-    var twoOpt = new EnhancedTwoOptTSP(seed, startPosition, this);
+    var twoOpt = new EnhancedTwoOptTSP(TWO_OPT_PASSES, seed, startPosition, this);
     var graphPath = twoOpt.getTour(sensorGraph);
 
     var tour = graphPath.getVertexList();
@@ -230,8 +266,8 @@ public class FlightPlanner {
           waypointNavigation.navigateToLocation(currentPosition, waypoints, targetSensorOrNull);
 
       if (movesToTarget == null) {
-        // In case there is no valid flightpath, we give up here
-        System.out.println("Gave up searching for path"); // TODO
+        // In the exceptional case that there is no valid flightpath, we give up here
+        // This never happened in testing
         return Integer.MAX_VALUE;
       }
       // Update the current position to the end of the sequence of moves
@@ -276,7 +312,6 @@ public class FlightPlanner {
 
       if (movesToTarget == null) {
         // In case there is no valid flightpath, we give up here
-        System.out.println("Gave up searching for path"); // TODO
         return moves;
       }
       // Update the current position to the end of the sequence of moves

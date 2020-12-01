@@ -37,20 +37,16 @@ public class WaypointNavigation {
    */
   private final Set<Coords> visitedSet = new HashSet<>();
 
-  /**
-   * A list of Coords waypoints for the drone to follow on its way to the target.
-   */
+  /** A list of Coords waypoints for the drone to follow on its way to the target. */
   private List<Coords> waypoints;
 
-  /**
-   * The target location, such as a sensor or end position
-   */
+  /** The target location, such as a sensor or end position */
   private Coords targetLocation;
 
-  /**
-   * If the target is a sensor holds its W3W location, otherwise null
-   */
+  /** If the target is a sensor holds its W3W location, otherwise null */
   private W3W targetSensorW3W;
+
+  /** Count the number if times that navigateToLocation is called */
   private int countIterations = 0;
 
   /** @param obstacles the obstacles for collision checking */
@@ -116,9 +112,9 @@ public class WaypointNavigation {
       return null;
     }
 
-    if (countIterations++ > 100000) {
-      // Fail if the algorithm continues for too long TODO get rid of this
-      System.out.println("Counter time out");
+    if (countIterations++ > 1000000) {
+      // Fail if the algorithm got completely stuck not finding anything
+      // This never happened in testing, but is an here just in case
       return null;
     }
 

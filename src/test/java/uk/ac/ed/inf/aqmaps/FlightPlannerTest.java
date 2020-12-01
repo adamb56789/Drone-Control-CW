@@ -8,6 +8,7 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -17,15 +18,19 @@ import static org.junit.Assert.*;
 @SuppressWarnings("SameParameterValue")
 public class FlightPlannerTest {
   // If testing takes too long, decrease these values.
-  public static final int DAYS_TO_TEST = 100; // Maximum is 731
+  public static final int DAYS_TO_TEST = 1; // Maximum is 731
   // Tries 3 tricky non-random points by default, try this many more random points
-  public static final int RANDOM_STARTING_POINTS_TO_TRY = 0;
+  public static final int RANDOM_STARTING_POINTS_TO_TRY = 1;
   // 3 tricky starting locations
   public static final Coords INF_FORUM_ALCOVE = new Coords(-3.1869108, 55.9449634);
   public static final Coords APPLETON_ALCOVE = new Coords(-3.1864079, 55.9443635);
   public static final Coords LIBRARY_CORNER = new Coords(-3.189626, 55.942625);
   public static final Coords PRESCRIBED_START = new Coords(-3.188396, 55.944425);
+  private static final String[] TEST_SETTINGS = {
+    "", "", "", "", "", "", "",
+  };
 
+  // Obstacles for testing for collisions
   private final Obstacles obstacles =
       new Obstacles(
           (new ServerInputController(ServerInputControllerTest.getFakeServer(), 1, 1, 2020, 80))
@@ -71,7 +76,7 @@ public class FlightPlannerTest {
 
   private List<List<Move>> getFlightPlans() {
     // For each of the dates, get the flight plans for a number of starting locations
-    return getDates().stream()
+    return getSpecifiedDates(DAYS_TO_TEST).stream()
         .map(date -> runFlightPlansOnDate(date, RANDOM_STARTING_POINTS_TO_TRY))
         .flatMap(List::stream)
         .collect(Collectors.toList());
@@ -107,16 +112,51 @@ public class FlightPlannerTest {
     }
 
     for (var startLocation : startingLocations) {
-      var flightPlanner = new FlightPlanner(obstacles, input.getSensorW3Ws(), 0);
-      outputFlightPlans.add(flightPlanner.createFlightPlan(startLocation));
+      var flightPlanner = new FlightPlanner(obstacles, input.getSensorW3Ws(), 0, 0.1);
+      System.out.println("date = " + Arrays.toString(date) + ", startingPoint = " + startLocation);
+      outputFlightPlans.add(flightPlanner.createBestFlightPlan(startLocation));
     }
     return outputFlightPlans;
   }
 
-  private List<int[]> getDates() {
+  /**
+   * Gets up to 12 of the dates 01/01/2020, 02/02/2020, ..., 12/12/2020
+   *
+   * @param days the number of days to get
+   * @return a list of arrays containing all dates in 2020 and 2021
+   */
+  private List<int[]> getSpecifiedDates(int days) {
     var dates = new ArrayList<int[]>();
-    for (int i = 1; i <= 12; i++) {
+    for (int i = 1; i <= days && i <= 12; i++) {
       dates.add(new int[] {i, i, 2020});
+    }
+    return dates;
+  }
+
+  /**
+   * Gets the first n dates in 2020 and 2021
+   *
+   * @param days the number of days to get
+   * @return a list of arrays containing all dates in 2020 and 2021
+   */
+  private List<int[]> getDates(int days) {
+    var dates = new ArrayList<int[]>();
+    for (int year = 2020; year <= 2021; year++) {
+      for (int month = 1; month <= 12; month++) {
+        for (int day = 1; day <= 31; day++) {
+          if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {
+            break;
+          } else if (day == 29 && month == 2 && year == 2021) {
+            break;
+          } else if (day == 30 && month == 2 && year == 2020) {
+            break;
+          }
+          dates.add(new int[] {day, month, year});
+          if (--days == 0) {
+            return dates;
+          }
+        }
+      }
     }
     return dates;
   }
