@@ -6,10 +6,9 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.geometry.Polygon;
 
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /** Holds information about the obstacles or no-fly zones that the drone must avoid. */
 public class Obstacles {
@@ -24,12 +23,6 @@ public class Obstacles {
    */
   private final SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
 
-  /** A list of all line segments that make up the obstacle polygons, as Line2Ds */
-  private final List<Line2D> segments;
-
-  /** A list of the bounding boxes of each obstacle */
-  private final List<Rectangle2D> boundingBoxes;
-
   /** A list of the Polygon representations of the obstacles */
   private final List<Polygon> polygons;
 
@@ -40,17 +33,12 @@ public class Obstacles {
    */
   public Obstacles(List<Polygon> polygons) {
     this.polygons = polygons;
-    segments = new ArrayList<>();
-    boundingBoxes = new ArrayList<>();
 
     var outlinePoints = new ArrayList<Coords>();
 
     // Derive a Polygon from each of the polygons in the mapbox, and get the points, segments and
     // bounding box from each polygon
     for (var polygon : polygons) {
-      segments.addAll(polygon.getSegments());
-      boundingBoxes.add(polygon.getBoundingBox());
-
       outlinePoints.addAll(polygon.generateOutlinePoints());
     }
     this.graph = ObstacleGraph.prepareGraph(outlinePoints, this);
@@ -82,19 +70,20 @@ public class Obstacles {
       return true;
     }
 
-    // If the line segment does not enter the bounding boxes of any of the obstacles, we know
-    // immediately that there are no collisions. In profiling, doing this first more than halved the
-    // total runtime of this method, reducing it from 54% to 34% of the the total.
-    boolean insideNoBoxes =
-        boundingBoxes.stream().noneMatch(box -> box.intersectsLine(start.x, start.y, end.x, end.y));
+    // Prune to only scan polygons where the line intersects the bounding box
+    var prunedPolygons =
+        polygons.stream()
+            .filter(p -> p.getBoundingBox().intersectsLine(start.x, start.y, end.x, end.y))
+            .collect(Collectors.toList());
 
-    if (insideNoBoxes) {
-      return false;
+    // Return true if any of the segment of the polygons intersect with the line
+    for (var polygon : prunedPolygons) {
+      if (polygon.getSegments().stream()
+              .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y))) {
+        return true;
+      }
     }
-
-    // Now check for collisions with any of the line segments
-    return segments.stream()
-        .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y));
+    return false;
   }
 
   /**

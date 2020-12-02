@@ -28,6 +28,16 @@ public class Polygon {
   private final Path2D path;
 
   /**
+   * All of the line segments that make up the edges
+   */
+  private final List<Line2D> segments;
+
+  /**
+   * A rectangular bounding box which contains the polygon
+   */
+  private final Rectangle2D boundingBox;
+
+  /**
    * Initialize a Polygon from a list of Coords points
    *
    * @param points a list of Coords
@@ -35,6 +45,8 @@ public class Polygon {
   private Polygon(List<Coords> points) {
     this.points = points;
     this.path = generatePath2D();
+    this.segments = createSegments();
+    this.boundingBox = createBoundingBox();
   }
 
   /**
@@ -118,7 +130,7 @@ public class Polygon {
    *
    * @return a list of Segments as Line2D
    */
-  public List<Line2D> getSegments() {
+  private List<Line2D> createSegments() {
     var segments = new ArrayList<Line2D>();
 
     // Create a segment between each adjacent point.
@@ -130,12 +142,16 @@ public class Polygon {
     return segments;
   }
 
+  public Rectangle2D getBoundingBox() {
+    return boundingBox;
+  }
+
   /**
    * Creates a bounding box that contains the rectangular bounds of the polygon.
    *
    * @return the bounding box as a Rectangle2D
    */
-  public Rectangle2D getBoundingBox() {
+  private Rectangle2D createBoundingBox() {
     return path.getBounds2D();
   }
 
@@ -174,5 +190,9 @@ public class Polygon {
     }
     path.closePath();
     return path;
+  }
+
+  public List<Line2D> getSegments() {
+    return segments;
   }
 }
