@@ -82,6 +82,7 @@ public class FlightPlanner {
    * iterations to produce consistent output.
    */
   private final boolean timeLimitOn;
+
   private final AtomicBoolean timerStarted;
   /**
    * The approximate maximum run time for flight planning in nanoseconds (to work with
@@ -153,8 +154,8 @@ public class FlightPlanner {
 
   /**
    * Creates a flight plan for the drone which visits all sensors and returns to the start. First
-   * uses 2-opt heuristic to generate a tour, then constructs a flight plan for the drone along the
-   * route.
+   * uses an two stage 2-opt heuristic (see {@link EnhancedTwoOptTSP}) to generate a tour, then
+   * constructs a flight plan for the drone along the route.
    *
    * @param startPosition the starting position of the drone
    * @param sensorGraph the graph containing all of the sensors and distances
