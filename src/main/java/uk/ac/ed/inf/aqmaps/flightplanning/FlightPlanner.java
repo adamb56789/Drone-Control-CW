@@ -303,6 +303,7 @@ public class FlightPlanner {
   private Coords cutCorner(Coords currPos, Coords target, Coords nextTarget) {
     var newTargets = new ArrayList<Coords>();
     var newTarget = createPointOnBisector(target, nextTarget, currPos);
+    newTargets.add(newTarget);
     newTargets.add(createPointOnBisector(target, newTarget, currPos));
     newTargets.add(createPointOnBisector(target, nextTarget, newTarget));
 
