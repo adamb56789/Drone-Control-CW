@@ -70,40 +70,6 @@ public class Obstacles {
   }
 
   /**
-   * Prepare a weighted graph containing all points which form an outline around the polygons as
-   * vertices, and edges connecting them if they have line of sight, which have a weight equal to
-   * the distance between them. The graph uses outline polygons since if it used the original
-   * polygons, their points would occupy the same location and any line emerging from the corner of
-   * an obstacle would be considered to be colliding with it. See see {@link
-   * Polygon#generateOutlinePoints()}.
-   *
-   * @param outlinePoints the points which form the outline of the obstacle polygons
-   * @return a SimpleWeightedGraph representation of the obstacles
-   */
-  private SimpleWeightedGraph<Coords, DefaultWeightedEdge> prepareGraph(
-      List<Coords> outlinePoints) {
-    var graph = new SimpleWeightedGraph<Coords, DefaultWeightedEdge>(DefaultWeightedEdge.class);
-
-    // Add all of the vertices from the outline polygons
-    for (var point : outlinePoints) {
-      graph.addVertex(point);
-    }
-
-    // Create edges between all pairs of points that have line of sight
-    for (int i = 0; i < outlinePoints.size(); i++) {
-      for (int j = 0; j < i; j++) {
-        var start = outlinePoints.get(i);
-        var end = outlinePoints.get(j);
-        if (!lineCollision(start, end)) {
-          var edge = graph.addEdge(start, end);
-          graph.setEdgeWeight(edge, start.distance(end));
-        }
-      }
-    }
-    return graph;
-  }
-
-  /**
    * Determines whether the line segment between the start and end points collides with a obstacle.
    *
    * @param start the coordinates of the start point
