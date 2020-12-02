@@ -38,12 +38,6 @@ public class FlightPlanner {
   private static final int MAX_ITERATIONS = 50000;
   /** See {@link #cutCorner(Coords, Coords, Coords)} This value performed the best in testing. */
   private static final double CORNER_CUT_RADIUS_FRACTION = 0.634;
-  /**
-   * The approximate maximum run time for flight planning in seconds. The algorithm will repeat as
-   * many times as possible with different random seeds within this time frame, up to a maximum of
-   * {@value MAX_ITERATIONS} and then the best flight path will be chosen.
-   */
-  private static final double DEFAULT_TIME_LIMIT_SECONDS = 0.5;
 
   private final Obstacles obstacles;
 
@@ -92,7 +86,7 @@ public class FlightPlanner {
    * The approximate maximum run time for flight planning in nanoseconds (to work with
    * System.nanoTime()). The algorithm will repeat as many times as possible with different random
    * seeds within this time frame, up to a maximum of {@value MAX_ITERATIONS} and then the best
-   * flight path will be chosen.
+   * flight path will be chosen. High values of this have highly diminishing returns.
    */
   private long timeLimitNanos;
 
@@ -106,9 +100,8 @@ public class FlightPlanner {
    * @param obstacles the Obstacles containing the no-fly zones
    * @param sensorW3Ws the W3W locations of the sensors
    * @param randomSeed the initial random seed to use
-   * @param timeLimit the time limit for the algorithm in seconds. If -1 uses the default of {@link
-   *     #DEFAULT_TIME_LIMIT_SECONDS}, and if 0 then disables the time limit and runs for a fixed
-   *     number of iterations.
+   * @param timeLimit the time limit for the algorithm in seconds. If it is equal to 0 then disables
+   *     the time limit and runs for a fixed number of iterations.
    */
   public FlightPlanner(
       Obstacles obstacles, List<W3W> sensorW3Ws, int randomSeed, double timeLimit) {
@@ -122,10 +115,6 @@ public class FlightPlanner {
     if (timeLimit == 0) {
       // Run with no time limit
       timeLimitOn = false;
-    } else if (timeLimit == -1) {
-      // Run with default time limit
-      timeLimitOn = true;
-      timeLimitNanos = (long) (DEFAULT_TIME_LIMIT_SECONDS * 1e9);
     } else {
       timeLimitNanos = (long) (timeLimit * 1e9);
       timeLimitOn = true;
@@ -141,9 +130,11 @@ public class FlightPlanner {
    * @return a list of Moves representing the flight plan
    */
   public List<Move> createBestFlightPlan(Coords startPosition) {
-    startTime = System.nanoTime();
     var sensorGraph =
         SensorGraph.createWithStartLocation(startPosition, sensorCoordsW3WMap.keySet(), obstacles);
+
+    // Start the timer for the flight planning algorithm
+    startTime = System.nanoTime();
 
     // Run flight planning either ITERATIONS or MAX_ITERATIONS times in a parallel stream
     // Note that if time limit is on all results after the time has ended will be null

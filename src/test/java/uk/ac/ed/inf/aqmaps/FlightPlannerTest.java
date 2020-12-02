@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 @SuppressWarnings("SameParameterValue")
 public class FlightPlannerTest {
   // If testing takes too long, decrease these values.
-  public static final int DAYS_TO_TEST = 1; // Maximum is 731
+  public static final int DAYS_TO_TEST = 1;
   // Tries 3 tricky non-random points by default, try this many more random points
   public static final int RANDOM_STARTING_POINTS_TO_TRY = 2;
   // 3 tricky starting locations

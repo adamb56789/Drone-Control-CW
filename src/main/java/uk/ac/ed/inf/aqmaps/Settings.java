@@ -4,6 +4,13 @@ import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 /** Holds the settings derived from the command line arguments. */
 public class Settings {
+  /**
+   * The default value in seconds of the time limit on the flight planning algorithm, to be used
+   * when a time limit has not been received as an argument. Increasing this has highly diminishing
+   * returns. See {@link uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner}
+   */
+  private static final double DEFAULT_TIME_LIMIT_SECONDS = 1;
+
   private final int day;
   private final int month;
   private final int year;
@@ -24,7 +31,7 @@ public class Settings {
     if (args.length > 7) {
       maxRunTime = Double.parseDouble(args[7]);
     } else {
-      maxRunTime = -1;
+      maxRunTime = DEFAULT_TIME_LIMIT_SECONDS;
     }
   }
 
@@ -58,10 +65,7 @@ public class Settings {
     return port;
   }
 
-  /**
-   * @return the maximum run time of the flight planner in seconds. If no value was provided and the
-   *     default is to be used, is equal to -1. 0 means that the time limit is to be turned off.
-   */
+  /** @return the maximum run time of the flight planner in seconds */
   public double getMaxRunTime() {
     return maxRunTime;
   }
