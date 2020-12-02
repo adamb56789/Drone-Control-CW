@@ -7,6 +7,7 @@ import uk.ac.ed.inf.aqmaps.noflyzone.Obstacles;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
@@ -81,7 +82,7 @@ public class FlightPlanner {
    * iterations to produce consistent output.
    */
   private final boolean timeLimitOn;
-
+  private final AtomicBoolean timerStarted;
   /**
    * The approximate maximum run time for flight planning in nanoseconds (to work with
    * System.nanoTime()). The algorithm will repeat as many times as possible with different random
@@ -89,7 +90,6 @@ public class FlightPlanner {
    * flight path will be chosen. High values of this have highly diminishing returns.
    */
   private long timeLimitNanos;
-
   /** The System.nanoTime() at which we started running flight planning algorithms. */
   private double startTime;
 
@@ -111,6 +111,7 @@ public class FlightPlanner {
     sensorW3Ws.forEach(w3w -> sensorCoordsW3WMap.put(w3w.getCoordinates(), w3w));
     // Set the first random seed to the user-provided seed in the settings
     this.atomicSeedCounter = new AtomicInteger(randomSeed);
+    this.timerStarted = new AtomicBoolean(false);
 
     if (timeLimit == 0) {
       // Run with no time limit
@@ -132,9 +133,6 @@ public class FlightPlanner {
   public List<Move> createBestFlightPlan(Coords startPosition) {
     var sensorGraph =
         SensorGraph.createWithStartLocation(startPosition, sensorCoordsW3WMap.keySet(), obstacles);
-
-    // Start the timer for the flight planning algorithm
-    startTime = System.nanoTime();
 
     // Run flight planning either ITERATIONS or MAX_ITERATIONS times in a parallel stream
     // Note that if time limit is on all results after the time has ended will be null
@@ -163,7 +161,11 @@ public class FlightPlanner {
    * @return a list of Moves representing the flight plan
    */
   private List<Move> createPlan(Coords startPosition, SensorGraph sensorGraph) {
-    if (timeLimitOn && (System.nanoTime() - startTime) > timeLimitNanos) {
+    if (timerStarted.compareAndSet(false, true)) {
+      // The first time something runs it starts the timer
+      // This is done here to ensure that at least 1 iteration is run no matter what
+      startTime = System.nanoTime();
+    } else if (timeLimitOn && (System.nanoTime() - startTime) > timeLimitNanos) {
       // If more than the max runtime has elapsed, stop the algorithm by returning null
       return null;
     }
