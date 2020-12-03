@@ -33,7 +33,7 @@ public class SensorGraph extends SimpleWeightedGraph<Coords, DefaultWeightedEdge
     for (int i = 0; i < vertexList.size() - 1; i++) {
       for (int j = i + 1; j < vertexList.size(); j++) {
         var edge = addEdge(vertexList.get(i), vertexList.get(j));
-        setEdgeWeight(edge, obstaclePathfinder.getPathLength(vertexList.get(i), vertexList.get(j)));
+        setEdgeWeight(edge, obstaclePathfinder.getShortestPathLength(vertexList.get(i), vertexList.get(j)));
       }
     }
   }

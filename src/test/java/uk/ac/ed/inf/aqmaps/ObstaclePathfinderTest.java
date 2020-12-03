@@ -32,7 +32,7 @@ public class ObstaclePathfinderTest {
     assertEquals(
         description,
         path.shortestPathLength,
-        obstacles.getObstaclePathfinder().getPathLength(path.start, path.end),
+        obstacles.getObstaclePathfinder().getShortestPathLength(path.start, path.end),
         0.0000000001);
   }
 }

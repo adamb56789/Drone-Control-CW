@@ -58,7 +58,7 @@ public class ObstaclePathfinder {
    * @param end the ending point
    * @return the length of the path in degrees
    */
-  public double getPathLength(Coords start, Coords end) {
+  public double getShortestPathLength(Coords start, Coords end) {
     if (!obstacles.lineCollision(start, end)) {
       // Return the distance between the points if the direct path does not collide with anything
       return start.distance(end);
