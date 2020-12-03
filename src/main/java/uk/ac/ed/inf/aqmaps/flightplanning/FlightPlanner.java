@@ -313,16 +313,13 @@ public class FlightPlanner {
     // The distance to beat of the already existing target
     var minDistance = currPos.distance(target) + target.distance(nextTarget);
     for (var candidate : newTargets) {
-      // It is not worth it if the new route now needs to avoid an obstacle. The move may also have
-      // put the point inside an obstacle.
-      if (!obstacles.lineCollision(currPos, candidate)
+      // Only replace if the new path is shorter than the old. Check collision because it is not
+      // worth it if the new route now needs to avoid an obstacle. The move may also have put the
+      // point inside an obstacle.
+      if (currPos.distance(candidate) + candidate.distance(nextTarget) < minDistance
+          && !obstacles.lineCollision(currPos, candidate)
           && !obstacles.lineCollision(candidate, nextTarget)) {
-
-        // If the new path is shorter than the old path, replace the target with the new one
-        var distance = currPos.distance(candidate) + candidate.distance(nextTarget);
-        if (distance < minDistance) {
-          target = candidate;
-        }
+        target = candidate;
       }
     }
     return target;
