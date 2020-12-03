@@ -95,8 +95,8 @@ public class Obstacles {
   }
 
   /**
-   * Gets an ObstacleEvader using these Obstacles. The ObstacleEvader uses a (deep) copy of the
-   * obstacle graph, allowing it to be used concurrently with other ObstacleEvaders.
+   * Gets an ObstacleEvader using these Obstacles. The ObstacleEvader uses a clone of the obstacle
+   * graph, allowing it to be used concurrently with other ObstacleEvaders.
    *
    * @return an ObstacleEvader instance with these obstacles
    */
