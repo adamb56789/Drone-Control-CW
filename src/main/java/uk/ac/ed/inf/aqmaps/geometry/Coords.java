@@ -107,7 +107,7 @@ public class Coords extends Point2D.Double {
    * @param B point B
    * @return the new point
    */
-  public Coords createPointOnBisector(Coords A, Coords B, double distance) {
+  public Coords getPointOnBisector(Coords A, Coords B, double distance) {
     return getPositionAfterMoveRadians(bisectorDirection(B, A), distance);
   }
 

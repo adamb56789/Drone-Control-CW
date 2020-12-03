@@ -307,10 +307,10 @@ public class FlightPlanner {
     var newPointDistance =
         WaypointNavigation.SENSOR_RANGE * FlightPlanner.CORNER_CUT_RADIUS_FRACTION;
     var newTargets = new ArrayList<Coords>();
-    var newTarget = target.createPointOnBisector(nextTarget, currPos, newPointDistance);
+    var newTarget = target.getPointOnBisector(nextTarget, currPos, newPointDistance);
     newTargets.add(newTarget);
-    newTargets.add(target.createPointOnBisector(newTarget, currPos, newPointDistance));
-    newTargets.add(target.createPointOnBisector(nextTarget, newTarget, newPointDistance));
+    newTargets.add(target.getPointOnBisector(newTarget, currPos, newPointDistance));
+    newTargets.add(target.getPointOnBisector(nextTarget, newTarget, newPointDistance));
 
     // The distance to beat of the already existing target
     var minDistance = currPos.distance(target) + target.distance(nextTarget);
