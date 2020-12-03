@@ -121,6 +121,38 @@ public class Polygon {
     return outlinePoints;
   }
 
+  public boolean lineCollision(Coords start, Coords end) {
+    // If it doesn't intersect the bounding box we do not need to check further
+    if (!boundingBox.intersectsLine(start.x, start.y, end.x, end.y)) {
+      return false;
+    }
+    // Check all of the line segments for intersection
+    return segments.stream().anyMatch(s -> s.intersectsLine(start.x, start.y, end.x, end.y));
+  }
+
+  /**
+   * Checks whether a given point is containing within this polygon.
+   *
+   * @param p the point
+   * @return true if the polygon contains the point, false otherwise
+   */
+  public boolean contains(Coords p) {
+    return path.contains(p);
+  }
+
+  public Rectangle2D getBoundingBox() {
+    return boundingBox;
+  }
+
+  /** @return the points which make up the vertices of this polygon */
+  public List<Coords> getPoints() {
+    return points;
+  }
+
+  public List<Line2D> getSegments() {
+    return segments;
+  }
+
   /**
    * Creates a list of the segments between adjacent points in the polygon.
    *
@@ -136,34 +168,6 @@ public class Polygon {
       segments.add(new Line2D.Double(start, end));
     }
     return segments;
-  }
-
-  public Rectangle2D getBoundingBox() {
-    return boundingBox;
-  }
-
-  /**
-   * Creates a bounding box that contains the rectangular bounds of the polygon.
-   *
-   * @return the bounding box as a Rectangle2D
-   */
-  private Rectangle2D createBoundingBox() {
-    return path.getBounds2D();
-  }
-
-  /** @return the points which make up the vertices of this polygon */
-  public List<Coords> getPoints() {
-    return points;
-  }
-
-  /**
-   * Checks whether a given point is containing within this polygon.
-   *
-   * @param p the point
-   * @return true if the polygon contains the point, false otherwise
-   */
-  public boolean contains(Coords p) {
-    return path.contains(p);
   }
 
   /**
@@ -188,7 +192,12 @@ public class Polygon {
     return path;
   }
 
-  public List<Line2D> getSegments() {
-    return segments;
+  /**
+   * Creates a bounding box that contains the rectangular bounds of the polygon.
+   *
+   * @return the bounding box as a Rectangle2D
+   */
+  private Rectangle2D createBoundingBox() {
+    return path.getBounds2D();
   }
 }

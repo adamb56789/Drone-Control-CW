@@ -5,7 +5,6 @@ import uk.ac.ed.inf.aqmaps.geometry.Polygon;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /** Holds information about the obstacles or no-fly zones that the drone must avoid. */
 public class Obstacles {
@@ -66,21 +65,7 @@ public class Obstacles {
     if (!isInConfinement(start) || !isInConfinement(end)) {
       return true;
     }
-
-    // Prune to only scan polygons where the line intersects the bounding box
-    var prunedPolygons =
-        polygons.stream()
-            .filter(p -> p.getBoundingBox().intersectsLine(start.x, start.y, end.x, end.y))
-            .collect(Collectors.toList());
-
-    // Return true if any of the segment of the polygons intersect with the line
-    for (var polygon : prunedPolygons) {
-      if (polygon.getSegments().stream()
-          .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y))) {
-        return true;
-      }
-    }
-    return false;
+    return polygons.stream().anyMatch(polygon -> polygon.lineCollision(start, end));
   }
 
   /**

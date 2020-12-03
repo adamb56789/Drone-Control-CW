@@ -1,7 +1,7 @@
 \documentclass[12pt]{article}
 
 \usepackage[utf8]{inputenc}
-\usepackage{latexsym,amsfonts,amssymb,amsthm,amsmath,mathtools,textcomp,listings}
+\usepackage{latexsym,amsfonts,amssymb,amsthm,amsmath,mathtools,textcomp,listings,float}
 \usepackage[noend]{algorithm2e}
 \usepackage[a4paper,bindingoffset=0.2in,%
             left=0.5in,right=0.5in,top=1in,bottom=1in,%
@@ -22,7 +22,9 @@
 
 
 \section*{Drone control algorithm}
-\begin{algorithm}
+The 
+\subsection*{Algorithms}
+\begin{algorithm}[H]
 \DontPrintSemicolon
 \KwIn{the start coordinate position of the drone $c$, and $G$, a weighted graph of the sensors and their distances to each other, taking into account obstacle evasion.}
 \KwOut{a list of moves M that visits all sensors and return to the starting location}
@@ -46,10 +48,11 @@
  }
  \Return{M}\;
 }
+\Fn(){\cutcorner
 \;
-\caption{Creates a flight plan for the drone which visits all sensors and returns to the start. Uses a two stage 2-opt heuristic to generate a tour, then constructs a flight plan for the drone along the route. In the implementation there are many bonus features: the algorithm is run a large number of times, and the shortest flight plan is chosen. Depending on the options (default is timed), this continues for a fixed number of iterations or a fixed amount of time, after which it stops and chooses the best. }
+\caption{Creates a flight plan for the drone which visits all sensors and returns to the start. It first uses a two stage 2-opt heuristic on a pre-generated sensor grapht o generate a tour. It then scans through the tour, constructing a flight plan along a list of waypoints which pathfind around any obstacles using the drone movement rules. Before each step of generating the flight plan, it attempts to ``cut the corner'', taking advantage of the fact that sensors have a 0.0002 range to shorten the route. In the implementation there are many bonus features: the algorithm is run a large number of times, in parallel if possible, and the shortest flight plan is chosen. Depending on the options (default is timed), this continues for a fixed number of iterations or a set amount of time (which can be input as an extra command line argument), after which it stops and chooses the best. }
 \end{algorithm}
-\begin{algorithm}
+\begin{algorithm}[H]
 \DontPrintSemicolon
 \KwIn{the current coordinate position $c$, a list of waypoints $W$, the last of which is the target sensor or end position, the current waypoint number $i$, the number of moves remaining until we declare a potential path invalid $t$}
 \KwOut{a list of moves which move the drone along the waypoints into range of the targets, in reverse order}
@@ -93,7 +96,9 @@ $D \gets ()$ \tcp*{the set of points that have been examined so far}
 \caption{Recursively finds moves which navigate from waypoint to waypoint, until the target location is reached. The main idea of this algorithm is to move in the direction of a waypoint until we reach it, and then move to the next waypoint, until we reach the target sensor or end position. If the target is an intermediate waypoint located on the corner of a no-fly zone, we determine that we have reached it not with but a range but when the next waypoint is in sight, since the waypoints exist to find paths around obstacles. We also keep track of which points we have examined so far to avoid looping, and stop examining a branch if it takes far more moves than expected, because it went the wrong way or got stuck somehow. If the move we tried hits an obstacle or gets stuck further down the recursive call, we try a different offset from the direction until we find one that works. In most cases, which do not need to avoid any obstacles, this algorithm will progress directly towards the target and terminate very quickly. }
 \end{algorithm}
 
-\begin{figure}
+\subsection*{Examples}
+what, why?
+\begin{figure}[H]
 	\includegraphics[width=0.5\linewidth]{01-01-2020}
 	\caption{01/01/2020}
 	\label{fig:1}

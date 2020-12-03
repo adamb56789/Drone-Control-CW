@@ -12,6 +12,7 @@ import java.util.Objects;
 public class FlightCacheKey {
   /** A hash of the parameters */
   private final int hashcode;
+
   private final int startHash;
   private final int currentHash;
   private final int nextHash;

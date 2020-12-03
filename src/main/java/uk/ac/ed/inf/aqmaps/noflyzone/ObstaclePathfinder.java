@@ -1,10 +1,6 @@
 package uk.ac.ed.inf.aqmaps.noflyzone;
 
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.interfaces.AStarAdmissibleHeuristic;
-import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
-import org.jgrapht.alg.shortestpath.ALTAdmissibleHeuristic;
-import org.jgrapht.alg.shortestpath.AStarShortestPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
