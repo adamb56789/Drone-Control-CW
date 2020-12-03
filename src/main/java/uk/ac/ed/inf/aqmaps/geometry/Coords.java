@@ -99,7 +99,19 @@ public class Coords extends Point2D.Double {
     return new Coords(x + length * Math.cos(radians), y + length * Math.sin(radians));
   }
 
-  /** Used for printing Coords for debugging {@inheritDoc} */
+  /**
+   * Let this point be P. Creates a point a specified distance away in the direction of the acute
+   * bisector between the lines PA and PB.
+   *
+   * @param A point A
+   * @param B point B
+   * @return the new point
+   */
+  public Coords createPointOnBisector(Coords A, Coords B, double distance) {
+    return getPositionAfterMoveRadians(bisectorDirection(B, A), distance);
+  }
+
+  /** Used for printing Coords for debugging */
   @Override
   public String toString() {
     return "[" + x + ", " + y + "]";

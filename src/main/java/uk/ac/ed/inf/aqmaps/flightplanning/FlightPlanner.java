@@ -304,11 +304,13 @@ public class FlightPlanner {
    * @return a new target, which has potentially been moved in order to cut the corner
    */
   private Coords cutCorner(Coords currPos, Coords target, Coords nextTarget) {
+    var newPointDistance =
+        WaypointNavigation.SENSOR_RANGE * FlightPlanner.CORNER_CUT_RADIUS_FRACTION;
     var newTargets = new ArrayList<Coords>();
-    var newTarget = createPointOnBisector(target, nextTarget, currPos);
+    var newTarget = target.createPointOnBisector(nextTarget, currPos, newPointDistance);
     newTargets.add(newTarget);
-    newTargets.add(createPointOnBisector(target, newTarget, currPos));
-    newTargets.add(createPointOnBisector(target, nextTarget, newTarget));
+    newTargets.add(target.createPointOnBisector(newTarget, currPos, newPointDistance));
+    newTargets.add(target.createPointOnBisector(nextTarget, newTarget, newPointDistance));
 
     // The distance to beat of the already existing target
     var minDistance = currPos.distance(target) + target.distance(nextTarget);
@@ -323,20 +325,5 @@ public class FlightPlanner {
       }
     }
     return target;
-  }
-
-  /**
-   * Creates a point a distance of {@value WaypointNavigation#SENSOR_RANGE} * {@link
-   * #CORNER_CUT_RADIUS_FRACTION} in the direction of the acute bisector between the lines PA and
-   * PB.
-   *
-   * @param P point P
-   * @param A point A
-   * @param B point B
-   * @return the new point
-   */
-  private Coords createPointOnBisector(Coords P, Coords A, Coords B) {
-    return P.getPositionAfterMoveRadians(
-        P.bisectorDirection(B, A), WaypointNavigation.SENSOR_RANGE * CORNER_CUT_RADIUS_FRACTION);
   }
 }
