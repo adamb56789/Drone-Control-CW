@@ -140,10 +140,6 @@ public class Polygon {
     return path.contains(p);
   }
 
-  public Rectangle2D getBoundingBox() {
-    return boundingBox;
-  }
-
   /** @return the points which make up the vertices of this polygon */
   public List<Coords> getPoints() {
     return points;
