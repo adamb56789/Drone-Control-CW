@@ -146,7 +146,7 @@ public class FlightPlanner {
     int minLength = Integer.MAX_VALUE;
     FlightPlan bestPlan = null;
     System.out.print(
-        "Flight plan length in order of the seed, starting at the input seed and increasing by 1 each time: ");
+        "Flight plan length ordered by seed, starting at the input seed and increasing by 1 each time: ");
     for (var plan : flightPlans) {
       System.out.print(plan.getMoves().size() + " ");
       if (plan.getMoves().size() < minLength) {
