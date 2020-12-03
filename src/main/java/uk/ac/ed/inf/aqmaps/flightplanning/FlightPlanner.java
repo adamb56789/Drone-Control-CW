@@ -315,7 +315,7 @@ public class FlightPlanner {
     for (var candidate : newTargets) {
       // It is not worth it if the new route now needs to avoid an obstacle. The move may also have
       // put the point inside an obstacle.
-      if (!obstacles.lineCollision(currPos, newTarget)
+      if (!obstacles.lineCollision(currPos, candidate)
           && !obstacles.lineCollision(candidate, nextTarget)) {
 
         // If the new path is shorter than the old path, replace the target with the new one
