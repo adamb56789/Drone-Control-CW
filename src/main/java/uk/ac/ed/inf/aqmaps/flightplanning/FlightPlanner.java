@@ -137,8 +137,8 @@ public class FlightPlanner {
             .parallel() // Run in parallel to decrease run time
             .mapToObj(i -> createPlan(startPosition, sensorGraph))
             .filter(Objects::nonNull) // Once max runtime has elapsed they will be null so filter
+            // Sort to ensure that the minimum we choose is the same no matter the order
             .sorted(Comparator.comparing(FlightPlan::getSeed))
-            // Sort by seed to ensure that the minimum we choose is the same every time
             .collect(Collectors.toList());
     System.out.printf("Number of flight planning iterations completed: %d%n", flightPlans.size());
 
@@ -148,9 +148,9 @@ public class FlightPlanner {
     System.out.print(
         "Flight plan length in order of the seed, starting at the input seed and increasing by 1 each time: ");
     for (var plan : flightPlans) {
-      System.out.print(plan.getFlightPlan().size() + " ");
-      if (plan.getFlightPlan().size() < minLength) {
-        minLength = plan.getFlightPlan().size();
+      System.out.print(plan.getMoves().size() + " ");
+      if (plan.getMoves().size() < minLength) {
+        minLength = plan.getMoves().size();
         bestPlan = plan;
       }
     }
@@ -161,7 +161,9 @@ public class FlightPlanner {
       System.exit(1);
     }
     System.out.printf("Output shortest flight plan used random seed %d%n", bestPlan.getSeed());
-    return bestPlan.getFlightPlan();
+
+    // Output the list, shortened to 150 if necessary
+    return bestPlan.getMovesWithLimit();
   }
 
   /**
