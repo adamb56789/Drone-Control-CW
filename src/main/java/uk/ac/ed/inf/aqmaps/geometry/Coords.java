@@ -105,6 +105,7 @@ public class Coords extends Point2D.Double {
    *
    * @param A point A
    * @param B point B
+   * @param distance the distance the new point should be away from this point
    * @return the new point
    */
   public Coords getPointOnBisector(Coords A, Coords B, double distance) {
