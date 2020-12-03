@@ -121,6 +121,13 @@ public class Polygon {
     return outlinePoints;
   }
 
+  /**
+   * Determines whether the line segment between the start and end points collides with the polygon.
+   *
+   * @param start the coordinates of the start point
+   * @param end the coordinates of the end point
+   * @return true if the segment collides with an obstacle, false otherwise
+   */
   public boolean lineCollision(Coords start, Coords end) {
     // If it doesn't intersect the bounding box we do not need to check further
     if (!boundingBox.intersectsLine(start.x, start.y, end.x, end.y)) {
