@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -27,10 +28,10 @@ public class FlightPlanner {
   private static final int TWO_OPT_PASSES = 5;
   /**
    * When the time limit is off, this is the number of times to run the algorithm before picking the
-   * shortest. Can be changed to trade off for speed and efficacy. Increasing it more has almost no
-   * effect.
+   * shortest. Can be changed to trade off for speed and efficacy. Increasing it has diminishing
+   * returns.
    */
-  private static final int ITERATIONS = 120;
+  private static final int ITERATIONS = 40;
   /**
    * When the time limit is on, this is the maximum possible number of iterations. If this many are
    * run before the time is up, it stops and does not wait for the timer. The current value is high
@@ -70,12 +71,6 @@ public class FlightPlanner {
    * (seed+n), and you would be able to generate the same flight plan again.
    */
   private final AtomicInteger atomicSeedCounter;
-
-  /**
-   * The number of times that the flight planning algorithm is ran with a different seed. Collected
-   * for logging purposes.
-   */
-  private final AtomicInteger iterationCount = new AtomicInteger(0);
 
   /**
    * The time limit can be turned off to run for a specified {@link #ITERATIONS} number of
@@ -137,19 +132,36 @@ public class FlightPlanner {
 
     // Run flight planning either ITERATIONS or MAX_ITERATIONS times in a parallel stream
     // Note that if time limit is on all results after the time has ended will be null
-    var bestFlightPlan =
+    var flightPlans =
         IntStream.range(0, timeLimitOn ? MAX_ITERATIONS : ITERATIONS)
             .parallel() // Run in parallel to decrease run time
             .mapToObj(i -> createPlan(startPosition, sensorGraph))
             .filter(Objects::nonNull) // Once max runtime has elapsed they will be null so filter
-            .min(Comparator.comparing(List::size)) // Get the tour with the minimal number of moves
-            .orElse(null);
-    System.out.printf("Number of flight planning iterations completed: %d%n", iterationCount.get());
-    if (bestFlightPlan == null) {
+            .sorted(Comparator.comparing(FlightPlan::getSeed))
+            // Sort by seed to ensure that the minimum we choose is the same every time
+            .collect(Collectors.toList());
+    System.out.printf("Number of flight planning iterations completed: %d%n", flightPlans.size());
+
+    // Get the shortest
+    int minLength = Integer.MAX_VALUE;
+    FlightPlan bestPlan = null;
+    System.out.print(
+        "Flight plan length in order of the seed, starting at the input seed and increasing by 1 each time: ");
+    for (var plan : flightPlans) {
+      System.out.print(plan.getFlightPlan().size() + " ");
+      if (plan.getFlightPlan().size() < minLength) {
+        minLength = plan.getFlightPlan().size();
+        bestPlan = plan;
+      }
+    }
+    System.out.println();
+
+    if (bestPlan == null) {
       System.out.println("Error: valid flight plan could not be found");
       System.exit(1);
     }
-    return bestFlightPlan;
+    System.out.printf("Output shortest flight plan used random seed %d%n", bestPlan.getSeed());
+    return bestPlan.getFlightPlan();
   }
 
   /**
@@ -161,7 +173,7 @@ public class FlightPlanner {
    * @param sensorGraph the graph containing all of the sensors and distances
    * @return a list of Moves representing the flight plan
    */
-  private List<Move> createPlan(Coords startPosition, SensorGraph sensorGraph) {
+  private FlightPlan createPlan(Coords startPosition, SensorGraph sensorGraph) {
     if (timerStarted.compareAndSet(false, true)) {
       // The first time something runs it starts the timer
       // This is done here to ensure that at least 1 iteration is run no matter what
@@ -170,7 +182,6 @@ public class FlightPlanner {
       // If more than the max runtime has elapsed, stop the algorithm by returning null
       return null;
     }
-    iterationCount.incrementAndGet(); // Increment the iteration counter (for logging)
 
     var seed = atomicSeedCounter.getAndIncrement(); // Get the next random seed
 
@@ -185,7 +196,8 @@ public class FlightPlanner {
     // Rotate the list backwards so the starting position is at the front
     Collections.rotate(tour, -tour.indexOf(startPosition));
     tour.add(tour.get(0)); // Put the starting position as the ending position as well
-    return constructFlightAlongTour(tour);
+    var moves = constructFlightAlongTour(tour);
+    return new FlightPlan(seed, moves);
   }
 
   /**

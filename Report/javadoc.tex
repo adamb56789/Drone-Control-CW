@@ -1,0 +1,2650 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage{color}
+\usepackage{ifthen}
+\usepackage{ifpdf}
+\usepackage[headings]{fullpage}
+\usepackage{listings}
+\lstset{language=Java,breaklines=true}
+\ifpdf \usepackage[pdftex, pdfpagemode={UseOutlines},bookmarks,colorlinks,linkcolor={blue},plainpages=false,pdfpagelabels,citecolor={red},breaklinks=true]{hyperref}
+  \usepackage[pdftex]{graphicx}
+  \pdfcompresslevel=9
+  \DeclareGraphicsRule{*}{mps}{*}{}
+\else
+  \usepackage[dvips]{graphicx}
+\fi
+
+\newcommand{\entityintro}[3]{%
+  \hbox to \hsize{%
+    \vbox{%
+      \hbox to .2in{}%
+    }%
+    {\bf  #1}%
+    \dotfill\pageref{#2}%
+  }
+  \makebox[\hsize]{%
+    \parbox{.4in}{}%
+    \parbox[l]{5in}{%
+      \vspace{1mm}%
+      #3%
+      \vspace{1mm}%
+    }%
+  }%
+}
+\newcommand{\refdefined}[1]{
+\expandafter\ifx\csname r@#1\endcsname\relax
+\relax\else
+{$($in \ref{#1}, page \pageref{#1}$)$}\fi}
+\chardef\textbackslash=`\\
+\begin{document}
+
+\sloppy
+
+\section*{Class Documentation}{
+\thispagestyle{empty}
+\subsection{\label{uk.ac.ed.inf.aqmaps.Drone}Class Drone}{
+\hypertarget{uk.ac.ed.inf.aqmaps.Drone}{}\vskip .1in 
+Represents the drone. Performs route planning, than follows that plan to collect sensor data.
+\begin{itemize}
+\item{
+\begin{lstlisting}[frame=none]
+public Drone(Settings settings,io.InputController input,io.OutputController output)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{settings} -- the current Settings}
+   \item{
+\texttt{input} -- the InputController which handles data input}
+   \item{
+\texttt{output} -- the OutputController which handles data output}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{start()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Drone.start()}{{\bf  start}\\}
+\begin{lstlisting}[frame=none]
+public void start()\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Start the drone and perform route planning and data collection for the given settings.
+}
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\subsection{\label{uk.ac.ed.inf.aqmaps.Move}Class Move}{
+\hypertarget{uk.ac.ed.inf.aqmaps.Move}{}\vskip .1in 
+A class representing a single move to be made by the drone.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class Move
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.Move(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords, int, uk.ac.ed.inf.aqmaps.W3W)}{{\bf Move(Coords, Coords, int, W3W)}} \\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.Move.getAfter()}{{\bf getAfter()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.Move.getBefore()}{{\bf getBefore()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.Move.getDirection()}{{\bf getDirection()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.Move.getSensorW3W()}{{\bf getSensorW3W()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.Move.toString()}{{\bf toString()}} \\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{Move(Coords, Coords, int, W3W)}
+\hypertarget{uk.ac.ed.inf.aqmaps.Move(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords, int, uk.ac.ed.inf.aqmaps.W3W)}{{\bf  Move}\\}
+\begin{lstlisting}[frame=none]
+public Move(geometry.Coords before,geometry.Coords after,int direction,W3W sensorW3W)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{before} -- the position of the drone before the move}
+   \item{
+\texttt{after} -- the position of the drone after the move}
+   \item{
+\texttt{direction} -- the direction of the move in degrees, from 0 to 350 anticlockwise starting from east}
+   \item{
+\texttt{sensorW3W} -- the location of the sensor visited by the drone at the end of this move, or null if no sensor is visited}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getAfter()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Move.getAfter()}{{\bf  getAfter}\\}
+\begin{lstlisting}[frame=none]
+public geometry.Coords getAfter()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the position of the drone after making the move 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getBefore()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Move.getBefore()}{{\bf  getBefore}\\}
+\begin{lstlisting}[frame=none]
+public geometry.Coords getBefore()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the position of the drone before making the move 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getDirection()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Move.getDirection()}{{\bf  getDirection}\\}
+\begin{lstlisting}[frame=none]
+public int getDirection()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the direction of move in degrees 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getSensorW3W()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Move.getSensorW3W()}{{\bf  getSensorW3W}\\}
+\begin{lstlisting}[frame=none]
+public W3W getSensorW3W()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the W3W of the sensor that this move reaches, or null if it does not reach a sensor 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{toString()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Move.toString()}{{\bf  toString}\\}
+\begin{lstlisting}[frame=none]
+public java.lang.String toString()\end{lstlisting} %end signature
+}%end item
+\end{itemize}
+}
+}
+\subsection{\label{uk.ac.ed.inf.aqmaps.Results}Class Results}{
+\hypertarget{uk.ac.ed.inf.aqmaps.Results}{}\vskip .1in 
+Holds and processes the calculated flightpath and collected sensor data\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class Results
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.Results(java.util.List)}{{\bf Results(List)}} Constructor\\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.Results.getFlightpathString()}{{\bf getFlightpathString()}} Gets a flightpath String of the following format: 1,\lbrack startLng\rbrack ,\lbrack startLat\rbrack ,\lbrack angle\rbrack ,\lbrack endLng\rbrack ,\lbrack endLat\rbrack ,\lbrack sensor w3w or null\rbrack \textbackslash n 2,\lbrack startLng\rbrack ,\lbrack startLat\rbrack ,\lbrack angle\rbrack ,\lbrack endLng\rbrack ,\lbrack endLat\rbrack ,\lbrack sensor w3w or null\rbrack \textbackslash n ...\\
+\hyperlink{uk.ac.ed.inf.aqmaps.Results.getMapGeoJSON()}{{\bf getMapGeoJSON()}} Creates a GeoJSON string of a map which displays the flightpath of the drone and markers displaying the readings or status of the sensors.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.Results.recordFlightpath(java.util.List)}{{\bf recordFlightpath(List)}} Adds a calculated flight to the results\\
+\hyperlink{uk.ac.ed.inf.aqmaps.Results.recordSensorReading(uk.ac.ed.inf.aqmaps.Sensor)}{{\bf recordSensorReading(Sensor)}} Add a sensor with its readings to the results\\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{Results(List)}
+\hypertarget{uk.ac.ed.inf.aqmaps.Results(java.util.List)}{{\bf  Results}\\}
+\begin{lstlisting}[frame=none]
+public Results(java.util.List sensorW3Ws)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Constructor
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{sensorW3Ws} -- a list of sensor locations as W3W that the drone is visiting}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getFlightpathString()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Results.getFlightpathString()}{{\bf  getFlightpathString}\\}
+\begin{lstlisting}[frame=none]
+public java.lang.String getFlightpathString()\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Gets a flightpath String of the following format: 1,\lbrack startLng\rbrack ,\lbrack startLat\rbrack ,\lbrack angle\rbrack ,\lbrack endLng\rbrack ,\lbrack endLat\rbrack ,\lbrack sensor w3w or null\rbrack \textbackslash n 2,\lbrack startLng\rbrack ,\lbrack startLat\rbrack ,\lbrack angle\rbrack ,\lbrack endLng\rbrack ,\lbrack endLat\rbrack ,\lbrack sensor w3w or null\rbrack \textbackslash n ...
+}
+\item{{\bf  Returns} -- 
+the flightpath String 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getMapGeoJSON()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Results.getMapGeoJSON()}{{\bf  getMapGeoJSON}\\}
+\begin{lstlisting}[frame=none]
+public java.lang.String getMapGeoJSON()\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Creates a GeoJSON string of a map which displays the flightpath of the drone and markers displaying the readings or status of the sensors.
+}
+\item{{\bf  Returns} -- 
+a String of the GeoJSON 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{recordFlightpath(List)}
+\hypertarget{uk.ac.ed.inf.aqmaps.Results.recordFlightpath(java.util.List)}{{\bf  recordFlightpath}\\}
+\begin{lstlisting}[frame=none]
+public void recordFlightpath(java.util.List flightpath)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Adds a calculated flight to the results
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{flightpath} -- a list of Moves representing the flightpath}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{recordSensorReading(Sensor)}
+\hypertarget{uk.ac.ed.inf.aqmaps.Results.recordSensorReading(uk.ac.ed.inf.aqmaps.Sensor)}{{\bf  recordSensorReading}\\}
+\begin{lstlisting}[frame=none]
+public void recordSensorReading(Sensor sensor)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Add a sensor with its readings to the results
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{sensor} -- the Sensor}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\subsection{\label{uk.ac.ed.inf.aqmaps.Sensor}Class Sensor}{
+\hypertarget{uk.ac.ed.inf.aqmaps.Sensor}{}\vskip .1in 
+A sensor with a battery level and reading.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class Sensor
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.Sensor(uk.ac.ed.inf.aqmaps.W3W, float, java.lang.String)}{{\bf Sensor(W3W, float, String)}} Constructor\\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.Sensor.getBattery()}{{\bf getBattery()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.Sensor.getLocation()}{{\bf getLocation()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.Sensor.getReading()}{{\bf getReading()}} \\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{Sensor(W3W, float, String)}
+\hypertarget{uk.ac.ed.inf.aqmaps.Sensor(uk.ac.ed.inf.aqmaps.W3W, float, java.lang.String)}{{\bf  Sensor}\\}
+\begin{lstlisting}[frame=none]
+public Sensor(W3W w3wLocation,float battery,java.lang.String reading)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Constructor
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{w3wLocation} -- the W3W location of the sensor}
+   \item{
+\texttt{battery} -- the current battery level of the sensor, as a percentage}
+   \item{
+\texttt{reading} -- the reading of the sensor as a String}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getBattery()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Sensor.getBattery()}{{\bf  getBattery}\\}
+\begin{lstlisting}[frame=none]
+public float getBattery()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the battery level of this sensor as a percentage 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getLocation()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Sensor.getLocation()}{{\bf  getLocation}\\}
+\begin{lstlisting}[frame=none]
+public W3W getLocation()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the W3W location of this sensor 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getReading()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Sensor.getReading()}{{\bf  getReading}\\}
+\begin{lstlisting}[frame=none]
+public java.lang.String getReading()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the reading of the sensor, as a String. If the battery level is 10\%\ or greater this should contain a float value, but if it is less than 10\%\ the reading cannot be trusted and may be incorrect, null or NaN. 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\subsection{\label{uk.ac.ed.inf.aqmaps.SensorMarkerFactory}Class SensorMarkerFactory}{
+\hypertarget{uk.ac.ed.inf.aqmaps.SensorMarkerFactory}{}\vskip .1in 
+A factory which constructs sensor markers which displays the location, status and reading of a sensor. This factory does not produce hypothetical SensorMarker instances, but Feature instances instead, since Feature cannot be subclassed due to its lack of a public constructor.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class SensorMarkerFactory
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.SensorMarkerFactory()}{{\bf SensorMarkerFactory()}} \\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.SensorMarkerFactory.getSensorMarker(uk.ac.ed.inf.aqmaps.W3W, uk.ac.ed.inf.aqmaps.Sensor)}{{\bf getSensorMarker(W3W, Sensor)}} Creates a marker located at the position of this sensor.\\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{SensorMarkerFactory()}
+\hypertarget{uk.ac.ed.inf.aqmaps.SensorMarkerFactory()}{{\bf  SensorMarkerFactory}\\}
+\begin{lstlisting}[frame=none]
+public SensorMarkerFactory()\end{lstlisting} %end signature
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getSensorMarker(W3W, Sensor)}
+\hypertarget{uk.ac.ed.inf.aqmaps.SensorMarkerFactory.getSensorMarker(uk.ac.ed.inf.aqmaps.W3W, uk.ac.ed.inf.aqmaps.Sensor)}{{\bf  getSensorMarker}\\}
+\begin{lstlisting}[frame=none]
+public Feature getSensorMarker(W3W w3w,Sensor sensor)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Creates a marker located at the position of this sensor. If a sensor reading was taken successfully the marker is coloured and assigned a symbol based on the reading, and if it has low battery or was not visited, assigns different symbols.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{w3w} -- the location of the sensor as a W3W}
+   \item{
+\texttt{sensor} -- the Sensor containing the sensor data, or null if the sensor was not visited}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+a Feature containing a Point and various attributes describing the marker 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\subsection{\label{uk.ac.ed.inf.aqmaps.Settings}Class Settings}{
+\hypertarget{uk.ac.ed.inf.aqmaps.Settings}{}\vskip .1in 
+Holds the settings derived from the command line arguments.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class Settings
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.Settings(java.lang.String[])}{{\bf Settings(String\lbrack \rbrack )}} \\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.Settings.getDay()}{{\bf getDay()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.Settings.getMaxRunTime()}{{\bf getMaxRunTime()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.Settings.getMonth()}{{\bf getMonth()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.Settings.getPort()}{{\bf getPort()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.Settings.getRandomSeed()}{{\bf getRandomSeed()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.Settings.getStartCoords()}{{\bf getStartCoords()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.Settings.getYear()}{{\bf getYear()}} \\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{Settings(String\lbrack \rbrack )}
+\hypertarget{uk.ac.ed.inf.aqmaps.Settings(java.lang.String[])}{{\bf  Settings}\\}
+\begin{lstlisting}[frame=none]
+public Settings(java.lang.String[] args)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{args} -- the input command line args}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getDay()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Settings.getDay()}{{\bf  getDay}\\}
+\begin{lstlisting}[frame=none]
+public int getDay()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the day to generate the map for 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getMaxRunTime()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Settings.getMaxRunTime()}{{\bf  getMaxRunTime}\\}
+\begin{lstlisting}[frame=none]
+public double getMaxRunTime()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the maximum run time of the flight planner in seconds 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getMonth()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Settings.getMonth()}{{\bf  getMonth}\\}
+\begin{lstlisting}[frame=none]
+public int getMonth()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the month to generate the map for 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getPort()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Settings.getPort()}{{\bf  getPort}\\}
+\begin{lstlisting}[frame=none]
+public int getPort()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the port number of the server 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getRandomSeed()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Settings.getRandomSeed()}{{\bf  getRandomSeed}\\}
+\begin{lstlisting}[frame=none]
+public int getRandomSeed()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the random seed to use in the algorithms 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getStartCoords()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Settings.getStartCoords()}{{\bf  getStartCoords}\\}
+\begin{lstlisting}[frame=none]
+public geometry.Coords getStartCoords()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the starting coordinates of the drone 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getYear()}
+\hypertarget{uk.ac.ed.inf.aqmaps.Settings.getYear()}{{\bf  getYear}\\}
+\begin{lstlisting}[frame=none]
+public int getYear()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the year to generate the map for 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.W3W}Class W3W}{
+\hypertarget{uk.ac.ed.inf.aqmaps.W3W}{}\vskip .1in 
+Holds what3words coordinate and word information.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class W3W
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.W3W(uk.ac.ed.inf.aqmaps.geometry.Coords, java.lang.String)}{{\bf W3W(Coords, String)}} \\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.W3W.getCoordinates()}{{\bf getCoordinates()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.W3W.getWords()}{{\bf getWords()}} \\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{W3W(Coords, String)}
+\hypertarget{uk.ac.ed.inf.aqmaps.W3W(uk.ac.ed.inf.aqmaps.geometry.Coords, java.lang.String)}{{\bf  W3W}\\}
+\begin{lstlisting}[frame=none]
+public W3W(geometry.Coords coordinates,java.lang.String words)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{coordinates} -- the coordinates of the centre of the W3W square}
+   \item{
+\texttt{words} -- the 3 words}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getCoordinates()}
+\hypertarget{uk.ac.ed.inf.aqmaps.W3W.getCoordinates()}{{\bf  getCoordinates}\\}
+\begin{lstlisting}[frame=none]
+public geometry.Coords getCoordinates()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the coordinates of the centre of the W3W square 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getWords()}
+\hypertarget{uk.ac.ed.inf.aqmaps.W3W.getWords()}{{\bf  getWords}\\}
+\begin{lstlisting}[frame=none]
+public java.lang.String getWords()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+words the 3 words 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+}
+\chapter{Package uk.ac.ed.inf.aqmaps.deserializers}{
+\label{uk.ac.ed.inf.aqmaps.deserializers}\hypertarget{uk.ac.ed.inf.aqmaps.deserializers}{}
+\hskip -.05in
+\hbox to \hsize{\textit{ Package Contents\hfil Page}}
+\vskip .13in
+\hbox{{\bf  Classes}}
+\entityintro{CoordsDeserializer}{uk.ac.ed.inf.aqmaps.deserializers.CoordsDeserializer}{Used for deserialization of Coords, this is needed since the field names in Coords inherit from Point2D so @SerializedName can't be used to rename lng and lat to x and y}
+\entityintro{SensorDeserializer}{uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer}{Used only for deserializing the sensor information from JSON.}
+\entityintro{W3WDeserializer}{uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer}{Used for deserialization of W3W, \texttt{\small \hyperlink{uk.ac.ed.inf.aqmaps.deserializers.CoordsDeserializer}{CoordsDeserializer}}{\small 
+\refdefined{uk.ac.ed.inf.aqmaps.deserializers.CoordsDeserializer}} for why this is necessary.}
+\vskip .1in
+\vskip .1in
+\section{\label{uk.ac.ed.inf.aqmaps.deserializers.CoordsDeserializer}Class CoordsDeserializer}{
+\hypertarget{uk.ac.ed.inf.aqmaps.deserializers.CoordsDeserializer}{}\vskip .1in 
+Used for deserialization of Coords, this is needed since the field names in Coords inherit from Point2D so @SerializedName can't be used to rename lng and lat to x and y\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class CoordsDeserializer
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.deserializers.CoordsDeserializer()}{{\bf CoordsDeserializer()}} \\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.deserializers.CoordsDeserializer.getCoords()}{{\bf getCoords()}} \\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{CoordsDeserializer()}
+\hypertarget{uk.ac.ed.inf.aqmaps.deserializers.CoordsDeserializer()}{{\bf  CoordsDeserializer}\\}
+\begin{lstlisting}[frame=none]
+public CoordsDeserializer()\end{lstlisting} %end signature
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getCoords()}
+\hypertarget{uk.ac.ed.inf.aqmaps.deserializers.CoordsDeserializer.getCoords()}{{\bf  getCoords}\\}
+\begin{lstlisting}[frame=none]
+public uk.ac.ed.inf.aqmaps.geometry.Coords getCoords()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+a Coords object 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer}Class SensorDeserializer}{
+\hypertarget{uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer}{}\vskip .1in 
+Used only for deserializing the sensor information from JSON. The real Sensor class stores the location as W3W instead of a String.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class SensorDeserializer
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer()}{{\bf SensorDeserializer()}} \\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer.getBattery()}{{\bf getBattery()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer.getLocation()}{{\bf getLocation()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer.getReading()}{{\bf getReading()}} \\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{SensorDeserializer()}
+\hypertarget{uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer()}{{\bf  SensorDeserializer}\\}
+\begin{lstlisting}[frame=none]
+public SensorDeserializer()\end{lstlisting} %end signature
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getBattery()}
+\hypertarget{uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer.getBattery()}{{\bf  getBattery}\\}
+\begin{lstlisting}[frame=none]
+public float getBattery()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the battery level of this sensor as a percentage 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getLocation()}
+\hypertarget{uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer.getLocation()}{{\bf  getLocation}\\}
+\begin{lstlisting}[frame=none]
+public java.lang.String getLocation()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the location of the sensor as a W3W string 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getReading()}
+\hypertarget{uk.ac.ed.inf.aqmaps.deserializers.SensorDeserializer.getReading()}{{\bf  getReading}\\}
+\begin{lstlisting}[frame=none]
+public java.lang.String getReading()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the reading of the sensor, as a String 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer}Class W3WDeserializer}{
+\hypertarget{uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer}{}\vskip .1in 
+Used for deserialization of W3W, \texttt{\small \hyperlink{uk.ac.ed.inf.aqmaps.deserializers.CoordsDeserializer}{CoordsDeserializer}}{\small 
+\refdefined{uk.ac.ed.inf.aqmaps.deserializers.CoordsDeserializer}} for why this is necessary.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class W3WDeserializer
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer()}{{\bf W3WDeserializer()}} \\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer.getW3W()}{{\bf getW3W()}} \\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{W3WDeserializer()}
+\hypertarget{uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer()}{{\bf  W3WDeserializer}\\}
+\begin{lstlisting}[frame=none]
+public W3WDeserializer()\end{lstlisting} %end signature
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getW3W()}
+\hypertarget{uk.ac.ed.inf.aqmaps.deserializers.W3WDeserializer.getW3W()}{{\bf  getW3W}\\}
+\begin{lstlisting}[frame=none]
+public uk.ac.ed.inf.aqmaps.W3W getW3W()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+a W3W object 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+}
+\chapter{Package uk.ac.ed.inf.aqmaps.flightplanning}{
+\label{uk.ac.ed.inf.aqmaps.flightplanning}\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning}{}
+\hskip -.05in
+\hbox to \hsize{\textit{ Package Contents\hfil Page}}
+\vskip .13in
+\hbox{{\bf  Classes}}
+\entityintro{EnhancedTwoOptTSP}{uk.ac.ed.inf.aqmaps.flightplanning.EnhancedTwoOptTSP}{A modified version of TwoOptHeuristicTSP from JGraphT which is used to compute tours which visit all sensors and returns to the starting point.}
+\entityintro{FlightCacheKey}{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheKey}{A class which holds data about the input values of the flight planning algorithm from a position to a sensor, potentially with a next sensor.}
+\entityintro{FlightCacheValue}{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheValue}{A class which holds data about the output values of the flight planning algorithm from a position to a sensor, potentially with a next sensor.}
+\entityintro{FlightPlanner}{uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner}{Handles the creation of a flight plan for the drone.}
+\entityintro{SensorGraph}{uk.ac.ed.inf.aqmaps.flightplanning.SensorGraph}{A graph of the sensors and their distances to each other, taking into account obstacle evasion.}
+\entityintro{WaypointNavigation}{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation}{A class which handles the navigation of the drone along a series of waypoints to a target.}
+\vskip .1in
+\vskip .1in
+\section{\label{uk.ac.ed.inf.aqmaps.flightplanning.EnhancedTwoOptTSP}Class EnhancedTwoOptTSP}{
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.EnhancedTwoOptTSP}{}\vskip .1in 
+A modified version of TwoOptHeuristicTSP from JGraphT which is used to compute tours which visit all sensors and returns to the starting point. Source code of TwoOptHeuristicTSP can be found \hyperref{https://github.com/jgrapht/jgrapht/blob/master/jgrapht-core/src/main/java/org/jgrapht/alg/tour/TwoOptHeuristicTSP.java}{}{}{here (GitHub)}.
+
+\hyperref{https://jgrapht.org/}{}{}{JGraphT main website}, \hyperref{https://github.com/jgrapht/jgrapht}{}{}{GitHub source}, accessed 30/11/2020
+
+The following JavaDoc is unchanged from the the original:
+
+The 2-opt heuristic algorithm for the TSP problem.
+
+The travelling salesman problem (TSP) asks the following question: "Given a list of cities and the distances between each pair of cities, what is the shortest possible route that visits each city exactly once and returns to the origin city?".
+
+This is an implementation of the 2-opt improvement heuristic algorithm. The algorithm generates \textit{ passes} initial tours and then iteratively improves the tours until a local minimum is reached. In each iteration it applies the best possible 2-opt move which means to find the best pair of edges \$(i,i+1)\$\ and \$(j,j+1)\$\ such that replacing them with \$(i,j)\$\ and \$(i+1,j+1)\$\ minimizes the tour length. The default initial tours use RandomTour, however an alternative algorithm can be provided to create the initial tour. Initial tours generated using NearestNeighborHeuristicTSP give good results and performance.
+
+See \hyperref{https://en.wikipedia.org/wiki/2-opt}{}{}{wikipedia} for more details.
+
+This implementation can also be used in order to try to improve an existing tour. See method \texttt{\small \hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.EnhancedTwoOptTSP}{EnhancedTwoOptTSP}}{\small 
+\refdefined{uk.ac.ed.inf.aqmaps.flightplanning.EnhancedTwoOptTSP}}\}.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class EnhancedTwoOptTSP
+ extends <any>\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.EnhancedTwoOptTSP(int, int, uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner)}{{\bf EnhancedTwoOptTSP(int, int, Coords, FlightPlanner)}} Constructor\\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.EnhancedTwoOptTSP.getTour(<any>)}{{\bf getTour()}} Computes a tour by first using JGraphT's TwoOptHeuristicTSP (the superclass of this) to find a short tour using the edge weights in the provided graph, which are straight line (obstacle avoiding) distance measures.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.EnhancedTwoOptTSP.improveTour(<any>)}{{\bf improveTour()}} (Code unchanged from library code other than type parameters)\\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{EnhancedTwoOptTSP(int, int, Coords, FlightPlanner)}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.EnhancedTwoOptTSP(int, int, uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner)}{{\bf  EnhancedTwoOptTSP}\\}
+\begin{lstlisting}[frame=none]
+public EnhancedTwoOptTSP(int passes,int seed,uk.ac.ed.inf.aqmaps.geometry.Coords start,FlightPlanner flightPlanner)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Constructor
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{passes} -- how many initial random tours to check when running 2-opt}
+   \item{
+\texttt{seed} -- the random seed}
+   \item{
+\texttt{start} -- the start position of the drone}
+   \item{
+\texttt{flightPlanner} -- the FlightPlanner to use for the second 2-opt pass to compute tour weights as the number of moves needed by the drone}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getTour()}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.EnhancedTwoOptTSP.getTour(<any>)}{{\bf  getTour}\\}
+\begin{lstlisting}[frame=none]
+public <any> getTour(<any> graph)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Computes a tour by first using JGraphT's TwoOptHeuristicTSP (the superclass of this) to find a short tour using the edge weights in the provided graph, which are straight line (obstacle avoiding) distance measures. Then, it runs a second pass of 2-opt to further improve upon the tour by instead using a FlightPlanner to generate the actual drone moves along the tour and using the number of moves as the weight of a tour.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{graph} -- the input sensor graph containing the start location and the sensors, and edge weights of the shortest path between two points which avoids obstacles.}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+the tour as a GraphPath 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{improveTour()}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.EnhancedTwoOptTSP.improveTour(<any>)}{{\bf  improveTour}\\}
+\begin{lstlisting}[frame=none]
+public <any> improveTour(<any> graphPath)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+(Code unchanged from library code other than type parameters)
+
+Try to improve a tour by running the 2-opt heuristic using the FlightPlanner to measure the length of tours.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{graphPath} -- a tour}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+a possibly improved tour 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheKey}Class FlightCacheKey}{
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheKey}{}\vskip .1in 
+A class which holds data about the input values of the flight planning algorithm from a position to a sensor, potentially with a next sensor. This is for use in the cache, so stores hashed value directly in order to save memory and time calculating extra hashes.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class FlightCacheKey
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheKey(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf FlightCacheKey(Coords, Coords, Coords)}} Constructor\\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheKey.equals(java.lang.Object)}{{\bf equals(Object)}} Needed to work with a HashMap, automatically generated by IntelliJ.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheKey.hashCode()}{{\bf hashCode()}} Since this class stores the hashcode directly, we do not do any computation and just return it.\\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{FlightCacheKey(Coords, Coords, Coords)}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheKey(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf  FlightCacheKey}\\}
+\begin{lstlisting}[frame=none]
+public FlightCacheKey(uk.ac.ed.inf.aqmaps.geometry.Coords startPosition,uk.ac.ed.inf.aqmaps.geometry.Coords currentTarget,uk.ac.ed.inf.aqmaps.geometry.Coords nextTarget)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Constructor
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{startPosition} -- the start position of the drone.}
+   \item{
+\texttt{currentTarget} -- the current target}
+   \item{
+\texttt{nextTarget} -- the next target if there is one, or null otherwise}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{equals(Object)}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheKey.equals(java.lang.Object)}{{\bf  equals}\\}
+\begin{lstlisting}[frame=none]
+public boolean equals(java.lang.Object o)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Needed to work with a HashMap, automatically generated by IntelliJ.
+}
+\end{itemize}
+}%end item
+\item{ 
+\index{hashCode()}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheKey.hashCode()}{{\bf  hashCode}\\}
+\begin{lstlisting}[frame=none]
+public int hashCode()\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Since this class stores the hashcode directly, we do not do any computation and just return it.
+}
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheValue}Class FlightCacheValue}{
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheValue}{}\vskip .1in 
+A class which holds data about the output values of the flight planning algorithm from a position to a sensor, potentially with a next sensor. This does not hold the actual tour, and is only used for the size of the tour, as it would use a lot of memory.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class FlightCacheValue
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheValue(int, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf FlightCacheValue(int, Coords)}} Constructor\\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheValue.getEndPosition()}{{\bf getEndPosition()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheValue.getLength()}{{\bf getLength()}} \\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{FlightCacheValue(int, Coords)}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheValue(int, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf  FlightCacheValue}\\}
+\begin{lstlisting}[frame=none]
+public FlightCacheValue(int length,uk.ac.ed.inf.aqmaps.geometry.Coords endPosition)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Constructor
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{length} -- the number of moves in this flight path section}
+   \item{
+\texttt{endPosition} -- the ending position of the drone in this flight path section}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getEndPosition()}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheValue.getEndPosition()}{{\bf  getEndPosition}\\}
+\begin{lstlisting}[frame=none]
+public uk.ac.ed.inf.aqmaps.geometry.Coords getEndPosition()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the ending position of the drone in this flight path section 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getLength()}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.FlightCacheValue.getLength()}{{\bf  getLength}\\}
+\begin{lstlisting}[frame=none]
+public int getLength()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the number of moves in this flight path section 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner}Class FlightPlanner}{
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner}{}\vskip .1in 
+Handles the creation of a flight plan for the drone. Uses JGraphT's TwoOptHeuristicTSP algorithm as part of process, which was the best performing of JGraphT's Hamiltonian Cycle algorithms, however this could be changed easily.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class FlightPlanner
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner(uk.ac.ed.inf.aqmaps.noflyzone.Obstacles, java.util.List, int, double)}{{\bf FlightPlanner(Obstacles, List, int, double)}} Construct a flight planner with the given time limit in seconds.\\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner.computeFlightLength(java.util.List)}{{\bf computeFlightLength(List)}} Computes the length of a flight plan which follows the given sensor coordinate tour.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner.createBestFlightPlan(uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf createBestFlightPlan(Coords)}} Create a flight plan for the drone which visits all sensors and returns to the start.\\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{FlightPlanner(Obstacles, List, int, double)}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner(uk.ac.ed.inf.aqmaps.noflyzone.Obstacles, java.util.List, int, double)}{{\bf  FlightPlanner}\\}
+\begin{lstlisting}[frame=none]
+public FlightPlanner(uk.ac.ed.inf.aqmaps.noflyzone.Obstacles obstacles,java.util.List sensorW3Ws,int randomSeed,double timeLimit)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Construct a flight planner with the given time limit in seconds. If the time limit is not greater than 0, turns it off and uses a maximum number of iterations instead.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{obstacles} -- the Obstacles containing the no-fly zones}
+   \item{
+\texttt{sensorW3Ws} -- the W3W locations of the sensors}
+   \item{
+\texttt{randomSeed} -- the initial random seed to use}
+   \item{
+\texttt{timeLimit} -- the time limit for the algorithm in seconds. If it is equal to 0 then disables the time limit and runs for a fixed number of iterations.}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{computeFlightLength(List)}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner.computeFlightLength(java.util.List)}{{\bf  computeFlightLength}\\}
+\begin{lstlisting}[frame=none]
+public int computeFlightLength(java.util.List tour)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Computes the length of a flight plan which follows the given sensor coordinate tour.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{tour} -- a list of Coords specifying the order to visit the sensors}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+the number of moves in the flight plan 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{createBestFlightPlan(Coords)}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner.createBestFlightPlan(uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf  createBestFlightPlan}\\}
+\begin{lstlisting}[frame=none]
+public java.util.List createBestFlightPlan(uk.ac.ed.inf.aqmaps.geometry.Coords startPosition)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Create a flight plan for the drone which visits all sensors and returns to the start. Runs the algorithm a large number of times with different random seeds, in parallel, and chooses the shortest.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{startPosition} -- the starting position of the drone}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+a list of Moves representing the flight plan 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.flightplanning.SensorGraph}Class SensorGraph}{
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.SensorGraph}{}\vskip .1in 
+A graph of the sensors and their distances to each other, taking into account obstacle evasion.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class SensorGraph
+ extends <any>\end{lstlisting}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.SensorGraph.createWithStartLocation(uk.ac.ed.inf.aqmaps.geometry.Coords, java.util.Collection, uk.ac.ed.inf.aqmaps.noflyzone.Obstacles)}{{\bf createWithStartLocation(Coords, Collection, Obstacles)}} Creates a complete weighted graph with the points of all of the sensors and the starting position.\\
+\end{verse}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{createWithStartLocation(Coords, Collection, Obstacles)}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.SensorGraph.createWithStartLocation(uk.ac.ed.inf.aqmaps.geometry.Coords, java.util.Collection, uk.ac.ed.inf.aqmaps.noflyzone.Obstacles)}{{\bf  createWithStartLocation}\\}
+\begin{lstlisting}[frame=none]
+public static SensorGraph createWithStartLocation(uk.ac.ed.inf.aqmaps.geometry.Coords startPosition,java.util.Collection sensorCoords,uk.ac.ed.inf.aqmaps.noflyzone.Obstacles obstacles)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Creates a complete weighted graph with the points of all of the sensors and the starting position. The edge weights are the shortest distance between the points, avoiding obstacles if necessary.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{startPosition} -- the starting position of the drone}
+   \item{
+\texttt{sensorCoords} -- a Collection of the Coords of the sensors to be visited}
+   \item{
+\texttt{obstacles} -- the Obstacles that need to be avoided}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+a SensorGraph 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation}Class WaypointNavigation}{
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation}{}\vskip .1in 
+A class which handles the navigation of the drone along a series of waypoints to a target. This is the core of the drone control algorithm that plans the movement of the drone itself including all rules about move lengths and directions.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class WaypointNavigation
+ extends java.lang.Object\end{lstlisting}
+\subsection{Field summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation.END_POSITION_RANGE}{{\bf END\_POSITION\_RANGE}} The drone must be within this distance of the end position at the end of the flight\\
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation.MOVE_LENGTH}{{\bf MOVE\_LENGTH}} The distance the drone travels in one move.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation.SENSOR_RANGE}{{\bf SENSOR\_RANGE}} The drone must be within this distance of a sensor to be able to read it.\\
+\end{verse}
+}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation(uk.ac.ed.inf.aqmaps.noflyzone.Obstacles)}{{\bf WaypointNavigation(Obstacles)}} \\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation.navigateToLocation(uk.ac.ed.inf.aqmaps.geometry.Coords, java.util.List, uk.ac.ed.inf.aqmaps.W3W)}{{\bf navigateToLocation(Coords, List, W3W)}} Find a sequence of moves that navigates the drone from the current location along the waypoints to the target.\\
+\end{verse}
+}
+\subsection{Fields}{
+\begin{itemize}
+\item{
+\index{MOVE\_LENGTH}
+\label{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation.MOVE_LENGTH}\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation.MOVE_LENGTH}{\texttt{public static final double\ {\bf  MOVE\_LENGTH}}
+}
+\begin{itemize}
+\item{\vskip -.9ex 
+The distance the drone travels in one move.}
+\end{itemize}
+}
+\item{
+\index{SENSOR\_RANGE}
+\label{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation.SENSOR_RANGE}\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation.SENSOR_RANGE}{\texttt{public static final double\ {\bf  SENSOR\_RANGE}}
+}
+\begin{itemize}
+\item{\vskip -.9ex 
+The drone must be within this distance of a sensor to be able to read it.}
+\end{itemize}
+}
+\item{
+\index{END\_POSITION\_RANGE}
+\label{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation.END_POSITION_RANGE}\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation.END_POSITION_RANGE}{\texttt{public static final double\ {\bf  END\_POSITION\_RANGE}}
+}
+\begin{itemize}
+\item{\vskip -.9ex 
+The drone must be within this distance of the end position at the end of the flight}
+\end{itemize}
+}
+\end{itemize}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{WaypointNavigation(Obstacles)}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation(uk.ac.ed.inf.aqmaps.noflyzone.Obstacles)}{{\bf  WaypointNavigation}\\}
+\begin{lstlisting}[frame=none]
+public WaypointNavigation(uk.ac.ed.inf.aqmaps.noflyzone.Obstacles obstacles)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{obstacles} -- the obstacles for collision checking}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{navigateToLocation(Coords, List, W3W)}
+\hypertarget{uk.ac.ed.inf.aqmaps.flightplanning.WaypointNavigation.navigateToLocation(uk.ac.ed.inf.aqmaps.geometry.Coords, java.util.List, uk.ac.ed.inf.aqmaps.W3W)}{{\bf  navigateToLocation}\\}
+\begin{lstlisting}[frame=none]
+public java.util.List navigateToLocation(uk.ac.ed.inf.aqmaps.geometry.Coords startingPosition,java.util.List waypoints,uk.ac.ed.inf.aqmaps.W3W targetSensorW3W)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Find a sequence of moves that navigates the drone from the current location along the waypoints to the target.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{startingPosition} -- the starting position of the drone}
+   \item{
+\texttt{waypoints} -- a list of Coords waypoints for the drone to follow on its way to the target.}
+   \item{
+\texttt{targetSensorW3W} -- the W3W of the target sensor, or null if the target is not a sensor.}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+a list of Moves that navigate the drone from the starting position to in range of the target 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+}
+\chapter{Package uk.ac.ed.inf.aqmaps.geometry}{
+\label{uk.ac.ed.inf.aqmaps.geometry}\hypertarget{uk.ac.ed.inf.aqmaps.geometry}{}
+\hskip -.05in
+\hbox to \hsize{\textit{ Package Contents\hfil Page}}
+\vskip .13in
+\hbox{{\bf  Classes}}
+\entityintro{Coords}{uk.ac.ed.inf.aqmaps.geometry.Coords}{Holds a longitude and latitude pair, using a Point2D.}
+\entityintro{Polygon}{uk.ac.ed.inf.aqmaps.geometry.Polygon}{Holds a polygon as a list of the Coords that make up the vertices, in order}
+\vskip .1in
+\vskip .1in
+\section{\label{uk.ac.ed.inf.aqmaps.geometry.Coords}Class Coords}{
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Coords}{}\vskip .1in 
+Holds a longitude and latitude pair, using a Point2D. This class uses euclidean geometry and its calculations do {\bf not} match with real life.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class Coords
+ extends java.awt.geom.Point2D.Double\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Coords(double, double)}{{\bf Coords(double, double)}} \\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Coords.bisectorDirection(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf bisectorDirection(Coords, Coords)}} Let this point be P.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Coords.buildFromGeojsonPoint(Point)}{{\bf buildFromGeojsonPoint(Point)}} Convert a mapbox point into a Coords\\
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Coords.directionTo(uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf directionTo(Coords)}} Let this point be P.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Coords.getPointOnBisector(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords, double)}{{\bf getPointOnBisector(Coords, Coords, double)}} Let this point be P.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Coords.getPositionAfterMoveDegrees(double, double)}{{\bf getPositionAfterMoveDegrees(double, double)}} Creates a new Coords which is the result of moving from the current location at the specified angle for the specified length.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Coords.getPositionAfterMoveRadians(double, double)}{{\bf getPositionAfterMoveRadians(double, double)}} Creates a new Coords which is the result of moving from the current location at the specified angle for the specified length.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Coords.roundedDirection10Degrees(uk.ac.ed.inf.aqmaps.geometry.Coords, int)}{{\bf roundedDirection10Degrees(Coords, int)}} Let this point be P.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Coords.toString()}{{\bf toString()}} Used for printing Coords for debugging\\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{Coords(double, double)}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Coords(double, double)}{{\bf  Coords}\\}
+\begin{lstlisting}[frame=none]
+public Coords(double lng,double lat)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{lng} -- longitude}
+   \item{
+\texttt{lat} -- latitude}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{bisectorDirection(Coords, Coords)}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Coords.bisectorDirection(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf  bisectorDirection}\\}
+\begin{lstlisting}[frame=none]
+public double bisectorDirection(Coords A,Coords B)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Let this point be P. Calculate the direction of the acute bisector between the lines PA and PB.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{A} -- point A}
+   \item{
+\texttt{B} -- point B}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+the direction of the bisector in radians 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{buildFromGeojsonPoint(Point)}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Coords.buildFromGeojsonPoint(Point)}{{\bf  buildFromGeojsonPoint}\\}
+\begin{lstlisting}[frame=none]
+public static Coords buildFromGeojsonPoint(Point p)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Convert a mapbox point into a Coords
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{p} -- the mapbox Point}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+an equivalent Coords 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{directionTo(Coords)}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Coords.directionTo(uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf  directionTo}\\}
+\begin{lstlisting}[frame=none]
+public double directionTo(Coords A)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Let this point be P. Calculates the direction or angle of the line PA with respect to the horizontal, where east is 0, north is pi/2, south is -pi/2, west is pi
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{A} -- point A}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+the direction in radians 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getPointOnBisector(Coords, Coords, double)}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Coords.getPointOnBisector(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords, double)}{{\bf  getPointOnBisector}\\}
+\begin{lstlisting}[frame=none]
+public Coords getPointOnBisector(Coords A,Coords B,double distance)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Let this point be P. Creates a point a specified distance away in the direction of the acute bisector between the lines PA and PB.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{A} -- point A}
+   \item{
+\texttt{B} -- point B}
+   \item{
+\texttt{distance} -- the distance the new point should be away from this point}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+the new point 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getPositionAfterMoveDegrees(double, double)}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Coords.getPositionAfterMoveDegrees(double, double)}{{\bf  getPositionAfterMoveDegrees}\\}
+\begin{lstlisting}[frame=none]
+public Coords getPositionAfterMoveDegrees(double degrees,double length)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Creates a new Coords which is the result of moving from the current location at the specified angle for the specified length. Angle in degrees version.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{degrees} -- the direction of the move as an angle in degrees}
+   \item{
+\texttt{length} -- the length of the move}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+a Coords containing the calculated point 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getPositionAfterMoveRadians(double, double)}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Coords.getPositionAfterMoveRadians(double, double)}{{\bf  getPositionAfterMoveRadians}\\}
+\begin{lstlisting}[frame=none]
+public Coords getPositionAfterMoveRadians(double radians,double length)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Creates a new Coords which is the result of moving from the current location at the specified angle for the specified length. Angle in radians version.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{radians} -- the direction of the move as an angle in radians}
+   \item{
+\texttt{length} -- the length of the move}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+a Coords containing the calculated point 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{roundedDirection10Degrees(Coords, int)}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Coords.roundedDirection10Degrees(uk.ac.ed.inf.aqmaps.geometry.Coords, int)}{{\bf  roundedDirection10Degrees}\\}
+\begin{lstlisting}[frame=none]
+public int roundedDirection10Degrees(Coords A,int offset)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Let this point be P. Calculates the direction of the line PA, rounded to the nearest 10 degrees, offset by an amount, and expressed in the range \lbrack 0,350\rbrack .
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{A} -- point A}
+   \item{
+\texttt{offset} -- the offset}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+the direction in degrees 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{toString()}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Coords.toString()}{{\bf  toString}\\}
+\begin{lstlisting}[frame=none]
+public java.lang.String toString()\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Used for printing Coords for debugging
+}
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Members inherited from class Point2D.Double }{
+\texttt{java.awt.geom.Point2D.Double} {\small 
+\refdefined{java.awt.geom.Point2D.Double}}
+{\small 
+
+\vskip -2em
+\begin{itemize}
+\item{\vskip -1.5ex 
+\texttt{public double {\bf  getX}()
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public double {\bf  getY}()
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public void {\bf  setLocation}(\texttt{double} {\bf  arg0},
+\texttt{double} {\bf  arg1})
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public String {\bf  toString}()
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public {\bf  x}}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public {\bf  y}}%end signature
+}%end item
+\end{itemize}
+}
+\subsection{Members inherited from class Point2D }{
+\texttt{java.awt.geom.Point2D} {\small 
+\refdefined{java.awt.geom.Point2D}}
+{\small 
+
+\vskip -2em
+\begin{itemize}
+\item{\vskip -1.5ex 
+\texttt{public Object {\bf  clone}()
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public double {\bf  distance}(\texttt{double} {\bf  arg0},
+\texttt{double} {\bf  arg1})
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public static double {\bf  distance}(\texttt{double} {\bf  arg0},
+\texttt{double} {\bf  arg1},
+\texttt{double} {\bf  arg2},
+\texttt{double} {\bf  arg3})
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public double {\bf  distance}(\texttt{Point2D} {\bf  arg0})
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public double {\bf  distanceSq}(\texttt{double} {\bf  arg0},
+\texttt{double} {\bf  arg1})
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public static double {\bf  distanceSq}(\texttt{double} {\bf  arg0},
+\texttt{double} {\bf  arg1},
+\texttt{double} {\bf  arg2},
+\texttt{double} {\bf  arg3})
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public double {\bf  distanceSq}(\texttt{Point2D} {\bf  arg0})
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public boolean {\bf  equals}(\texttt{java.lang.Object} {\bf  arg0})
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public abstract double {\bf  getX}()
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public abstract double {\bf  getY}()
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public int {\bf  hashCode}()
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public abstract void {\bf  setLocation}(\texttt{double} {\bf  arg0},
+\texttt{double} {\bf  arg1})
+}%end signature
+}%end item
+\item{\vskip -1.5ex 
+\texttt{public void {\bf  setLocation}(\texttt{Point2D} {\bf  arg0})
+}%end signature
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.geometry.Polygon}Class Polygon}{
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Polygon}{}\vskip .1in 
+Holds a polygon as a list of the Coords that make up the vertices, in order\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class Polygon
+ extends java.lang.Object\end{lstlisting}
+\subsection{Field summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Polygon.OUTLINE_MARGIN}{{\bf OUTLINE\_MARGIN}} The margin to use when generating a polygon which outlines another, see \texttt{\small \hyperlink{uk.ac.ed.inf.aqmaps.geometry.Polygon.generateOutlinePoints()}{generateOutlinePoints()}}{\small 
+\refdefined{uk.ac.ed.inf.aqmaps.geometry.Polygon.generateOutlinePoints()}}\\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Polygon.buildFromFeature(Feature)}{{\bf buildFromFeature(Feature)}} Create a Polygon from a GeoJSON Polygon\\
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Polygon.contains(uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf contains(Coords)}} Checks whether a given point is containing within this polygon.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Polygon.generateOutlinePoints()}{{\bf generateOutlinePoints()}} Generates the points of a new polygon which contains the original by a very small margin.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Polygon.getPoints()}{{\bf getPoints()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Polygon.getSegments()}{{\bf getSegments()}} This method is currently only used in a test, but it is kept to test whether the segments have been created properly.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.geometry.Polygon.lineCollision(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf lineCollision(Coords, Coords)}} \\
+\end{verse}
+}
+\subsection{Fields}{
+\begin{itemize}
+\item{
+\index{OUTLINE\_MARGIN}
+\label{uk.ac.ed.inf.aqmaps.geometry.Polygon.OUTLINE_MARGIN}\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Polygon.OUTLINE_MARGIN}{\texttt{public static final double\ {\bf  OUTLINE\_MARGIN}}
+}
+\begin{itemize}
+\item{\vskip -.9ex 
+The margin to use when generating a polygon which outlines another, see \texttt{\small \hyperlink{uk.ac.ed.inf.aqmaps.geometry.Polygon.generateOutlinePoints()}{generateOutlinePoints()}}{\small 
+\refdefined{uk.ac.ed.inf.aqmaps.geometry.Polygon.generateOutlinePoints()}}}
+\end{itemize}
+}
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{buildFromFeature(Feature)}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Polygon.buildFromFeature(Feature)}{{\bf  buildFromFeature}\\}
+\begin{lstlisting}[frame=none]
+public static Polygon buildFromFeature(Feature feature)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Create a Polygon from a GeoJSON Polygon
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{feature} -- a GeoJSON Feature containing a Polygon}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+the converted Polygon 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{contains(Coords)}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Polygon.contains(uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf  contains}\\}
+\begin{lstlisting}[frame=none]
+public boolean contains(Coords p)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Checks whether a given point is containing within this polygon.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{p} -- the point}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+true if the polygon contains the point, false otherwise 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{generateOutlinePoints()}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Polygon.generateOutlinePoints()}{{\bf  generateOutlinePoints}\\}
+\begin{lstlisting}[frame=none]
+public java.util.List generateOutlinePoints()\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Generates the points of a new polygon which contains the original by a very small margin. It generates points a distance of 1.0e-14 from each point in the original Polygon in the direction of the bisecting angle between the two adjacent sides, or the opposite direction if that point is inside the polygon. The resulting polygon will be larger than the original by a margin of 1.0e-14 on all sides.
+}
+\item{{\bf  Returns} -- 
+the outlining Polygon 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getPoints()}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Polygon.getPoints()}{{\bf  getPoints}\\}
+\begin{lstlisting}[frame=none]
+public java.util.List getPoints()\end{lstlisting} %end signature
+\begin{itemize}
+\item{{\bf  Returns} -- 
+the points which make up the vertices of this polygon 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getSegments()}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Polygon.getSegments()}{{\bf  getSegments}\\}
+\begin{lstlisting}[frame=none]
+public java.util.List getSegments()\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+This method is currently only used in a test, but it is kept to test whether the segments have been created properly.
+}
+\item{{\bf  Returns} -- 
+the segments which make up the edges of the polygon 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{lineCollision(Coords, Coords)}
+\hypertarget{uk.ac.ed.inf.aqmaps.geometry.Polygon.lineCollision(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf  lineCollision}\\}
+\begin{lstlisting}[frame=none]
+public boolean lineCollision(Coords start,Coords end)\end{lstlisting} %end signature
+}%end item
+\end{itemize}
+}
+}
+}
+\chapter{Package uk.ac.ed.inf.aqmaps.io}{
+\label{uk.ac.ed.inf.aqmaps.io}\hypertarget{uk.ac.ed.inf.aqmaps.io}{}
+\hskip -.05in
+\hbox to \hsize{\textit{ Package Contents\hfil Page}}
+\vskip .13in
+\hbox{{\bf  Interfaces}}
+\entityintro{InputController}{uk.ac.ed.inf.aqmaps.io.InputController}{Handles interaction with input from all remote information sources and devices.}
+\entityintro{OutputController}{uk.ac.ed.inf.aqmaps.io.OutputController}{Handles interaction with all output locations.}
+\entityintro{Server}{uk.ac.ed.inf.aqmaps.io.Server}{Handles requesting data from a server.}
+\vskip .13in
+\hbox{{\bf  Classes}}
+\entityintro{FileOutputController}{uk.ac.ed.inf.aqmaps.io.FileOutputController}{Outputs to the current directory of the filesystem}
+\entityintro{ServerInputController}{uk.ac.ed.inf.aqmaps.io.ServerInputController}{Implements the Remote interface using a connection to a simple web server.}
+\entityintro{WebServer}{uk.ac.ed.inf.aqmaps.io.WebServer}{Handles requesting data from an HTTP server.}
+\vskip .1in
+\vskip .1in
+\section{\label{uk.ac.ed.inf.aqmaps.io.InputController}Interface InputController}{
+\hypertarget{uk.ac.ed.inf.aqmaps.io.InputController}{}\vskip .1in 
+Handles interaction with input from all remote information sources and devices. Gets information on sensor locations, no-fly zones, W3W locations, and sensor readings. Implementations of the interface can gather the information from any source, such as a simple web server for testing purposes, or from a full system where data is also read from real sensors.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public interface InputController
+\end{lstlisting}
+\subsection{All known subinterfaces}{ServerInputController\small{\refdefined{uk.ac.ed.inf.aqmaps.io.ServerInputController}}}
+\subsection{All classes known to implement interface}{ServerInputController\small{\refdefined{uk.ac.ed.inf.aqmaps.io.ServerInputController}}}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.io.InputController.getNoFlyZones()}{{\bf getNoFlyZones()}} Gets information about no-fly zones from a remote source\\
+\hyperlink{uk.ac.ed.inf.aqmaps.io.InputController.getSensorW3Ws()}{{\bf getSensorW3Ws()}} Gets the list of sensors that need to be visited from a remote source\\
+\hyperlink{uk.ac.ed.inf.aqmaps.io.InputController.readSensor(uk.ac.ed.inf.aqmaps.W3W)}{{\bf readSensor(W3W)}} Reads information from the sensor at the provided W3W location\\
+\end{verse}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getNoFlyZones()}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.InputController.getNoFlyZones()}{{\bf  getNoFlyZones}\\}
+\begin{lstlisting}[frame=none]
+java.util.List getNoFlyZones()\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Gets information about no-fly zones from a remote source
+}
+\item{{\bf  Returns} -- 
+a FeatureCollection containing the locations of the no-fly zones 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getSensorW3Ws()}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.InputController.getSensorW3Ws()}{{\bf  getSensorW3Ws}\\}
+\begin{lstlisting}[frame=none]
+java.util.List getSensorW3Ws()\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Gets the list of sensors that need to be visited from a remote source
+}
+\item{{\bf  Returns} -- 
+a list of W3W locations of the sensors 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{readSensor(W3W)}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.InputController.readSensor(uk.ac.ed.inf.aqmaps.W3W)}{{\bf  readSensor}\\}
+\begin{lstlisting}[frame=none]
+uk.ac.ed.inf.aqmaps.Sensor readSensor(uk.ac.ed.inf.aqmaps.W3W location)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Reads information from the sensor at the provided W3W location
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{location} -- the location of the sensor as a W3W class}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+a Sensor object representing the current status of the sensor 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.io.OutputController}Interface OutputController}{
+\hypertarget{uk.ac.ed.inf.aqmaps.io.OutputController}{}\vskip .1in 
+Handles interaction with all output locations. Implementations may output to any source, such as to a file or to a server.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public interface OutputController
+\end{lstlisting}
+\subsection{All known subinterfaces}{FileOutputController\small{\refdefined{uk.ac.ed.inf.aqmaps.io.FileOutputController}}}
+\subsection{All classes known to implement interface}{FileOutputController\small{\refdefined{uk.ac.ed.inf.aqmaps.io.FileOutputController}}}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.io.OutputController.outputFlightpath(java.lang.String)}{{\bf outputFlightpath(String)}} Outputs the flightpath planned by the drone\\
+\hyperlink{uk.ac.ed.inf.aqmaps.io.OutputController.outputMapGeoJSON(java.lang.String)}{{\bf outputMapGeoJSON(String)}} Outputs the GeoJSON map containing the flightpath and the sensor readings collected by the drone\\
+\end{verse}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{outputFlightpath(String)}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.OutputController.outputFlightpath(java.lang.String)}{{\bf  outputFlightpath}\\}
+\begin{lstlisting}[frame=none]
+void outputFlightpath(java.lang.String flightpathText)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Outputs the flightpath planned by the drone
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{flightpathText} -- the String containing the flightpath data}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{outputMapGeoJSON(String)}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.OutputController.outputMapGeoJSON(java.lang.String)}{{\bf  outputMapGeoJSON}\\}
+\begin{lstlisting}[frame=none]
+void outputMapGeoJSON(java.lang.String json)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Outputs the GeoJSON map containing the flightpath and the sensor readings collected by the drone
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{json} -- the GeoJSON String}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.io.Server}Interface Server}{
+\hypertarget{uk.ac.ed.inf.aqmaps.io.Server}{}\vskip .1in 
+Handles requesting data from a server.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public interface Server
+\end{lstlisting}
+\subsection{All known subinterfaces}{WebServer\small{\refdefined{uk.ac.ed.inf.aqmaps.io.WebServer}}}
+\subsection{All classes known to implement interface}{WebServer\small{\refdefined{uk.ac.ed.inf.aqmaps.io.WebServer}}}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.io.Server.requestData(java.lang.String)}{{\bf requestData(String)}} Request the data that is located at the given URL.\\
+\end{verse}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{requestData(String)}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.Server.requestData(java.lang.String)}{{\bf  requestData}\\}
+\begin{lstlisting}[frame=none]
+java.lang.String requestData(java.lang.String url)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Request the data that is located at the given URL. Will cause a fatal error if it cannot connect to the server, or if the requested file is not found.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{url} -- the URL of the file to request}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+the requested data as a String 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.io.FileOutputController}Class FileOutputController}{
+\hypertarget{uk.ac.ed.inf.aqmaps.io.FileOutputController}{}\vskip .1in 
+Outputs to the current directory of the filesystem\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class FileOutputController
+ extends java.lang.Object implements OutputController\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.io.FileOutputController(uk.ac.ed.inf.aqmaps.Settings)}{{\bf FileOutputController(Settings)}} \\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.io.FileOutputController.outputFlightpath(java.lang.String)}{{\bf outputFlightpath(String)}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.io.FileOutputController.outputMapGeoJSON(java.lang.String)}{{\bf outputMapGeoJSON(String)}} \\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{FileOutputController(Settings)}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.FileOutputController(uk.ac.ed.inf.aqmaps.Settings)}{{\bf  FileOutputController}\\}
+\begin{lstlisting}[frame=none]
+public FileOutputController(uk.ac.ed.inf.aqmaps.Settings settings)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{settings} -- a Settings holding the current input arguments}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{outputFlightpath(String)}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.FileOutputController.outputFlightpath(java.lang.String)}{{\bf  outputFlightpath}\\}
+\begin{lstlisting}[frame=none]
+void outputFlightpath(java.lang.String flightpathText)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description copied from \hyperlink{uk.ac.ed.inf.aqmaps.io.OutputController}{OutputController}{\small \refdefined{uk.ac.ed.inf.aqmaps.io.OutputController}} }
+
+Outputs the flightpath planned by the drone
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{flightpathText} -- the String containing the flightpath data}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{outputMapGeoJSON(String)}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.FileOutputController.outputMapGeoJSON(java.lang.String)}{{\bf  outputMapGeoJSON}\\}
+\begin{lstlisting}[frame=none]
+void outputMapGeoJSON(java.lang.String json)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description copied from \hyperlink{uk.ac.ed.inf.aqmaps.io.OutputController}{OutputController}{\small \refdefined{uk.ac.ed.inf.aqmaps.io.OutputController}} }
+
+Outputs the GeoJSON map containing the flightpath and the sensor readings collected by the drone
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{json} -- the GeoJSON String}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.io.ServerInputController}Class ServerInputController}{
+\hypertarget{uk.ac.ed.inf.aqmaps.io.ServerInputController}{}\vskip .1in 
+Implements the Remote interface using a connection to a simple web server.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class ServerInputController
+ extends java.lang.Object implements InputController\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.io.ServerInputController(uk.ac.ed.inf.aqmaps.io.Server, int, int, int, int)}{{\bf ServerInputController(Server, int, int, int, int)}} Create a new ServerInputController instance with the given Server, date, and port number\\
+\hyperlink{uk.ac.ed.inf.aqmaps.io.ServerInputController(uk.ac.ed.inf.aqmaps.Settings)}{{\bf ServerInputController(Settings)}} Create a new ServerInputController instance with the given settings\\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.io.ServerInputController.getNoFlyZones()}{{\bf getNoFlyZones()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.io.ServerInputController.getSensorW3Ws()}{{\bf getSensorW3Ws()}} \\
+\hyperlink{uk.ac.ed.inf.aqmaps.io.ServerInputController.readSensor(uk.ac.ed.inf.aqmaps.W3W)}{{\bf readSensor(W3W)}} \\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{ServerInputController(Server, int, int, int, int)}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.ServerInputController(uk.ac.ed.inf.aqmaps.io.Server, int, int, int, int)}{{\bf  ServerInputController}\\}
+\begin{lstlisting}[frame=none]
+public ServerInputController(Server server,int day,int month,int year,int port)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Create a new ServerInputController instance with the given Server, date, and port number
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{server} -- a Server}
+   \item{
+\texttt{day} -- the day}
+   \item{
+\texttt{month} -- the month}
+   \item{
+\texttt{year} -- the year}
+   \item{
+\texttt{port} -- the port of the server}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{ServerInputController(Settings)}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.ServerInputController(uk.ac.ed.inf.aqmaps.Settings)}{{\bf  ServerInputController}\\}
+\begin{lstlisting}[frame=none]
+public ServerInputController(uk.ac.ed.inf.aqmaps.Settings settings)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Create a new ServerInputController instance with the given settings
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{settings} -- the Settings object containing the current settings}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getNoFlyZones()}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.ServerInputController.getNoFlyZones()}{{\bf  getNoFlyZones}\\}
+\begin{lstlisting}[frame=none]
+java.util.List getNoFlyZones()\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description copied from \hyperlink{uk.ac.ed.inf.aqmaps.io.InputController}{InputController}{\small \refdefined{uk.ac.ed.inf.aqmaps.io.InputController}} }
+
+Gets information about no-fly zones from a remote source
+}
+\item{{\bf  Returns} -- 
+a FeatureCollection containing the locations of the no-fly zones 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getSensorW3Ws()}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.ServerInputController.getSensorW3Ws()}{{\bf  getSensorW3Ws}\\}
+\begin{lstlisting}[frame=none]
+java.util.List getSensorW3Ws()\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description copied from \hyperlink{uk.ac.ed.inf.aqmaps.io.InputController}{InputController}{\small \refdefined{uk.ac.ed.inf.aqmaps.io.InputController}} }
+
+Gets the list of sensors that need to be visited from a remote source
+}
+\item{{\bf  Returns} -- 
+a list of W3W locations of the sensors 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{readSensor(W3W)}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.ServerInputController.readSensor(uk.ac.ed.inf.aqmaps.W3W)}{{\bf  readSensor}\\}
+\begin{lstlisting}[frame=none]
+uk.ac.ed.inf.aqmaps.Sensor readSensor(uk.ac.ed.inf.aqmaps.W3W location)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description copied from \hyperlink{uk.ac.ed.inf.aqmaps.io.InputController}{InputController}{\small \refdefined{uk.ac.ed.inf.aqmaps.io.InputController}} }
+
+Reads information from the sensor at the provided W3W location
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{location} -- the location of the sensor as a W3W class}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+a Sensor object representing the current status of the sensor 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.io.WebServer}Class WebServer}{
+\hypertarget{uk.ac.ed.inf.aqmaps.io.WebServer}{}\vskip .1in 
+Handles requesting data from an HTTP server.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class WebServer
+ extends java.lang.Object implements Server\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.io.WebServer()}{{\bf WebServer()}} \\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.io.WebServer.requestData(java.lang.String)}{{\bf requestData(String)}} \\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{WebServer()}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.WebServer()}{{\bf  WebServer}\\}
+\begin{lstlisting}[frame=none]
+public WebServer()\end{lstlisting} %end signature
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{requestData(String)}
+\hypertarget{uk.ac.ed.inf.aqmaps.io.WebServer.requestData(java.lang.String)}{{\bf  requestData}\\}
+\begin{lstlisting}[frame=none]
+java.lang.String requestData(java.lang.String url)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description copied from \hyperlink{uk.ac.ed.inf.aqmaps.io.Server}{Server}{\small \refdefined{uk.ac.ed.inf.aqmaps.io.Server}} }
+
+Request the data that is located at the given URL. Will cause a fatal error if it cannot connect to the server, or if the requested file is not found.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{url} -- the URL of the file to request}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+the requested data as a String 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+}
+\chapter{Package uk.ac.ed.inf.aqmaps.noflyzone}{
+\label{uk.ac.ed.inf.aqmaps.noflyzone}\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone}{}
+\hskip -.05in
+\hbox to \hsize{\textit{ Package Contents\hfil Page}}
+\vskip .13in
+\hbox{{\bf  Classes}}
+\entityintro{ObstacleGraph}{uk.ac.ed.inf.aqmaps.noflyzone.ObstacleGraph}{A graph of the vertices of the obstacles and edges between them if they have line of sight.}
+\entityintro{ObstaclePathfinder}{uk.ac.ed.inf.aqmaps.noflyzone.ObstaclePathfinder}{Handles obstacle evasion.}
+\entityintro{Obstacles}{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles}{Holds information about the obstacles or no-fly zones that the drone must avoid.}
+\vskip .1in
+\vskip .1in
+\section{\label{uk.ac.ed.inf.aqmaps.noflyzone.ObstacleGraph}Class ObstacleGraph}{
+\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.ObstacleGraph}{}\vskip .1in 
+A graph of the vertices of the obstacles and edges between them if they have line of sight.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class ObstacleGraph
+ extends <any>\end{lstlisting}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.noflyzone.ObstacleGraph.prepareGraph(java.util.List, uk.ac.ed.inf.aqmaps.noflyzone.Obstacles)}{{\bf prepareGraph(List, Obstacles)}} Prepare a weighted graph containing all points which form an outline around the polygons as vertices, and edges connecting them if they have line of sight, which have a weight equal to the distance between them.\\
+\end{verse}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{prepareGraph(List, Obstacles)}
+\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.ObstacleGraph.prepareGraph(java.util.List, uk.ac.ed.inf.aqmaps.noflyzone.Obstacles)}{{\bf  prepareGraph}\\}
+\begin{lstlisting}[frame=none]
+public static ObstacleGraph prepareGraph(java.util.List outlinePoints,Obstacles obstacles)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Prepare a weighted graph containing all points which form an outline around the polygons as vertices, and edges connecting them if they have line of sight, which have a weight equal to the distance between them. The graph uses outline polygons since if it used the original polygons, their points would occupy the same location and any line emerging from the corner of an obstacle would be considered to be colliding with it. See see \texttt{\small \hyperlink{uk.ac.ed.inf.aqmaps.geometry.Polygon.generateOutlinePoints()}{generateOutlinePoints()}}{\small 
+\refdefined{uk.ac.ed.inf.aqmaps.geometry.Polygon.generateOutlinePoints()}}.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{outlinePoints} -- the points which form the outline of the obstacle polygons}
+   \item{
+\texttt{obstacles} -- the obstacles to prepare the graph for}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+a graph representation of the obstacles 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.noflyzone.ObstaclePathfinder}Class ObstaclePathfinder}{
+\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.ObstaclePathfinder}{}\vskip .1in 
+Handles obstacle evasion. Uses Obstacles and an ObstacleGraph to find paths between points which do not collides with any obstacles.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class ObstaclePathfinder
+ extends java.lang.Object\end{lstlisting}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.noflyzone.ObstaclePathfinder(uk.ac.ed.inf.aqmaps.noflyzone.ObstacleGraph, uk.ac.ed.inf.aqmaps.noflyzone.Obstacles)}{{\bf ObstaclePathfinder(ObstacleGraph, Obstacles)}} Construct an Obstacle evader with the given graph and obstacles.\\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.noflyzone.ObstaclePathfinder.getPathBetweenPoints(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf getPathBetweenPoints(Coords, Coords)}} Find the shortest path between the start and end points, navigating around obstacles if necessary.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.noflyzone.ObstaclePathfinder.getShortestPathLength(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf getShortestPathLength(Coords, Coords)}} Find the length of the shortest path between the start and end points, navigating around obstacles if necessary.\\
+\end{verse}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{ObstaclePathfinder(ObstacleGraph, Obstacles)}
+\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.ObstaclePathfinder(uk.ac.ed.inf.aqmaps.noflyzone.ObstacleGraph, uk.ac.ed.inf.aqmaps.noflyzone.Obstacles)}{{\bf  ObstaclePathfinder}\\}
+\begin{lstlisting}[frame=none]
+public ObstaclePathfinder(ObstacleGraph graph,Obstacles obstacles)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Construct an Obstacle evader with the given graph and obstacles.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{graph} -- a graph of the obstacles}
+   \item{
+\texttt{obstacles} -- the Obstacles}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getPathBetweenPoints(Coords, Coords)}
+\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.ObstaclePathfinder.getPathBetweenPoints(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf  getPathBetweenPoints}\\}
+\begin{lstlisting}[frame=none]
+public java.util.List getPathBetweenPoints(uk.ac.ed.inf.aqmaps.geometry.Coords start,uk.ac.ed.inf.aqmaps.geometry.Coords end)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Find the shortest path between the start and end points, navigating around obstacles if necessary.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{start} -- the starting point}
+   \item{
+\texttt{end} -- the ending point}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+a list of points specifying the route 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{getShortestPathLength(Coords, Coords)}
+\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.ObstaclePathfinder.getShortestPathLength(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf  getShortestPathLength}\\}
+\begin{lstlisting}[frame=none]
+public double getShortestPathLength(uk.ac.ed.inf.aqmaps.geometry.Coords start,uk.ac.ed.inf.aqmaps.geometry.Coords end)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Find the length of the shortest path between the start and end points, navigating around obstacles if necessary. Euclidean distance is used as the length measure.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{start} -- the starting point}
+   \item{
+\texttt{end} -- the ending point}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+the length of the path in degrees 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+\section{\label{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles}Class Obstacles}{
+\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles}{}\vskip .1in 
+Holds information about the obstacles or no-fly zones that the drone must avoid.\vskip .1in 
+\subsection{Declaration}{
+\begin{lstlisting}[frame=none]
+public class Obstacles
+ extends java.lang.Object\end{lstlisting}
+\subsection{Field summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.BOTTOM_RIGHT}{{\bf BOTTOM\_RIGHT}} A Point representing the southeast corner of the confinement area.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.TOP_LEFT}{{\bf TOP\_LEFT}} A Point representing the northwest corner of the confinement area.\\
+\end{verse}
+}
+\subsection{Constructor summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles(java.util.List)}{{\bf Obstacles(List)}} Constructs Obstacles out of a list of Polygons specifying their locations\\
+\end{verse}
+}
+\subsection{Method summary}{
+\begin{verse}
+\hyperlink{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.getObstaclePathfinder()}{{\bf getObstaclePathfinder()}} Gets an ObstaclePathfinder using these Obstacles.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.isInConfinement(uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf isInConfinement(Coords)}} Determines whether or not a point is inside the confinement area\\
+\hyperlink{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.lineCollision(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf lineCollision(Coords, Coords)}} Determines whether the line segment between the start and end points collides with a obstacle.\\
+\hyperlink{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.pointCollides(uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf pointCollides(Coords)}} Determine whether the given point is inside an obstacle, or outside the confinement area.\\
+\end{verse}
+}
+\subsection{Fields}{
+\begin{itemize}
+\item{
+\index{TOP\_LEFT}
+\label{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.TOP_LEFT}\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.TOP_LEFT}{\texttt{public static final uk.ac.ed.inf.aqmaps.geometry.Coords\ {\bf  TOP\_LEFT}}
+}
+\begin{itemize}
+\item{\vskip -.9ex 
+A Point representing the northwest corner of the confinement area.}
+\end{itemize}
+}
+\item{
+\index{BOTTOM\_RIGHT}
+\label{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.BOTTOM_RIGHT}\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.BOTTOM_RIGHT}{\texttt{public static final uk.ac.ed.inf.aqmaps.geometry.Coords\ {\bf  BOTTOM\_RIGHT}}
+}
+\begin{itemize}
+\item{\vskip -.9ex 
+A Point representing the southeast corner of the confinement area.}
+\end{itemize}
+}
+\end{itemize}
+}
+\subsection{Constructors}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{Obstacles(List)}
+\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles(java.util.List)}{{\bf  Obstacles}\\}
+\begin{lstlisting}[frame=none]
+public Obstacles(java.util.List polygons)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Constructs Obstacles out of a list of Polygons specifying their locations
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{polygons} -- the Polygons which make up the obstacles}
+  \end{itemize}
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+\subsection{Methods}{
+\vskip -2em
+\begin{itemize}
+\item{ 
+\index{getObstaclePathfinder()}
+\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.getObstaclePathfinder()}{{\bf  getObstaclePathfinder}\\}
+\begin{lstlisting}[frame=none]
+public ObstaclePathfinder getObstaclePathfinder()\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Gets an ObstaclePathfinder using these Obstacles. The ObstaclePathfinder uses a clone of the obstacle graph, allowing it to be used concurrently with other ObstaclePathfinder.
+}
+\item{{\bf  Returns} -- 
+an ObstaclePathfinder instance with these obstacles 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{isInConfinement(Coords)}
+\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.isInConfinement(uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf  isInConfinement}\\}
+\begin{lstlisting}[frame=none]
+public boolean isInConfinement(uk.ac.ed.inf.aqmaps.geometry.Coords point)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Determines whether or not a point is inside the confinement area
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{point} -- the point to examine}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+true if the point is inside the confinement area, false otherwise 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{lineCollision(Coords, Coords)}
+\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.lineCollision(uk.ac.ed.inf.aqmaps.geometry.Coords, uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf  lineCollision}\\}
+\begin{lstlisting}[frame=none]
+public boolean lineCollision(uk.ac.ed.inf.aqmaps.geometry.Coords start,uk.ac.ed.inf.aqmaps.geometry.Coords end)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Determines whether the line segment between the start and end points collides with a obstacle.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{start} -- the coordinates of the start point}
+   \item{
+\texttt{end} -- the coordinates of the end point}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+true if the segment collides with an obstacle, false otherwise 
+}%end item
+\end{itemize}
+}%end item
+\item{ 
+\index{pointCollides(Coords)}
+\hypertarget{uk.ac.ed.inf.aqmaps.noflyzone.Obstacles.pointCollides(uk.ac.ed.inf.aqmaps.geometry.Coords)}{{\bf  pointCollides}\\}
+\begin{lstlisting}[frame=none]
+public boolean pointCollides(uk.ac.ed.inf.aqmaps.geometry.Coords coords)\end{lstlisting} %end signature
+\begin{itemize}
+\item{
+{\bf  Description}
+
+Determine whether the given point is inside an obstacle, or outside the confinement area. This is currently only used in testing to generate random starting points.
+}
+\item{
+{\bf  Parameters}
+  \begin{itemize}
+   \item{
+\texttt{coords} -- the point}
+  \end{itemize}
+}%end item
+\item{{\bf  Returns} -- 
+true if there is a collision, false otherwise 
+}%end item
+\end{itemize}
+}%end item
+\end{itemize}
+}
+}
+}
+\end{document}

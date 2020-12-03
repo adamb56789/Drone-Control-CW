@@ -19,7 +19,7 @@ public class FlightPlannerTest {
   // If testing takes too long, decrease these values.
   public static final int DAYS_TO_TEST = 1;
   // Tries 3 tricky non-random points by default, try this many more random points
-  public static final int RANDOM_STARTING_POINTS_TO_TRY = 2;
+  public static final int RANDOM_STARTING_POINTS_TO_TRY = 0;
   // 3 tricky starting locations
   public static final Coords INF_FORUM_ALCOVE = new Coords(-3.1869108, 55.9449634);
   public static final Coords APPLETON_ALCOVE = new Coords(-3.1864079, 55.9443635);

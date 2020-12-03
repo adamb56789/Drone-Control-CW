@@ -7,9 +7,9 @@ public class Settings {
   /**
    * The default value in seconds of the time limit on the flight planning algorithm, to be used
    * when a time limit has not been received as an argument. Increasing this has highly diminishing
-   * returns. See {@link uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner}
+   * returns. See {@link uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner}. Default set to 0 for random repeatability.
    */
-  private static final double DEFAULT_TIME_LIMIT_SECONDS = 1;
+  private static final double DEFAULT_TIME_LIMIT_SECONDS = 0;
 
   private final int day;
   private final int month;
