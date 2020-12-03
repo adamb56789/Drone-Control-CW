@@ -145,6 +145,12 @@ public class Polygon {
     return points;
   }
 
+  /**
+   * This method is currently only used in a test, but it is kept to test whether the segments have
+   * been created properly.
+   *
+   * @return the segments which make up the edges of the polygon
+   */
   public List<Line2D> getSegments() {
     return segments;
   }

@@ -61,4 +61,6 @@ public class PolygonTest {
       }
     }
   }
+
+  // Polygon.lineCollision() is not tested directly since it is covered by Obstacles.lineCollision()
 }
