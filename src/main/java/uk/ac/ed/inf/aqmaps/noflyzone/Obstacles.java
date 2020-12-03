@@ -95,12 +95,12 @@ public class Obstacles {
   }
 
   /**
-   * Gets an ObstacleEvader using these Obstacles. The ObstacleEvader uses a clone of the obstacle
-   * graph, allowing it to be used concurrently with other ObstacleEvaders.
+   * Gets an ObstaclePathfinder using these Obstacles. The ObstaclePathfinder uses a clone of the
+   * obstacle graph, allowing it to be used concurrently with other ObstaclePathfinder.
    *
-   * @return an ObstacleEvader instance with these obstacles
+   * @return an ObstaclePathfinder instance with these obstacles
    */
-  public ObstaclePathfinder getObstacleEvader() {
+  public ObstaclePathfinder getObstaclePathfinder() {
     return new ObstaclePathfinder((ObstacleGraph) graph.clone(), this);
   }
 }

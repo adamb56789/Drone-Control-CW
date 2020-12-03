@@ -195,7 +195,7 @@ public class FlightPlanner {
    * @return the number of moves in the flight plan
    */
   public int computeFlightLength(List<Coords> tour) {
-    var obstacleEvader = obstacles.getObstacleEvader();
+    var obstaclePathfinder = obstacles.getObstaclePathfinder();
     var length = 0;
     var currentPosition = tour.get(0);
 
@@ -225,7 +225,7 @@ public class FlightPlanner {
         currentTarget = cutCorner(currentPosition, currentTarget, nextTarget);
       }
       // Compute a list of waypoints from the current position to the target, avoiding obstacles
-      var waypoints = obstacleEvader.getPathBetweenPoints(currentPosition, currentTarget);
+      var waypoints = obstaclePathfinder.getPathBetweenPoints(currentPosition, currentTarget);
 
       // Compute a list of Moves from the current position to the target
       var waypointNavigation = new WaypointNavigation(obstacles);
@@ -255,7 +255,7 @@ public class FlightPlanner {
    * @return a list of Moves representing the flight plan
    */
   private List<Move> constructFlightAlongTour(List<Coords> tour) {
-    var obstacleEvader = obstacles.getObstacleEvader();
+    var obstaclePathfinder = obstacles.getObstaclePathfinder();
     var moves = new ArrayList<Move>();
     var currentPosition = tour.get(0);
 
@@ -270,7 +270,7 @@ public class FlightPlanner {
         currentTarget = cutCorner(currentPosition, currentTarget, nextTarget);
       }
       // Compute a list of waypoints from the current position to the target, avoiding obstacles
-      var waypoints = obstacleEvader.getPathBetweenPoints(currentPosition, currentTarget);
+      var waypoints = obstaclePathfinder.getPathBetweenPoints(currentPosition, currentTarget);
 
       // Compute a list of Moves from the current position to the target
       var waypointNavigation = new WaypointNavigation(obstacles);

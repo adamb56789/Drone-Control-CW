@@ -3,6 +3,7 @@ package uk.ac.ed.inf.aqmaps.flightplanning;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
+import uk.ac.ed.inf.aqmaps.noflyzone.ObstaclePathfinder;
 import uk.ac.ed.inf.aqmaps.noflyzone.Obstacles;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class SensorGraph extends SimpleWeightedGraph<Coords, DefaultWeightedEdge
    */
   private SensorGraph(Coords startPosition, Collection<Coords> sensorCoords, Obstacles obstacles) {
     super(DefaultWeightedEdge.class);
-    var obstacleEvader = obstacles.getObstacleEvader();
+    var obstaclePathfinder = obstacles.getObstaclePathfinder();
     for (var coords : sensorCoords) {
       addVertex(coords);
     }
@@ -33,7 +34,7 @@ public class SensorGraph extends SimpleWeightedGraph<Coords, DefaultWeightedEdge
     for (int i = 0; i < vertexList.size() - 1; i++) {
       for (int j = i + 1; j < vertexList.size(); j++) {
         var edge = addEdge(vertexList.get(i), vertexList.get(j));
-        setEdgeWeight(edge, obstacleEvader.getPathLength(vertexList.get(i), vertexList.get(j)));
+        setEdgeWeight(edge, obstaclePathfinder.getPathLength(vertexList.get(i), vertexList.get(j)));
       }
     }
   }
