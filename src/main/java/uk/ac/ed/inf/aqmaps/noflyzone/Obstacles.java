@@ -1,8 +1,5 @@
 package uk.ac.ed.inf.aqmaps.noflyzone;
 
-import org.jgrapht.Graphs;
-import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.SimpleWeightedGraph;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.geometry.Polygon;
 
@@ -21,7 +18,7 @@ public class Obstacles {
    * and edges connecting them if they have line of sight, which have a weight equal to the distance
    * between them.
    */
-  private final SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
+  private final ObstacleGraph graph;
 
   /** A list of the Polygon representations of the obstacles */
   private final List<Polygon> polygons;
@@ -79,7 +76,7 @@ public class Obstacles {
     // Return true if any of the segment of the polygons intersect with the line
     for (var polygon : prunedPolygons) {
       if (polygon.getSegments().stream()
-              .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y))) {
+          .anyMatch(segment -> segment.intersectsLine(start.x, start.y, end.x, end.y))) {
         return true;
       }
     }
@@ -104,8 +101,6 @@ public class Obstacles {
    * @return an ObstacleEvader instance with these obstacles
    */
   public ObstaclePathfinder getObstacleEvader() {
-    var graphCopy = new SimpleWeightedGraph<Coords, DefaultWeightedEdge>(DefaultWeightedEdge.class);
-    Graphs.addGraph(graphCopy, graph);
-    return new ObstaclePathfinder(graphCopy, this);
+    return new ObstaclePathfinder((ObstacleGraph) graph.clone(), this);
   }
 }

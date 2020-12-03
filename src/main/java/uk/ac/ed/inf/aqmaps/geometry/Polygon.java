@@ -27,14 +27,10 @@ public class Polygon {
    */
   private final Path2D path;
 
-  /**
-   * All of the line segments that make up the edges
-   */
+  /** All of the line segments that make up the edges */
   private final List<Line2D> segments;
 
-  /**
-   * A rectangular bounding box which contains the polygon
-   */
+  /** A rectangular bounding box which contains the polygon */
   private final Rectangle2D boundingBox;
 
   /**

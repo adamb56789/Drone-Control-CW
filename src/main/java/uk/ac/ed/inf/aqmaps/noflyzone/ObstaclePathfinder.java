@@ -3,7 +3,6 @@ package uk.ac.ed.inf.aqmaps.noflyzone;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.SimpleWeightedGraph;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 
 import java.util.List;
@@ -18,18 +17,17 @@ public class ObstaclePathfinder {
    * and edges connecting them if they have line of sight, which have a weight equal to the distance
    * between them.
    */
-  private final SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph;
+  private final ObstacleGraph graph;
 
   private final Obstacles obstacles;
 
   /**
    * Construct an Obstacle evader with the given graph and obstacles.
    *
-   * @param graph a SimpleWeightedGraph of the obstacles
+   * @param graph a graph of the obstacles
    * @param obstacles the Obstacles
    */
-  public ObstaclePathfinder(
-      SimpleWeightedGraph<Coords, DefaultWeightedEdge> graph, Obstacles obstacles) {
+  public ObstaclePathfinder(ObstacleGraph graph, Obstacles obstacles) {
     this.graph = graph;
     this.obstacles = obstacles;
   }

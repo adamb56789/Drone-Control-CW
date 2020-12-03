@@ -3,8 +3,8 @@ package uk.ac.ed.inf.aqmaps;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import uk.ac.ed.inf.aqmaps.noflyzone.Obstacles;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
+import uk.ac.ed.inf.aqmaps.noflyzone.Obstacles;
 
 import java.util.stream.Stream;
 

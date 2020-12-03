@@ -47,7 +47,7 @@ public class ObstacleGraph extends SimpleWeightedGraph<Coords, DefaultWeightedEd
    *
    * @param outlinePoints the points which form the outline of the obstacle polygons
    * @param obstacles the obstacles to prepare the graph for
-   * @return a SimpleWeightedGraph representation of the obstacles
+   * @return a graph representation of the obstacles
    */
   public static ObstacleGraph prepareGraph(List<Coords> outlinePoints, Obstacles obstacles) {
     return new ObstacleGraph(obstacles, outlinePoints);

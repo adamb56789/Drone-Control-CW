@@ -2,9 +2,9 @@ package uk.ac.ed.inf.aqmaps;
 
 import org.junit.Test;
 import uk.ac.ed.inf.aqmaps.flightplanning.FlightPlanner;
-import uk.ac.ed.inf.aqmaps.noflyzone.Obstacles;
 import uk.ac.ed.inf.aqmaps.geometry.Coords;
 import uk.ac.ed.inf.aqmaps.io.ServerInputController;
+import uk.ac.ed.inf.aqmaps.noflyzone.Obstacles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
