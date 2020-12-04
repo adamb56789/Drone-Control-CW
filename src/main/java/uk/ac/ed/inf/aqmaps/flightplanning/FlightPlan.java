@@ -40,9 +40,4 @@ public class FlightPlan {
   public List<Move> getMoves() {
     return moves;
   }
-
-  @Override
-  public String toString() {
-    return Integer.toString(seed);
-  }
 }

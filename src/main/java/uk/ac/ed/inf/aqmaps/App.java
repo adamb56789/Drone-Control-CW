@@ -33,8 +33,9 @@ public class App {
             ? "fixed iteration count"
             : "stop after " + settings.getMaxRunTime() + " s");
 
+    System.out.println("Getting data from server...");
+
     var inputController = new ServerInputController(settings);
-    System.out.println("Finished getting data from server");
     var drone =
         new Drone(
             settings, inputController, new FileOutputController(settings));
