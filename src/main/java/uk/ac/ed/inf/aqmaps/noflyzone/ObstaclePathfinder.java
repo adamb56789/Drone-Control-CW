@@ -22,12 +22,16 @@ public class ObstaclePathfinder {
   private final Obstacles obstacles;
 
   /**
-   * Construct an Obstacle evader with the given graph and obstacles.
+   * Construct an Obstacle evader with the given graph and obstacles. Package private since we only
+   * want Obstacles to be calling this to ensure thread safety - multiple instances of this running
+   * in parallel with the same obstacle graph is not thread safe and causes illegal concurrent
+   * modification. There are other things that probably could be made package private in this
+   * program, but this is the only time where it is truly necessary.
    *
    * @param graph a graph of the obstacles
    * @param obstacles the Obstacles
    */
-  public ObstaclePathfinder(ObstacleGraph graph, Obstacles obstacles) {
+  ObstaclePathfinder(ObstacleGraph graph, Obstacles obstacles) {
     this.graph = graph;
     this.obstacles = obstacles;
   }
