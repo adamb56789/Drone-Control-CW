@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.10.2)  3 DEC 2020 17:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.10.2)  3 DEC 2020 23:37
 entering extended mode
 **./javadoc.tex
 (javadoc.tex
@@ -232,22 +232,22 @@ File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
 ) (javadoc.aux)
 \openout1 = `javadoc.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
 
 (C:\Users\Adam\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mki
 i
@@ -279,7 +279,7 @@ G,.JBIG2,.JB2,.eps]
 )
 \c@lstlisting=\count267
 \AtBeginShipoutBox=\box49
-Package hyperref Info: Link coloring ON on input line 38.
+Package hyperref Info: Link coloring ON on input line 41.
  (C:\Users\Adam\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
 
@@ -292,665 +292,981 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count268
 )
-LaTeX Info: Redefining \ref on input line 38.
-LaTeX Info: Redefining \pageref on input line 38.
-LaTeX Info: Redefining \nameref on input line 38.
+LaTeX Info: Redefining \ref on input line 41.
+LaTeX Info: Redefining \pageref on input line 41.
+LaTeX Info: Redefining \nameref on input line 41.
  (javadoc.out) (javadoc.out)
 \@outlinefile=\write3
 \openout3 = `javadoc.out'.
 
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 43.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 43.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 43.
+ [1
 
-Underfull \hbox (badness 10000) in paragraph at lines 72--73
+{C:/Users/Adam/AppData/Local/MiKTeX/pdftex/config/pdftex.map}] (javadoc.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 4.
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.38 ...{1.6.4}Constructors}{15}{subsection.1.6.4}
+                                                  % [1
+
+] [2] [3] [4])
+\tf@toc=\write4
+\openout4 = `javadoc.toc'.
+
+ [5]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 55.
+
+[6
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 89--93
+
+ []
+
+[7]
+Chapter 1.
+
+Overfull \hbox (17.0pt too wide) in paragraph at lines 99--107
+[][]
+ []
+
+[8
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 131--132
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 112--113
+Underfull \hbox (badness 10000) in paragraph at lines 142--143
 
  []
 
-[1
-
-{C:/Users/Adam/AppData/Local/MiKTeX/pdftex/config/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 138--139
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 149--150
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 213--214
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 160--161
+Underfull \hbox (badness 10000) in paragraph at lines 237--238
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 171--172
+Underfull \hbox (badness 10000) in paragraph at lines 259--260
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 182--183
+Underfull \hbox (badness 10000) in paragraph at lines 275--276
 
  []
 
-[2]
-Underfull \hbox (badness 3068) in paragraph at lines 203--203
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 347--348
+
+ []
+
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 373--374
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 384--385
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 395--396
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 406--407
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 417--418
+
+ []
+
+[12]
+Underfull \hbox (badness 3068) in paragraph at lines 447--447
 [][][]\OT1/cmr/bx/n/10.95 getFlightpathString()[][] \OT1/cmr/m/n/10.95 Gets a f
 light-path String of the fol-low-ing for-mat:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 203--203
+Underfull \hbox (badness 10000) in paragraph at lines 447--447
 \OT1/cmr/m/n/10.95 1,[startLng],[startLat],[angle],[endLng],[endLat],[sensor w3
 w or null]\n
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 214--215
+Underfull \hbox (badness 10000) in paragraph at lines 489--490
+
+ []
+
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 514--515
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 239--240
+Underfull \hbox (badness 10000) in paragraph at lines 530--531
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 246--248
+Underfull \hbox (badness 10000) in paragraph at lines 546--547
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 553--555
 []\OT1/cmr/m/n/10.95 Gets a flight-path String of the fol-low-ing for-mat:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 246--248
+Underfull \hbox (badness 10000) in paragraph at lines 553--555
 \OT1/cmr/m/n/10.95 1,[startLng],[startLat],[angle],[endLng],[endLat],[sensor w3
 w or null]\n
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 255--256
+Underfull \hbox (badness 10000) in paragraph at lines 562--563
 
  []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 271--272
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 291--292
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 578--579
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 336--337
+Underfull \hbox (badness 10000) in paragraph at lines 598--599
 
  []
 
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 365--366
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 376--377
+[15]
+Underfull \hbox (badness 10000) in paragraph at lines 669--670
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 387--388
-
- []
-
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 421--422
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 432--433
-
- []
-
-[6]
-Underfull \hbox (badness 10000) in paragraph at lines 486--487
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 506--507
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 517--518
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 528--529
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 539--540
-
- []
-
-[7]
-Underfull \hbox (badness 10000) in paragraph at lines 550--551
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 561--562
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 572--573
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 607--608
-
- []
-
-[8]
-Underfull \hbox (badness 10000) in paragraph at lines 629--630
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 640--641
-
- []
-
-[9]
-Chapter 1.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 659.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 659.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 659.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 662.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 662.
-
-Overfull \hbox (17.0pt too wide) in paragraph at lines 659--663
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 687--688
-
- []
-
-[10
-
-]
 Underfull \hbox (badness 10000) in paragraph at lines 698--699
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 734--735
+Underfull \hbox (badness 10000) in paragraph at lines 709--710
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 745--746
-
- []
-
-[11]
-Underfull \hbox (badness 10000) in paragraph at lines 756--757
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 767--768
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 802--803
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 813--814
-
- []
-
-[12] [13]
-Chapter 2.
-
-Overfull \hbox (17.0pt too wide) in paragraph at lines 832--838
-[][]
- []
-
-[14
-
-]
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 8
-57.
- (C:\Users\Adam\AppData\Local\Programs\MiKTeX\tex/latex/base\omscmr.fd
-File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 857.
-LaTeX Font Info:    Trying to load font information for OML+cmr on input line 8
-61.
-
-(C:\Users\Adam\AppData\Local\Programs\MiKTeX\tex/latex/base\omlcmr.fd
-File: omlcmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 861.
-
-Underfull \hbox (badness 10000) in paragraph at lines 878--879
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 909--910
-
- []
-
-[15]
-Underfull \hbox (badness 10000) in paragraph at lines 932--933
+Underfull \hbox (badness 10000) in paragraph at lines 720--721
 
  []
 
 [16]
-Underfull \hbox (badness 10000) in paragraph at lines 981--982
+Underfull \hbox (badness 10000) in paragraph at lines 758--759
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1010--1011
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1023--1024
+Underfull \hbox (badness 10000) in paragraph at lines 769--770
 
  []
 
 [17]
-Underfull \hbox (badness 10000) in paragraph at lines 1060--1061
+Underfull \hbox (badness 10000) in paragraph at lines 794--795
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1087--1088
+Underfull \hbox (badness 10000) in paragraph at lines 821--822
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1098--1099
-
- []
-
-[18]
-Underfull \hbox (badness 10000) in paragraph at lines 1133--1134
+Underfull \hbox (badness 10000) in paragraph at lines 844--845
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1164--1165
+Underfull \hbox (badness 10000) in paragraph at lines 867--868
 
  []
 
-[19]
-Underfull \hbox (badness 10000) in paragraph at lines 1187--1188
+[18] [19]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 937.
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1228--1229
-
- []
-
-[20] [21]
-Underfull \hbox (badness 10000) in paragraph at lines 1316--1317
+Underfull \hbox (badness 10000) in paragraph at lines 982--983
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1336--1337
+Underfull \hbox (badness 10000) in paragraph at lines 1002--1003
 
  []
 
-[22]
-Chapter 3.
 
-Overfull \hbox (17.0pt too wide) in paragraph at lines 1371--1373
+Underfull \hbox (badness 10000) in paragraph at lines 1013--1014
+
+ []
+
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1025
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1035--1036
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1046--1047
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1057--1058
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1068--1069
+
+ []
+
+[21]
+Underfull \hbox (badness 10000) in paragraph at lines 1127--1128
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1149--1150
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1160--1161
+
+ []
+
+[22] [23]
+Chapter 2.
+
+Overfull \hbox (17.0pt too wide) in paragraph at lines 1179--1186
 [][]
  []
 
-[23
+[24
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1404--1405
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 1
+205.
+ (C:\Users\Adam\AppData\Local\Programs\MiKTeX\tex/latex/base\omscmr.fd
+File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1205.
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1426--1427
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1451--1452
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1474--1475
-
- []
-
-[24]
-Underfull \hbox (badness 10000) in paragraph at lines 1497--1498
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1524--1525
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1549--1550
-
- []
 
 [25]
-Underfull \hbox (badness 10000) in paragraph at lines 1574--1575
+Underfull \hbox (badness 10000) in paragraph at lines 1289--1290
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1599--1600
+Underfull \hbox (badness 10000) in paragraph at lines 1320--1321
+
+ []
+
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 1346--1347
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1665--1667
+Underfull \hbox (badness 10000) in paragraph at lines 1369--1370
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1392--1393
+
+ []
+
+[27]
+Underfull \hbox (badness 10000) in paragraph at lines 1415--1416
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1424--1425
+[]\OT1/cmtt/m/n/10 double change = dist[ci][cj] + dist[ci1][cj1] - dist[ci][ci1
+] -
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1448--1449
+
+ []
+
+[28]
+Underfull \hbox (badness 10000) in paragraph at lines 1473--1474
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1495--1496
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1520--1521
+
+ []
+
+[29]
+Underfull \hbox (badness 10000) in paragraph at lines 1620--1622
+[]\OT1/cmtt/m/n/10 protected GraphPath \OT1/cmr/bx/n/10 closed-Ver-texList-To-T
+our\OT1/cmtt/m/n/10 (java.util.List \OT1/cmr/bx/n/10 arg0\OT1/cmtt/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1638--1640
+[]\OT1/cmtt/m/n/10 protected GraphPath \OT1/cmr/bx/n/10 ver-texList-To-Tour\OT1
+/cmtt/m/n/10 (java.util.List \OT1/cmr/bx/n/10 arg0\OT1/cmtt/m/n/10 , org.jgraph
+t.Graph
+ []
+
+[30]
+Underfull \hbox (badness 10000) in paragraph at lines 1702--1703
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1731--1732
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1744--1745
+
+ []
+
+[31]
+Underfull \hbox (badness 10000) in paragraph at lines 1801--1802
+
+ []
+
+[32]
+Underfull \hbox (badness 10000) in paragraph at lines 1828--1829
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1839--1840
+
+ []
+
+[33]
+Underfull \hbox (badness 10000) in paragraph at lines 1896--1897
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1918--1919
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1924--1925
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1940--1941
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1946--1947
+
+ []
+
+[34]
+Underfull \hbox (badness 10000) in paragraph at lines 1964--1965
+[][][]\OT1/cmr/bx/n/10.95 CORNER[]CUT[]RADIUS[]FRACTION[][] \OT1/cmr/m/n/10.95 
+See [][]\OT1/cmtt/m/n/10 cutCorner(Coords, Coords,
+ []
+
+[35]
+Underfull \hbox (badness 10000) in paragraph at lines 2061--2062
+[]\OT1/cmtt/m/n/10.95 private final java.util.concurrent.atomic.AtomicInteger \
+OT1/cmr/bx/n/10.95 atom-ic-Seed-
+ []
+
+[36]
+Underfull \hbox (badness 10000) in paragraph at lines 2109--2110
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2140--2141
+
+ []
+
+[37]
+Underfull \hbox (badness 10000) in paragraph at lines 2163--2164
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2186--2187
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2209--2210
+
+ []
+
+[38]
+Underfull \hbox (badness 10000) in paragraph at lines 2235--2236
+
+ []
+
+[39]
+Underfull \hbox (badness 10000) in paragraph at lines 2286--2287
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2315--2316
+
+ []
+
+[40]
+Underfull \hbox (badness 10000) in paragraph at lines 2398--2400
+[]\OT1/cmtt/m/n/10 public boolean \OT1/cmr/bx/n/10 addEdge\OT1/cmtt/m/n/10 (jav
+a.lang.Object \OT1/cmr/bx/n/10 arg0\OT1/cmtt/m/n/10 , java.lang.Object \OT1/cmr
+/bx/n/10 arg1\OT1/cmtt/m/n/10 ,
+ []
+
+
+Overfull \hbox (177.3867pt too wide) in paragraph at lines 2490--2492
+[]\OT1/cmtt/m/n/10 private static final \OT1/cmr/bx/n/10 IN-VALID[]VERTEX[]SUPP
+LIER[]DOES[]NOT[]RETURN[]UNIQUE[]VERTICES[]ON[]EACH[]CALL 
+ []
+
+[41]
+Underfull \hbox (badness 10000) in paragraph at lines 2608--2610
+[]\OT1/cmtt/m/n/10 protected String \OT1/cmr/bx/n/10 toStringFrom-Sets\OT1/cmtt
+/m/n/10 (java.util.Collection \OT1/cmr/bx/n/10 arg0\OT1/cmtt/m/n/10 ,
+ []
+
+[42]
+Underfull \hbox (badness 10000) in paragraph at lines 2742--2743
+
+ []
+
+[43]
+Underfull \hbox (badness 10000) in paragraph at lines 2762--2763
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2785--2786
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2812--2813
+
+ []
+
+[44]
+Underfull \hbox (badness 10000) in paragraph at lines 2839--2840
+
+ []
+
+[45]
+Chapter 3.
+
+Overfull \hbox (17.0pt too wide) in paragraph at lines 2872--2874
+[][]
+ []
+
+[46
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 2905--2906
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2927--2928
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2952--2953
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2975--2976
+
+ []
+
+[47]
+Underfull \hbox (badness 10000) in paragraph at lines 2998--2999
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3025--3026
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3050--3051
+
+ []
+
+[48]
+Underfull \hbox (badness 10000) in paragraph at lines 3075--3076
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3100--3101
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3169--3171
 []\OT1/cmtt/m/n/10 public static double \OT1/cmr/bx/n/10 dis-tance\OT1/cmtt/m/n
 /10 (double \OT1/cmr/bx/n/10 arg0\OT1/cmtt/m/n/10 , double \OT1/cmr/bx/n/10 arg
 1\OT1/cmtt/m/n/10 , double \OT1/cmr/bx/n/10 arg2\OT1/cmtt/m/n/10 , double
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1681--1683
+Underfull \hbox (badness 10000) in paragraph at lines 3185--3187
 []\OT1/cmtt/m/n/10 public static double \OT1/cmr/bx/n/10 dis-tanceSq\OT1/cmtt/m
 /n/10 (double \OT1/cmr/bx/n/10 arg0\OT1/cmtt/m/n/10 , double \OT1/cmr/bx/n/10 a
 rg1\OT1/cmtt/m/n/10 , double \OT1/cmr/bx/n/10 arg2\OT1/cmtt/m/n/10 , double
  []
 
-[26]
-Underfull \hbox (badness 1231) in paragraph at lines 1746--1748
+[49] [50]
+Underfull \hbox (badness 1231) in paragraph at lines 3262--3264
 []\OT1/cmr/m/n/10.95 The mar-gin to use when gen-er-at-ing a poly-gon which out
 -lines an-other, see
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1757--1758
-
- []
-
-[27]
-Underfull \hbox (badness 10000) in paragraph at lines 1780--1781
+Underfull \hbox (badness 10000) in paragraph at lines 3309--3310
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1803--1804
+Underfull \hbox (badness 10000) in paragraph at lines 3334--3335
+
+ []
+
+[51]
+Underfull \hbox (badness 10000) in paragraph at lines 3357--3358
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1819--1820
+Underfull \hbox (badness 10000) in paragraph at lines 3380--3381
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1830--1831
+Underfull \hbox (badness 10000) in paragraph at lines 3396--3397
 
  []
 
-[28]
-Underfull \hbox (badness 10000) in paragraph at lines 1846--1847
+
+Underfull \hbox (badness 10000) in paragraph at lines 3412--3413
 
  []
 
-[29]
+[52]
+Underfull \hbox (badness 10000) in paragraph at lines 3428--3429
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3444--3445
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3455--3456
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3471--3472
+
+ []
+
+[53]
 Chapter 4.
 
-Overfull \hbox (17.0pt too wide) in paragraph at lines 1860--1863
+Overfull \hbox (17.0pt too wide) in paragraph at lines 3504--3507
 [][]
  []
 
 
-Overfull \hbox (17.0pt too wide) in paragraph at lines 1865--1868
+Overfull \hbox (17.0pt too wide) in paragraph at lines 3509--3512
 [][]
  []
 
-[30
+[54
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1891--1892
+Underfull \hbox (badness 10000) in paragraph at lines 3535--3536
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1907--1908
+Underfull \hbox (badness 10000) in paragraph at lines 3551--3552
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1923--1924
+Underfull \hbox (badness 10000) in paragraph at lines 3567--3568
 
  []
 
-[31]
-Underfull \hbox (badness 10000) in paragraph at lines 1967--1968
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1987--1988
-
- []
-
-[32]
-Underfull \hbox (badness 10000) in paragraph at lines 2027--2028
+[55]
+Underfull \hbox (badness 10000) in paragraph at lines 3611--3612
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2074--2075
+Underfull \hbox (badness 10000) in paragraph at lines 3631--3632
 
  []
 
-[33]
-Underfull \hbox (badness 10000) in paragraph at lines 2094--2095
+[56]
+Underfull \hbox (badness 10000) in paragraph at lines 3671--3672
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 2114--2115
-
- []
-
-[34]
-Underfull \hbox (badness 10000) in paragraph at lines 2160--2161
+[57]
+Underfull \hbox (badness 10000) in paragraph at lines 3732--3733
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2188--2189
+Underfull \hbox (badness 10000) in paragraph at lines 3752--3753
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2213--2214
+Underfull \hbox (badness 10000) in paragraph at lines 3772--3773
 
  []
 
-[35]
-Underfull \hbox (badness 10000) in paragraph at lines 2229--2230
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2245--2246
+[58] [59]
+Underfull \hbox (badness 10000) in paragraph at lines 3870--3871
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2291--2292
+Underfull \hbox (badness 10000) in paragraph at lines 3898--3899
 
  []
 
-[36]
-Underfull \hbox (badness 10000) in paragraph at lines 2302--2303
+
+Underfull \hbox (badness 10000) in paragraph at lines 3923--3924
 
  []
 
-[37]
+
+Underfull \hbox (badness 10000) in paragraph at lines 3946--3947
+
+ []
+
+[60]
+Underfull \hbox (badness 10000) in paragraph at lines 3962--3963
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3978--3979
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4002--4003
+
+ []
+
+[61]
+Underfull \hbox (badness 10000) in paragraph at lines 4062--4063
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4073--4074
+
+ []
+
+[62]
 Chapter 5.
 
-Overfull \hbox (17.0pt too wide) in paragraph at lines 2333--2336
+Overfull \hbox (17.0pt too wide) in paragraph at lines 4104--4108
+[][]
+ []
+
+[63
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 4152--4153
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4163--4164
+
+ []
+
+[64]
+Underfull \hbox (badness 10000) in paragraph at lines 4225--4226
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4236--4237
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4247--4248
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4258--4259
+
+ []
+
+[65]
+Underfull \hbox (badness 10000) in paragraph at lines 4313--4314
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4324--4325
+
+ []
+
+[66]
+Chapter 6.
+
+Overfull \hbox (17.0pt too wide) in paragraph at lines 4343--4346
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2355--2356
+Underfull \hbox (badness 10000) in paragraph at lines 4370--4371
 
  []
 
-[38
+[67
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 2405--2406
+Underfull \hbox (badness 10000) in paragraph at lines 4397--4398
 
  []
 
-[39]
-Underfull \hbox (badness 10000) in paragraph at lines 2432--2433
+[68]
+Underfull \hbox (badness 10000) in paragraph at lines 4479--4481
+[]\OT1/cmtt/m/n/10 public boolean \OT1/cmr/bx/n/10 addEdge\OT1/cmtt/m/n/10 (jav
+a.lang.Object \OT1/cmr/bx/n/10 arg0\OT1/cmtt/m/n/10 , java.lang.Object \OT1/cmr
+/bx/n/10 arg1\OT1/cmtt/m/n/10 ,
+ []
+
+
+Overfull \hbox (177.3867pt too wide) in paragraph at lines 4571--4573
+[]\OT1/cmtt/m/n/10 private static final \OT1/cmr/bx/n/10 IN-VALID[]VERTEX[]SUPP
+LIER[]DOES[]NOT[]RETURN[]UNIQUE[]VERTICES[]ON[]EACH[]CALL 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4689--4691
+[]\OT1/cmtt/m/n/10 protected String \OT1/cmr/bx/n/10 toStringFrom-Sets\OT1/cmtt
+/m/n/10 (java.util.Collection \OT1/cmr/bx/n/10 arg0\OT1/cmtt/m/n/10 ,
+ []
+
+[69] [70]
+Underfull \hbox (badness 10000) in paragraph at lines 4743--4744
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2457--2458
+Underfull \hbox (badness 10000) in paragraph at lines 4770--4771
 
  []
 
-[40]
-Underfull \hbox (badness 10000) in paragraph at lines 2523--2524
+
+Underfull \hbox (badness 10000) in paragraph at lines 4792--4793
+
+ []
+
+[71]
+Underfull \hbox (badness 10000) in paragraph at lines 4817--4818
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4842--4843
+
+ []
+
+[72]
+Underfull \hbox (badness 10000) in paragraph at lines 4910--4911
 []\OT1/cmtt/m/n/10.95 public static final uk.ac.ed.inf.aqmaps.geometry.Coords \
 OT1/cmr/bx/n/10.95 BOT-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2536--2537
+Underfull \hbox (badness 10000) in paragraph at lines 4941--4942
 
  []
 
-[41]
-Underfull \hbox (badness 10000) in paragraph at lines 2561--2562
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2577--2578
+[73]
+Underfull \hbox (badness 10000) in paragraph at lines 4966--4967
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2600--2601
+Underfull \hbox (badness 10000) in paragraph at lines 4982--4983
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2625--2626
+Underfull \hbox (badness 10000) in paragraph at lines 5005--5006
 
  []
 
-[42]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2650.
- [43]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2650.
+[74]
+Underfull \hbox (badness 10000) in paragraph at lines 5030--5031
+
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 5055.
+[75]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 5055.
  (javadoc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2650.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2650.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 5055.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 5055.
 
-Package rerunfilecheck Info: File `javadoc.out' has not changed.
-(rerunfilecheck)             Checksum: 47816959EC66EC83CEDA472B3F0E29B0;10870.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2650.
+
+
+Package rerunfilecheck Warning: File `javadoc.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `javadoc.out':
+(rerunfilecheck)             Before: 7E34B18B25502BAB21C732FEDEB99173;13373
+(rerunfilecheck)             After:  7BA28EEE00670DE21E1A2390ABB4A153;16118.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 5055.
  )
-(\end occurred inside a group at level 27)
+(\end occurred inside a group at level 41)
 
-### simple group (level 27) entered at line 2382 ({)
-### simple group (level 26) entered at line 2338 ({)
-### simple group (level 25) entered at line 2327 ({)
-### simple group (level 24) entered at line 2135 ({)
-### simple group (level 23) entered at line 2051 ({)
-### simple group (level 22) entered at line 2008 ({)
-### simple group (level 21) entered at line 1947 ({)
-### simple group (level 20) entered at line 1870 ({)
-### simple group (level 19) entered at line 1854 ({)
-### simple group (level 18) entered at line 1612 ({)
-### simple group (level 17) entered at line 1378 ({)
-### simple group (level 16) entered at line 1375 ({)
-### simple group (level 15) entered at line 1365 ({)
-### simple group (level 14) entered at line 1211 ({)
-### simple group (level 13) entered at line 1110 ({)
-### simple group (level 12) entered at line 1037 ({)
-### simple group (level 11) entered at line 958 ({)
-### simple group (level 10) entered at line 840 ({)
-### simple group (level 9) entered at line 826 ({)
-### simple group (level 8) entered at line 710 ({)
-### simple group (level 7) entered at line 665 ({)
-### simple group (level 6) entered at line 653 ({)
-### simple group (level 5) entered at line 458 ({)
-### simple group (level 4) entered at line 399 ({)
-### simple group (level 3) entered at line 312 ({)
-### simple group (level 2) entered at line 189 ({)
-### simple group (level 1) entered at line 86 ({)
+### simple group (level 41) entered at line 4694 ({)
+### simple group (level 40) entered at line 4463 ({)
+### simple group (level 39) entered at line 4443 ({)
+### simple group (level 38) entered at line 4423 ({)
+### simple group (level 37) entered at line 4351 ({)
+### simple group (level 36) entered at line 4348 ({)
+### simple group (level 35) entered at line 4337 ({)
+### simple group (level 34) entered at line 4175 ({)
+### simple group (level 33) entered at line 4110 ({)
+### simple group (level 32) entered at line 4098 ({)
+### simple group (level 31) entered at line 3793 ({)
+### simple group (level 30) entered at line 3695 ({)
+### simple group (level 29) entered at line 3652 ({)
+### simple group (level 28) entered at line 3591 ({)
+### simple group (level 27) entered at line 3514 ({)
+### simple group (level 26) entered at line 3498 ({)
+### simple group (level 25) entered at line 3113 ({)
+### simple group (level 24) entered at line 2879 ({)
+### simple group (level 23) entered at line 2876 ({)
+### simple group (level 22) entered at line 2866 ({)
+### simple group (level 21) entered at line 2382 ({)
+### simple group (level 20) entered at line 2362 ({)
+### simple group (level 19) entered at line 2342 ({)
+### simple group (level 18) entered at line 2267 ({)
+### simple group (level 17) entered at line 2264 ({)
+### simple group (level 16) entered at line 1953 ({)
+### simple group (level 15) entered at line 1851 ({)
+### simple group (level 14) entered at line 1758 ({)
+### simple group (level 13) entered at line 1643 ({)
+### simple group (level 12) entered at line 1545 ({)
+### simple group (level 11) entered at line 1206 ({)
+### simple group (level 10) entered at line 1188 ({)
+### simple group (level 9) entered at line 1173 ({)
+### simple group (level 8) entered at line 893 ({)
+### simple group (level 7) entered at line 732 ({)
+### simple group (level 6) entered at line 619 ({)
+### simple group (level 5) entered at line 424 ({)
+### simple group (level 4) entered at line 289 ({)
+### simple group (level 3) entered at line 163 ({)
+### simple group (level 2) entered at line 109 ({)
+### simple group (level 1) entered at line 93 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 8025 strings out of 480790
- 129788 string characters out of 2897770
- 488368 words of memory out of 3000000
- 23326 multiletter control sequences out of 15000+200000
- 539527 words of font info for 48 fonts, out of 3000000 for 9000
+ 8513 strings out of 480790
+ 146311 string characters out of 2897770
+ 494368 words of memory out of 3000000
+ 23504 multiletter control sequences out of 15000+200000
+ 540740 words of font info for 52 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,6n,40p,665b,2517s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 37i,6n,40p,665b,3099s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Adam\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/e
 c/dpi600\tcrm1000.pk> <C:\Users\Adam\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
 pen/ec/dpi600\tcrm1095.pk><C:/Users/Adam/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Adam/AppData/Local/Programs/MiKTeX/
 fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Adam/AppData/Local/Programs
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Adam/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Adam/AppData
-/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/Adam
-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Us
-ers/Adam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pf
-b><C:/Users/Adam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
-mtt10.pfb>
-Output written on javadoc.pdf (43 pages, 365334 bytes).
+/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Adam/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Adam/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Adam/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/
+Adam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C
+:/Users/Adam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy1
+0.pfb><C:/Users/Adam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmti10.pfb><C:/Users/Adam/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
+msfonts/cm/cmtt10.pfb>
+Output written on javadoc.pdf (76 pages, 598097 bytes).
 PDF statistics:
- 1570 PDF objects out of 1728 (max. 8388607)
- 601 named destinations out of 1000 (max. 500000)
- 1321 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2530 PDF objects out of 2984 (max. 8388607)
+ 910 named destinations out of 1000 (max. 500000)
+ 1545 words of extra memory for PDF output out of 10000 (max. 10000000)
 

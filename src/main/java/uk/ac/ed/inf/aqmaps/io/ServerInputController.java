@@ -37,7 +37,7 @@ public class ServerInputController implements InputController {
   private List<Polygon> noFlyZones;
 
   /**
-   * Create a new ServerInputController instance with the given settings
+   * Create a new ServerInputController instance with the given settings, and collect and store data from server.
    *
    * @param settings the Settings object containing the current settings
    */

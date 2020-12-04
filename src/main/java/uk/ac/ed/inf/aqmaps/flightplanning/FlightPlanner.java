@@ -7,6 +7,7 @@ import uk.ac.ed.inf.aqmaps.noflyzone.Obstacles;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -130,6 +131,10 @@ public class FlightPlanner {
     var sensorGraph =
         SensorGraph.createWithStartLocation(startPosition, sensorCoordsW3WMap.keySet(), obstacles);
 
+    System.out.printf(
+        "Starting flight planning with %d thread(s)...%n",
+        ForkJoinPool.getCommonPoolParallelism() + 1);
+
     // Run flight planning either ITERATIONS or MAX_ITERATIONS times in a parallel stream
     // Note that if time limit is on all results after the time has ended will be null
     var flightPlans =
@@ -140,27 +145,34 @@ public class FlightPlanner {
             // Sort to ensure that the minimum we choose is the same no matter the order
             .sorted(Comparator.comparing(FlightPlan::getSeed))
             .collect(Collectors.toList());
+
     System.out.printf("Number of flight planning iterations completed: %d%n", flightPlans.size());
 
-    // Get the shortest
+    // Get the shortest, and also the longest for curiosity
     int minLength = Integer.MAX_VALUE;
+    int maxLength = Integer.MIN_VALUE;
     FlightPlan bestPlan = null;
-    System.out.print(
-        "Flight plan length ordered by seed, starting at the input seed and increasing by 1 each time: ");
     for (var plan : flightPlans) {
-      System.out.print(plan.getMoves().size() + " ");
-      if (plan.getMoves().size() < minLength) {
-        minLength = plan.getMoves().size();
+      var length = plan.getMoves().size();
+      if (length < minLength) {
+        minLength = length;
         bestPlan = plan;
       }
+      if (length > maxLength) {
+        maxLength = length;
+      }
     }
-    System.out.println();
+    System.out.printf(
+        "Flight path lengths: min = %d, mean = %.3f, max = %d%n",
+        minLength,
+        flightPlans.stream().mapToDouble(f -> f.getMoves().size()).average().orElse(Double.NaN),
+        maxLength);
 
     if (bestPlan == null) {
       System.out.println("Error: valid flight plan could not be found");
       System.exit(1);
     }
-    System.out.printf("Output shortest flight plan used random seed %d%n", bestPlan.getSeed());
+    System.out.printf("The shortest flight plan which was output used random seed %d%n", bestPlan.getSeed());
 
     // Output the list, shortened to 150 if necessary
     return bestPlan.getMovesWithLimit();

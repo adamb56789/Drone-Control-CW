@@ -28,15 +28,16 @@ public class Drone {
   public void start() {
     // Create a flight plan and record it in the results
     var flightPlan = planRoute();
-    System.out.printf("Flight plan is %d moves%n", flightPlan.size());
 
     var results = new Results(input.getSensorW3Ws());
     results.recordFlightpath(flightPlan);
 
     // Fly the route and collect sensor data
+    System.out.println("Flying drone around sensors");
     flyRoute(flightPlan, results);
 
     // Output the flight path and GeoJSON map
+    System.out.printf("Outputting GeoJSON and shortest flight plan with %d moves%n", flightPlan.size());
     output.outputFlightpath(results.getFlightpathString());
     output.outputMapGeoJSON(results.getMapGeoJSON());
   }
@@ -47,7 +48,8 @@ public class Drone {
    * @return a list of Moves specifying the route
    */
   private List<Move> planRoute() {
-    // Input and prepare the obstacle and sensor location data
+    // Prepare the obstacle and sensor location data
+    System.out.println("Constructing obstacle and sensor graphs...");
     var obstacles = new Obstacles(input.getNoFlyZones());
     var sensorW3Ws = input.getSensorW3Ws();
     var flightPlanner =

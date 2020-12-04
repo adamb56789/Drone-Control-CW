@@ -21,9 +21,23 @@ public class App {
       System.exit(-1);
     }
     var settings = new Settings(args);
+
+    System.out.printf(
+        "Starting aqmaps for date %s/%s/%s and start position %s with random seed %d. Flight planning mode: %s.%n",
+        settings.getDay(),
+        settings.getMonth(),
+        settings.getYear(),
+        settings.getStartCoords(),
+        settings.getRandomSeed(),
+        settings.getMaxRunTime() == 0
+            ? "fixed iteration count"
+            : "stop after " + settings.getMaxRunTime() + " s");
+
+    var inputController = new ServerInputController(settings);
+    System.out.println("Finished getting data from server");
     var drone =
         new Drone(
-            settings, new ServerInputController(settings), new FileOutputController(settings));
+            settings, inputController, new FileOutputController(settings));
     drone.start();
   }
 }

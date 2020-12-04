@@ -1,4 +1,4 @@
-\markboth {Contents}
+\markboth {Contents}{Contents}
 \contentsline {chapter}{Class Hierarchy}{6}{chapter*.2}%
 \contentsline {chapter}{\numberline {1}Package uk.ac.ed.inf.aqmaps}{8}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Class App}{8}{section.1.1}%
@@ -9,170 +9,228 @@
 \contentsline {subsection}{\numberline {1.1.5}Methods}{9}{subsection.1.1.5}%
 \contentsline {section}{\numberline {1.2}Class Drone}{9}{section.1.2}%
 \contentsline {subsection}{\numberline {1.2.1}Declaration}{9}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}Constructor summary}{9}{subsection.1.2.2}%
-\contentsline {subsection}{\numberline {1.2.3}Method summary}{9}{subsection.1.2.3}%
-\contentsline {subsection}{\numberline {1.2.4}Constructors}{10}{subsection.1.2.4}%
-\contentsline {subsection}{\numberline {1.2.5}Methods}{10}{subsection.1.2.5}%
-\contentsline {section}{\numberline {1.3}Class Move}{10}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Declaration}{10}{subsection.1.3.1}%
-\contentsline {subsection}{\numberline {1.3.2}Constructor summary}{10}{subsection.1.3.2}%
-\contentsline {subsection}{\numberline {1.3.3}Method summary}{10}{subsection.1.3.3}%
-\contentsline {subsection}{\numberline {1.3.4}Constructors}{11}{subsection.1.3.4}%
-\contentsline {subsection}{\numberline {1.3.5}Methods}{11}{subsection.1.3.5}%
-\contentsline {section}{\numberline {1.4}Class Results}{12}{section.1.4}%
-\contentsline {subsection}{\numberline {1.4.1}Declaration}{12}{subsection.1.4.1}%
-\contentsline {subsection}{\numberline {1.4.2}Constructor summary}{12}{subsection.1.4.2}%
-\contentsline {subsection}{\numberline {1.4.3}Method summary}{12}{subsection.1.4.3}%
-\contentsline {subsection}{\numberline {1.4.4}Constructors}{12}{subsection.1.4.4}%
-\contentsline {subsection}{\numberline {1.4.5}Methods}{12}{subsection.1.4.5}%
-\contentsline {section}{\numberline {1.5}Class Sensor}{13}{section.1.5}%
-\contentsline {subsection}{\numberline {1.5.1}Declaration}{13}{subsection.1.5.1}%
-\contentsline {subsection}{\numberline {1.5.2}Constructor summary}{13}{subsection.1.5.2}%
-\contentsline {subsection}{\numberline {1.5.3}Method summary}{14}{subsection.1.5.3}%
-\contentsline {subsection}{\numberline {1.5.4}Constructors}{14}{subsection.1.5.4}%
-\contentsline {subsection}{\numberline {1.5.5}Methods}{14}{subsection.1.5.5}%
-\contentsline {section}{\numberline {1.6}Class SensorMarkerFactory}{15}{section.1.6}%
-\contentsline {subsection}{\numberline {1.6.1}Declaration}{15}{subsection.1.6.1}%
-\contentsline {subsection}{\numberline {1.6.2}Constructor summary}{15}{subsection.1.6.2}%
-\contentsline {subsection}{\numberline {1.6.3}Method summary}{15}{subsection.1.6.3}%
-\contentsline {subsection}{\numberline {1.6.4}Constructors}{15}{subsection.1.6.4}%
-\contentsline {subsection}{\numberline {1.6.5}Methods}{15}{subsection.1.6.5}%
-\contentsline {section}{\numberline {1.7}Class Settings}{15}{section.1.7}%
-\contentsline {subsection}{\numberline {1.7.1}Declaration}{16}{subsection.1.7.1}%
-\contentsline {subsection}{\numberline {1.7.2}Constructor summary}{16}{subsection.1.7.2}%
-\contentsline {subsection}{\numberline {1.7.3}Method summary}{16}{subsection.1.7.3}%
-\contentsline {subsection}{\numberline {1.7.4}Constructors}{16}{subsection.1.7.4}%
-\contentsline {subsection}{\numberline {1.7.5}Methods}{16}{subsection.1.7.5}%
-\contentsline {section}{\numberline {1.8}Class W3W}{17}{section.1.8}%
-\contentsline {subsection}{\numberline {1.8.1}Declaration}{17}{subsection.1.8.1}%
-\contentsline {subsection}{\numberline {1.8.2}Constructor summary}{17}{subsection.1.8.2}%
-\contentsline {subsection}{\numberline {1.8.3}Method summary}{17}{subsection.1.8.3}%
-\contentsline {subsection}{\numberline {1.8.4}Constructors}{18}{subsection.1.8.4}%
-\contentsline {subsection}{\numberline {1.8.5}Methods}{18}{subsection.1.8.5}%
-\contentsline {chapter}{\numberline {2}Package uk.ac.ed.inf.aqmaps.deserializers}{19}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Class CoordsDeserializer}{19}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Declaration}{19}{subsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.1.2}Constructor summary}{19}{subsection.2.1.2}%
-\contentsline {subsection}{\numberline {2.1.3}Method summary}{19}{subsection.2.1.3}%
-\contentsline {subsection}{\numberline {2.1.4}Constructors}{20}{subsection.2.1.4}%
-\contentsline {subsection}{\numberline {2.1.5}Methods}{20}{subsection.2.1.5}%
-\contentsline {section}{\numberline {2.2}Class SensorDeserializer}{20}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Declaration}{20}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Constructor summary}{20}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Method summary}{20}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Constructors}{20}{subsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.2.5}Methods}{21}{subsection.2.2.5}%
-\contentsline {section}{\numberline {2.3}Class W3WDeserializer}{21}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Declaration}{21}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Constructor summary}{21}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Method summary}{21}{subsection.2.3.3}%
-\contentsline {subsection}{\numberline {2.3.4}Constructors}{21}{subsection.2.3.4}%
-\contentsline {subsection}{\numberline {2.3.5}Methods}{22}{subsection.2.3.5}%
-\contentsline {chapter}{\numberline {3}Package uk.ac.ed.inf.aqmaps.flightplanning}{23}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Class EnhancedTwoOptTSP}{23}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Declaration}{24}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Constructor summary}{24}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}Method summary}{24}{subsection.3.1.3}%
-\contentsline {subsection}{\numberline {3.1.4}Constructors}{24}{subsection.3.1.4}%
-\contentsline {subsection}{\numberline {3.1.5}Methods}{25}{subsection.3.1.5}%
-\contentsline {section}{\numberline {3.2}Class FlightCacheKey}{25}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Declaration}{25}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Constructor summary}{26}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Method summary}{26}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Constructors}{26}{subsection.3.2.4}%
-\contentsline {subsection}{\numberline {3.2.5}Methods}{26}{subsection.3.2.5}%
-\contentsline {section}{\numberline {3.3}Class FlightCacheValue}{27}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Declaration}{27}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Constructor summary}{27}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Method summary}{27}{subsection.3.3.3}%
-\contentsline {subsection}{\numberline {3.3.4}Constructors}{27}{subsection.3.3.4}%
-\contentsline {subsection}{\numberline {3.3.5}Methods}{27}{subsection.3.3.5}%
-\contentsline {section}{\numberline {3.4}Class FlightPlanner}{28}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Declaration}{28}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Constructor summary}{28}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Method summary}{28}{subsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.4.4}Constructors}{28}{subsection.3.4.4}%
-\contentsline {subsection}{\numberline {3.4.5}Methods}{29}{subsection.3.4.5}%
-\contentsline {section}{\numberline {3.5}Class SensorGraph}{29}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Declaration}{29}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}Method summary}{29}{subsection.3.5.2}%
-\contentsline {subsection}{\numberline {3.5.3}Methods}{30}{subsection.3.5.3}%
-\contentsline {section}{\numberline {3.6}Class WaypointNavigation}{30}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}Declaration}{30}{subsection.3.6.1}%
-\contentsline {subsection}{\numberline {3.6.2}Field summary}{30}{subsection.3.6.2}%
-\contentsline {subsection}{\numberline {3.6.3}Constructor summary}{30}{subsection.3.6.3}%
-\contentsline {subsection}{\numberline {3.6.4}Method summary}{30}{subsection.3.6.4}%
-\contentsline {subsection}{\numberline {3.6.5}Fields}{31}{subsection.3.6.5}%
-\contentsline {subsection}{\numberline {3.6.6}Constructors}{31}{subsection.3.6.6}%
-\contentsline {subsection}{\numberline {3.6.7}Methods}{31}{subsection.3.6.7}%
-\contentsline {chapter}{\numberline {4}Package uk.ac.ed.inf.aqmaps.geometry}{32}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Class Coords}{32}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Declaration}{32}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Constructor summary}{32}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}Method summary}{32}{subsection.4.1.3}%
-\contentsline {subsection}{\numberline {4.1.4}Constructors}{33}{subsection.4.1.4}%
-\contentsline {subsection}{\numberline {4.1.5}Methods}{33}{subsection.4.1.5}%
-\contentsline {subsection}{\numberline {4.1.6}Members inherited from class Point2D.Double }{35}{subsection.4.1.6}%
-\contentsline {subsection}{\numberline {4.1.7}Members inherited from class Point2D }{35}{subsection.4.1.7}%
-\contentsline {section}{\numberline {4.2}Class Polygon}{36}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Declaration}{36}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Field summary}{36}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Method summary}{36}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Fields}{36}{subsection.4.2.4}%
-\contentsline {subsection}{\numberline {4.2.5}Methods}{37}{subsection.4.2.5}%
-\contentsline {chapter}{\numberline {5}Package uk.ac.ed.inf.aqmaps.io}{39}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Interface InputController}{39}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Declaration}{39}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}All known subinterfaces}{39}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}All classes known to implement interface}{40}{subsection.5.1.3}%
-\contentsline {subsection}{\numberline {5.1.4}Method summary}{40}{subsection.5.1.4}%
-\contentsline {subsection}{\numberline {5.1.5}Methods}{40}{subsection.5.1.5}%
-\contentsline {section}{\numberline {5.2}Interface OutputController}{40}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Declaration}{41}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}All known subinterfaces}{41}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}All classes known to implement interface}{41}{subsection.5.2.3}%
-\contentsline {subsection}{\numberline {5.2.4}Method summary}{41}{subsection.5.2.4}%
-\contentsline {subsection}{\numberline {5.2.5}Methods}{41}{subsection.5.2.5}%
-\contentsline {section}{\numberline {5.3}Interface Server}{41}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Declaration}{42}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}All known subinterfaces}{42}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}All classes known to implement interface}{42}{subsection.5.3.3}%
-\contentsline {subsection}{\numberline {5.3.4}Method summary}{42}{subsection.5.3.4}%
-\contentsline {subsection}{\numberline {5.3.5}Methods}{42}{subsection.5.3.5}%
-\contentsline {section}{\numberline {5.4}Class FileOutputController}{42}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Declaration}{42}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}Constructor summary}{42}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}Method summary}{42}{subsection.5.4.3}%
-\contentsline {subsection}{\numberline {5.4.4}Constructors}{43}{subsection.5.4.4}%
-\contentsline {subsection}{\numberline {5.4.5}Methods}{43}{subsection.5.4.5}%
-\contentsline {section}{\numberline {5.5}Class ServerInputController}{43}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Declaration}{43}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}Constructor summary}{44}{subsection.5.5.2}%
-\contentsline {subsection}{\numberline {5.5.3}Method summary}{44}{subsection.5.5.3}%
-\contentsline {subsection}{\numberline {5.5.4}Constructors}{44}{subsection.5.5.4}%
-\contentsline {subsection}{\numberline {5.5.5}Methods}{44}{subsection.5.5.5}%
-\contentsline {section}{\numberline {5.6}Class WebServer}{45}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Declaration}{45}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}Constructor summary}{45}{subsection.5.6.2}%
-\contentsline {subsection}{\numberline {5.6.3}Method summary}{45}{subsection.5.6.3}%
-\contentsline {subsection}{\numberline {5.6.4}Constructors}{46}{subsection.5.6.4}%
-\contentsline {subsection}{\numberline {5.6.5}Methods}{46}{subsection.5.6.5}%
-\contentsline {chapter}{\numberline {6}Package uk.ac.ed.inf.aqmaps.noflyzone}{47}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Class ObstacleGraph}{47}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Declaration}{47}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.1.2}Method summary}{47}{subsection.6.1.2}%
-\contentsline {subsection}{\numberline {6.1.3}Methods}{48}{subsection.6.1.3}%
-\contentsline {section}{\numberline {6.2}Class ObstaclePathfinder}{48}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Declaration}{48}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Constructor summary}{48}{subsection.6.2.2}%
-\contentsline {subsection}{\numberline {6.2.3}Method summary}{48}{subsection.6.2.3}%
-\contentsline {subsection}{\numberline {6.2.4}Constructors}{49}{subsection.6.2.4}%
-\contentsline {subsection}{\numberline {6.2.5}Methods}{49}{subsection.6.2.5}%
-\contentsline {section}{\numberline {6.3}Class Obstacles}{50}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Declaration}{50}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}Field summary}{50}{subsection.6.3.2}%
-\contentsline {subsection}{\numberline {6.3.3}Constructor summary}{50}{subsection.6.3.3}%
-\contentsline {subsection}{\numberline {6.3.4}Method summary}{50}{subsection.6.3.4}%
-\contentsline {subsection}{\numberline {6.3.5}Fields}{50}{subsection.6.3.5}%
-\contentsline {subsection}{\numberline {6.3.6}Constructors}{50}{subsection.6.3.6}%
-\contentsline {subsection}{\numberline {6.3.7}Methods}{51}{subsection.6.3.7}%
+\contentsline {subsection}{\numberline {1.2.2}Field summary}{9}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Constructor summary}{9}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Method summary}{10}{subsection.1.2.4}%
+\contentsline {subsection}{\numberline {1.2.5}Fields}{10}{subsection.1.2.5}%
+\contentsline {subsection}{\numberline {1.2.6}Constructors}{10}{subsection.1.2.6}%
+\contentsline {subsection}{\numberline {1.2.7}Methods}{10}{subsection.1.2.7}%
+\contentsline {section}{\numberline {1.3}Class Move}{11}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Declaration}{11}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Field summary}{11}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Constructor summary}{11}{subsection.1.3.3}%
+\contentsline {subsection}{\numberline {1.3.4}Method summary}{11}{subsection.1.3.4}%
+\contentsline {subsection}{\numberline {1.3.5}Fields}{11}{subsection.1.3.5}%
+\contentsline {subsection}{\numberline {1.3.6}Constructors}{12}{subsection.1.3.6}%
+\contentsline {subsection}{\numberline {1.3.7}Methods}{12}{subsection.1.3.7}%
+\contentsline {section}{\numberline {1.4}Class Results}{13}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Declaration}{13}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Field summary}{13}{subsection.1.4.2}%
+\contentsline {subsection}{\numberline {1.4.3}Constructor summary}{13}{subsection.1.4.3}%
+\contentsline {subsection}{\numberline {1.4.4}Method summary}{13}{subsection.1.4.4}%
+\contentsline {subsection}{\numberline {1.4.5}Fields}{13}{subsection.1.4.5}%
+\contentsline {subsection}{\numberline {1.4.6}Constructors}{14}{subsection.1.4.6}%
+\contentsline {subsection}{\numberline {1.4.7}Methods}{14}{subsection.1.4.7}%
+\contentsline {section}{\numberline {1.5}Class Sensor}{15}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Declaration}{15}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Field summary}{15}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.5.3}Constructor summary}{15}{subsection.1.5.3}%
+\contentsline {subsection}{\numberline {1.5.4}Method summary}{16}{subsection.1.5.4}%
+\contentsline {subsection}{\numberline {1.5.5}Fields}{16}{subsection.1.5.5}%
+\contentsline {subsection}{\numberline {1.5.6}Constructors}{16}{subsection.1.5.6}%
+\contentsline {subsection}{\numberline {1.5.7}Methods}{16}{subsection.1.5.7}%
+\contentsline {section}{\numberline {1.6}Class SensorMarkerFactory}{17}{section.1.6}%
+\contentsline {subsection}{\numberline {1.6.1}Declaration}{17}{subsection.1.6.1}%
+\contentsline {subsection}{\numberline {1.6.2}Constructor summary}{17}{subsection.1.6.2}%
+\contentsline {subsection}{\numberline {1.6.3}Method summary}{17}{subsection.1.6.3}%
+\contentsline {subsection}{\numberline {1.6.4}Constructors}{17}{subsection.1.6.4}%
+\contentsline {subsection}{\numberline {1.6.5}Methods}{17}{subsection.1.6.5}%
+\contentsline {section}{\numberline {1.7}Class Settings}{19}{section.1.7}%
+\contentsline {subsection}{\numberline {1.7.1}Declaration}{19}{subsection.1.7.1}%
+\contentsline {subsection}{\numberline {1.7.2}Field summary}{19}{subsection.1.7.2}%
+\contentsline {subsection}{\numberline {1.7.3}Constructor summary}{19}{subsection.1.7.3}%
+\contentsline {subsection}{\numberline {1.7.4}Method summary}{20}{subsection.1.7.4}%
+\contentsline {subsection}{\numberline {1.7.5}Fields}{20}{subsection.1.7.5}%
+\contentsline {subsection}{\numberline {1.7.6}Constructors}{20}{subsection.1.7.6}%
+\contentsline {subsection}{\numberline {1.7.7}Methods}{20}{subsection.1.7.7}%
+\contentsline {section}{\numberline {1.8}Class W3W}{21}{section.1.8}%
+\contentsline {subsection}{\numberline {1.8.1}Declaration}{22}{subsection.1.8.1}%
+\contentsline {subsection}{\numberline {1.8.2}Field summary}{22}{subsection.1.8.2}%
+\contentsline {subsection}{\numberline {1.8.3}Constructor summary}{22}{subsection.1.8.3}%
+\contentsline {subsection}{\numberline {1.8.4}Method summary}{22}{subsection.1.8.4}%
+\contentsline {subsection}{\numberline {1.8.5}Fields}{22}{subsection.1.8.5}%
+\contentsline {subsection}{\numberline {1.8.6}Constructors}{22}{subsection.1.8.6}%
+\contentsline {subsection}{\numberline {1.8.7}Methods}{22}{subsection.1.8.7}%
+\contentsline {chapter}{\numberline {2}Package uk.ac.ed.inf.aqmaps.flightplanning}{24}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Class EnhancedTwoOptTSP}{24}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Declaration}{25}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Field summary}{25}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Constructor summary}{25}{subsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.1.4}Method summary}{25}{subsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.1.5}Fields}{26}{subsection.2.1.5}%
+\contentsline {subsection}{\numberline {2.1.6}Constructors}{26}{subsection.2.1.6}%
+\contentsline {subsection}{\numberline {2.1.7}Methods}{26}{subsection.2.1.7}%
+\contentsline {subsection}{\numberline {2.1.8}Members inherited from class TwoOptHeuristicTSP }{30}{subsection.2.1.8}%
+\contentsline {subsection}{\numberline {2.1.9}Members inherited from class HamiltonianCycleAlgorithmBase }{30}{subsection.2.1.9}%
+\contentsline {section}{\numberline {2.2}Class FlightCacheKey}{30}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Declaration}{30}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Field summary}{30}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Constructor summary}{31}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Method summary}{31}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Fields}{31}{subsection.2.2.5}%
+\contentsline {subsection}{\numberline {2.2.6}Constructors}{31}{subsection.2.2.6}%
+\contentsline {subsection}{\numberline {2.2.7}Methods}{31}{subsection.2.2.7}%
+\contentsline {section}{\numberline {2.3}Class FlightCacheValue}{32}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Declaration}{32}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Field summary}{32}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Constructor summary}{32}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}Method summary}{32}{subsection.2.3.4}%
+\contentsline {subsection}{\numberline {2.3.5}Fields}{32}{subsection.2.3.5}%
+\contentsline {subsection}{\numberline {2.3.6}Constructors}{32}{subsection.2.3.6}%
+\contentsline {subsection}{\numberline {2.3.7}Methods}{33}{subsection.2.3.7}%
+\contentsline {section}{\numberline {2.4}Class FlightPlan}{33}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Declaration}{33}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Field summary}{33}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Constructor summary}{33}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}Method summary}{34}{subsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}Fields}{34}{subsection.2.4.5}%
+\contentsline {subsection}{\numberline {2.4.6}Constructors}{34}{subsection.2.4.6}%
+\contentsline {subsection}{\numberline {2.4.7}Methods}{34}{subsection.2.4.7}%
+\contentsline {section}{\numberline {2.5}Class FlightPlanner}{35}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Declaration}{35}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Field summary}{35}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Constructor summary}{35}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}Method summary}{35}{subsection.2.5.4}%
+\contentsline {subsection}{\numberline {2.5.5}Fields}{36}{subsection.2.5.5}%
+\contentsline {subsection}{\numberline {2.5.6}Constructors}{37}{subsection.2.5.6}%
+\contentsline {subsection}{\numberline {2.5.7}Methods}{38}{subsection.2.5.7}%
+\contentsline {section}{\numberline {2.6}Class SensorGraph}{39}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Declaration}{39}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Constructor summary}{39}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}Method summary}{40}{subsection.2.6.3}%
+\contentsline {subsection}{\numberline {2.6.4}Constructors}{40}{subsection.2.6.4}%
+\contentsline {subsection}{\numberline {2.6.5}Methods}{40}{subsection.2.6.5}%
+\contentsline {subsection}{\numberline {2.6.6}Members inherited from class SimpleWeightedGraph }{40}{subsection.2.6.6}%
+\contentsline {subsection}{\numberline {2.6.7}Members inherited from class SimpleGraph }{41}{subsection.2.6.7}%
+\contentsline {subsection}{\numberline {2.6.8}Members inherited from class AbstractBaseGraph }{41}{subsection.2.6.8}%
+\contentsline {subsection}{\numberline {2.6.9}Members inherited from class AbstractGraph }{42}{subsection.2.6.9}%
+\contentsline {section}{\numberline {2.7}Class WaypointNavigation}{42}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}Declaration}{42}{subsection.2.7.1}%
+\contentsline {subsection}{\numberline {2.7.2}Field summary}{42}{subsection.2.7.2}%
+\contentsline {subsection}{\numberline {2.7.3}Constructor summary}{42}{subsection.2.7.3}%
+\contentsline {subsection}{\numberline {2.7.4}Method summary}{43}{subsection.2.7.4}%
+\contentsline {subsection}{\numberline {2.7.5}Fields}{43}{subsection.2.7.5}%
+\contentsline {subsection}{\numberline {2.7.6}Constructors}{44}{subsection.2.7.6}%
+\contentsline {subsection}{\numberline {2.7.7}Methods}{44}{subsection.2.7.7}%
+\contentsline {chapter}{\numberline {3}Package uk.ac.ed.inf.aqmaps.geometry}{46}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Class Coords}{46}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Declaration}{46}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Constructor summary}{46}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Method summary}{46}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}Constructors}{47}{subsection.3.1.4}%
+\contentsline {subsection}{\numberline {3.1.5}Methods}{47}{subsection.3.1.5}%
+\contentsline {subsection}{\numberline {3.1.6}Members inherited from class Point2D.Double }{49}{subsection.3.1.6}%
+\contentsline {subsection}{\numberline {3.1.7}Members inherited from class Point2D }{50}{subsection.3.1.7}%
+\contentsline {section}{\numberline {3.2}Class Polygon}{50}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Declaration}{50}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Field summary}{50}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Constructor summary}{50}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Method summary}{51}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Fields}{51}{subsection.3.2.5}%
+\contentsline {subsection}{\numberline {3.2.6}Constructors}{51}{subsection.3.2.6}%
+\contentsline {subsection}{\numberline {3.2.7}Methods}{52}{subsection.3.2.7}%
+\contentsline {chapter}{\numberline {4}Package uk.ac.ed.inf.aqmaps.io}{54}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Interface InputController}{54}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Declaration}{54}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}All known subinterfaces}{54}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}All classes known to implement interface}{55}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Method summary}{55}{subsection.4.1.4}%
+\contentsline {subsection}{\numberline {4.1.5}Methods}{55}{subsection.4.1.5}%
+\contentsline {section}{\numberline {4.2}Interface OutputController}{55}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Declaration}{56}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}All known subinterfaces}{56}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}All classes known to implement interface}{56}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Method summary}{56}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}Methods}{56}{subsection.4.2.5}%
+\contentsline {section}{\numberline {4.3}Interface Server}{56}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Declaration}{57}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}All known subinterfaces}{57}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}All classes known to implement interface}{57}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Method summary}{57}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}Methods}{57}{subsection.4.3.5}%
+\contentsline {section}{\numberline {4.4}Class FileOutputController}{57}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Declaration}{57}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Field summary}{57}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Constructor summary}{57}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Method summary}{58}{subsection.4.4.4}%
+\contentsline {subsection}{\numberline {4.4.5}Fields}{58}{subsection.4.4.5}%
+\contentsline {subsection}{\numberline {4.4.6}Constructors}{58}{subsection.4.4.6}%
+\contentsline {subsection}{\numberline {4.4.7}Methods}{58}{subsection.4.4.7}%
+\contentsline {section}{\numberline {4.5}Class ServerInputController}{58}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Declaration}{59}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Field summary}{59}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Constructor summary}{59}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Method summary}{59}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.5}Fields}{59}{subsection.4.5.5}%
+\contentsline {subsection}{\numberline {4.5.6}Constructors}{60}{subsection.4.5.6}%
+\contentsline {subsection}{\numberline {4.5.7}Methods}{60}{subsection.4.5.7}%
+\contentsline {section}{\numberline {4.6}Class WebServer}{62}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Declaration}{62}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Field summary}{62}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.3}Constructor summary}{62}{subsection.4.6.3}%
+\contentsline {subsection}{\numberline {4.6.4}Method summary}{62}{subsection.4.6.4}%
+\contentsline {subsection}{\numberline {4.6.5}Fields}{62}{subsection.4.6.5}%
+\contentsline {subsection}{\numberline {4.6.6}Constructors}{62}{subsection.4.6.6}%
+\contentsline {subsection}{\numberline {4.6.7}Methods}{62}{subsection.4.6.7}%
+\contentsline {chapter}{\numberline {5}Package uk.ac.ed.inf.aqmaps.deserializers}{63}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Class CoordsDeserializer}{63}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Declaration}{63}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Field summary}{63}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Constructor summary}{63}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}Method summary}{64}{subsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.1.5}Fields}{64}{subsection.5.1.5}%
+\contentsline {subsection}{\numberline {5.1.6}Constructors}{64}{subsection.5.1.6}%
+\contentsline {subsection}{\numberline {5.1.7}Methods}{64}{subsection.5.1.7}%
+\contentsline {section}{\numberline {5.2}Class SensorDeserializer}{64}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Declaration}{64}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Field summary}{64}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Constructor summary}{64}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Method summary}{65}{subsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.2.5}Fields}{65}{subsection.5.2.5}%
+\contentsline {subsection}{\numberline {5.2.6}Constructors}{65}{subsection.5.2.6}%
+\contentsline {subsection}{\numberline {5.2.7}Methods}{65}{subsection.5.2.7}%
+\contentsline {section}{\numberline {5.3}Class W3WDeserializer}{65}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Declaration}{66}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Field summary}{66}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Constructor summary}{66}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Method summary}{66}{subsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.3.5}Fields}{66}{subsection.5.3.5}%
+\contentsline {subsection}{\numberline {5.3.6}Constructors}{66}{subsection.5.3.6}%
+\contentsline {subsection}{\numberline {5.3.7}Methods}{66}{subsection.5.3.7}%
+\contentsline {chapter}{\numberline {6}Package uk.ac.ed.inf.aqmaps.noflyzone}{67}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Class ObstacleGraph}{67}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Declaration}{67}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Constructor summary}{67}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}Method summary}{67}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}Constructors}{68}{subsection.6.1.4}%
+\contentsline {subsection}{\numberline {6.1.5}Methods}{68}{subsection.6.1.5}%
+\contentsline {subsection}{\numberline {6.1.6}Members inherited from class SimpleWeightedGraph }{68}{subsection.6.1.6}%
+\contentsline {subsection}{\numberline {6.1.7}Members inherited from class SimpleGraph }{68}{subsection.6.1.7}%
+\contentsline {subsection}{\numberline {6.1.8}Members inherited from class AbstractBaseGraph }{69}{subsection.6.1.8}%
+\contentsline {subsection}{\numberline {6.1.9}Members inherited from class AbstractGraph }{70}{subsection.6.1.9}%
+\contentsline {section}{\numberline {6.2}Class ObstaclePathfinder}{70}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Declaration}{70}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Field summary}{70}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Constructor summary}{70}{subsection.6.2.3}%
+\contentsline {subsection}{\numberline {6.2.4}Method summary}{70}{subsection.6.2.4}%
+\contentsline {subsection}{\numberline {6.2.5}Fields}{71}{subsection.6.2.5}%
+\contentsline {subsection}{\numberline {6.2.6}Constructors}{71}{subsection.6.2.6}%
+\contentsline {subsection}{\numberline {6.2.7}Methods}{71}{subsection.6.2.7}%
+\contentsline {section}{\numberline {6.3}Class Obstacles}{72}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Declaration}{73}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Field summary}{73}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}Constructor summary}{73}{subsection.6.3.3}%
+\contentsline {subsection}{\numberline {6.3.4}Method summary}{73}{subsection.6.3.4}%
+\contentsline {subsection}{\numberline {6.3.5}Fields}{73}{subsection.6.3.5}%
+\contentsline {subsection}{\numberline {6.3.6}Constructors}{74}{subsection.6.3.6}%
+\contentsline {subsection}{\numberline {6.3.7}Methods}{74}{subsection.6.3.7}%

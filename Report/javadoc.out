@@ -1,165 +1,235 @@
-\BOOKMARK [2][-]{subsection.0.0.1}{Class Drone}{}% 1
-\BOOKMARK [2][-]{subsection.0.0.2}{Methods}{}% 2
-\BOOKMARK [2][-]{subsection.0.0.3}{Class Move}{}% 3
-\BOOKMARK [2][-]{subsection.0.0.4}{Declaration}{}% 4
-\BOOKMARK [2][-]{subsection.0.0.5}{Constructor summary}{}% 5
-\BOOKMARK [2][-]{subsection.0.0.6}{Method summary}{}% 6
-\BOOKMARK [2][-]{subsection.0.0.7}{Constructors}{}% 7
-\BOOKMARK [2][-]{subsection.0.0.8}{Methods}{}% 8
-\BOOKMARK [2][-]{subsection.0.0.9}{Class Results}{}% 9
-\BOOKMARK [2][-]{subsection.0.0.10}{Declaration}{}% 10
-\BOOKMARK [2][-]{subsection.0.0.11}{Constructor summary}{}% 11
-\BOOKMARK [2][-]{subsection.0.0.12}{Method summary}{}% 12
-\BOOKMARK [2][-]{subsection.0.0.13}{Constructors}{}% 13
-\BOOKMARK [2][-]{subsection.0.0.14}{Methods}{}% 14
-\BOOKMARK [2][-]{subsection.0.0.15}{Class Sensor}{}% 15
-\BOOKMARK [2][-]{subsection.0.0.16}{Declaration}{}% 16
-\BOOKMARK [2][-]{subsection.0.0.17}{Constructor summary}{}% 17
-\BOOKMARK [2][-]{subsection.0.0.18}{Method summary}{}% 18
-\BOOKMARK [2][-]{subsection.0.0.19}{Constructors}{}% 19
-\BOOKMARK [2][-]{subsection.0.0.20}{Methods}{}% 20
-\BOOKMARK [2][-]{subsection.0.0.21}{Class SensorMarkerFactory}{}% 21
-\BOOKMARK [2][-]{subsection.0.0.22}{Declaration}{}% 22
-\BOOKMARK [2][-]{subsection.0.0.23}{Constructor summary}{}% 23
-\BOOKMARK [2][-]{subsection.0.0.24}{Method summary}{}% 24
-\BOOKMARK [2][-]{subsection.0.0.25}{Constructors}{}% 25
-\BOOKMARK [2][-]{subsection.0.0.26}{Methods}{}% 26
-\BOOKMARK [2][-]{subsection.0.0.27}{Class Settings}{}% 27
-\BOOKMARK [2][-]{subsection.0.0.28}{Declaration}{}% 28
-\BOOKMARK [2][-]{subsection.0.0.29}{Constructor summary}{}% 29
-\BOOKMARK [2][-]{subsection.0.0.30}{Method summary}{}% 30
-\BOOKMARK [2][-]{subsection.0.0.31}{Constructors}{}% 31
-\BOOKMARK [2][-]{subsection.0.0.32}{Methods}{}% 32
-\BOOKMARK [1][-]{section.0.1}{Class W3W}{}% 33
-\BOOKMARK [2][-]{subsection.0.1.1}{Declaration}{section.0.1}% 34
-\BOOKMARK [2][-]{subsection.0.1.2}{Constructor summary}{section.0.1}% 35
-\BOOKMARK [2][-]{subsection.0.1.3}{Method summary}{section.0.1}% 36
-\BOOKMARK [2][-]{subsection.0.1.4}{Constructors}{section.0.1}% 37
-\BOOKMARK [2][-]{subsection.0.1.5}{Methods}{section.0.1}% 38
-\BOOKMARK [0][-]{chapter.1}{Package uk.ac.ed.inf.aqmaps.deserializers}{}% 39
-\BOOKMARK [1][-]{section.1.1}{Class CoordsDeserializer}{chapter.1}% 40
-\BOOKMARK [2][-]{subsection.1.1.1}{Declaration}{section.1.1}% 41
-\BOOKMARK [2][-]{subsection.1.1.2}{Constructor summary}{section.1.1}% 42
-\BOOKMARK [2][-]{subsection.1.1.3}{Method summary}{section.1.1}% 43
-\BOOKMARK [2][-]{subsection.1.1.4}{Constructors}{section.1.1}% 44
-\BOOKMARK [2][-]{subsection.1.1.5}{Methods}{section.1.1}% 45
-\BOOKMARK [1][-]{section.1.2}{Class SensorDeserializer}{chapter.1}% 46
-\BOOKMARK [2][-]{subsection.1.2.1}{Declaration}{section.1.2}% 47
-\BOOKMARK [2][-]{subsection.1.2.2}{Constructor summary}{section.1.2}% 48
-\BOOKMARK [2][-]{subsection.1.2.3}{Method summary}{section.1.2}% 49
-\BOOKMARK [2][-]{subsection.1.2.4}{Constructors}{section.1.2}% 50
-\BOOKMARK [2][-]{subsection.1.2.5}{Methods}{section.1.2}% 51
-\BOOKMARK [1][-]{section.1.3}{Class W3WDeserializer}{chapter.1}% 52
-\BOOKMARK [2][-]{subsection.1.3.1}{Declaration}{section.1.3}% 53
-\BOOKMARK [2][-]{subsection.1.3.2}{Constructor summary}{section.1.3}% 54
-\BOOKMARK [2][-]{subsection.1.3.3}{Method summary}{section.1.3}% 55
-\BOOKMARK [2][-]{subsection.1.3.4}{Constructors}{section.1.3}% 56
-\BOOKMARK [2][-]{subsection.1.3.5}{Methods}{section.1.3}% 57
-\BOOKMARK [0][-]{chapter.2}{Package uk.ac.ed.inf.aqmaps.flightplanning}{}% 58
-\BOOKMARK [1][-]{section.2.1}{Class EnhancedTwoOptTSP}{chapter.2}% 59
-\BOOKMARK [2][-]{subsection.2.1.1}{Declaration}{section.2.1}% 60
-\BOOKMARK [2][-]{subsection.2.1.2}{Constructor summary}{section.2.1}% 61
-\BOOKMARK [2][-]{subsection.2.1.3}{Method summary}{section.2.1}% 62
-\BOOKMARK [2][-]{subsection.2.1.4}{Constructors}{section.2.1}% 63
-\BOOKMARK [2][-]{subsection.2.1.5}{Methods}{section.2.1}% 64
-\BOOKMARK [1][-]{section.2.2}{Class FlightCacheKey}{chapter.2}% 65
-\BOOKMARK [2][-]{subsection.2.2.1}{Declaration}{section.2.2}% 66
-\BOOKMARK [2][-]{subsection.2.2.2}{Constructor summary}{section.2.2}% 67
-\BOOKMARK [2][-]{subsection.2.2.3}{Method summary}{section.2.2}% 68
-\BOOKMARK [2][-]{subsection.2.2.4}{Constructors}{section.2.2}% 69
-\BOOKMARK [2][-]{subsection.2.2.5}{Methods}{section.2.2}% 70
-\BOOKMARK [1][-]{section.2.3}{Class FlightCacheValue}{chapter.2}% 71
-\BOOKMARK [2][-]{subsection.2.3.1}{Declaration}{section.2.3}% 72
-\BOOKMARK [2][-]{subsection.2.3.2}{Constructor summary}{section.2.3}% 73
-\BOOKMARK [2][-]{subsection.2.3.3}{Method summary}{section.2.3}% 74
-\BOOKMARK [2][-]{subsection.2.3.4}{Constructors}{section.2.3}% 75
-\BOOKMARK [2][-]{subsection.2.3.5}{Methods}{section.2.3}% 76
-\BOOKMARK [1][-]{section.2.4}{Class FlightPlanner}{chapter.2}% 77
-\BOOKMARK [2][-]{subsection.2.4.1}{Declaration}{section.2.4}% 78
-\BOOKMARK [2][-]{subsection.2.4.2}{Constructor summary}{section.2.4}% 79
-\BOOKMARK [2][-]{subsection.2.4.3}{Method summary}{section.2.4}% 80
-\BOOKMARK [2][-]{subsection.2.4.4}{Constructors}{section.2.4}% 81
-\BOOKMARK [2][-]{subsection.2.4.5}{Methods}{section.2.4}% 82
-\BOOKMARK [1][-]{section.2.5}{Class SensorGraph}{chapter.2}% 83
-\BOOKMARK [2][-]{subsection.2.5.1}{Declaration}{section.2.5}% 84
-\BOOKMARK [2][-]{subsection.2.5.2}{Method summary}{section.2.5}% 85
-\BOOKMARK [2][-]{subsection.2.5.3}{Methods}{section.2.5}% 86
-\BOOKMARK [1][-]{section.2.6}{Class WaypointNavigation}{chapter.2}% 87
-\BOOKMARK [2][-]{subsection.2.6.1}{Declaration}{section.2.6}% 88
-\BOOKMARK [2][-]{subsection.2.6.2}{Field summary}{section.2.6}% 89
-\BOOKMARK [2][-]{subsection.2.6.3}{Constructor summary}{section.2.6}% 90
-\BOOKMARK [2][-]{subsection.2.6.4}{Method summary}{section.2.6}% 91
-\BOOKMARK [2][-]{subsection.2.6.5}{Fields}{section.2.6}% 92
-\BOOKMARK [2][-]{subsection.2.6.6}{Constructors}{section.2.6}% 93
-\BOOKMARK [2][-]{subsection.2.6.7}{Methods}{section.2.6}% 94
-\BOOKMARK [0][-]{chapter.3}{Package uk.ac.ed.inf.aqmaps.geometry}{}% 95
-\BOOKMARK [1][-]{section.3.1}{Class Coords}{chapter.3}% 96
-\BOOKMARK [2][-]{subsection.3.1.1}{Declaration}{section.3.1}% 97
-\BOOKMARK [2][-]{subsection.3.1.2}{Constructor summary}{section.3.1}% 98
-\BOOKMARK [2][-]{subsection.3.1.3}{Method summary}{section.3.1}% 99
-\BOOKMARK [2][-]{subsection.3.1.4}{Constructors}{section.3.1}% 100
-\BOOKMARK [2][-]{subsection.3.1.5}{Methods}{section.3.1}% 101
-\BOOKMARK [2][-]{subsection.3.1.6}{Members inherited from class Point2D.Double }{section.3.1}% 102
-\BOOKMARK [2][-]{subsection.3.1.7}{Members inherited from class Point2D }{section.3.1}% 103
-\BOOKMARK [1][-]{section.3.2}{Class Polygon}{chapter.3}% 104
-\BOOKMARK [2][-]{subsection.3.2.1}{Declaration}{section.3.2}% 105
-\BOOKMARK [2][-]{subsection.3.2.2}{Field summary}{section.3.2}% 106
-\BOOKMARK [2][-]{subsection.3.2.3}{Method summary}{section.3.2}% 107
-\BOOKMARK [2][-]{subsection.3.2.4}{Fields}{section.3.2}% 108
-\BOOKMARK [2][-]{subsection.3.2.5}{Methods}{section.3.2}% 109
-\BOOKMARK [0][-]{chapter.4}{Package uk.ac.ed.inf.aqmaps.io}{}% 110
-\BOOKMARK [1][-]{section.4.1}{Interface InputController}{chapter.4}% 111
-\BOOKMARK [2][-]{subsection.4.1.1}{Declaration}{section.4.1}% 112
-\BOOKMARK [2][-]{subsection.4.1.2}{All known subinterfaces}{section.4.1}% 113
-\BOOKMARK [2][-]{subsection.4.1.3}{All classes known to implement interface}{section.4.1}% 114
-\BOOKMARK [2][-]{subsection.4.1.4}{Method summary}{section.4.1}% 115
-\BOOKMARK [2][-]{subsection.4.1.5}{Methods}{section.4.1}% 116
-\BOOKMARK [1][-]{section.4.2}{Interface OutputController}{chapter.4}% 117
-\BOOKMARK [2][-]{subsection.4.2.1}{Declaration}{section.4.2}% 118
-\BOOKMARK [2][-]{subsection.4.2.2}{All known subinterfaces}{section.4.2}% 119
-\BOOKMARK [2][-]{subsection.4.2.3}{All classes known to implement interface}{section.4.2}% 120
-\BOOKMARK [2][-]{subsection.4.2.4}{Method summary}{section.4.2}% 121
-\BOOKMARK [2][-]{subsection.4.2.5}{Methods}{section.4.2}% 122
-\BOOKMARK [1][-]{section.4.3}{Interface Server}{chapter.4}% 123
-\BOOKMARK [2][-]{subsection.4.3.1}{Declaration}{section.4.3}% 124
-\BOOKMARK [2][-]{subsection.4.3.2}{All known subinterfaces}{section.4.3}% 125
-\BOOKMARK [2][-]{subsection.4.3.3}{All classes known to implement interface}{section.4.3}% 126
-\BOOKMARK [2][-]{subsection.4.3.4}{Method summary}{section.4.3}% 127
-\BOOKMARK [2][-]{subsection.4.3.5}{Methods}{section.4.3}% 128
-\BOOKMARK [1][-]{section.4.4}{Class FileOutputController}{chapter.4}% 129
-\BOOKMARK [2][-]{subsection.4.4.1}{Declaration}{section.4.4}% 130
-\BOOKMARK [2][-]{subsection.4.4.2}{Constructor summary}{section.4.4}% 131
-\BOOKMARK [2][-]{subsection.4.4.3}{Method summary}{section.4.4}% 132
-\BOOKMARK [2][-]{subsection.4.4.4}{Constructors}{section.4.4}% 133
-\BOOKMARK [2][-]{subsection.4.4.5}{Methods}{section.4.4}% 134
-\BOOKMARK [1][-]{section.4.5}{Class ServerInputController}{chapter.4}% 135
-\BOOKMARK [2][-]{subsection.4.5.1}{Declaration}{section.4.5}% 136
-\BOOKMARK [2][-]{subsection.4.5.2}{Constructor summary}{section.4.5}% 137
-\BOOKMARK [2][-]{subsection.4.5.3}{Method summary}{section.4.5}% 138
-\BOOKMARK [2][-]{subsection.4.5.4}{Constructors}{section.4.5}% 139
-\BOOKMARK [2][-]{subsection.4.5.5}{Methods}{section.4.5}% 140
-\BOOKMARK [1][-]{section.4.6}{Class WebServer}{chapter.4}% 141
-\BOOKMARK [2][-]{subsection.4.6.1}{Declaration}{section.4.6}% 142
-\BOOKMARK [2][-]{subsection.4.6.2}{Constructor summary}{section.4.6}% 143
-\BOOKMARK [2][-]{subsection.4.6.3}{Method summary}{section.4.6}% 144
-\BOOKMARK [2][-]{subsection.4.6.4}{Constructors}{section.4.6}% 145
-\BOOKMARK [2][-]{subsection.4.6.5}{Methods}{section.4.6}% 146
-\BOOKMARK [0][-]{chapter.5}{Package uk.ac.ed.inf.aqmaps.noflyzone}{}% 147
-\BOOKMARK [1][-]{section.5.1}{Class ObstacleGraph}{chapter.5}% 148
-\BOOKMARK [2][-]{subsection.5.1.1}{Declaration}{section.5.1}% 149
-\BOOKMARK [2][-]{subsection.5.1.2}{Method summary}{section.5.1}% 150
-\BOOKMARK [2][-]{subsection.5.1.3}{Methods}{section.5.1}% 151
-\BOOKMARK [1][-]{section.5.2}{Class ObstaclePathfinder}{chapter.5}% 152
-\BOOKMARK [2][-]{subsection.5.2.1}{Declaration}{section.5.2}% 153
-\BOOKMARK [2][-]{subsection.5.2.2}{Constructor summary}{section.5.2}% 154
-\BOOKMARK [2][-]{subsection.5.2.3}{Method summary}{section.5.2}% 155
-\BOOKMARK [2][-]{subsection.5.2.4}{Constructors}{section.5.2}% 156
-\BOOKMARK [2][-]{subsection.5.2.5}{Methods}{section.5.2}% 157
-\BOOKMARK [1][-]{section.5.3}{Class Obstacles}{chapter.5}% 158
-\BOOKMARK [2][-]{subsection.5.3.1}{Declaration}{section.5.3}% 159
-\BOOKMARK [2][-]{subsection.5.3.2}{Field summary}{section.5.3}% 160
-\BOOKMARK [2][-]{subsection.5.3.3}{Constructor summary}{section.5.3}% 161
-\BOOKMARK [2][-]{subsection.5.3.4}{Method summary}{section.5.3}% 162
-\BOOKMARK [2][-]{subsection.5.3.5}{Fields}{section.5.3}% 163
-\BOOKMARK [2][-]{subsection.5.3.6}{Constructors}{section.5.3}% 164
-\BOOKMARK [2][-]{subsection.5.3.7}{Methods}{section.5.3}% 165
+\BOOKMARK [0][-]{chapter*.2}{Class Hierarchy}{}% 1
+\BOOKMARK [0][-]{chapter.1}{Package uk.ac.ed.inf.aqmaps}{}% 2
+\BOOKMARK [1][-]{section.1.1}{Class App}{chapter.1}% 3
+\BOOKMARK [2][-]{subsection.1.1.1}{Declaration}{section.1.1}% 4
+\BOOKMARK [2][-]{subsection.1.1.2}{Constructor summary}{section.1.1}% 5
+\BOOKMARK [2][-]{subsection.1.1.3}{Method summary}{section.1.1}% 6
+\BOOKMARK [2][-]{subsection.1.1.4}{Constructors}{section.1.1}% 7
+\BOOKMARK [2][-]{subsection.1.1.5}{Methods}{section.1.1}% 8
+\BOOKMARK [1][-]{section.1.2}{Class Drone}{chapter.1}% 9
+\BOOKMARK [2][-]{subsection.1.2.1}{Declaration}{section.1.2}% 10
+\BOOKMARK [2][-]{subsection.1.2.2}{Field summary}{section.1.2}% 11
+\BOOKMARK [2][-]{subsection.1.2.3}{Constructor summary}{section.1.2}% 12
+\BOOKMARK [2][-]{subsection.1.2.4}{Method summary}{section.1.2}% 13
+\BOOKMARK [2][-]{subsection.1.2.5}{Fields}{section.1.2}% 14
+\BOOKMARK [2][-]{subsection.1.2.6}{Constructors}{section.1.2}% 15
+\BOOKMARK [2][-]{subsection.1.2.7}{Methods}{section.1.2}% 16
+\BOOKMARK [1][-]{section.1.3}{Class Move}{chapter.1}% 17
+\BOOKMARK [2][-]{subsection.1.3.1}{Declaration}{section.1.3}% 18
+\BOOKMARK [2][-]{subsection.1.3.2}{Field summary}{section.1.3}% 19
+\BOOKMARK [2][-]{subsection.1.3.3}{Constructor summary}{section.1.3}% 20
+\BOOKMARK [2][-]{subsection.1.3.4}{Method summary}{section.1.3}% 21
+\BOOKMARK [2][-]{subsection.1.3.5}{Fields}{section.1.3}% 22
+\BOOKMARK [2][-]{subsection.1.3.6}{Constructors}{section.1.3}% 23
+\BOOKMARK [2][-]{subsection.1.3.7}{Methods}{section.1.3}% 24
+\BOOKMARK [1][-]{section.1.4}{Class Results}{chapter.1}% 25
+\BOOKMARK [2][-]{subsection.1.4.1}{Declaration}{section.1.4}% 26
+\BOOKMARK [2][-]{subsection.1.4.2}{Field summary}{section.1.4}% 27
+\BOOKMARK [2][-]{subsection.1.4.3}{Constructor summary}{section.1.4}% 28
+\BOOKMARK [2][-]{subsection.1.4.4}{Method summary}{section.1.4}% 29
+\BOOKMARK [2][-]{subsection.1.4.5}{Fields}{section.1.4}% 30
+\BOOKMARK [2][-]{subsection.1.4.6}{Constructors}{section.1.4}% 31
+\BOOKMARK [2][-]{subsection.1.4.7}{Methods}{section.1.4}% 32
+\BOOKMARK [1][-]{section.1.5}{Class Sensor}{chapter.1}% 33
+\BOOKMARK [2][-]{subsection.1.5.1}{Declaration}{section.1.5}% 34
+\BOOKMARK [2][-]{subsection.1.5.2}{Field summary}{section.1.5}% 35
+\BOOKMARK [2][-]{subsection.1.5.3}{Constructor summary}{section.1.5}% 36
+\BOOKMARK [2][-]{subsection.1.5.4}{Method summary}{section.1.5}% 37
+\BOOKMARK [2][-]{subsection.1.5.5}{Fields}{section.1.5}% 38
+\BOOKMARK [2][-]{subsection.1.5.6}{Constructors}{section.1.5}% 39
+\BOOKMARK [2][-]{subsection.1.5.7}{Methods}{section.1.5}% 40
+\BOOKMARK [1][-]{section.1.6}{Class SensorMarkerFactory}{chapter.1}% 41
+\BOOKMARK [2][-]{subsection.1.6.1}{Declaration}{section.1.6}% 42
+\BOOKMARK [2][-]{subsection.1.6.2}{Constructor summary}{section.1.6}% 43
+\BOOKMARK [2][-]{subsection.1.6.3}{Method summary}{section.1.6}% 44
+\BOOKMARK [2][-]{subsection.1.6.4}{Constructors}{section.1.6}% 45
+\BOOKMARK [2][-]{subsection.1.6.5}{Methods}{section.1.6}% 46
+\BOOKMARK [1][-]{section.1.7}{Class Settings}{chapter.1}% 47
+\BOOKMARK [2][-]{subsection.1.7.1}{Declaration}{section.1.7}% 48
+\BOOKMARK [2][-]{subsection.1.7.2}{Field summary}{section.1.7}% 49
+\BOOKMARK [2][-]{subsection.1.7.3}{Constructor summary}{section.1.7}% 50
+\BOOKMARK [2][-]{subsection.1.7.4}{Method summary}{section.1.7}% 51
+\BOOKMARK [2][-]{subsection.1.7.5}{Fields}{section.1.7}% 52
+\BOOKMARK [2][-]{subsection.1.7.6}{Constructors}{section.1.7}% 53
+\BOOKMARK [2][-]{subsection.1.7.7}{Methods}{section.1.7}% 54
+\BOOKMARK [1][-]{section.1.8}{Class W3W}{chapter.1}% 55
+\BOOKMARK [2][-]{subsection.1.8.1}{Declaration}{section.1.8}% 56
+\BOOKMARK [2][-]{subsection.1.8.2}{Field summary}{section.1.8}% 57
+\BOOKMARK [2][-]{subsection.1.8.3}{Constructor summary}{section.1.8}% 58
+\BOOKMARK [2][-]{subsection.1.8.4}{Method summary}{section.1.8}% 59
+\BOOKMARK [2][-]{subsection.1.8.5}{Fields}{section.1.8}% 60
+\BOOKMARK [2][-]{subsection.1.8.6}{Constructors}{section.1.8}% 61
+\BOOKMARK [2][-]{subsection.1.8.7}{Methods}{section.1.8}% 62
+\BOOKMARK [0][-]{chapter.2}{Package uk.ac.ed.inf.aqmaps.flightplanning}{}% 63
+\BOOKMARK [1][-]{section.2.1}{Class EnhancedTwoOptTSP}{chapter.2}% 64
+\BOOKMARK [2][-]{subsection.2.1.1}{Declaration}{section.2.1}% 65
+\BOOKMARK [2][-]{subsection.2.1.2}{Field summary}{section.2.1}% 66
+\BOOKMARK [2][-]{subsection.2.1.3}{Constructor summary}{section.2.1}% 67
+\BOOKMARK [2][-]{subsection.2.1.4}{Method summary}{section.2.1}% 68
+\BOOKMARK [2][-]{subsection.2.1.5}{Fields}{section.2.1}% 69
+\BOOKMARK [2][-]{subsection.2.1.6}{Constructors}{section.2.1}% 70
+\BOOKMARK [2][-]{subsection.2.1.7}{Methods}{section.2.1}% 71
+\BOOKMARK [2][-]{subsection.2.1.8}{Members inherited from class TwoOptHeuristicTSP }{section.2.1}% 72
+\BOOKMARK [2][-]{subsection.2.1.9}{Members inherited from class HamiltonianCycleAlgorithmBase }{section.2.1}% 73
+\BOOKMARK [1][-]{section.2.2}{Class FlightCacheKey}{chapter.2}% 74
+\BOOKMARK [2][-]{subsection.2.2.1}{Declaration}{section.2.2}% 75
+\BOOKMARK [2][-]{subsection.2.2.2}{Field summary}{section.2.2}% 76
+\BOOKMARK [2][-]{subsection.2.2.3}{Constructor summary}{section.2.2}% 77
+\BOOKMARK [2][-]{subsection.2.2.4}{Method summary}{section.2.2}% 78
+\BOOKMARK [2][-]{subsection.2.2.5}{Fields}{section.2.2}% 79
+\BOOKMARK [2][-]{subsection.2.2.6}{Constructors}{section.2.2}% 80
+\BOOKMARK [2][-]{subsection.2.2.7}{Methods}{section.2.2}% 81
+\BOOKMARK [1][-]{section.2.3}{Class FlightCacheValue}{chapter.2}% 82
+\BOOKMARK [2][-]{subsection.2.3.1}{Declaration}{section.2.3}% 83
+\BOOKMARK [2][-]{subsection.2.3.2}{Field summary}{section.2.3}% 84
+\BOOKMARK [2][-]{subsection.2.3.3}{Constructor summary}{section.2.3}% 85
+\BOOKMARK [2][-]{subsection.2.3.4}{Method summary}{section.2.3}% 86
+\BOOKMARK [2][-]{subsection.2.3.5}{Fields}{section.2.3}% 87
+\BOOKMARK [2][-]{subsection.2.3.6}{Constructors}{section.2.3}% 88
+\BOOKMARK [2][-]{subsection.2.3.7}{Methods}{section.2.3}% 89
+\BOOKMARK [1][-]{section.2.4}{Class FlightPlan}{chapter.2}% 90
+\BOOKMARK [2][-]{subsection.2.4.1}{Declaration}{section.2.4}% 91
+\BOOKMARK [2][-]{subsection.2.4.2}{Field summary}{section.2.4}% 92
+\BOOKMARK [2][-]{subsection.2.4.3}{Constructor summary}{section.2.4}% 93
+\BOOKMARK [2][-]{subsection.2.4.4}{Method summary}{section.2.4}% 94
+\BOOKMARK [2][-]{subsection.2.4.5}{Fields}{section.2.4}% 95
+\BOOKMARK [2][-]{subsection.2.4.6}{Constructors}{section.2.4}% 96
+\BOOKMARK [2][-]{subsection.2.4.7}{Methods}{section.2.4}% 97
+\BOOKMARK [1][-]{section.2.5}{Class FlightPlanner}{chapter.2}% 98
+\BOOKMARK [2][-]{subsection.2.5.1}{Declaration}{section.2.5}% 99
+\BOOKMARK [2][-]{subsection.2.5.2}{Field summary}{section.2.5}% 100
+\BOOKMARK [2][-]{subsection.2.5.3}{Constructor summary}{section.2.5}% 101
+\BOOKMARK [2][-]{subsection.2.5.4}{Method summary}{section.2.5}% 102
+\BOOKMARK [2][-]{subsection.2.5.5}{Fields}{section.2.5}% 103
+\BOOKMARK [2][-]{subsection.2.5.6}{Constructors}{section.2.5}% 104
+\BOOKMARK [2][-]{subsection.2.5.7}{Methods}{section.2.5}% 105
+\BOOKMARK [1][-]{section.2.6}{Class SensorGraph}{chapter.2}% 106
+\BOOKMARK [2][-]{subsection.2.6.1}{Declaration}{section.2.6}% 107
+\BOOKMARK [2][-]{subsection.2.6.2}{Constructor summary}{section.2.6}% 108
+\BOOKMARK [2][-]{subsection.2.6.3}{Method summary}{section.2.6}% 109
+\BOOKMARK [2][-]{subsection.2.6.4}{Constructors}{section.2.6}% 110
+\BOOKMARK [2][-]{subsection.2.6.5}{Methods}{section.2.6}% 111
+\BOOKMARK [2][-]{subsection.2.6.6}{Members inherited from class SimpleWeightedGraph }{section.2.6}% 112
+\BOOKMARK [2][-]{subsection.2.6.7}{Members inherited from class SimpleGraph }{section.2.6}% 113
+\BOOKMARK [2][-]{subsection.2.6.8}{Members inherited from class AbstractBaseGraph }{section.2.6}% 114
+\BOOKMARK [2][-]{subsection.2.6.9}{Members inherited from class AbstractGraph }{section.2.6}% 115
+\BOOKMARK [1][-]{section.2.7}{Class WaypointNavigation}{chapter.2}% 116
+\BOOKMARK [2][-]{subsection.2.7.1}{Declaration}{section.2.7}% 117
+\BOOKMARK [2][-]{subsection.2.7.2}{Field summary}{section.2.7}% 118
+\BOOKMARK [2][-]{subsection.2.7.3}{Constructor summary}{section.2.7}% 119
+\BOOKMARK [2][-]{subsection.2.7.4}{Method summary}{section.2.7}% 120
+\BOOKMARK [2][-]{subsection.2.7.5}{Fields}{section.2.7}% 121
+\BOOKMARK [2][-]{subsection.2.7.6}{Constructors}{section.2.7}% 122
+\BOOKMARK [2][-]{subsection.2.7.7}{Methods}{section.2.7}% 123
+\BOOKMARK [0][-]{chapter.3}{Package uk.ac.ed.inf.aqmaps.geometry}{}% 124
+\BOOKMARK [1][-]{section.3.1}{Class Coords}{chapter.3}% 125
+\BOOKMARK [2][-]{subsection.3.1.1}{Declaration}{section.3.1}% 126
+\BOOKMARK [2][-]{subsection.3.1.2}{Constructor summary}{section.3.1}% 127
+\BOOKMARK [2][-]{subsection.3.1.3}{Method summary}{section.3.1}% 128
+\BOOKMARK [2][-]{subsection.3.1.4}{Constructors}{section.3.1}% 129
+\BOOKMARK [2][-]{subsection.3.1.5}{Methods}{section.3.1}% 130
+\BOOKMARK [2][-]{subsection.3.1.6}{Members inherited from class Point2D.Double }{section.3.1}% 131
+\BOOKMARK [2][-]{subsection.3.1.7}{Members inherited from class Point2D }{section.3.1}% 132
+\BOOKMARK [1][-]{section.3.2}{Class Polygon}{chapter.3}% 133
+\BOOKMARK [2][-]{subsection.3.2.1}{Declaration}{section.3.2}% 134
+\BOOKMARK [2][-]{subsection.3.2.2}{Field summary}{section.3.2}% 135
+\BOOKMARK [2][-]{subsection.3.2.3}{Constructor summary}{section.3.2}% 136
+\BOOKMARK [2][-]{subsection.3.2.4}{Method summary}{section.3.2}% 137
+\BOOKMARK [2][-]{subsection.3.2.5}{Fields}{section.3.2}% 138
+\BOOKMARK [2][-]{subsection.3.2.6}{Constructors}{section.3.2}% 139
+\BOOKMARK [2][-]{subsection.3.2.7}{Methods}{section.3.2}% 140
+\BOOKMARK [0][-]{chapter.4}{Package uk.ac.ed.inf.aqmaps.io}{}% 141
+\BOOKMARK [1][-]{section.4.1}{Interface InputController}{chapter.4}% 142
+\BOOKMARK [2][-]{subsection.4.1.1}{Declaration}{section.4.1}% 143
+\BOOKMARK [2][-]{subsection.4.1.2}{All known subinterfaces}{section.4.1}% 144
+\BOOKMARK [2][-]{subsection.4.1.3}{All classes known to implement interface}{section.4.1}% 145
+\BOOKMARK [2][-]{subsection.4.1.4}{Method summary}{section.4.1}% 146
+\BOOKMARK [2][-]{subsection.4.1.5}{Methods}{section.4.1}% 147
+\BOOKMARK [1][-]{section.4.2}{Interface OutputController}{chapter.4}% 148
+\BOOKMARK [2][-]{subsection.4.2.1}{Declaration}{section.4.2}% 149
+\BOOKMARK [2][-]{subsection.4.2.2}{All known subinterfaces}{section.4.2}% 150
+\BOOKMARK [2][-]{subsection.4.2.3}{All classes known to implement interface}{section.4.2}% 151
+\BOOKMARK [2][-]{subsection.4.2.4}{Method summary}{section.4.2}% 152
+\BOOKMARK [2][-]{subsection.4.2.5}{Methods}{section.4.2}% 153
+\BOOKMARK [1][-]{section.4.3}{Interface Server}{chapter.4}% 154
+\BOOKMARK [2][-]{subsection.4.3.1}{Declaration}{section.4.3}% 155
+\BOOKMARK [2][-]{subsection.4.3.2}{All known subinterfaces}{section.4.3}% 156
+\BOOKMARK [2][-]{subsection.4.3.3}{All classes known to implement interface}{section.4.3}% 157
+\BOOKMARK [2][-]{subsection.4.3.4}{Method summary}{section.4.3}% 158
+\BOOKMARK [2][-]{subsection.4.3.5}{Methods}{section.4.3}% 159
+\BOOKMARK [1][-]{section.4.4}{Class FileOutputController}{chapter.4}% 160
+\BOOKMARK [2][-]{subsection.4.4.1}{Declaration}{section.4.4}% 161
+\BOOKMARK [2][-]{subsection.4.4.2}{Field summary}{section.4.4}% 162
+\BOOKMARK [2][-]{subsection.4.4.3}{Constructor summary}{section.4.4}% 163
+\BOOKMARK [2][-]{subsection.4.4.4}{Method summary}{section.4.4}% 164
+\BOOKMARK [2][-]{subsection.4.4.5}{Fields}{section.4.4}% 165
+\BOOKMARK [2][-]{subsection.4.4.6}{Constructors}{section.4.4}% 166
+\BOOKMARK [2][-]{subsection.4.4.7}{Methods}{section.4.4}% 167
+\BOOKMARK [1][-]{section.4.5}{Class ServerInputController}{chapter.4}% 168
+\BOOKMARK [2][-]{subsection.4.5.1}{Declaration}{section.4.5}% 169
+\BOOKMARK [2][-]{subsection.4.5.2}{Field summary}{section.4.5}% 170
+\BOOKMARK [2][-]{subsection.4.5.3}{Constructor summary}{section.4.5}% 171
+\BOOKMARK [2][-]{subsection.4.5.4}{Method summary}{section.4.5}% 172
+\BOOKMARK [2][-]{subsection.4.5.5}{Fields}{section.4.5}% 173
+\BOOKMARK [2][-]{subsection.4.5.6}{Constructors}{section.4.5}% 174
+\BOOKMARK [2][-]{subsection.4.5.7}{Methods}{section.4.5}% 175
+\BOOKMARK [1][-]{section.4.6}{Class WebServer}{chapter.4}% 176
+\BOOKMARK [2][-]{subsection.4.6.1}{Declaration}{section.4.6}% 177
+\BOOKMARK [2][-]{subsection.4.6.2}{Field summary}{section.4.6}% 178
+\BOOKMARK [2][-]{subsection.4.6.3}{Constructor summary}{section.4.6}% 179
+\BOOKMARK [2][-]{subsection.4.6.4}{Method summary}{section.4.6}% 180
+\BOOKMARK [2][-]{subsection.4.6.5}{Fields}{section.4.6}% 181
+\BOOKMARK [2][-]{subsection.4.6.6}{Constructors}{section.4.6}% 182
+\BOOKMARK [2][-]{subsection.4.6.7}{Methods}{section.4.6}% 183
+\BOOKMARK [0][-]{chapter.5}{Package uk.ac.ed.inf.aqmaps.deserializers}{}% 184
+\BOOKMARK [1][-]{section.5.1}{Class CoordsDeserializer}{chapter.5}% 185
+\BOOKMARK [2][-]{subsection.5.1.1}{Declaration}{section.5.1}% 186
+\BOOKMARK [2][-]{subsection.5.1.2}{Field summary}{section.5.1}% 187
+\BOOKMARK [2][-]{subsection.5.1.3}{Constructor summary}{section.5.1}% 188
+\BOOKMARK [2][-]{subsection.5.1.4}{Method summary}{section.5.1}% 189
+\BOOKMARK [2][-]{subsection.5.1.5}{Fields}{section.5.1}% 190
+\BOOKMARK [2][-]{subsection.5.1.6}{Constructors}{section.5.1}% 191
+\BOOKMARK [2][-]{subsection.5.1.7}{Methods}{section.5.1}% 192
+\BOOKMARK [1][-]{section.5.2}{Class SensorDeserializer}{chapter.5}% 193
+\BOOKMARK [2][-]{subsection.5.2.1}{Declaration}{section.5.2}% 194
+\BOOKMARK [2][-]{subsection.5.2.2}{Field summary}{section.5.2}% 195
+\BOOKMARK [2][-]{subsection.5.2.3}{Constructor summary}{section.5.2}% 196
+\BOOKMARK [2][-]{subsection.5.2.4}{Method summary}{section.5.2}% 197
+\BOOKMARK [2][-]{subsection.5.2.5}{Fields}{section.5.2}% 198
+\BOOKMARK [2][-]{subsection.5.2.6}{Constructors}{section.5.2}% 199
+\BOOKMARK [2][-]{subsection.5.2.7}{Methods}{section.5.2}% 200
+\BOOKMARK [1][-]{section.5.3}{Class W3WDeserializer}{chapter.5}% 201
+\BOOKMARK [2][-]{subsection.5.3.1}{Declaration}{section.5.3}% 202
+\BOOKMARK [2][-]{subsection.5.3.2}{Field summary}{section.5.3}% 203
+\BOOKMARK [2][-]{subsection.5.3.3}{Constructor summary}{section.5.3}% 204
+\BOOKMARK [2][-]{subsection.5.3.4}{Method summary}{section.5.3}% 205
+\BOOKMARK [2][-]{subsection.5.3.5}{Fields}{section.5.3}% 206
+\BOOKMARK [2][-]{subsection.5.3.6}{Constructors}{section.5.3}% 207
+\BOOKMARK [2][-]{subsection.5.3.7}{Methods}{section.5.3}% 208
+\BOOKMARK [0][-]{chapter.6}{Package uk.ac.ed.inf.aqmaps.noflyzone}{}% 209
+\BOOKMARK [1][-]{section.6.1}{Class ObstacleGraph}{chapter.6}% 210
+\BOOKMARK [2][-]{subsection.6.1.1}{Declaration}{section.6.1}% 211
+\BOOKMARK [2][-]{subsection.6.1.2}{Constructor summary}{section.6.1}% 212
+\BOOKMARK [2][-]{subsection.6.1.3}{Method summary}{section.6.1}% 213
+\BOOKMARK [2][-]{subsection.6.1.4}{Constructors}{section.6.1}% 214
+\BOOKMARK [2][-]{subsection.6.1.5}{Methods}{section.6.1}% 215
+\BOOKMARK [2][-]{subsection.6.1.6}{Members inherited from class SimpleWeightedGraph }{section.6.1}% 216
+\BOOKMARK [2][-]{subsection.6.1.7}{Members inherited from class SimpleGraph }{section.6.1}% 217
+\BOOKMARK [2][-]{subsection.6.1.8}{Members inherited from class AbstractBaseGraph }{section.6.1}% 218
+\BOOKMARK [2][-]{subsection.6.1.9}{Members inherited from class AbstractGraph }{section.6.1}% 219
+\BOOKMARK [1][-]{section.6.2}{Class ObstaclePathfinder}{chapter.6}% 220
+\BOOKMARK [2][-]{subsection.6.2.1}{Declaration}{section.6.2}% 221
+\BOOKMARK [2][-]{subsection.6.2.2}{Field summary}{section.6.2}% 222
+\BOOKMARK [2][-]{subsection.6.2.3}{Constructor summary}{section.6.2}% 223
+\BOOKMARK [2][-]{subsection.6.2.4}{Method summary}{section.6.2}% 224
+\BOOKMARK [2][-]{subsection.6.2.5}{Fields}{section.6.2}% 225
+\BOOKMARK [2][-]{subsection.6.2.6}{Constructors}{section.6.2}% 226
+\BOOKMARK [2][-]{subsection.6.2.7}{Methods}{section.6.2}% 227
+\BOOKMARK [1][-]{section.6.3}{Class Obstacles}{chapter.6}% 228
+\BOOKMARK [2][-]{subsection.6.3.1}{Declaration}{section.6.3}% 229
+\BOOKMARK [2][-]{subsection.6.3.2}{Field summary}{section.6.3}% 230
+\BOOKMARK [2][-]{subsection.6.3.3}{Constructor summary}{section.6.3}% 231
+\BOOKMARK [2][-]{subsection.6.3.4}{Method summary}{section.6.3}% 232
+\BOOKMARK [2][-]{subsection.6.3.5}{Fields}{section.6.3}% 233
+\BOOKMARK [2][-]{subsection.6.3.6}{Constructors}{section.6.3}% 234
+\BOOKMARK [2][-]{subsection.6.3.7}{Methods}{section.6.3}% 235
