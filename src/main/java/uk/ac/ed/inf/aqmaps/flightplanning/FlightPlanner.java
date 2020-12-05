@@ -90,6 +90,8 @@ public class FlightPlanner {
   /** The System.nanoTime() at which we started running flight planning algorithms. */
   private double startTime;
 
+  private AtomicInteger minLen = new AtomicInteger(150);
+
   /**
    * Construct a flight planner with the given time limit in seconds. If the time limit is not
    * greater than 0, turns it off and uses a maximum number of iterations instead.
@@ -211,6 +213,10 @@ public class FlightPlanner {
     Collections.rotate(tour, -tour.indexOf(startPosition));
     tour.add(tour.get(0)); // Put the starting position as the ending position as well
     var moves = constructFlightAlongTour(tour);
+    if (moves.size() < minLen.get()) {
+      minLen.getAndSet(moves.size());
+      System.out.printf("################## NEW BEST RUN FOUND ################## length: %d, seed = %d%n", moves.size(), seed);
+    }
     return new FlightPlan(seed, moves);
   }
 
