@@ -21,6 +21,7 @@ public class FlightPlan {
   public FlightPlan(int seed, List<Move> moves) {
     this.seed = seed;
     this.moves = moves;
+    System.out.printf("Length: %d     seed: %d%n", moves.size(), seed);
   }
 
   /**

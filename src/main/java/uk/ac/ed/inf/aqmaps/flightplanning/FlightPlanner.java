@@ -26,7 +26,7 @@ public class FlightPlanner {
    * all be similarly optimal, since the two tour weight measures are different. There is a trade
    * off to be had between this constant and the number of times the algorithm runs
    */
-  private static final int TWO_OPT_PASSES = 5;
+  private static final int TWO_OPT_PASSES = 1;
   /**
    * When the time limit is off, this is the number of times to run the algorithm before picking the
    * shortest. Can be changed to trade off for speed and efficacy. Increasing it has diminishing
