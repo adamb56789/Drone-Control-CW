@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"uk.ac.ed.inf.aqmaps"},{"l":"uk.ac.ed.inf.aqmaps.deserializers"},{"l":"uk.ac.ed.inf.aqmaps.flightplanning"},{"l":"uk.ac.ed.inf.aqmaps.geometry"},{"l":"uk.ac.ed.inf.aqmaps.io"},{"l":"uk.ac.ed.inf.aqmaps.noflyzone"}]
